@@ -121,8 +121,8 @@ namespace FileUploaderService.KME
                             var element = new LeonDirInfo(dir);
                             element.CheckWebFiles(this.Opprop15mPrefix);
                             element.CheckPdfFiles();
-                            element.CheckStartingList();
-                            element.CheckBitMapList(this.OppropslisteMal);
+                            //element.CheckStartingList();
+                            //element.CheckBitMapList(this.OppropslisteMal);
                             element.InitTimeStamps(false);
                             element.InitUpdateInfo();
                             this.m_DetectedDirs.Add(element);
@@ -139,8 +139,7 @@ namespace FileUploaderService.KME
                             {
                                 element.CheckWebFiles();
                                 element.CheckPdfFiles();
-                                //element.CheckStartingList();
-                                //element.CheckBitMapList(this.OppropslisteMal);
+                                element.CheckBitMap();
                                 this.m_DetectedDirs.Add(element);
                                 element.InitTimeStamps(false);
                                 element.InitUpdateInfo();
@@ -182,11 +181,11 @@ namespace FileUploaderService.KME
                                     //    element.Command = element.Command | UploadCommand.StartingList;
                                     //}
 
-                                    //if (element.CheckBitMapList(this.OppropslisteMal))
-                                    //{
-                                    //    Log.Info("Updated Bitmap Detected name");
-                                    //    element.Command = element.Command | UploadCommand.BitMap;
-                                    //}
+                                    if (element.CheckBitMap())
+                                    {
+                                        Log.Info("Updated Bitmap Detected name");
+                                        element.Command = element.Command | UploadCommand.BitMap;
+                                    }
 
                                     // We do this one more Time
                                     //if (element.CheckUpdatedStartingList())
@@ -283,7 +282,12 @@ namespace FileUploaderService.KME
         {
             foreach (var stevne in stevnerToUpload)
             {
-                var stevnePath = Path.Combine(this.m_installDir, stevne.StevneNavn);
+                if (string.IsNullOrEmpty(stevne.ReportDirStevneNavn))
+                {
+                    Log.Error("ReportDirStevneNavn is empty for stevne={0}", stevne.StevneNavn);
+                    continue;
+                }
+                var stevnePath = Path.Combine(this.m_installDir, stevne.ReportDirStevneNavn);
                 if (!Directory.Exists(stevnePath))
                 {
                     Directory.CreateDirectory(stevnePath);
@@ -409,8 +413,8 @@ namespace FileUploaderService.KME
                                             if (dato == arrangeDate)
                                             {
                                                 Log.Info("Found matching start list {0} {1} dato={2} stevnenavn={3} type={4}",
-                                                    dirFound.StevneInfo.StevneNavn,
-                                                    dirFound.StevneInfo.StartDate, 
+                                                    stevn.StevneNavn,
+                                                    stevn.StartDate, 
                                                     dato,
                                                     stevn.StevneType,
                                                     stevn.StevneNavn);
@@ -447,7 +451,8 @@ namespace FileUploaderService.KME
                                             stevne = new StartingListStevne();
                                             stevne.StevneNavn = candidates[0].StevneNavn;
                                             stevne.StevneType = candidates[0].StevneType;
-                                            Log.Info("Create new stevne {0} type={1}", stevne.StevneNavn, stevne.StevneType);
+                                            stevne.ReportDirStevneNavn = candidates[0].ReportDirStevneNavn;
+                                            Log.Info("Create new stevne {0} type={1} dir={2}", stevne.StevneNavn, stevne.StevneType, stevne.ReportDirStevneNavn);
                                             lag = new StartingListLag(startingLag);
                                             stevne.StevneLag.Add(lag);
                                             retList.Add(stevne);
@@ -501,17 +506,25 @@ namespace FileUploaderService.KME
                                                         stevne = new StartingListStevne();
                                                         stevne.StevneNavn = stevn.StevneNavn;
                                                         stevne.StevneType = stevn.StevneType;
-                                                        Log.Info("Create new stevne {0} type={1}", stevne.StevneNavn, stevne.StevneType);
-                                                       
+                                                        stevne.ReportDirStevneNavn = stevn.ReportDirStevneNavn;
+                                                        Log.Info("Create new stevne {0} type={1} dir={2}", stevne.StevneNavn, stevne.StevneType, stevn.ReportDirStevneNavn);
+
+                                                        lag = new StartingListLag(bitmapLagDir.LagNr);
+                                                        stevne.StevneLag.Add(lag); 
+                                                        retList.Add(stevne);
                                                     }
                                                     else
                                                     {
                                                         Log.Info("Foud stevne {0} type={1}", stevne.StevneNavn, stevne.StevneType);
-                                                       
+                                                        lag = this.FindLag(stevne, bitmapLagDir.LagNr);
+                                                        if (lag == null)
+                                                        {
+                                                            lag = new StartingListLag(bitmapLagDir.LagNr);
+                                                            stevne.StevneLag.Add(lag);
+                                                        }
                                                     }
                                                     
                                                     var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.*", bitmapLagDir.LagNr));
-                                                    lag = new StartingListLag(bitmapLagDir.LagNr);
                                                     lag.Skiver = this.ParseLagInfo(files);
                                                  }
                                             }

@@ -87,6 +87,60 @@ namespace FileUploaderService.Orion
                         }
 
                     }
+
+                    try
+                    {
+                        
+                        var navn = OrionProgramInfo.GetStevneNavn();
+                        if (string.IsNullOrEmpty(navn))
+                        {
+                            if (this.m_orionStevneInfo != null)
+                            {
+                                TimeSpan span3 = TimeSpan.FromMinutes(30);
+                                var timeOutTime = this.m_orionStevneInfo.LastCheckedTime.Add(span3);
+                                if (timeOutTime < DateTime.Now)
+                                {
+                                    Log.Info("Too long since last found STevneNavn {0}", this.m_orionStevneInfo.LastCheckedTime);
+                                    this.m_orionStevneInfo = null;
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            if (this.m_orionStevneInfo != null)
+                            {
+                                var parsedName = ParseHelper.RemoveDirLetters(navn);
+                                if (string.Compare(parsedName, this.m_orionStevneInfo.Navn, StringComparison.OrdinalIgnoreCase) == 0)
+                                {
+                                    this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
+                                }
+                                else
+                                {
+                                    Log.Info("Stevne changed in Orion old={0} new={1}", this.m_orionStevneInfo.Navn, parsedName);
+                                }
+
+                                this.m_orionStevneInfo.Navn = parsedName;
+                                this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
+                            }
+                            else
+                            {
+                                var parsedName = ParseHelper.RemoveDirLetters(navn);
+                                Log.Info("New Stevne detected={0}", parsedName);
+                                this.m_orionStevneInfo = new OrionStevneInfo();
+                                this.m_orionStevneInfo.Navn = parsedName;
+                                this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
+                            }
+
+                        }
+
+                       
+                    }
+                    catch (Exception e)
+                    {
+
+                        Log.Trace(e, "GetStevneNavn");
+                    }
                 }
             }
 
@@ -116,10 +170,15 @@ namespace FileUploaderService.Orion
               }
 
               var lagDir = Path.Combine(fulldateDir, string.Format("Lag{0} {1}", Lag.LagNr, Lag.ArrangeTime.ToString("yyyyMMdd-HHmm")));
+                if (m_orionStevneInfo!=null)
+                {
+                    lagDir = lagDir + "-" + m_orionStevneInfo.Navn;
+                }
               if (!Directory.Exists(lagDir))
               {
                   Directory.CreateDirectory(lagDir);
               }
+                 
                
                 foreach (var skive in Lag.Skiver)
                 {
@@ -220,56 +279,7 @@ namespace FileUploaderService.Orion
                     Log.Trace("Directory not exsist {0}", this.m_bitMapBackupDir);
                 }
 
-                try
-                {
-                    var navn = OrionProgramInfo.GetStevneNavn();
-                    if (string.IsNullOrEmpty(navn))
-                    {
-                        if (this.m_orionStevneInfo != null)
-                        {
-                            TimeSpan span3 = TimeSpan.FromMinutes(30);
-                            var timeOutTime = this.m_orionStevneInfo.LastCheckedTime.Add(span3);
-                            if (timeOutTime < DateTime.Now)
-                            {
-                                Log.Info("Too long since last found STevneNavn {0}", this.m_orionStevneInfo.LastCheckedTime);
-                                this.m_orionStevneInfo = null;
-                            }
-                           
-                        }
-                    }
-                    else
-                    {
-                        if (this.m_orionStevneInfo != null)
-                        {
-                            var parsedName = ParseHelper.RemoveDirLetters(navn);
-                            if (string.Compare(parsedName, this.m_orionStevneInfo.Navn, StringComparison.OrdinalIgnoreCase) == 0)
-                            {
-                                this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
-                            }
-                            else
-                            {
-                                Log.Info("Stevne changed in Orion old={0} new={1}", this.m_orionStevneInfo.Navn, parsedName);
-                            }
 
-                            this.m_orionStevneInfo.Navn = parsedName;
-                            this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
-                        }
-                        else
-                        {
-                            var parsedName = ParseHelper.RemoveDirLetters(navn);
-                            Log.Info("New Stevne detected={0}", parsedName);
-                            this.m_orionStevneInfo = new OrionStevneInfo();
-                            this.m_orionStevneInfo.Navn = parsedName;
-                            this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
-                        }
-                        
-                    }
-                }
-                catch (Exception e)
-                {
-
-                    Log.Trace(e, "GetStevneNavn");
-                }
                 
                 return retList;
    
@@ -294,11 +304,11 @@ namespace FileUploaderService.Orion
                     {
 
                         // LANTODO
-                        FileInfo[] infos = laginf.GetFiles("MOVTR*.PNG");
-                        foreach(FileInfo f in infos)
-                        {
-                            File.Move(f.FullName, f.FullName.ToString().Replace("MOV",""));
-                        }
+                        //FileInfo[] infos = laginf.GetFiles("MOVTR*.PNG");
+                        //foreach(FileInfo f in infos)
+                        //{
+                        //    File.Move(f.FullName, f.FullName.ToString().Replace("MOV",""));
+                        //}
 
 
 

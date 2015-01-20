@@ -56,6 +56,7 @@ namespace FileUploaderService.KME
         public LeonDirInfo()
         {
             this.Command = UploadCommand.none;
+            BitmapsStoredInStevne = new List<BitmapDirInfo>();
         }
 
         /// <summary>
@@ -69,14 +70,15 @@ namespace FileUploaderService.KME
             this.Info = info;
             this.TargetName = info.Name;
             this.Command = UploadCommand.none;
+            BitmapsStoredInStevne = new List<BitmapDirInfo>();
         }
 
         #endregion
 
         #region Public Properties
 
-       
-       /// <summary>
+
+        /// <summary>
         /// Gets or sets the command.
         /// </summary>
         public UploadCommand Command { get; set; }
@@ -150,6 +152,9 @@ namespace FileUploaderService.KME
         /// Gets or sets the stevne info.
         /// </summary>
         public StartingListStevne StevneInfo { get; set; }
+
+
+        public List<BitmapDirInfo> BitmapsStoredInStevne { get; set; }
 
         /// <summary>
         /// Gets or sets the target name.
@@ -390,10 +395,10 @@ namespace FileUploaderService.KME
                             if (skive == null)
                             {
                                 Log.Info(
-                                    "Found new bitmapskive for {0} lag={1} skive={2} navn={3}", 
-                                    prefix, 
-                                    orionInf.Lag, 
-                                    orionInf.Skive, 
+                                    "Found new bitmapskive for {0} lag={1} skive={2} navn={3}",
+                                    prefix,
+                                    orionInf.Lag,
+                                    orionInf.Skive,
                                     orionInf.FileInfo.FullName);
                                 skive = new StartingListSkive() { SkiveNr = orionInf.Skive, SkytterNavn = "-", SkytterLag = "-", Klasse = "-" };
                                 skive.BackUpBitMapFile = bitmapList;
@@ -407,23 +412,23 @@ namespace FileUploaderService.KME
                             else if (skive.BackUpBitMapFile.CreationTime < bitmapList.CreationTime)
                             {
                                 Log.Info(
-                                    "Found updated bitmapskive for {0} lag={1} skive={2} navn={3} {4} {5}", 
-                                    prefix, 
-                                    orionInf.Lag, 
-                                    orionInf.Skive, 
-                                    orionInf.FileInfo.FullName, 
-                                    skive.BackUpBitMapFile.CreationTime, 
+                                    "Found updated bitmapskive for {0} lag={1} skive={2} navn={3} {4} {5}",
+                                    prefix,
+                                    orionInf.Lag,
+                                    orionInf.Skive,
+                                    orionInf.FileInfo.FullName,
+                                    skive.BackUpBitMapFile.CreationTime,
                                     bitmapList.CreationTime);
                             }
                             else if (skive.BackUpBitMapFile.LastWriteTime < bitmapList.LastWriteTime)
                             {
                                 Log.Info(
-                                    "Found updated bitmapskive for {0} lag={1} skive={2} navn={3} {4} {5}", 
-                                    prefix, 
-                                    orionInf.Lag, 
-                                    orionInf.Skive, 
-                                    orionInf.FileInfo.FullName, 
-                                    skive.BackUpBitMapFile.LastWriteTime, 
+                                    "Found updated bitmapskive for {0} lag={1} skive={2} navn={3} {4} {5}",
+                                    prefix,
+                                    orionInf.Lag,
+                                    orionInf.Skive,
+                                    orionInf.FileInfo.FullName,
+                                    skive.BackUpBitMapFile.LastWriteTime,
                                     bitmapList.LastWriteTime);
                             }
                             else
@@ -755,9 +760,9 @@ namespace FileUploaderService.KME
                                     else
                                     {
                                         Log.Warning(
-                                            "Mismatch in stevneNavn {0} {1} {3}", 
-                                            this.StevneInfo.StevneNavn, 
-                                            newlagInfo.StevneNavn, 
+                                            "Mismatch in stevneNavn {0} {1} {3}",
+                                            this.StevneInfo.StevneNavn,
+                                            newlagInfo.StevneNavn,
                                             startList.FullName);
                                         continue;
                                     }
@@ -915,10 +920,12 @@ namespace FileUploaderService.KME
                         }
                     }
 
-                    // if (update == false)
-                    // {
-                    // return false;
-                    // }
+                    if (update == false)
+                    {
+                        return false;
+                    }
+
+                    Log.Info("Parsing new index File {0}", webInfo.FullName);
                     var indfile = Path.Combine(webInfo.FullName, "index1.html");
 
                     if (File.Exists(indfile))
@@ -1163,9 +1170,9 @@ namespace FileUploaderService.KME
                                 if (foundFile == null)
                                 {
                                     Log.Info(
-                                        "Detected BitMap file Removed {0} stevne {1} StevneType{2}", 
-                                        name, 
-                                        this.StevneInfo.StevneNavn, 
+                                        "Detected BitMap file Removed {0} stevne {1} StevneType{2}",
+                                        name,
+                                        this.StevneInfo.StevneNavn,
                                         dirs.StevneType);
                                     if (this.UpdateHrefForBitmap(lag.Oppropsliste, null, skive, dirs.StevneType))
                                     {
@@ -1181,9 +1188,9 @@ namespace FileUploaderService.KME
                         if (oppropChanged)
                         {
                             Log.Info(
-                                "Updated Oppropsliste for lag={0} stevne={1}StevneType{2}", 
-                                lag.LagNr, 
-                                this.StevneInfo.StevneNavn, 
+                                "Updated Oppropsliste for lag={0} stevne={1}StevneType{2}",
+                                lag.LagNr,
+                                this.StevneInfo.StevneNavn,
                                 dirs.StevneType);
                             if (lag.OppropslisteFileInfo == null)
                             {
@@ -1652,7 +1659,10 @@ namespace FileUploaderService.KME
                                                     var stevne = stevneInfo.FinnStevne(nyttlag.StevneType);
                                                     if (stevne == null)
                                                     {
-                                                        stevne = stevneInfo.AddNewStevne(stevneInfo.StevneNavn, nyttlag.StevneType);
+                                                        stevne = stevneInfo.AddNewStevne(
+                                                            stevneInfo.StevneNavn,
+                                                            stevneInfo.ReportDirStevneNavn,
+                                                            nyttlag.StevneType);
                                                     }
 
                                                     stevneInfo.AddLag(nyttlag);
@@ -1691,11 +1701,7 @@ namespace FileUploaderService.KME
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private bool UpdateHrefForBitmap(
-            HtmlDocument htmlDocument, 
-            string bitmapName, 
-            StartingListSkive skiveToCheck, 
-            StevneType stevneType)
+        private bool UpdateHrefForBitmap(HtmlDocument htmlDocument, string bitmapName, StartingListSkive skiveToCheck, StevneType stevneType)
         {
             string prefix = string.Empty;
             switch (stevneType)
@@ -1760,8 +1766,8 @@ namespace FileUploaderService.KME
                                     HtmlNode newNode =
                                         HtmlNode.CreateNode(
                                             string.Format(
-                                                "<a href=\"{0}\" style=\"color: #4455AA;text-decoration: none;\" onmouseover=\"style.textDecoration='underline'\" onmouseout=\"style.textDecoration='none'\">{1}</a>", 
-                                                bitmapName, 
+                                                "<a href=\"{0}\" style=\"color: #4455AA;text-decoration: none;\" onmouseover=\"style.textDecoration='underline'\" onmouseout=\"style.textDecoration='none'\">{1}</a>",
+                                                bitmapName,
                                                 skiveToCheck.SkytterNavn));
                                     node.AppendChild(newNode);
                                 }
@@ -1771,7 +1777,7 @@ namespace FileUploaderService.KME
                                 if (refnode != null)
                                 {
                                     node.ParentNode.ReplaceChild(
-                                        HtmlTextNode.CreateNode(string.Format("<td align=\"left\">{0}</td>", skiveToCheck.SkytterNavn)), 
+                                        HtmlTextNode.CreateNode(string.Format("<td align=\"left\">{0}</td>", skiveToCheck.SkytterNavn)),
                                         node);
                                     updated = true;
                                 }
@@ -1861,8 +1867,8 @@ namespace FileUploaderService.KME
                         childSKiveNode =
                             HtmlNode.CreateNode(
                                 string.Format(
-                                    "<a href=\"{0}\" style=\"color: #4455AA;text-decoration: none;\" onmouseover=\"style.textDecoration='underline'\" onmouseout=\"style.textDecoration='none'\">{1}</a>", 
-                                    bitmapName, 
+                                    "<a href=\"{0}\" style=\"color: #4455AA;text-decoration: none;\" onmouseover=\"style.textDecoration='underline'\" onmouseout=\"style.textDecoration='none'\">{1}</a>",
+                                    bitmapName,
                                     skiveToCheck.SkytterNavn));
                     }
 
@@ -1889,5 +1895,158 @@ namespace FileUploaderService.KME
         }
 
         #endregion
+
+        internal bool CheckBitMap()
+        {
+            bool update = false;
+            if (this.Info == null)
+            {
+                return false;
+            }
+
+            this.InitTimeStamps(false);
+
+            var bitMapDir = Path.Combine(this.Info.FullName, BitMapDirName);
+            var stevneNavn = Path.GetFileName(this.Info.FullName);
+            if (Directory.Exists(bitMapDir))
+            {
+                BitmapDirInfo[] bitmapScan = new BitmapDirInfo[3];
+                bitmapScan[0] = new BitmapDirInfo() { StevneType = StevneType.Femtenmeter };
+                bitmapScan[1] = new BitmapDirInfo() { StevneType = StevneType.Hundremeter };
+                bitmapScan[2] = new BitmapDirInfo() { StevneType = StevneType.Tohundremeter };
+
+                bitmapScan[0].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix15m);
+                bitmapScan[1].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix100m);
+                bitmapScan[2].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix200m);
+
+                foreach (var dir2Check in bitmapScan)
+                {
+                    dir2Check.Updated = false;
+                    var sortlist = dir2Check.BitmapFiles.OrderByDescending(x => x.LastWriteTime);
+                    if (sortlist.FirstOrDefault() != null)
+                    {
+                        switch (dir2Check.StevneType)
+                        {
+                            case StevneType.Femtenmeter:
+                                if (this.LastWritten15mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
+                                {
+                                    this.LastWritten15mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                    if (this.LastWritten15mBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                    }
+                                    
+                                }
+
+                                break;
+                            case StevneType.Hundremeter:
+                                if (this.LastWritten100mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
+                                {
+                                    this.LastWritten100mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                    if (this.LastWritten100mBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                    }
+                                    
+                                }
+
+                                break;
+                            case StevneType.Tohundremeter:
+                                if (this.LastWritten200mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
+                                {
+                                    this.LastWritten200mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+
+                                    if (this.LastWritten200mBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                    }
+                                }
+
+                                break;
+                        }
+                    }
+
+                    var sortlistCreat = dir2Check.BitmapFiles.OrderByDescending(x => x.CreationTime);
+                    if (sortlistCreat.FirstOrDefault() != null)
+                    {
+                        switch (dir2Check.StevneType)
+                        {
+                            case StevneType.Femtenmeter:
+                                if (this.LastWritten15mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                {
+                                    this.LastWritten15mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
+                                    if (this.LastWritten15mBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                    }
+                                }
+
+                                break;
+                            case StevneType.Hundremeter:
+                                if (this.LastWritten100mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                {
+                                    this.LastWritten100mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
+                                    if (this.LastWritten100mBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                    }
+                                }
+
+                                break;
+                            case StevneType.Tohundremeter:
+                                if (this.LastWritten200mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                {
+                                    this.LastWritten200mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
+                                    if (this.LastWritten200mBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                    }
+                                }
+
+                                break;
+                        }
+                    }
+                }
+
+                foreach (var dirs in bitmapScan)
+                {
+                   
+                        BitmapDirInfo newlist=null;
+                        foreach (var bitmapDirs in this.BitmapsStoredInStevne)
+                        {
+                            if (dirs.StevneType == bitmapDirs.StevneType)
+                            {
+                                newlist = bitmapDirs;
+                                break;
+                            }
+                        }
+
+                        if (newlist != null)
+                        {
+                            newlist.Updated = dirs.Updated;
+                            newlist.BitmapFiles.Clear();
+                            newlist.BitmapFiles = dirs.BitmapFiles;
+                           
+                        }
+                        else
+                        {
+                            newlist = new BitmapDirInfo { Updated = true };
+                            newlist.BitmapFiles.Clear();
+                            newlist.BitmapFiles = dirs.BitmapFiles;
+                            newlist.StevneType = dirs.StevneType;
+                            this.BitmapsStoredInStevne.Add(newlist);
+                            //update = true;
+                        }
+
+
+                    if (dirs.Updated)
+                    {
+                        update = dirs.Updated;
+                    }
+                }
+            }
+
+            return update;
+        }
     }
 }

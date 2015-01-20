@@ -185,8 +185,20 @@ namespace ProcessMemoryReaderLib
                     retBuffer,
                     (uint)retBuffer.Length,
                     out lpOutStorage);
-
-            return Encoding.UTF8.GetString(retBuffer, 0, retBuffer.Length);
+            int len = 0;
+            foreach (var byteVal in retBuffer)
+            {
+                if (byteVal != '\0')
+                {
+                    len++;
+                    
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return Encoding.UTF8.GetString(retBuffer, 0, len);
         }
 
         public byte ReadByte(int MemoryAddress)

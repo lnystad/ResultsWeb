@@ -41,6 +41,7 @@ namespace FileUploaderService.KME
         }
 
         public string StevneNavn { get; set; }
+        public string ReportDirStevneNavn { get; set; }
         public StevneType StevneType { get; set; }
         public DateTime? StartDate15m { get; set; }
         public DateTime? EndDate15m { get; set; }
@@ -144,6 +145,7 @@ namespace FileUploaderService.KME
             if (!string.IsNullOrEmpty(navneText))
             {
                 this.StevneNavn = ParseHelper.RemoveDirLetters(navneText);
+                this.ReportDirStevneNavn = navneText;
 
             }
         }
@@ -192,7 +194,7 @@ namespace FileUploaderService.KME
             return funnetStevne;
         }
 
-        internal StartingListStevne AddNewStevne(string navn, StevneType stevneType)
+        internal StartingListStevne AddNewStevne(string navn, string reportdirnavn,StevneType stevneType)
         {
             if (this.DynamiskeStevner == null)
             {
@@ -214,6 +216,7 @@ namespace FileUploaderService.KME
                 var newStevne = new StartingListStevne();
                 newStevne.StevneNavn = navn;
                 newStevne.StevneType = stevneType;
+                newStevne.ReportDirStevneNavn = reportdirnavn;
                 this.DynamiskeStevner.Add(newStevne);
                 return newStevne;
             }

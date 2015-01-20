@@ -15,6 +15,10 @@ namespace FileUploaderService.Utils
                 return input;
             }
 
+            if (input.EndsWith("\0"))
+            {
+               // input = input.TrimEnd("\0");
+            }
             string retInput = input.Replace('/', ' ');
             retInput = retInput.Replace('\\', ' ');
             retInput = retInput.Replace(',', ' ');

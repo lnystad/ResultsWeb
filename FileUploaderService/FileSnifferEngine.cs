@@ -11,6 +11,7 @@
     using FileUploaderService.Ftp;
     using FileUploaderService.KME;
     using FileUploaderService.Orion;
+    using FileUploaderService.Utils;
 
     using SendingResults.Diagnosis;
 
@@ -58,21 +59,29 @@
                         if (webDir != null)
                         {
 
-                            //Thread.Sleep(5000);
-                            //if (webDir.Command.HasFlag(UploadCommand.Web))
+                            Thread.Sleep(5000);
+                            if (webDir.Command.HasFlag(UploadCommand.Reports))
+                            {
+                                this.UploadWebReportAndBitMap(webDir);
+                            }
+                            else if (webDir.Command.HasFlag(UploadCommand.Web))
+                            {
+                                this.UploadWeb(webDir);
+                            }
+
+                            if (webDir.Command.HasFlag(UploadCommand.Pdf))
+                            {
+                                this.UploadPdf(webDir);
+                            }
+
+                            if (webDir.Command.HasFlag(UploadCommand.BitMap))
+                            {
+                                this.UploadBitMaps(webDir);
+                            }
+
+                            //if (webDir.Command.HasFlag(UploadCommand.Reports))
                             //{
                             //    this.UploadWeb(webDir);
-                            //}
-
-                            //if (webDir.Command.HasFlag(UploadCommand.Pdf))
-                            //{
-                            //    this.UploadPdf(webDir);
-                            //}
-
-                            //if (webDir.Command.HasFlag(UploadCommand.BitMap))
-                            //{
-                            //    this.UploadBitMaps(webDir);
-                                
                             //}
 
                             //if (webDir.Command.HasFlag(UploadCommand.StartingList))
@@ -184,21 +193,62 @@
 
         private void UploadBitMaps(LeonDirInfo webDir)
         {
-            List<string> bitmap = new List<string>();
-            foreach (var lag in webDir.StevneInfo.StevneLag15m)
-            {
-                foreach (var skive in lag.Skiver)
-                {
-                    if (skive.BackUpBitMapFile != null)
-                    {
-                        bitmap.Add(skive.BackUpBitMapFile.FullName);
-                    }
 
-                    skive.Updated = false;
-                }
+            if (webDir.BitmapsStoredInStevne == null)
+            {
+                return;
             }
 
-           this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.StevneInfo.StevneNavn, bitmap.ToArray(), Constants.Prefix15m);
+            foreach (var bitmapDirs in webDir.BitmapsStoredInStevne)
+            {
+                string navn = null;
+                if (bitmapDirs.Updated)
+                {
+                    bitmapDirs.Updated = false;
+                     List<string> bitmap = new List<string>();
+                     foreach (var file in bitmapDirs.BitmapFiles)
+                     {
+
+                         bitmap.Add(file.FullName);
+                     }
+
+                    if (bitmap.Count <= 0)
+                    {
+                        Log.Trace(" No bitmaps");
+                        continue;
+                    }
+
+                    var dirbitmapBaner = Path.GetDirectoryName(bitmap[0]);
+                    var dirbitmap = Path.GetDirectoryName(dirbitmapBaner);
+                    var dirStevne = Path.GetDirectoryName(dirbitmap);
+                    dirStevne = Path.GetFileName(dirStevne);
+                    navn = ParseHelper.RemoveDirLetters(dirStevne);
+                    string prefix = null;
+                    switch (bitmapDirs.StevneType)
+                    {
+                        case StevneType.Femtenmeter:
+                            prefix = Constants.Prefix15m;
+                            break;
+                             case StevneType.Hundremeter:
+                            prefix = Constants.Prefix100m;
+                            break;
+                             case StevneType.Tohundremeter:
+                            prefix = Constants.Prefix200m;
+                            break;
+                    }
+
+                    if (string.IsNullOrEmpty(prefix))
+                    {
+                        Log.Info(" Prefix for bitmaps is missing stevne={0}", navn);
+                        continue;
+                    }
+
+                    this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
+                }
+            }
+           
+
+           
         }
 
         //private void UploadBitMaps(System.Collections.Generic.List<StartingListStevne> bitmapStevner)
@@ -248,6 +298,28 @@
                 {
                     return;
                 }
+
+                this.m_fileLoader.UpdateWebTimeStamp(webDir);
+                this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
+            }
+        }
+
+        private void UploadWebReportAndBitMap(LeonDirInfo webDir)
+        {
+            if (Directory.Exists(webDir.WebName))
+            {
+                var files = Directory.GetFiles(webDir.WebName);
+                if (files.Length <= 0)
+                {
+                    return;
+                }
+
+                foreach (var bitmap in webDir.BitmapsStoredInStevne)
+                {
+                    bitmap.Updated = true;
+                }
+
+                UploadBitMaps(webDir);
 
                 this.m_fileLoader.UpdateWebTimeStamp(webDir);
                 this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
