@@ -9,3 +9,8 @@ C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\bin\Debug\File
 C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\FileUploaderService\obj\Debug\FileUploaderService.dll
 C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\FileUploaderService\obj\Debug\FileUploaderService.pdb
 C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\FileUploaderService\obj\Debug\FileUploaderService.csprojResolveAssemblyReference.cache
+C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\FileUploaderService.dll
+C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\FileUploaderService.pdb
+C:\Users\lan\Documents\GitHub\ResultsWeb\FileUploaderService\obj\Debug\FileUploaderService.dll
+C:\Users\lan\Documents\GitHub\ResultsWeb\FileUploaderService\obj\Debug\FileUploaderService.pdb
+C:\Users\lan\Documents\GitHub\ResultsWeb\FileUploaderService\obj\Debug\FileUploaderService.csprojResolveAssemblyReference.cache

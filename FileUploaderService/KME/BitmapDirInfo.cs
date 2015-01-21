@@ -25,7 +25,9 @@ namespace FileUploaderService.KME
         [XmlArrayItem("FileName")]
         public List<string> BitmapFileNames { get; set; }
 
-        public StevneType StevneType { get; set; }
+        //public StevneType StevneType { get; set; }
+
+        public BaneType BaneType { get; set; }
 
         public string BitmapSubDir { get; set; }
 

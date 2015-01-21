@@ -16,7 +16,7 @@
 
   <xsl:template match="result">
     <xsl:copy>
-      <xsl:attribute name='fill'>red</xsl:attribute>
+      
     </xsl:copy>
   </xsl:template>
 

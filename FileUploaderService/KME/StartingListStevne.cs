@@ -16,129 +16,33 @@ namespace FileUploaderService.KME
     {
         public StartingListStevne()
         {
-            StevneLag15m = new List<StartingListLag>();
-            StevneLag100m = new List<StartingListLag>();
-            StevneLag200m = new List<StartingListLag>();
-            StevneLag = new List<StartingListLag>();
             Rapporter = new List<RapportXmlClass>();
         }
 
         public StartingListStevne(StartingListStevne cpy)
         {
-            StevneLag15m = new List<StartingListLag>();
-            StevneLag100m = new List<StartingListLag>();
-            StevneLag200m = new List<StartingListLag>();
-            StevneLag = new List<StartingListLag>();
-
             StevneNavn = cpy.StevneNavn;
-            StartDate15m = cpy.StartDate15m;
-            EndDate15m = cpy.EndDate15m;
-            StartDate100m = cpy.StartDate100m;
-            EndDate100m = cpy.EndDate100m;
-            StartDate200m = cpy.StartDate200m;
-            EndDate200m = cpy.EndDate200m;
             Rapporter = new List<RapportXmlClass>();
         }
 
         public string StevneNavn { get; set; }
         public string ReportDirStevneNavn { get; set; }
-        public StevneType StevneType { get; set; }
-        public DateTime? StartDate15m { get; set; }
-        public DateTime? EndDate15m { get; set; }
+    
+
         [XmlIgnore]
-        public List<StartingListLag> StevneLag15m { get; set; }
-
-        public DateTime? StartDate100m { get; set; }
-        public DateTime? EndDate100m { get; set; }
-         [XmlIgnore]
-        public List<StartingListLag> StevneLag100m { get; set; }
-
-        public DateTime? StartDate200m { get; set; }
-        public DateTime? EndDate200m { get; set; }
-        [XmlIgnore]
-        public List<StartingListLag> StevneLag200m { get; set; }
-
-        [XmlArray("AllLag")]
-        [XmlArrayItem("Laget")]
-        public List<StartingListLag> StevneLag { get; set; }
-
-         [XmlIgnore]
         public List<RapportXmlClass> Rapporter { get; set; }
 
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        [XmlIgnore]
+        public List<RapportXmlClass> ToppListInfoWithRef { get; set; }
+        
 
         [XmlIgnore]
-        public List<StartingListStevne> DynamiskeStevner { get; set; }
-
-        internal void SetStartAndEndDate()
-        {
-            if (StevneLag15m != null)
-            {
-                var list = StevneLag15m.OrderBy(x => x.StartTime);
-                var time = list.FirstOrDefault();
-                if (time != null && time.StartTime.HasValue)
-                {
-                    this.StartDate15m = time.StartTime.Value.Date;
-                }
-
-                var listend = StevneLag15m.OrderByDescending(x => x.StartTime);
-                var timeend = listend.FirstOrDefault();
-                if (timeend != null && timeend.StartTime.HasValue)
-                {
-                    this.EndDate15m = timeend.StartTime.Value.Date;
-                }
-            }
-        }
-
-        internal void SetStartAndEndDate(StartingListStevne stevne)
-        {
-            if (stevne != null)
-            {
-                var list = stevne.StevneLag.OrderBy(x => x.StartTime);
-                var time = list.FirstOrDefault();
-                if (time != null && time.StartTime.HasValue)
-                {
-                    stevne.StartDate = time.StartTime.Value.Date;
-                }
-
-                var listend = stevne.StevneLag.OrderByDescending(x => x.StartTime);
-                var timeend = listend.FirstOrDefault();
-                if (timeend != null && timeend.StartTime.HasValue)
-                {
-                    stevne.EndDate = timeend.StartTime.Value.Date;
-                }
-            }
-        }
-
-        internal int CountBitmapFiles(StevneType stevnetype)
-        {
-            int count = 0;
-            switch (stevnetype)
-            {
-                case StevneType.Femtenmeter:
-                    foreach (var lag in StevneLag15m)
-                    {
-                        count = count + lag.CountBitmapFiles();
-                    }
-                    break;
-                case StevneType.Hundremeter:
-                    foreach (var lag in StevneLag100m)
-                    {
-                        count = count + lag.CountBitmapFiles();
-                    }
-                    break;
-                case StevneType.Tohundremeter:
-                    foreach (var lag in StevneLag200m)
-                    {
-                        count = count + lag.CountBitmapFiles();
-                    }
-                    break;
-            }
-
-
-            return count;
-        }
+        public List<StartListBane> DynamiskeBaner { get; set; }
+        
+        [XmlIgnore]
+        public List<string> TopLister { get; set; }
+        
+       
 
         internal void ParseStevneNavn(string navneText)
         {
@@ -150,61 +54,61 @@ namespace FileUploaderService.KME
             }
         }
 
-        internal StevneType LagType(string lagText)
+        //internal StevneType LagType(string lagText)
+        //{
+        //    if (!string.IsNullOrEmpty(lagText))
+        //    {
+        //        if (lagText.Contains(Constants.Prefix100m))
+        //        {
+        //            return StevneType.Hundremeter;
+        //        }
+
+        //        if (lagText.Contains(Constants.Prefix200m))
+        //        {
+        //            return StevneType.Tohundremeter;
+        //        }
+
+        //        return StevneType.Femtenmeter;
+        //    }
+
+        //    return StevneType.Undefined;
+        //}
+
+
+
+        internal StartListBane FinnBane(BaneType baneType)
         {
-            if (!string.IsNullOrEmpty(lagText))
+
+            if (DynamiskeBaner == null)
             {
-                if (lagText.Contains(Constants.Prefix100m))
-                {
-                    return StevneType.Hundremeter;
-                }
-
-                if (lagText.Contains(Constants.Prefix200m))
-                {
-                    return StevneType.Tohundremeter;
-                }
-
-                return StevneType.Femtenmeter;
-            }
-
-            return StevneType.Undefined;
-        }
-
-
-
-        internal StartingListStevne FinnStevne(StevneType stevneType)
-        {
-
-            if (DynamiskeStevner == null)
-            {
-                DynamiskeStevner = new List<StartingListStevne>();
+                DynamiskeBaner = new List<StartListBane>();
                 return null;
             }
 
-            StartingListStevne funnetStevne = null;
-            foreach (var stevner in DynamiskeStevner)
+            StartListBane funnetBane= null;
+            foreach (var stevner in DynamiskeBaner)
             {
-                if (stevner.StevneType == stevneType)
+                if (stevner.BaneType == baneType)
                 {
-                    funnetStevne = stevner;
+                    funnetBane = stevner;
                     break;
                 }
             }
 
-            return funnetStevne;
+            return funnetBane;
         }
 
-        internal StartingListStevne AddNewStevne(string navn, string reportdirnavn,StevneType stevneType)
+        internal StartListBane AddNewBane(string navn, string reportdirnavn, BaneType baneType)
         {
-            if (this.DynamiskeStevner == null)
+            if (this.DynamiskeBaner == null)
             {
-                this.DynamiskeStevner = new List<StartingListStevne>();
+                this.DynamiskeBaner = new List<StartListBane>();
             }
 
-            StartingListStevne funnetStevne = null;
-            foreach (var stevner in this.DynamiskeStevner)
+            StartListBane funnetStevne = null;
+            foreach (var stevner in this.DynamiskeBaner)
             {
-                if (stevner.StevneType == stevneType)
+                if (stevner.BaneType == baneType)
                 {
                     funnetStevne = stevner;
                     break;
@@ -213,11 +117,11 @@ namespace FileUploaderService.KME
 
             if (funnetStevne == null)
             {
-                var newStevne = new StartingListStevne();
+                var newStevne = new StartListBane();
                 newStevne.StevneNavn = navn;
-                newStevne.StevneType = stevneType;
-                newStevne.ReportDirStevneNavn = reportdirnavn;
-                this.DynamiskeStevner.Add(newStevne);
+                newStevne.BaneType = baneType;
+            //    newStevne.ReportDirStevneNavn = reportdirnavn;
+                this.DynamiskeBaner.Add(newStevne);
                 return newStevne;
             }
 
@@ -231,25 +135,27 @@ namespace FileUploaderService.KME
                 return;
             }
 
-            StartingListStevne funnetStevne = null;
-            foreach (var stevner in this.DynamiskeStevner)
+            StartListBane funnetBane = null;
+            foreach (var bane in this.DynamiskeBaner)
             {
-                if (stevner.StevneType == nyttlag.StevneType)
+                if (bane.BaneType == nyttlag.BaneType)
                 {
-                    funnetStevne = stevner;
+                    funnetBane = bane;
                     break;
                 }
             }
 
-            if (funnetStevne != null)
+            if (funnetBane != null)
             {
-                funnetStevne.StevneLag.Add(nyttlag);
-               
+                funnetBane.StevneLag.Add(nyttlag);
+
             }
             else
             {
-                Log.Error("Fant ikke stevne type {0} navn={1}", nyttlag.StevneType, nyttlag.StevneNavn);
+                Log.Error("Fant ikke stevne type {0} navn={1}", nyttlag.BaneType, nyttlag.StevneNavn);
             }
         }
+
+        
     }
 }

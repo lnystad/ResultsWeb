@@ -17,8 +17,10 @@ namespace FileUploaderService.KME
 
         public string Filnavn { get; set; }
 
-        public StevneType StevneType { get; set; }
+        //public StevneType StevneType { get; set; }
 
-       
+        public BaneType BaneType { get; set; }
+
+        public XmlDocument ToppListInfoWithRef { get; set; }
     }
 }

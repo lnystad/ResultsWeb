@@ -13,3 +13,9 @@ C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\bin\Debug\Test
 C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\obj\Debug\TestFileUploader.csprojResolveAssemblyReference.cache
 C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\obj\Debug\TestFileUploader.exe
 C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\obj\Debug\TestFileUploader.pdb
+C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\TestFileUploader.exe.config
+C:\Users\lan\Documents\GitHub\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.exe
+C:\Users\lan\Documents\GitHub\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.pdb
+C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\TestFileUploader.exe
+C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\TestFileUploader.pdb
+C:\Users\lan\Documents\GitHub\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.csprojResolveAssemblyReference.cache

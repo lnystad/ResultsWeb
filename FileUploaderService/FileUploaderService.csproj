@@ -55,10 +55,12 @@
     <Compile Include="KME\StartingListLag.cs" />
     <Compile Include="KME\StartingListSkive.cs" />
     <Compile Include="KME\StartingListStevne.cs" />
+    <Compile Include="KME\StartListBane.cs" />
     <Compile Include="Leon\Report.cs" />
     <Compile Include="Orion\OrionProgramInfo.cs" />
     <Compile Include="Orion\OrionStevneInfo.cs" />
     <Compile Include="ProcessMemoryReader.cs" />
+    <Compile Include="BaneType.cs" />
     <Compile Include="StevneType.cs" />
     <Compile Include="Orion\Lag.cs" />
     <Compile Include="Orion\Skive.cs" />
@@ -90,6 +92,11 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Leon\readxml.js" />
+    <Content Include="Leon\SkytteriLag.xslt" />
+    <Content Include="Leon\TopListeXslt.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\TopRapport.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

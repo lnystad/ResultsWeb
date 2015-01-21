@@ -52,8 +52,6 @@ namespace FileUploaderService.KME
         private XslCompiledTransform m_xsltRapport;
 
         private XslCompiledTransform m_xsltToppList;
-
-        private XslCompiledTransform m_xsltToppListSkyttere;
         #endregion
 
         #region Constructors and Destructors
@@ -115,7 +113,7 @@ namespace FileUploaderService.KME
                             element.CheckWebFiles();
                             element.CheckPdfFiles();
                             element.CheckPresselisteFiles();
-                            element.InitTimeStamps();
+                            element.InitTimeStamps(false);
                             this.m_DetectedDirs.Add(element);
                         }
                     }
@@ -233,7 +231,7 @@ namespace FileUploaderService.KME
             }
         }
 
-        internal void InitToppListInfoTransform(string filename, string skytterxsltfilenavn)
+        internal void InitToppListInfoTransform(string filename)
         {
             if (File.Exists(filename))
             {
@@ -242,9 +240,7 @@ namespace FileUploaderService.KME
                 {
                     // var myxsltResv = new MyXmlResolver();
                     // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
-                    XsltSettings settings = new XsltSettings();
-                    settings.EnableScript = true;
-                    this.m_xsltToppList.Load(filename, settings, null);
+                    this.m_xsltToppList.Load(filename, null, null);
                 }
                 catch (XsltException e)
                 {
@@ -256,29 +252,6 @@ namespace FileUploaderService.KME
             {
                 Log.Info("Could not find file {0}", filename);
             }
-
-            if (File.Exists(skytterxsltfilenavn))
-            {
-                this.m_xsltToppListSkyttere = new XslCompiledTransform(true);
-                try
-                {
-                    XsltSettings settings = new XsltSettings();
-                    settings.EnableScript = true;
-                    // var myxsltResv = new MyXmlResolver();
-                    // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
-                    this.m_xsltToppListSkyttere.Load(skytterxsltfilenavn, settings, null);
-                }
-                catch (XsltException e)
-                {
-                    Log.Error(e, "Line={0} pos={1} File={2}", e.LineNumber, e.LinePosition, skytterxsltfilenavn);
-                    throw;
-                }
-            }
-            else
-            {
-                Log.Info("Could not find file {0}", filename);
-            }
-
         }
 
         #endregion
@@ -838,25 +811,68 @@ namespace FileUploaderService.KME
             bool update = false;
             foreach (var bane in element.StevneForAlleBaner.DynamiskeBaner)
             {
-
-                List<XmlDocument> SkyttereiLaget = new List<XmlDocument>();
-                foreach (var rapport in bane.BaneRapporter)
+                foreach (var rapport in bane.Rapporter)
                 {
                     if (rapport.BitMapInfo != null && rapport.Rapport != null)
                     {
                         try
                         {
-                            XPathDocument xpathDoc;
-
                             var outputXmlStream = new MemoryStream { Position = 0 };
-                            var reader = MergeDocumentsInput(rapport.Rapport, rapport.BitMapInfo);
-                            xpathDoc = new XPathDocument(reader);
-                            
+
+                            XmlDocument a = new XmlDocument();
+                            a.LoadXml(rapport.BitMapInfo.InnerXml);
+                            foreach (XmlNode node in a)
+                            {
+                                if (node.NodeType == XmlNodeType.XmlDeclaration)
+                                {
+                                    a.RemoveChild(node);
+                                }
+                            }
+
+                            XmlDocument b = new XmlDocument();
+                            b.LoadXml(rapport.Rapport.InnerXml);
+                            foreach (XmlNode node in b)
+                            {
+                                if (node.NodeType == XmlNodeType.XmlDeclaration)
+                                {
+                                    b.RemoveChild(node);
+                                }
+                            }
+
+                            XDocument ax;
+                            using (var nodeReader = new XmlNodeReader(a))
+                            {
+                                nodeReader.MoveToContent();
+                                ax = XDocument.Load(nodeReader);
+                            }
+
+                            XDocument bx;
+                            using (var nodeReader = new XmlNodeReader(b))
+                            {
+                                nodeReader.MoveToContent();
+                                bx = XDocument.Load(nodeReader);
+                            }
+
+                            XElement root = new XElement("Merged");
+                            root.Add(ax.Root);
+                            root.Add(bx.Root);
+
+                            XDocument docMerged = new XDocument(root);
+
+                            MemoryStream combine = new MemoryStream();
+                            docMerged.Save(combine);
+                            combine.Position = 0;
+                            Encoding enc = new UTF8Encoding(false);
+                            StreamReader reader = new StreamReader(combine, enc, true);
+                            XmlTextReader xmlReader = new XmlTextReader(reader);
+
+                            // var XmlDOc = new XmlDocument();
+                            // XmlDOc.Load(xmlReader);
+                            var xpathDoc = new XPathDocument(xmlReader);
                             this.m_xsltRapport.Transform(xpathDoc, null, outputXmlStream);
                             update = true;
                             outputXmlStream.Position = 0;
                             XmlDocument docSaver = new XmlDocument();
-                            Encoding enc = new UTF8Encoding(false);
                             StreamReader readerOut = new StreamReader(outputXmlStream, enc, true);
                             XmlTextReader xmlReaderOut = new XmlTextReader(readerOut);
                             docSaver.Load(xmlReaderOut);
@@ -871,18 +887,21 @@ namespace FileUploaderService.KME
                                 writer.Dispose();
                             }
 
-                            if (this.m_xsltToppListSkyttere != null)
+                           
+                            if (m_xsltToppList != null)
                             {
-                                var outputXmlSkyttereStream = new MemoryStream { Position = 0 };
-                                this.m_xsltToppListSkyttere.Transform(xpathDoc, null, outputXmlSkyttereStream);
-                                outputXmlSkyttereStream.Position = 0;
-                                XmlDocument docSkyttereSaver = new XmlDocument();
-                                StreamReader readerSkyttereOut = new StreamReader(outputXmlSkyttereStream, enc, true);
-                                XmlTextReader xmlReaderSkyttereOut = new XmlTextReader(readerSkyttereOut);
-                                docSkyttereSaver.Load(xmlReaderSkyttereOut);
-                                SkyttereiLaget.Add(docSkyttereSaver);
-                                readerSkyttereOut.Dispose();
+                                var outputTopListStream = new MemoryStream { Position = 0 };
+                                combine.Position = 0;
+                                this.m_xsltToppList.Transform(xpathDoc, null, outputTopListStream);
+                                update = true;
+                                outputTopListStream.Position = 0;
+                                XmlDocument topListSaver = new XmlDocument();
+                                StreamReader readertopList = new StreamReader(outputTopListStream, enc, true);
+                                XmlTextReader xmlReadertopListOut = new XmlTextReader(readertopList);
+                                topListSaver.Load(xmlReadertopListOut);
+                                rapport.ToppListInfoWithRef = topListSaver;
                             }
+
 
                             readerOut.Dispose();
                             reader.Dispose();
@@ -903,177 +922,9 @@ namespace FileUploaderService.KME
                         }
                     }
                 }
-                if (this.m_xsltToppList != null && SkyttereiLaget.Count > 0)
-                {
-
-
-                    foreach (var toppListe in bane.ToppListeRapporter)
-                    {
-                        if (toppListe.ToppListInfoWithRef != null)
-                        {
-                            try
-                            {
-                                List<XmlDocument> docs = new List<XmlDocument>();
-                                foreach (var skytterdoc in SkyttereiLaget)
-                                {
-                                    docs.Add(skytterdoc);
-                                }
-
-                                docs.Add(toppListe.ToppListInfoWithRef);
-                                
-                                XPathDocument xpathDoc;
-                                var outputXmlStream = new MemoryStream { Position = 0 };
-
-                                var reader = MergeDocumentsInput(docs);
-
-                                //XmlDocument doc = new XmlDocument();
-                                //doc.Load(reader);
-                                xpathDoc = new XPathDocument(reader);
-
-                                this.m_xsltToppList.Transform(xpathDoc, null, outputXmlStream);
-                                update = true;
-                                outputXmlStream.Position = 0;
-                                XmlDocument docSaver = new XmlDocument();
-                                Encoding enc = new UTF8Encoding(false);
-                                StreamReader readerOut = new StreamReader(outputXmlStream, enc, true);
-                                XmlTextReader xmlReaderOut = new XmlTextReader(readerOut);
-                                docSaver.Load(xmlReaderOut);
-                                if (!string.IsNullOrEmpty(toppListe.Filnavn))
-                                {
-                                    var encServer = Encoding.GetEncoding("ISO-8859-1");
-                                    XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer);
-                                    writer.Formatting = Formatting.Indented;
-                                    docSaver.Save(writer);
-                                    writer.Flush();
-                                    writer.Close();
-                                    writer.Dispose();
-                                }
-                                readerOut.Dispose();
-                                reader.Dispose();
-                            }
-                            catch (XmlException xmlex)
-                            {
-                                Log.Error(xmlex, string.Empty);
-                            }
-                            catch (XsltException exp)
-                            {
-                                Log.Error(exp, string.Empty);
-
-                                return false;
-                            }
-                            catch (Exception exp)
-                            {
-                                Log.Error(exp, string.Empty);
-                            }
-                        }
-                    }
-                }
             }
 
             return update;
-        }
-
-        private static XmlTextReader MergeDocumentsInput(XmlDocument a, XmlDocument b)
-           {
-            MemoryStream combine;
-            Encoding enc;
-            StreamReader reader;
-        
-            foreach (XmlNode node in a)
-            {
-                if (node.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    a.RemoveChild(node);
-                }
-            }
-
-            foreach (XmlNode node in b)
-            {
-                if (node.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    b.RemoveChild(node);
-                }
-            }
-
-            XDocument ax;
-            using (var nodeReader = new XmlNodeReader(a))
-            {
-                nodeReader.MoveToContent();
-                ax = XDocument.Load(nodeReader);
-            }
-
-            XDocument bx;
-            using (var nodeReader = new XmlNodeReader(b))
-            {
-                nodeReader.MoveToContent();
-                bx = XDocument.Load(nodeReader);
-            }
-
-            XElement root = new XElement("Merged");
-            root.Add(ax.Root);
-            root.Add(bx.Root);
-
-            XDocument docMerged = new XDocument(root);
-
-            combine = new MemoryStream();
-            docMerged.Save(combine);
-            combine.Position = 0;
-            enc = new UTF8Encoding(false);
-            reader = new StreamReader(combine, enc, true);
-            XmlTextReader xmlReader = new XmlTextReader(reader);
-
-            //var XmlDOc = new XmlDocument();
-            //XmlDOc.Load(xmlReader);
-            //combine.Position = 0;
-           
-            return xmlReader;
-        }
-
-        private static XmlTextReader MergeDocumentsInput(List<XmlDocument> a)
-        {
-            MemoryStream combine;
-            Encoding enc;
-            StreamReader reader;
-            if (a == null)
-            {
-                return null;
-            }
-            XElement root = new XElement("Merged");
-
-            foreach (var doc in a)
-            {
-                foreach (XmlNode node in doc)
-                {
-                    if (doc.NodeType == XmlNodeType.XmlDeclaration)
-                    {
-                        doc.RemoveChild(node);
-                    }
-                }
-
-                XDocument docx;
-                using (var nodeReader = new XmlNodeReader(doc))
-                {
-                    nodeReader.MoveToContent();
-                    docx = XDocument.Load(nodeReader);
-                }
-
-                root.Add(docx.Root);
-            }
-
-            XDocument docMerged = new XDocument(root);
-
-            combine = new MemoryStream();
-            docMerged.Save(combine);
-            combine.Position = 0;
-            enc = new UTF8Encoding(false);
-            reader = new StreamReader(combine, enc, true);
-            XmlTextReader xmlReader = new XmlTextReader(reader);
-
-            //var XmlDOc = new XmlDocument();
-            //XmlDOc.Load(xmlReader);
-            //combine.Position = 0;
-
-            return xmlReader;
         }
 
         /// <summary>

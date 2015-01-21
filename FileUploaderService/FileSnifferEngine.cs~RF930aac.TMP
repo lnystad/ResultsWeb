@@ -34,7 +34,6 @@
 
         private string m_remotePdfFileName;
 
-        private string m_remotePresseListeFileName;
 
         private string m_remoteBitMapDir15m;
 
@@ -70,14 +69,9 @@
                                 this.UploadWeb(webDir);
                             }
 
-                            if (webDir.Command.HasFlag(UploadCommand.Pdf) && !string.IsNullOrEmpty(m_remotePdfFileName))
+                            if (webDir.Command.HasFlag(UploadCommand.Pdf))
                             {
                                 this.UploadPdf(webDir);
-                            }
-
-                            if (webDir.Command.HasFlag(UploadCommand.PresseListe) && !string.IsNullOrEmpty(m_remotePresseListeFileName))
-                            {
-                                this.UploadPresseListe(webDir);
                             }
 
                             if (webDir.Command.HasFlag(UploadCommand.BitMap))
@@ -103,7 +97,7 @@
                                 var bbkupDir = m_myOrionFileLoader15m.CheckForNewBackupFiles();
                                 if (bbkupDir != null)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Femtenmeter);
+                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, StevneType.Femtenmeter);
                                     m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
                                 } 
                             }
@@ -113,7 +107,7 @@
                                 var bbkupDir = m_myOrionFileLoader100m.CheckForNewBackupFiles();
                                 if (bbkupDir != null)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Hundremeter);
+                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, StevneType.Hundremeter);
                                     m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
                                 }
                             }
@@ -123,7 +117,7 @@
                                 var bbkupDir = m_myOrionFileLoader200m.CheckForNewBackupFiles();
                                 if (bbkupDir != null)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Tohundremeter);
+                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, StevneType.Tohundremeter);
                                     m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
                                 }
                             }
@@ -157,77 +151,105 @@
             
         }
 
-    
+        private void UploadStartingList(LeonDirInfo webDir)
+        {
+            List< string> startlister = new List<string>();
+            foreach (var lag in webDir.StevneInfo.StevneLag15m)
+            {
+                if (lag.GravlapplisteFileInfo != null && lag.UpdatedOppropsliste)
+                {
+                    startlister.Add(lag.GravlapplisteFileInfo.FullName);
+                }
+
+                lag.UpdatedOppropsliste = false;
+
+            }
+
+            foreach (var lag in webDir.StevneInfo.StevneLag100m)
+            {
+                if (lag.GravlapplisteFileInfo != null && lag.UpdatedOppropsliste)
+                {
+                    startlister.Add(lag.GravlapplisteFileInfo.FullName);
+                }
+
+                lag.UpdatedOppropsliste = false;
+
+            }
+
+            foreach (var lag in webDir.StevneInfo.StevneLag200m)
+            {
+                if (lag.GravlapplisteFileInfo != null && lag.UpdatedOppropsliste)
+                {
+                    startlister.Add(lag.GravlapplisteFileInfo.FullName);
+                }
+
+                lag.UpdatedOppropsliste = false;
+
+            }
+
+            this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.StevneInfo.StevneNavn, startlister.ToArray());
+
+        }
 
         private void UploadBitMaps(LeonDirInfo webDir)
         {
 
-            if (webDir.StevneForAlleBaner == null)
+            if (webDir.BitmapsStoredInStevne == null)
             {
                 return;
             }
 
-            if (webDir.StevneForAlleBaner.DynamiskeBaner == null )
+            foreach (var bitmapDirs in webDir.BitmapsStoredInStevne)
             {
-                return;
-            }
-
-            if (webDir.StevneForAlleBaner.DynamiskeBaner.Count <= 0)
-            {
-                return;
-            }
-            foreach (var bane in webDir.StevneForAlleBaner.DynamiskeBaner)
-            {
-                if (bane.BitmapsStoredInBane == null)
+                string navn = null;
+                if (bitmapDirs.Updated)
                 {
-                    continue;
-                }
-                    string navn = null;
-                    if (bane.BitmapsStoredInBane.Updated)
+                    bitmapDirs.Updated = false;
+                     List<string> bitmap = new List<string>();
+                     foreach (var file in bitmapDirs.BitmapFiles)
+                     {
+
+                         bitmap.Add(file.FullName);
+                     }
+
+                    if (bitmap.Count <= 0)
                     {
-                        bane.BitmapsStoredInBane.Updated = false;
-                        List<string> bitmap = new List<string>();
-                        foreach (var file in bane.BitmapsStoredInBane.BitmapFiles)
-                        {
-
-                            bitmap.Add(file.FullName);
-                        }
-
-                        if (bitmap.Count <= 0)
-                        {
-                            Log.Trace(" No bitmaps");
-                            continue;
-                        }
-
-                        var dirbitmapBaner = Path.GetDirectoryName(bitmap[0]);
-                        var dirbitmap = Path.GetDirectoryName(dirbitmapBaner);
-                        var dirStevne = Path.GetDirectoryName(dirbitmap);
-                        dirStevne = Path.GetFileName(dirStevne);
-                        navn = ParseHelper.RemoveDirLetters(dirStevne);
-                        string prefix = null;
-                        switch (bane.BaneType)
-                        {
-                            case BaneType.Femtenmeter:
-                                prefix = Constants.Prefix15m;
-                                break;
-                            case BaneType.Hundremeter:
-                                prefix = Constants.Prefix100m;
-                                break;
-                            case BaneType.Tohundremeter:
-                                prefix = Constants.Prefix200m;
-                                break;
-                        }
-
-                        if (string.IsNullOrEmpty(prefix))
-                        {
-                            Log.Info(" Prefix for bitmaps is missing stevne={0}", navn);
-                            continue;
-                        }
-
-                        this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
+                        Log.Trace(" No bitmaps");
+                        continue;
                     }
+
+                    var dirbitmapBaner = Path.GetDirectoryName(bitmap[0]);
+                    var dirbitmap = Path.GetDirectoryName(dirbitmapBaner);
+                    var dirStevne = Path.GetDirectoryName(dirbitmap);
+                    dirStevne = Path.GetFileName(dirStevne);
+                    navn = ParseHelper.RemoveDirLetters(dirStevne);
+                    string prefix = null;
+                    switch (bitmapDirs.StevneType)
+                    {
+                        case StevneType.Femtenmeter:
+                            prefix = Constants.Prefix15m;
+                            break;
+                             case StevneType.Hundremeter:
+                            prefix = Constants.Prefix100m;
+                            break;
+                             case StevneType.Tohundremeter:
+                            prefix = Constants.Prefix200m;
+                            break;
+                    }
+
+                    if (string.IsNullOrEmpty(prefix))
+                    {
+                        Log.Info(" Prefix for bitmaps is missing stevne={0}", navn);
+                        continue;
+                    }
+
+                    this.m_myFtpUtil.UploadFiles(this.m_remoteDir, navn, bitmap.ToArray(), prefix);
                 }
             }
+           
+
+           
+        }
 
         //private void UploadBitMaps(System.Collections.Generic.List<StartingListStevne> bitmapStevner)
         //{
@@ -261,13 +283,6 @@
            
         //}
 
-
-
-        private void UploadPresseListe(LeonDirInfo webDir)
-        {
-            this.m_myFtpUtil.UploadFile(this.m_remoteDir, webDir.TargetName, webDir.PresseListeFileName, this.m_remotePresseListeFileName);
-        }
-
         private void UploadPdf(LeonDirInfo webDir)
         {
             this.m_fileLoader.UpdatePdfTimeStamp(webDir);
@@ -298,19 +313,13 @@
                 {
                     return;
                 }
-                if (webDir.StevneForAlleBaner != null)
+
+                foreach (var bitmap in webDir.BitmapsStoredInStevne)
                 {
-                foreach (var baner in webDir.StevneForAlleBaner.DynamiskeBaner)
-                {
-                    if (baner.BitmapsStoredInBane != null)
-                    {
-                        baner.BitmapsStoredInBane.Updated = true;
-                        UploadBitMaps(webDir);
-                    }
-                    
+                    bitmap.Updated = true;
                 }
-                }
-                
+
+                UploadBitMaps(webDir);
 
                 this.m_fileLoader.UpdateWebTimeStamp(webDir);
                 this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
@@ -347,8 +356,6 @@
             var ftpPassWord = ConfigurationManager.AppSettings["FtpPassWord"];
             this.m_remoteDir = ConfigurationManager.AppSettings["RemoteSubDir"];
             this.m_remotePdfFileName = ConfigurationManager.AppSettings["RemotePdfFileName"];
-            this.m_remotePresseListeFileName = ConfigurationManager.AppSettings["RemotePresseListeFileName"];
-            
             string hostIp = ConfigurationManager.AppSettings["FtpHostIp"];
             string hostPort = ConfigurationManager.AppSettings["FtpHostPort"];
 
@@ -362,15 +369,12 @@
 
             string uploadBitmapstr = ConfigurationManager.AppSettings["UploadBitmap"];
 
-            string RapportXsltFilFileName = ConfigurationManager.AppSettings["RapportXsltFil"];
+            //string GravKortXsltFileName = ConfigurationManager.AppSettings["GravKortXslt"];
 
+            string OppropListeMalFileName = ConfigurationManager.AppSettings["OppropListeMal"];
 
-            string TopListSkyttereXsltFileName = ConfigurationManager.AppSettings["TopListSkyttereXsltFil"];
-            string TopListXsltFileName = ConfigurationManager.AppSettings["TopListXsltFil"];
-
-            
-
-
+             string RapportXsltFilFileName = ConfigurationManager.AppSettings["RapportXsltFil"];
+            string  opprop15mPrefix= ConfigurationManager.AppSettings["15mOpprop"];
 
             this.BkUpBitmap = false;
             this.UploadBitmap = false;
@@ -459,19 +463,18 @@
             if (!string.IsNullOrEmpty(m_installDir))
             {
                 this.m_fileLoader = new LeonFileLoader(this.m_installDir);
-                
+                if (!string.IsNullOrEmpty(OppropListeMalFileName))
+                {
+                    this.m_fileLoader.InitOppropListeMal(OppropListeMalFileName);
+                }
+
                 if (!string.IsNullOrEmpty(RapportXsltFilFileName))
                 {
 
                     this.m_fileLoader.InitRapportTransform(RapportXsltFilFileName);
                 }
-
-
-                if (!string.IsNullOrEmpty(RapportXsltFilFileName) && !string.IsNullOrEmpty(TopListSkyttereXsltFileName))
-                {
-
-                    this.m_fileLoader.InitToppListInfoTransform(TopListXsltFileName, TopListSkyttereXsltFileName);
-                }
+                
+                m_fileLoader.Opprop15mPrefix = opprop15mPrefix;
             }
         }
 
@@ -481,7 +484,5 @@
         {
             this.m_stopMe = true;
         }
-
-       
     }
 }

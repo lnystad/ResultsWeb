@@ -16,16 +16,12 @@ namespace FileUploaderService.KME
         public StartingListLag()
         {
             Skiver = new List<StartingListSkive>();
-            LastUpdatedOppropslisteFileInfo = DateTime.MinValue;
-            XmlOppropsListe= new List<string>();
         }
 
         public StartingListLag(int lagnr)
         {
             Skiver = new List<StartingListSkive>();
             LagNr = lagnr;
-            LastUpdatedOppropslisteFileInfo = DateTime.MinValue;
-            XmlOppropsListe = new List<string>();
         }
 
         public StartingListLag(StartingListLag cpy)
@@ -34,29 +30,18 @@ namespace FileUploaderService.KME
             LagNr = cpy.LagNr;
             StevneNavn = cpy.StevneNavn;
             StartTime = cpy.StartTime;
-            LastUpdatedOppropslisteFileInfo = DateTime.MinValue;
-            XmlOppropsListe = new List<string>();
         }
 
-         [XmlIgnore]
-        public List<string> XmlOppropsListe { get; set; } 
+        public string XmlOppropsListe { get; set; } 
       
         public int LagNr { get; set; }
         public string StevneNavn { get; set; }
-        public StevneType StevneType { get; set; }
-        public DateTime? LastUpdatedOppropslisteFileInfo { get; set; }
+        //public StevneType StevneType { get; set; }
 
-        [XmlIgnore]
-        public FileInfo OppropslisteFileInfo { get; set; }
-
-         [XmlIgnore]
-        public FileInfo GravlapplisteFileInfo { get; set; }
-        public bool UpdatedOppropsliste { get; set; }
-
+        public BaneType BaneType { get; set; }
+        
+        
         public DateTime? StartTime { get; set; }
-
-         [XmlIgnore]
-        public HtmlAgilityPack.HtmlDocument Oppropsliste { get; set; }
 
         //public HtmlAgilityPack.HtmlDocument Gravlappliste { get; set; }
 

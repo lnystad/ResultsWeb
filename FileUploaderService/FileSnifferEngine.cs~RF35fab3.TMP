@@ -103,7 +103,7 @@
                                 var bbkupDir = m_myOrionFileLoader15m.CheckForNewBackupFiles();
                                 if (bbkupDir != null)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Femtenmeter);
+                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, StevneType.Femtenmeter);
                                     m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
                                 } 
                             }
@@ -113,7 +113,7 @@
                                 var bbkupDir = m_myOrionFileLoader100m.CheckForNewBackupFiles();
                                 if (bbkupDir != null)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Hundremeter);
+                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, StevneType.Hundremeter);
                                     m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
                                 }
                             }
@@ -123,7 +123,7 @@
                                 var bbkupDir = m_myOrionFileLoader200m.CheckForNewBackupFiles();
                                 if (bbkupDir != null)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Tohundremeter);
+                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, StevneType.Tohundremeter);
                                     m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
                                 }
                             }
@@ -205,15 +205,15 @@
                         dirStevne = Path.GetFileName(dirStevne);
                         navn = ParseHelper.RemoveDirLetters(dirStevne);
                         string prefix = null;
-                        switch (bane.BaneType)
+                        switch (bitmapDirs.StevneType)
                         {
-                            case BaneType.Femtenmeter:
+                            case StevneType.Femtenmeter:
                                 prefix = Constants.Prefix15m;
                                 break;
-                            case BaneType.Hundremeter:
+                            case StevneType.Hundremeter:
                                 prefix = Constants.Prefix100m;
                                 break;
-                            case BaneType.Tohundremeter:
+                            case StevneType.Tohundremeter:
                                 prefix = Constants.Prefix200m;
                                 break;
                         }
@@ -228,6 +228,10 @@
                     }
                 }
             }
+
+
+
+        }
 
         //private void UploadBitMaps(System.Collections.Generic.List<StartingListStevne> bitmapStevner)
         //{
@@ -298,19 +302,13 @@
                 {
                     return;
                 }
-                if (webDir.StevneForAlleBaner != null)
+
+                foreach (var bitmap in webDir.BitmapsStoredInStevne)
                 {
-                foreach (var baner in webDir.StevneForAlleBaner.DynamiskeBaner)
-                {
-                    if (baner.BitmapsStoredInBane != null)
-                    {
-                        baner.BitmapsStoredInBane.Updated = true;
-                        UploadBitMaps(webDir);
-                    }
-                    
+                    bitmap.Updated = true;
                 }
-                }
-                
+
+                UploadBitMaps(webDir);
 
                 this.m_fileLoader.UpdateWebTimeStamp(webDir);
                 this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
@@ -365,13 +363,7 @@
             string RapportXsltFilFileName = ConfigurationManager.AppSettings["RapportXsltFil"];
 
 
-            string TopListSkyttereXsltFileName = ConfigurationManager.AppSettings["TopListSkyttereXsltFil"];
             string TopListXsltFileName = ConfigurationManager.AppSettings["TopListXsltFil"];
-
-            
-
-
-
             this.BkUpBitmap = false;
             this.UploadBitmap = false;
             if (!string.IsNullOrEmpty(bitMapDir) && !string.IsNullOrEmpty(bitMapBackupDir))
@@ -467,10 +459,10 @@
                 }
 
 
-                if (!string.IsNullOrEmpty(RapportXsltFilFileName) && !string.IsNullOrEmpty(TopListSkyttereXsltFileName))
+                if (!string.IsNullOrEmpty(RapportXsltFilFileName))
                 {
 
-                    this.m_fileLoader.InitToppListInfoTransform(TopListXsltFileName, TopListSkyttereXsltFileName);
+                    this.m_fileLoader.InitToppListInfoTransform(TopListXsltFileName);
                 }
             }
         }

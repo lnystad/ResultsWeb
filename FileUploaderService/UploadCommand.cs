@@ -12,7 +12,7 @@ namespace FileUploaderService
         none = 0,
         Web = 1,
         Pdf = 2,
-        StartingList = 4,
+        PresseListe = 4,
         BitMap = 8,
         Reports = 16,
         All = 32
