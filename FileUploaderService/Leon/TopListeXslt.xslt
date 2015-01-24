@@ -34,14 +34,162 @@
 
   <xsl:template match="result">
     <xsl:copy>
-      
+      <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="result/@ref">
+    
+  </xsl:template>
+  
+  <xsl:template match="result[@ref]">
+
+    <xsl:variable name="LagskytingRapport">
+      <xsl:choose>
+        <xsl:when test="/Merged/report/header/@name='Ungdom'">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:when test="/Merged/report/header/@name='Ungdom individuell'">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:when test="/Merged/report/header/@name='Veteran'">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:when test="/Merged/report/header/@name='Veteran individuell'">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:when test="/Merged/report/header/@name='Senior'">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:when test="/Merged/report/header/@name='Senior individuell'">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="boolean(0)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
+
+    </xsl:variable>
+
+
+    <xsl:variable name="ClassValue">
+      <xsl:value-of select="@class"/>
+    </xsl:variable>
+    <xsl:variable name="UseClass">
+      <xsl:choose>
+        <xsl:when test="string($ClassValue)!=''">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="boolean(0)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="CurrentSkytter">
+      <xsl:value-of select="concat(utils:TuUpper(@name),utils:TuUpper(@club),utils:TuUpper(@class))"/>
+    </xsl:variable>
+
+    <xsl:variable name="FoundSkyttere">
+      <Hits>
+        <xsl:for-each select="/Merged/Skyttere" >
+          <xsl:for-each select="Skytter" >
+            <xsl:variable name="CurrentRowSkytter">
+              <xsl:choose>
+                <xsl:when test="string($UseClass)='true'">
+                  <xsl:value-of select="concat(utils:TuUpper(@name),utils:TuUpper(@club),utils:TuUpper(@class))"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="concat(utils:TuUpper(@name),utils:TuUpper(@club))"/>
+                </xsl:otherwise>
+              </xsl:choose>
+
+            </xsl:variable>
+
+            <xsl:if test="$CurrentSkytter = $CurrentRowSkytter">
+              <Hit>
+                <xsl:copy-of select="current()"/>
+              </Hit>
+            </xsl:if>
+          </xsl:for-each>
+        </xsl:for-each>
+      </Hits>
+    </xsl:variable>
+
+    <xsl:variable name="FoundSkytter">
+      <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@name"/>
+    </xsl:variable>
+
+
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='false'">
+          <xsl:attribute name="ref">
+            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
+          </xsl:attribute>
+        </xsl:when>
+        <!--<xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='true'">
+          <xsl:attribute name="ref">
+            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@reflag"/>
+          </xsl:attribute>
+        </xsl:when>-->
+
+      </xsl:choose>
+      <xsl:apply-templates select="@*|node()"/>
+
+    </xsl:copy>
+  </xsl:template>
   <!-- this template is applied to a path node that doesn't have a fill attribute -->
+  
   <xsl:template match="result[not(@ref)]">
     <!-- copy me and my attributes and my subnodes, applying templates as necessary, and add a fill attribute set to red -->
-   
+
+  
+      <xsl:variable name="LagskytingRapport">
+        <xsl:choose>
+          <xsl:when test="/Merged/report/header/@name='Ungdom'">
+            <xsl:value-of select="boolean(1)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/header/@name='Ungdom individuell'">
+            <xsl:value-of select="boolean(1)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/header/@name='Veteran'">
+            <xsl:value-of select="boolean(1)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/header/@name='Veteran individuell'">
+            <xsl:value-of select="boolean(1)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/header/@name='Senior'">
+            <xsl:value-of select="boolean(1)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/header/@name='Senior individuell'">
+            <xsl:value-of select="boolean(1)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="boolean(0)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        
+        
+      </xsl:variable>  
+    
+    
+    
+    <xsl:variable name="ClassValue">
+      <xsl:value-of select="@class"/>
+    </xsl:variable>
+    <xsl:variable name="UseClass">
+      <xsl:choose>
+        <xsl:when test="string($ClassValue)!=''">
+          <xsl:value-of select="boolean(1)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="boolean(0)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
     <xsl:variable name="CurrentSkytter">
       <xsl:value-of select="concat(utils:TuUpper(@name),utils:TuUpper(@club),utils:TuUpper(@class))"/>
     </xsl:variable>
@@ -51,7 +199,15 @@
          <xsl:for-each select="/Merged/Skyttere" >
             <xsl:for-each select="Skytter" >
               <xsl:variable name="CurrentRowSkytter">
-                <xsl:value-of select="concat(utils:TuUpper(@name),utils:TuUpper(@club),utils:TuUpper(@class))"/>
+                <xsl:choose>
+                  <xsl:when test="string($UseClass)='true'">
+                    <xsl:value-of select="concat(utils:TuUpper(@name),utils:TuUpper(@club),utils:TuUpper(@class))"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="concat(utils:TuUpper(@name),utils:TuUpper(@club))"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+
               </xsl:variable>
              
                <xsl:if test="$CurrentSkytter = $CurrentRowSkytter">
@@ -70,11 +226,20 @@
 
 
     <xsl:copy>
-      <xsl:if test="string($FoundSkytter) !=''">
-        <xsl:attribute name="ref">
-          <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
-        </xsl:attribute>
-      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='false'">
+          <xsl:attribute name="ref">
+            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
+          </xsl:attribute>
+        </xsl:when>
+        <!--<xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='true'">
+          <xsl:attribute name="ref">
+            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@reflag"/>
+          </xsl:attribute>
+        </xsl:when>-->
+      
+      </xsl:choose>
+      
       <xsl:apply-templates select="@*|node()"/>
 
     </xsl:copy>

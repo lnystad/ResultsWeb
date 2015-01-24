@@ -20,8 +20,6 @@ namespace FileUploaderService.KME
     using System.Xml.XPath;
     using System.Xml.Xsl;
 
-    using HtmlAgilityPack;
-
     using SendingResults.Diagnosis;
 
     /// <summary>
@@ -51,9 +49,16 @@ namespace FileUploaderService.KME
         /// </summary>
         private XslCompiledTransform m_xsltRapport;
 
+        /// <summary>
+        /// The m_xslt topp list.
+        /// </summary>
         private XslCompiledTransform m_xsltToppList;
 
+        /// <summary>
+        /// The m_xslt topp list skyttere.
+        /// </summary>
         private XslCompiledTransform m_xsltToppListSkyttere;
+
         #endregion
 
         #region Constructors and Destructors
@@ -76,11 +81,12 @@ namespace FileUploaderService.KME
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether debug merged xml.
+        /// </summary>
+        public bool DebugMergedXml { get; set; }
+
         #endregion
-
-        #region Properties
-
-     #endregion
 
         #region Public Methods and Operators
 
@@ -166,10 +172,16 @@ namespace FileUploaderService.KME
                                         element.Command = element.Command | UploadCommand.Pdf;
                                     }
 
-                                   
                                     if (element.CheckBitMap())
                                     {
                                         Log.Info("Updated Bitmap Detected name");
+                                        
+                                        if (this.GenerateNewReports(element))
+                                        {
+                                            Log.Info("Updated Reports Detected name");
+                                            element.Command = element.Command | UploadCommand.Reports;
+                                        }
+
                                         element.Command = element.Command | UploadCommand.BitMap;
                                     }
 
@@ -178,7 +190,7 @@ namespace FileUploaderService.KME
                                         Log.Info("Updated Presseliste Detected name");
                                         element.Command = element.Command | UploadCommand.PresseListe;
                                     }
-                                 
+
                                     if (element.Command != UploadCommand.none)
                                     {
                                         return element;
@@ -201,8 +213,6 @@ namespace FileUploaderService.KME
                 return null;
             }
         }
-
-       
 
         /// <summary>
         /// The init rapport transform.
@@ -233,54 +243,6 @@ namespace FileUploaderService.KME
             }
         }
 
-        internal void InitToppListInfoTransform(string filename, string skytterxsltfilenavn)
-        {
-            if (File.Exists(filename))
-            {
-                this.m_xsltToppList = new XslCompiledTransform(true);
-                try
-                {
-                    // var myxsltResv = new MyXmlResolver();
-                    // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
-                    XsltSettings settings = new XsltSettings();
-                    settings.EnableScript = true;
-                    this.m_xsltToppList.Load(filename, settings, null);
-                }
-                catch (XsltException e)
-                {
-                    Log.Error(e, "Line={0} pos={1} File={2}", e.LineNumber, e.LinePosition, filename);
-                    throw;
-                }
-            }
-            else
-            {
-                Log.Info("Could not find file {0}", filename);
-            }
-
-            if (File.Exists(skytterxsltfilenavn))
-            {
-                this.m_xsltToppListSkyttere = new XslCompiledTransform(true);
-                try
-                {
-                    XsltSettings settings = new XsltSettings();
-                    settings.EnableScript = true;
-                    // var myxsltResv = new MyXmlResolver();
-                    // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
-                    this.m_xsltToppListSkyttere.Load(skytterxsltfilenavn, settings, null);
-                }
-                catch (XsltException e)
-                {
-                    Log.Error(e, "Line={0} pos={1} File={2}", e.LineNumber, e.LinePosition, skytterxsltfilenavn);
-                    throw;
-                }
-            }
-            else
-            {
-                Log.Info("Could not find file {0}", filename);
-            }
-
-        }
-
         #endregion
 
         #region Methods
@@ -300,6 +262,7 @@ namespace FileUploaderService.KME
                     Log.Error("ReportDirStevneNavn is empty for stevne={0}", stevne.StevneNavn);
                     continue;
                 }
+
                 var stevnePath = Path.Combine(this.m_installDir, stevne.ReportDirStevneNavn);
                 if (!Directory.Exists(stevnePath))
                 {
@@ -311,6 +274,7 @@ namespace FileUploaderService.KME
                 {
                     Directory.CreateDirectory(bitMapPath);
                 }
+
                 foreach (var bane in stevne.DynamiskeBaner)
                 {
                     string subdir = null;
@@ -337,9 +301,8 @@ namespace FileUploaderService.KME
                     {
                         LagsNr.SortSkiver();
                         MoveAllFoundFiles(bitMapPath, subdir, LagsNr);
-                    } 
+                    }
                 }
-                
             }
         }
 
@@ -349,10 +312,13 @@ namespace FileUploaderService.KME
         /// <param name="bbkupDir">
         /// The bbkup dir.
         /// </param>
+        /// <param name="baneType">
+        /// The bane Type.
+        /// </param>
         /// <returns>
         /// The <see cref="List"/>.
         /// </returns>
-        internal List<StartingListStevne> GetStartListForDate(List<DirectoryInfo> bbkupDir,BaneType baneType)
+        internal List<StartingListStevne> GetStartListForDate(List<DirectoryInfo> bbkupDir, BaneType baneType)
         {
             List<StartingListStevne> retList = new List<StartingListStevne>();
 
@@ -402,8 +368,8 @@ namespace FileUploaderService.KME
                             {
                                 if (bane.BaneType == baneType)
                                 {
-                                   StartListBane.SetStartAndEndDate(bane);
-                                   if (arrangeDate >= bane.StartDate && arrangeDate <= bane.EndDate)
+                                    StartListBane.SetStartAndEndDate(bane);
+                                    if (arrangeDate >= bane.StartDate && arrangeDate <= bane.EndDate)
                                     {
                                         foreach (var lag in bane.StevneLag)
                                         {
@@ -415,25 +381,24 @@ namespace FileUploaderService.KME
                                             DateTime dato = new DateTime(lag.StartTime.Value.Year, lag.StartTime.Value.Month, lag.StartTime.Value.Day);
                                             if (dato == arrangeDate)
                                             {
-                                                Log.Info("Found matching start list {0} {1} dato={2} stevnenavn={3} type={4}",
-                                                    bane.StevneNavn,
+                                                Log.Info(
+                                                    "Found matching start list {0} {1} dato={2} stevnenavn={3} type={4}", 
+                                                    bane.StevneNavn, 
                                                     bane.StartDate, 
-                                                    dato,
-                                                    bane.BaneType,
+                                                    dato, 
+                                                    bane.BaneType, 
                                                     bane.StevneNavn);
 
                                                 var found = candidates.FirstOrDefault(x => x.StevneNavn == dirFound.StevneForAlleBaner.StevneNavn);
                                                 if (found == null)
                                                 {
                                                     candidates.Add(bane);
-                                                }  
+                                                }
                                             }
                                         }
-         
-                                    } 
+                                    }
                                 }
                             }
-                            
                         }
                     }
 
@@ -456,7 +421,11 @@ namespace FileUploaderService.KME
                                             stevne.StevneNavn = candidates[0].StevneNavn;
                                             bane.BaneType = candidates[0].BaneType;
                                             stevne.ReportDirStevneNavn = candidates[0].ReportDirStevneNavn;
-                                            Log.Info("Create new stevne {0} type={1} dir={2}", stevne.StevneNavn, bane.BaneType, stevne.ReportDirStevneNavn);
+                                            Log.Info(
+                                                "Create new stevne {0} type={1} dir={2}", 
+                                                stevne.StevneNavn, 
+                                                bane.BaneType, 
+                                                stevne.ReportDirStevneNavn);
                                             lag = new StartingListLag(startingLag);
                                             bane.AddLag(lag);
                                             stevne.DynamiskeBaner.Add(bane);
@@ -465,7 +434,7 @@ namespace FileUploaderService.KME
                                         }
                                         else
                                         {
-                                            StartListBane bane = FindBane(stevne, baneType);
+                                            StartListBane bane = this.FindBane(stevne, baneType);
                                             if (bane == null)
                                             {
                                                 Log.Error("Could not find bane candidate for stevne={0}", stevne.StevneNavn);
@@ -482,7 +451,6 @@ namespace FileUploaderService.KME
 
                                         var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.*", lag.LagNr));
                                         lag.Skiver = this.ParseLagInfo(files);
-                                       
                                     }
                                 }
                             }
@@ -504,12 +472,12 @@ namespace FileUploaderService.KME
                                         {
                                             if (bane.BaneType == baneType && !string.IsNullOrEmpty(bane.StevneNavn))
                                             {
-                                                 var stevneNavn = bane.StevneNavn.Replace(',', ' ');
-                                                 stevneNavn = stevneNavn.Replace('/', ' ');
-                                                 stevneNavn = stevneNavn.Replace('\\', ' ');
-                                                 stevneNavn = stevneNavn.Replace(" ", "");
-                                                 var bitmapdir = bitmapLagDir.StevneNavnInDirName.Replace(" ", "");
-                                                 if (string.Compare(stevneNavn, bitmapdir, StringComparison.OrdinalIgnoreCase) == 0)
+                                                var stevneNavn = bane.StevneNavn.Replace(',', ' ');
+                                                stevneNavn = stevneNavn.Replace('/', ' ');
+                                                stevneNavn = stevneNavn.Replace('\\', ' ');
+                                                stevneNavn = stevneNavn.Replace(" ", string.Empty);
+                                                var bitmapdir = bitmapLagDir.StevneNavnInDirName.Replace(" ", string.Empty);
+                                                if (string.Compare(stevneNavn, bitmapdir, StringComparison.OrdinalIgnoreCase) == 0)
                                                 {
                                                     var stevne = FindStevne(retList, bane.StevneNavn);
                                                     StartingListLag lag;
@@ -522,10 +490,14 @@ namespace FileUploaderService.KME
                                                         nybane.BaneType = bane.BaneType;
                                                         stevne.DynamiskeBaner.Add(nybane);
                                                         stevne.ReportDirStevneNavn = bane.ReportDirStevneNavn;
-                                                        Log.Info("Create new stevne {0} type={1} dir={2}", stevne.StevneNavn, bane.BaneType, bane.ReportDirStevneNavn);
+                                                        Log.Info(
+                                                            "Create new stevne {0} type={1} dir={2}", 
+                                                            stevne.StevneNavn, 
+                                                            bane.BaneType, 
+                                                            bane.ReportDirStevneNavn);
 
                                                         lag = new StartingListLag(bitmapLagDir.LagNr);
-                                                        nybane.StevneLag.Add(lag); 
+                                                        nybane.StevneLag.Add(lag);
                                                         retList.Add(stevne);
                                                     }
                                                     else
@@ -539,15 +511,14 @@ namespace FileUploaderService.KME
                                                             currentbane.StevneLag.Add(lag);
                                                         }
                                                     }
-                                                    
+
                                                     var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.*", bitmapLagDir.LagNr));
                                                     lag.Skiver = this.ParseLagInfo(files);
-                                                 }
+                                                }
                                             }
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -557,28 +528,61 @@ namespace FileUploaderService.KME
             return retList;
         }
 
-        private StartListBane FindBane(StartingListStevne stevne, BaneType baneType)
+        /// <summary>
+        /// The init topp list info transform.
+        /// </summary>
+        /// <param name="filename">
+        /// The filename.
+        /// </param>
+        /// <param name="skytterxsltfilenavn">
+        /// The skytterxsltfilenavn.
+        /// </param>
+        internal void InitToppListInfoTransform(string filename, string skytterxsltfilenavn)
         {
-            if (stevne == null)
+            if (File.Exists(filename))
             {
-                return null;
-            }
-
-            if (stevne.DynamiskeBaner == null)
-            {
-                return null;
-            }
-
-            foreach (var bane in stevne.DynamiskeBaner)
-            {
-
-                if (bane.BaneType == baneType)
+                this.m_xsltToppList = new XslCompiledTransform(true);
+                try
                 {
-                    return bane;
+                    // var myxsltResv = new MyXmlResolver();
+                    // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
+                    XsltSettings settings = new XsltSettings();
+                    settings.EnableScript = true;
+                    this.m_xsltToppList.Load(filename, settings, null);
+                }
+                catch (XsltException e)
+                {
+                    Log.Error(e, "Line={0} pos={1} File={2}", e.LineNumber, e.LinePosition, filename);
+                    throw;
                 }
             }
+            else
+            {
+                Log.Info("Could not find file {0}", filename);
+            }
 
-            return null;
+            if (File.Exists(skytterxsltfilenavn))
+            {
+                this.m_xsltToppListSkyttere = new XslCompiledTransform(true);
+                try
+                {
+                    XsltSettings settings = new XsltSettings();
+                    settings.EnableScript = true;
+
+                    // var myxsltResv = new MyXmlResolver();
+                    // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
+                    this.m_xsltToppListSkyttere.Load(skytterxsltfilenavn, settings, null);
+                }
+                catch (XsltException e)
+                {
+                    Log.Error(e, "Line={0} pos={1} File={2}", e.LineNumber, e.LinePosition, skytterxsltfilenavn);
+                    throw;
+                }
+            }
+            else
+            {
+                Log.Info("Could not find file {0}", filename);
+            }
         }
 
         /// <summary>
@@ -638,8 +642,6 @@ namespace FileUploaderService.KME
             }
         }
 
-        
-
         /// <summary>
         /// The update web time stamp.
         /// </summary>
@@ -685,6 +687,128 @@ namespace FileUploaderService.KME
         }
 
         /// <summary>
+        /// The merge documents input.
+        /// </summary>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <returns>
+        /// The <see cref="MemoryStream"/>.
+        /// </returns>
+        private static MemoryStream MergeDocumentsInput(XmlDocument a, XmlDocument b)
+        {
+            MemoryStream combine;
+            Encoding enc;
+            StreamReader reader;
+
+            foreach (XmlNode node in a)
+            {
+                if (node.NodeType == XmlNodeType.XmlDeclaration)
+                {
+                    a.RemoveChild(node);
+                }
+            }
+
+            foreach (XmlNode node in b)
+            {
+                if (node.NodeType == XmlNodeType.XmlDeclaration)
+                {
+                    b.RemoveChild(node);
+                }
+            }
+
+            XDocument ax;
+            using (var nodeReader = new XmlNodeReader(a))
+            {
+                nodeReader.MoveToContent();
+                ax = XDocument.Load(nodeReader);
+            }
+
+            XDocument bx;
+            using (var nodeReader = new XmlNodeReader(b))
+            {
+                nodeReader.MoveToContent();
+                bx = XDocument.Load(nodeReader);
+            }
+
+            XElement root = new XElement("Merged");
+            root.Add(ax.Root);
+            root.Add(bx.Root);
+
+            XDocument docMerged = new XDocument(root);
+
+            combine = new MemoryStream();
+
+            docMerged.Save(combine);
+            combine.Position = 0;
+
+            // enc = new UTF8Encoding(false);
+            // reader = new StreamReader(combine, enc, true);
+            // XmlTextReader xmlReader = new XmlTextReader(reader);
+
+            // var XmlDOc = new XmlDocument();
+            // XmlDOc.Load(xmlReader);
+            // combine.Position = 0;
+            return combine;
+        }
+
+        /// <summary>
+        /// The merge documents input.
+        /// </summary>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <returns>
+        /// The <see cref="MemoryStream"/>.
+        /// </returns>
+        private static MemoryStream MergeDocumentsInput(List<XmlDocument> a)
+        {
+            MemoryStream combine;
+            Encoding enc;
+            StreamReader reader;
+            if (a == null)
+            {
+                return null;
+            }
+
+            XElement root = new XElement("Merged");
+
+            foreach (var doc in a)
+            {
+                foreach (XmlNode node in doc)
+                {
+                    if (doc.NodeType == XmlNodeType.XmlDeclaration)
+                    {
+                        doc.RemoveChild(node);
+                    }
+                }
+
+                XDocument docx;
+                using (var nodeReader = new XmlNodeReader(doc))
+                {
+                    nodeReader.MoveToContent();
+                    docx = XDocument.Load(nodeReader);
+                }
+
+                root.Add(docx.Root);
+            }
+
+            XDocument docMerged = new XDocument(root);
+
+            combine = new MemoryStream();
+            docMerged.Save(combine);
+            combine.Position = 0;
+
+            // var XmlDOc = new XmlDocument();
+            // XmlDOc.Load(xmlReader);
+            // combine.Position = 0;
+            return combine;
+        }
+
+        /// <summary>
         /// The move all found files.
         /// </summary>
         /// <param name="bitMapPath">
@@ -714,7 +838,7 @@ namespace FileUploaderService.KME
                         try
                         {
                             FileInfo inf = new FileInfo(destFileName);
-                        
+
                             if (inf.Exists)
                             {
                                 var filenameonly = Path.GetFileNameWithoutExtension(inf.Name);
@@ -724,11 +848,9 @@ namespace FileUploaderService.KME
                                 {
                                     Directory.CreateDirectory(destDirDublettDir);
                                 }
-                                
+
                                 Log.Warning("Bitmap destination file already exstst {0}", inf.FullName);
                                 DateTime time = DateTime.Now;
-
-
 
                                 string backup = time.ToString("yyyyMMddHHmmss");
                                 string oldFileName = string.Format("{0}old{1}.PNG", filenameonly, backup);
@@ -781,6 +903,75 @@ namespace FileUploaderService.KME
             }
 
             return listRet;
+        }
+
+        /// <summary>
+        /// The copy reader.
+        /// </summary>
+        /// <param name="readerStream">
+        /// The reader stream.
+        /// </param>
+        /// <param name="filename">
+        /// The filename.
+        /// </param>
+        private void CopyReader(MemoryStream readerStream, string filename)
+        {
+            if (this.DebugMergedXml)
+            {
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+                settings.Encoding = new UTF8Encoding(false);
+
+                MemoryStream cpy = new MemoryStream(readerStream.ToArray());
+                cpy.Position = 0;
+                XmlDocument doc = new XmlDocument();
+                doc.Load(cpy);
+                var dirname = Path.GetDirectoryName(filename);
+                var dirnameDebug = Path.Combine(dirname, "Debug");
+                if (!Directory.Exists(dirnameDebug))
+                {
+                    Directory.CreateDirectory(dirnameDebug);
+                }
+
+                var newfilename = Path.GetFileName(filename);
+                var newfileanem = Path.Combine(dirnameDebug, "Merge" + newfilename);
+                doc.Save(newfileanem);
+            }
+        }
+
+        /// <summary>
+        /// The find bane.
+        /// </summary>
+        /// <param name="stevne">
+        /// The stevne.
+        /// </param>
+        /// <param name="baneType">
+        /// The bane type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="StartListBane"/>.
+        /// </returns>
+        private StartListBane FindBane(StartingListStevne stevne, BaneType baneType)
+        {
+            if (stevne == null)
+            {
+                return null;
+            }
+
+            if (stevne.DynamiskeBaner == null)
+            {
+                return null;
+            }
+
+            foreach (var bane in stevne.DynamiskeBaner)
+            {
+                if (bane.BaneType == baneType)
+                {
+                    return bane;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -838,7 +1029,6 @@ namespace FileUploaderService.KME
             bool update = false;
             foreach (var bane in element.StevneForAlleBaner.DynamiskeBaner)
             {
-
                 List<XmlDocument> SkyttereiLaget = new List<XmlDocument>();
                 foreach (var rapport in bane.BaneRapporter)
                 {
@@ -849,19 +1039,25 @@ namespace FileUploaderService.KME
                             XPathDocument xpathDoc;
 
                             var outputXmlStream = new MemoryStream { Position = 0 };
-                            var reader = MergeDocumentsInput(rapport.Rapport, rapport.BitMapInfo);
+                            var readerStream = MergeDocumentsInput(rapport.Rapport, rapport.BitMapInfo);
+                            this.CopyReader(readerStream, rapport.Filnavn);
+
+                            var enc = new UTF8Encoding(false);
+                            var reader = new StreamReader(readerStream, enc, true);
+
+                            // XmlTextReader xmlReader = new XmlTextReader(reader);
                             xpathDoc = new XPathDocument(reader);
-                            
+
                             this.m_xsltRapport.Transform(xpathDoc, null, outputXmlStream);
                             update = true;
                             outputXmlStream.Position = 0;
                             XmlDocument docSaver = new XmlDocument();
-                            Encoding enc = new UTF8Encoding(false);
                             StreamReader readerOut = new StreamReader(outputXmlStream, enc, true);
                             XmlTextReader xmlReaderOut = new XmlTextReader(readerOut);
                             docSaver.Load(xmlReaderOut);
                             if (!string.IsNullOrEmpty(rapport.Filnavn))
                             {
+                                Log.Info("Generating new Start List {0}", rapport.Filnavn);
                                 var encServer = Encoding.GetEncoding("ISO-8859-1");
                                 XmlTextWriter writer = new XmlTextWriter(rapport.Filnavn, encServer);
                                 writer.Formatting = Formatting.Indented;
@@ -903,10 +1099,9 @@ namespace FileUploaderService.KME
                         }
                     }
                 }
+
                 if (this.m_xsltToppList != null && SkyttereiLaget.Count > 0)
                 {
-
-
                     foreach (var toppListe in bane.ToppListeRapporter)
                     {
                         if (toppListe.ToppListInfoWithRef != null)
@@ -920,26 +1115,29 @@ namespace FileUploaderService.KME
                                 }
 
                                 docs.Add(toppListe.ToppListInfoWithRef);
-                                
+
                                 XPathDocument xpathDoc;
                                 var outputXmlStream = new MemoryStream { Position = 0 };
 
-                                var reader = MergeDocumentsInput(docs);
+                                var readerStream = MergeDocumentsInput(docs);
+                                this.CopyReader(readerStream, toppListe.Filnavn);
+                                Encoding enc = new UTF8Encoding(false);
+                                readerStream.Position = 0;
+                                var reader = new StreamReader(readerStream, enc, true);
 
-                                //XmlDocument doc = new XmlDocument();
-                                //doc.Load(reader);
                                 xpathDoc = new XPathDocument(reader);
 
                                 this.m_xsltToppList.Transform(xpathDoc, null, outputXmlStream);
                                 update = true;
                                 outputXmlStream.Position = 0;
                                 XmlDocument docSaver = new XmlDocument();
-                                Encoding enc = new UTF8Encoding(false);
+
                                 StreamReader readerOut = new StreamReader(outputXmlStream, enc, true);
                                 XmlTextReader xmlReaderOut = new XmlTextReader(readerOut);
                                 docSaver.Load(xmlReaderOut);
                                 if (!string.IsNullOrEmpty(toppListe.Filnavn))
                                 {
+                                    Log.Info("Generating new Top List {0}", toppListe.Filnavn);
                                     var encServer = Encoding.GetEncoding("ISO-8859-1");
                                     XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer);
                                     writer.Formatting = Formatting.Indented;
@@ -948,6 +1146,7 @@ namespace FileUploaderService.KME
                                     writer.Close();
                                     writer.Dispose();
                                 }
+
                                 readerOut.Dispose();
                                 reader.Dispose();
                             }
@@ -971,109 +1170,6 @@ namespace FileUploaderService.KME
             }
 
             return update;
-        }
-
-        private static XmlTextReader MergeDocumentsInput(XmlDocument a, XmlDocument b)
-           {
-            MemoryStream combine;
-            Encoding enc;
-            StreamReader reader;
-        
-            foreach (XmlNode node in a)
-            {
-                if (node.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    a.RemoveChild(node);
-                }
-            }
-
-            foreach (XmlNode node in b)
-            {
-                if (node.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    b.RemoveChild(node);
-                }
-            }
-
-            XDocument ax;
-            using (var nodeReader = new XmlNodeReader(a))
-            {
-                nodeReader.MoveToContent();
-                ax = XDocument.Load(nodeReader);
-            }
-
-            XDocument bx;
-            using (var nodeReader = new XmlNodeReader(b))
-            {
-                nodeReader.MoveToContent();
-                bx = XDocument.Load(nodeReader);
-            }
-
-            XElement root = new XElement("Merged");
-            root.Add(ax.Root);
-            root.Add(bx.Root);
-
-            XDocument docMerged = new XDocument(root);
-
-            combine = new MemoryStream();
-            docMerged.Save(combine);
-            combine.Position = 0;
-            enc = new UTF8Encoding(false);
-            reader = new StreamReader(combine, enc, true);
-            XmlTextReader xmlReader = new XmlTextReader(reader);
-
-            //var XmlDOc = new XmlDocument();
-            //XmlDOc.Load(xmlReader);
-            //combine.Position = 0;
-           
-            return xmlReader;
-        }
-
-        private static XmlTextReader MergeDocumentsInput(List<XmlDocument> a)
-        {
-            MemoryStream combine;
-            Encoding enc;
-            StreamReader reader;
-            if (a == null)
-            {
-                return null;
-            }
-            XElement root = new XElement("Merged");
-
-            foreach (var doc in a)
-            {
-                foreach (XmlNode node in doc)
-                {
-                    if (doc.NodeType == XmlNodeType.XmlDeclaration)
-                    {
-                        doc.RemoveChild(node);
-                    }
-                }
-
-                XDocument docx;
-                using (var nodeReader = new XmlNodeReader(doc))
-                {
-                    nodeReader.MoveToContent();
-                    docx = XDocument.Load(nodeReader);
-                }
-
-                root.Add(docx.Root);
-            }
-
-            XDocument docMerged = new XDocument(root);
-
-            combine = new MemoryStream();
-            docMerged.Save(combine);
-            combine.Position = 0;
-            enc = new UTF8Encoding(false);
-            reader = new StreamReader(combine, enc, true);
-            XmlTextReader xmlReader = new XmlTextReader(reader);
-
-            //var XmlDOc = new XmlDocument();
-            //XmlDOc.Load(xmlReader);
-            //combine.Position = 0;
-
-            return xmlReader;
         }
 
         /// <summary>
@@ -1106,7 +1202,5 @@ namespace FileUploaderService.KME
         }
 
         #endregion
-
-       
     }
 }

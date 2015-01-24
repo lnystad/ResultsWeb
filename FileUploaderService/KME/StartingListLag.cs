@@ -39,8 +39,9 @@ namespace FileUploaderService.KME
         //public StevneType StevneType { get; set; }
 
         public BaneType BaneType { get; set; }
-        
-        
+
+        public ProgramType ProgramType { get; set; }
+
         public DateTime? StartTime { get; set; }
 
         //public HtmlAgilityPack.HtmlDocument Gravlappliste { get; set; }
@@ -114,13 +115,13 @@ namespace FileUploaderService.KME
 
         public bool Equals(StartingListLag other)
         {
-            return other.LagNr == this.LagNr;
+            return other.LagNr == this.LagNr && other.ProgramType == ProgramType;
         }
 
         public void SortSkiver()
         {
-           
-            Skiver = Skiver.OrderBy(x => x.SkiveNr).ToList();
+
+            this.Skiver = this.Skiver.OrderBy(x => x.SkiveNr).ToList();
         }
 
         internal void SetNotCheckOnAllSkiver()
@@ -210,14 +211,15 @@ namespace FileUploaderService.KME
 
                 if (day > 0 && month > 0 )
                 {
-                    if (month > DateTime.Now.Month)
-                    {
-                        oppropsTid = new DateTime(year.Year - 1, month, day, 0, 0, 0);
-                    }
-                    else
-                    {
+                    //LANTODO
+                    //if (month > DateTime.Now.Month)
+                    //{
+                    //    oppropsTid = new DateTime(year.Year - 1, month, day, 0, 0, 0);
+                    //}
+                    //else
+                    //{
                         oppropsTid = new DateTime(year.Year, month, day, 0, 0, 0);
-                    }
+                    //}
                 }
             }
 
@@ -284,6 +286,34 @@ namespace FileUploaderService.KME
 
              return -1;
             
+        }
+
+        internal static ProgramType ParseOvelse(string text)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                string ovelse = text.Trim().ToUpper();
+                switch (ovelse)
+                {
+                    case "INNLEDENDE":
+                        return ProgramType.Innledende;
+                        break;
+                    case "FINALE":
+                        return ProgramType.Finale;
+                        break;
+                    case "LAGSKYTING":
+                        return ProgramType.Lagskyting;
+                        break;
+                    case "SAMLAGSSKYTING":
+                        return ProgramType.SamLagskyting;
+                        break;
+                    case "NY GRUPPE":
+                        return ProgramType.Lagskyting;
+                        break;
+                }
+            }
+
+            return ProgramType.Innledende;
         }
     }
 }

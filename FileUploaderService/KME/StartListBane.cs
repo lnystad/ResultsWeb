@@ -120,7 +120,20 @@ namespace FileUploaderService.KME
                     return BaneType.Tohundremeter;
                 }
 
-                return BaneType.Femtenmeter;
+                if (lagText.Contains(Constants.PrefixOnly200m))
+                {
+                    return BaneType.Tohundremeter;
+                }
+
+                if (lagText.Contains(Constants.PrefixOnly300m))
+                {
+                    return BaneType.Tohundremeter;
+                }
+
+                if (lagText.Contains(Constants.Prefix15m))
+                {
+                    return BaneType.Femtenmeter;
+                }
             }
 
             return BaneType.Undefined;

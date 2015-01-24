@@ -1,5 +1,6 @@
 var resultnum;
 var resultname;
+var resultpngref;
 var resulttotsum;
 var resultinnerten;
 var resultnote;
@@ -52,7 +53,7 @@ $.extend({
 				h=$(b).find("teaminnerten").attr("name");
 				j=$(b).find("teamote").attr("name");
 				resultnum=$(b).find("resultnum").attr("name");
-				resultname=$(b).find("resultname").attr("name");
+				resultname = $(b).find("resultname").attr("name");
 				resultclub=$(b).find("resultclub").attr("name");
 				resultclass=$(b).find("resultclass").attr("name");
 				resultclasssub=$(b).find("resultclasssub").attr("name");
@@ -203,6 +204,7 @@ function ParseResult(a, r) {
 	var o;
 	var p;
 	var q;
+	var png;
 	c = '';
 	var s = r.substring(0, 3);
 	$(a).find("result").each(function() {
@@ -216,8 +218,9 @@ function ParseResult(a, r) {
                 OPPRETT LINK HER
             */
 		    e = $(this).attr("name");
-            if(s === "Lag")
-                b += '<td id="resultname" ><a href="15m/TR-' + r.substring(4, r.length) + '-' + d + '.PNG" target="_blank" onmouseover="style.textDecoration=\'underline\'" onmouseout="style.textDecoration=\'none\'" style="color:#0066cc;">' + e + '</a></td>'
+		    png = $(this).attr("ref");
+		    if (png)
+               b += '<td id="resultname" ><a href="'+ png + '" target="_blank" onmouseover="style.textDecoration=\'underline\'" onmouseout="style.textDecoration=\'none\'" style="color:#0066cc;">' + e + '</a></td>'
 		    else
                 b += '<td id="resultname" >' + e + '</td>'
 		} if (resultclub != undefined) {

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <report>
+    <header name="Lag 1" />
+    <resultnum name="Sk" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultclass name="Kl." />
+    <resultcategory name="Kat." />
+    <resulttotsum name="25-skudd" />
+    <column>
+      <series id="1" name="1. serie" type="series_shot_sum" />
+      <series id="2" name="2. serie" type="series_shot_sum" />
+      <series id="3" name="3. serie" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10 skudd" type="series_shot_sum" />
+    </column>
+    <data>
+      <result ref="100m/TR-1-1.PNG" num="1" name="Vegard Ysland" club="Bodø Østre " class="ER" category="" totsum="249">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="99">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+        </series>
+      </result>
+      <result ref="100m/TR-1-2.PNG" num="2" name="Carina Ysland" club="Bodø Østre " class="R" category="" totsum="241">
+        <series id="1" sum="48">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="47">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="48">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+        </series>
+        <series id="4" sum="143" />
+        <series id="5" sum="98">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+    </data>
+  </report>
+  <BitmapDirInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Bitmaps>
+      <FileName>TR-1-1.PNG</FileName>
+      <FileName>TR-1-2.PNG</FileName>
+      <FileName>TR-2-1.PNG</FileName>
+      <FileName>TR-2-2.PNG</FileName>
+    </Bitmaps>
+    <BaneType>Hundremeter</BaneType>
+    <BitmapSubDir>100m</BitmapSubDir>
+    <Updated>true</Updated>
+    <Initial>false</Initial>
+  </BitmapDirInfo>
+</Merged>

@@ -61,6 +61,7 @@
     <Compile Include="Orion\OrionStevneInfo.cs" />
     <Compile Include="ProcessMemoryReader.cs" />
     <Compile Include="BaneType.cs" />
+    <Compile Include="ProgramType.cs" />
     <Compile Include="StevneType.cs" />
     <Compile Include="Orion\Lag.cs" />
     <Compile Include="Orion\Skive.cs" />
@@ -87,6 +88,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="KME\opproplistemal.html" />
+    <Content Include="Leon\MergeKlasse1.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\MergeKlasse35ref.xml" />
+    <Content Include="Leon\MergeKlasse35.xml" />
+    <Content Include="Leon\MergeKlassemedref.xml" />
+    <Content Include="Leon\MergeLagskytingUngdom.xml" />
+    <Content Include="Leon\MERGEopprop100mFinale.xml" />
+    <Content Include="Leon\MERGEopprop100mFinalemedref.xml" />
+    <Content Include="Leon\rapportmedref.xml" />
     <Content Include="Leon\rapport.xml" />
     <Content Include="Leon\RapportXslt.xslt">
       <SubType>Designer</SubType>
@@ -96,7 +107,9 @@
     <Content Include="Leon\TopListeXslt.xslt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Leon\TopRapport.xml" />
+    <Content Include="Leon\TopRapport.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

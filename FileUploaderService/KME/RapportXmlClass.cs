@@ -22,5 +22,7 @@ namespace FileUploaderService.KME
         public BaneType BaneType { get; set; }
 
         public XmlDocument ToppListInfoWithRef { get; set; }
+
+        public ProgramType ProgramType { get; set; }
     }
 }

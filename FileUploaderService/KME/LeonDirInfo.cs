@@ -11,6 +11,7 @@ namespace FileUploaderService.KME
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -27,6 +28,8 @@ namespace FileUploaderService.KME
     public class LeonDirInfo : IEquatable<LeonDirInfo>
     {
         #region Constants
+
+        private XmlSerializer m_serBitInfo = null;
 
         /// <summary>
         ///     The bit map dir name.
@@ -58,6 +61,7 @@ namespace FileUploaderService.KME
         public LeonDirInfo()
         {
             this.Command = UploadCommand.none;
+            this.m_serBitInfo = new XmlSerializer(typeof(BitmapDirInfo));
         }
 
         /// <summary>
@@ -71,6 +75,7 @@ namespace FileUploaderService.KME
             this.Info = info;
             this.TargetName = info.Name;
             this.Command = UploadCommand.none;
+            this.m_serBitInfo = new XmlSerializer(typeof(BitmapDirInfo));
         }
 
         #endregion
@@ -262,75 +267,114 @@ namespace FileUploaderService.KME
                             case BaneType.Femtenmeter:
                                 if (this.LastWritten15mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
                                 {
-                                    this.LastWritten15mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                   
                                     if (this.LastWritten15mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
                                     }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+
+                                    this.LastWritten15mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
                                 }
 
                                 break;
                             case BaneType.Hundremeter:
                                 if (this.LastWritten100mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
                                 {
-                                    this.LastWritten100mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                    
                                     if (this.LastWritten100mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
                                     }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+
+                                    this.LastWritten100mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
                                 }
 
                                 break;
                             case BaneType.Tohundremeter:
                                 if (this.LastWritten200mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
                                 {
-                                    this.LastWritten200mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
-
                                     if (this.LastWritten200mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
                                     }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+                                    this.LastWritten200mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
                                 }
 
                                 break;
                         }
                     }
-
+                   
                     var sortlistCreat = dir2Check.BitmapFiles.OrderByDescending(x => x.CreationTime);
                     if (sortlistCreat.FirstOrDefault() != null)
                     {
                         switch (dir2Check.BaneType)
                         {
                             case BaneType.Femtenmeter:
-                                if (this.LastWritten15mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                if (this.LastCreate15mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-                                    this.LastWritten15mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
-                                    if (this.LastWritten15mBitmapFile != DateTime.MinValue)
+                                    
+                                    if (this.LastCreate15mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
                                     }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+
+                                    this.LastCreate15mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
                                 }
 
                                 break;
                             case BaneType.Hundremeter:
-                                if (this.LastWritten100mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                if (this.LastCreate100mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-                                    this.LastWritten100mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
-                                    if (this.LastWritten100mBitmapFile != DateTime.MinValue)
+                                    
+                                    if (this.LastCreate100mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
                                     }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+
+                                    this.LastCreate100mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
                                 }
 
                                 break;
                             case BaneType.Tohundremeter:
-                                if (this.LastWritten200mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                if (this.LastCreate200mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-                                    this.LastWritten200mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
-                                    if (this.LastWritten200mBitmapFile != DateTime.MinValue)
+                                   
+                                    if (this.LastCreate200mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
                                     }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+
+                                    this.LastCreate200mBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
                                 }
 
                                 break;
@@ -340,33 +384,72 @@ namespace FileUploaderService.KME
 
                 foreach (var dirs in bitmapScan)
                 {
-                    BitmapDirInfo newlist = null;
+                    StartListBane baneFound = null;
+                    string prefix = null;
                     foreach (var bane in this.StevneForAlleBaner.DynamiskeBaner)
                     {
                         if (dirs.BaneType == bane.BaneType)
                         {
-                            newlist = bane.BitmapsStoredInBane;
+                            baneFound = bane;
+                            switch (bane.BaneType)
+                            {
+                                case BaneType.Femtenmeter:
+                                    dirs.BitmapSubDir = Constants.Prefix15m;
+                                    break;
+                                case BaneType.Hundremeter:
+                                    dirs.BitmapSubDir = Constants.Prefix100m;
+                                    break;
+                                case BaneType.Tohundremeter:
+                                    dirs.BitmapSubDir = Constants.Prefix200m;
+                                    break;
+                            }
                             break;
                         }
                     }
 
-                    if (newlist != null)
+                    if (baneFound == null)
                     {
-                        newlist.Updated = dirs.Updated;
-                        newlist.BitmapFiles.Clear();
-                        newlist.BitmapFiles = dirs.BitmapFiles;
-                    }
-                    else
-                    {
-                        newlist = new BitmapDirInfo { Updated = true };
-                        newlist.BitmapFiles.Clear();
-                        newlist.BitmapFiles = dirs.BitmapFiles;
-                        newlist.BaneType = dirs.BaneType;
-
-                        // LANTODOthis.BitmapsStoredInStevne.Add(newlist);
-                        // update = true;
+                        continue;
                     }
 
+                    if (dirs.Initial || dirs.Updated)
+                    {
+                        if (baneFound.BitmapsStoredInBane != null)
+                        {
+                            baneFound.BitmapsStoredInBane.Updated = dirs.Updated;
+                            baneFound.BitmapsStoredInBane.BitmapFiles.Clear();
+                            baneFound.BitmapsStoredInBane.BitmapFiles = dirs.BitmapFiles;
+                            baneFound.BitmapsStoredInBane.BaneType = dirs.BaneType;
+                        }
+                        else
+                        {
+                            baneFound.BitmapsStoredInBane = new BitmapDirInfo { Updated = true };
+                            baneFound.BitmapsStoredInBane.BitmapFiles.Clear();
+                            baneFound.BitmapsStoredInBane.BitmapFiles = dirs.BitmapFiles;
+                            baneFound.BitmapsStoredInBane.BaneType = dirs.BaneType;
+                            update = true;
+                        }
+
+                            var memStevne = new MemoryStream();
+                            XmlTextWriter write = new XmlTextWriter(memStevne, new UTF8Encoding(false));
+                            dirs.InitAllNames();
+                            this.m_serBitInfo.Serialize(write, dirs);
+                            write.Flush();
+                            memStevne.Position = 0;
+                            var bitMapDoc = new XmlDocument();
+                            bitMapDoc.Load(memStevne);
+
+                            foreach (var rapport in baneFound.BaneRapporter)
+                            {
+                                rapport.BitMapInfo = bitMapDoc;
+                            }
+
+                            foreach (var rapport in baneFound.ToppListeRapporter)
+                            {
+                                rapport.BitMapInfo = bitMapDoc;
+                            }
+
+                    }
                     if (dirs.Updated)
                     {
                         update = dirs.Updated;
@@ -409,8 +492,14 @@ namespace FileUploaderService.KME
                         this.PdfFileName = list.FirstOrDefault().FullName;
                         if (this.LastWrittenPdfFile < list.FirstOrDefault().LastWriteTime)
                         {
-                            this.LastWrittenPdfFile = list.FirstOrDefault().LastWriteTime;
-                            return true;
+                            bool update = true;
+                            if (this.LastWrittenPdfFile == DateTime.MinValue)
+                            {
+                                this.LastWrittenPdfFile = list.FirstOrDefault().LastWriteTime;
+                                update = false;
+                            }
+
+                            return update;
                         }
                     }
                 }
@@ -451,8 +540,14 @@ namespace FileUploaderService.KME
                         this.PresseListeFileName = list.FirstOrDefault().FullName;
                         if (this.LastWrittenPresseFile < list.FirstOrDefault().LastWriteTime)
                         {
+                            bool Update = true;
+                            if (this.LastWrittenPresseFile != DateTime.MinValue)
+                            {
+                                Update = false;
+                            }
+
                             this.LastWrittenPresseFile = list.FirstOrDefault().LastWriteTime;
-                            return true;
+                            return Update;
                         }
                     }
                 }
@@ -567,7 +662,7 @@ namespace FileUploaderService.KME
                     }
                 }
 
-                XmlSerializer serBitInfo = new XmlSerializer(typeof(BitmapDirInfo));
+               
                 foreach (var bane in this.StevneForAlleBaner.DynamiskeBaner)
                 {
                     XmlDocument bitMapDoc = null;
@@ -598,7 +693,7 @@ namespace FileUploaderService.KME
                             var memStevne = new MemoryStream();
                             XmlTextWriter write = new XmlTextWriter(memStevne, new UTF8Encoding(false));
                             bitmaps.InitAllNames();
-                            serBitInfo.Serialize(write, bitmaps);
+                            this.m_serBitInfo.Serialize(write, bitmaps);
                             write.Flush();
                             memStevne.Position = 0;
                             bitMapDoc = new XmlDocument();
@@ -654,93 +749,25 @@ namespace FileUploaderService.KME
                 {
                     bool update = false;
                     var list = listInfo.OrderByDescending(x => x.LastWriteTime);
-                    if (list.FirstOrDefault() != null)
+                    var fileelement = list.FirstOrDefault();
+                    if (fileelement != null )
                     {
-                        if (this.LastWrittenWebFile < list.FirstOrDefault().LastWriteTime)
+                        DateTime LastWriteTime = new DateTime(fileelement.LastWriteTime.Year,
+                            fileelement.LastWriteTime.Month,
+                            fileelement.LastWriteTime.Day,
+                            fileelement.LastWriteTime.Hour,
+                            fileelement.LastWriteTime.Minute,
+                            0);
+                        if (this.LastWrittenWebFile < LastWriteTime)
                         {
-                            this.LastWrittenWebFile = list.FirstOrDefault().LastWriteTime;
-                            update = true;
-                        }
-                    }
-
-                    if (update == false)
-                    {
-                        return false;
-                    }
-
-                    Log.Info("Parsing new index File {0}", webInfo.FullName);
-                    var indfile = Path.Combine(webInfo.FullName, "index1.html");
-
-                    if (File.Exists(indfile))
-                    {
-                        StartingListStevne st = this.ParseStevneInfo(indfile);
-                        if (st != null)
-                        {
-                            this.StevneForAlleBaner = st;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-
-                    if (this.StevneForAlleBaner != null)
-                    {
-                        var listopprop = webInfo.GetFiles("*.xml");
-                        if (listopprop.Length > 0)
-                        {
-                            XmlSerializer ser = new XmlSerializer(typeof(StartListBane));
-
-                            foreach (var baneStevne in this.StevneForAlleBaner.DynamiskeBaner)
+                            
+                            if (this.LastWrittenWebFile != DateTime.MinValue)
                             {
-                                baneStevne.BaneRapporter.Clear();
-                                var memStevne = new MemoryStream();
-                                XmlTextWriter write = new XmlTextWriter(memStevne, new UTF8Encoding(false));
-                                ser.Serialize(write, baneStevne);
-                                write.Flush();
-                                memStevne.Position = 0;
-                                XmlDocument doc = new XmlDocument();
-                                doc.Load(memStevne);
-
-                                foreach (var lagInfo in baneStevne.StevneLag)
-                                {
-                                    if (!string.IsNullOrEmpty(lagInfo.XmlOppropsListe))
-                                    {
-                                        var filenavn = string.Format("{0}.xml", lagInfo.XmlOppropsListe);
-                                        var funnetRapportFil = listopprop.FirstOrDefault(x => x.Name == filenavn);
-                                        if (funnetRapportFil != null)
-                                        {
-                                            RapportXmlClass nyRapport = new RapportXmlClass();
-                                            nyRapport.Filnavn = funnetRapportFil.FullName;
-                                            nyRapport.BaneType = baneStevne.BaneType;
-                                            nyRapport.Rapport = new XmlDocument();
-                                            nyRapport.Rapport.Load(funnetRapportFil.FullName);
-                                            baneStevne.BaneRapporter.Add(nyRapport);
-                                        }
-                                    }
-                                }
-
-                                if (baneStevne.ToppListeFilPrefix != null && baneStevne.ToppListeFilPrefix.Count > 0)
-                                {
-                                    foreach (var filnavn in baneStevne.ToppListeFilPrefix)
-                                    {
-                                        if (!string.IsNullOrEmpty(filnavn))
-                                        {
-                                            var filenavn = string.Format("{0}.xml", filnavn);
-                                            var funnetToppListeFil = listopprop.FirstOrDefault(x => x.Name == filenavn);
-                                            if (funnetToppListeFil != null)
-                                            {
-                                                RapportXmlClass nyRapport = new RapportXmlClass();
-                                                nyRapport.Filnavn = funnetToppListeFil.FullName;
-                                                nyRapport.BaneType = baneStevne.BaneType;
-                                                nyRapport.ToppListInfoWithRef = new XmlDocument();
-                                                nyRapport.ToppListInfoWithRef.Load(funnetToppListeFil.FullName);
-                                                baneStevne.ToppListeRapporter.Add(nyRapport);
-                                            }
-                                        }
-                                    }
-                                }
+                                update = true;
+                                
                             }
+                            this.LastWrittenWebFile = LastWriteTime;
+                            this.ParseIndexHtmlFile(webInfo);
                         }
                     }
 
@@ -749,6 +776,87 @@ namespace FileUploaderService.KME
             }
 
             return false;
+        }
+
+        private bool ParseIndexHtmlFile(DirectoryInfo webInfo)
+        {
+            Log.Info("Parsing new index File {0}", webInfo.FullName);
+            var indfile = Path.Combine(webInfo.FullName, "index1.html");
+
+            if (File.Exists(indfile))
+            {
+                StartingListStevne st = this.ParseStevneInfo(indfile);
+                if (st != null)
+                {
+                    this.StevneForAlleBaner = st;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (this.StevneForAlleBaner != null)
+            {
+                var listopprop = webInfo.GetFiles("*.xml");
+                if (listopprop.Length > 0)
+                {
+                    XmlSerializer ser = new XmlSerializer(typeof(StartListBane));
+
+                    foreach (var baneStevne in this.StevneForAlleBaner.DynamiskeBaner)
+                    {
+                        baneStevne.BaneRapporter.Clear();
+                        var memStevne = new MemoryStream();
+                        XmlTextWriter write = new XmlTextWriter(memStevne, new UTF8Encoding(false));
+                        ser.Serialize(write, baneStevne);
+                        write.Flush();
+                        memStevne.Position = 0;
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(memStevne);
+
+                        foreach (var lagInfo in baneStevne.StevneLag)
+                        {
+                            if (!string.IsNullOrEmpty(lagInfo.XmlOppropsListe))
+                            {
+                                var filenavn = string.Format("{0}.xml", lagInfo.XmlOppropsListe);
+                                var funnetRapportFil = listopprop.FirstOrDefault(x => x.Name == filenavn);
+                                if (funnetRapportFil != null)
+                                {
+                                    RapportXmlClass nyRapport = new RapportXmlClass();
+                                    nyRapport.Filnavn = funnetRapportFil.FullName;
+                                    nyRapport.BaneType = baneStevne.BaneType;
+                                    nyRapport.ProgramType = lagInfo.ProgramType;
+                                    nyRapport.Rapport = new XmlDocument();
+                                    nyRapport.Rapport.Load(funnetRapportFil.FullName);
+                                    baneStevne.BaneRapporter.Add(nyRapport);
+                                }
+                            }
+                        }
+
+                        if (baneStevne.ToppListeFilPrefix != null && baneStevne.ToppListeFilPrefix.Count > 0)
+                        {
+                            foreach (var filnavn in baneStevne.ToppListeFilPrefix)
+                            {
+                                if (!string.IsNullOrEmpty(filnavn))
+                                {
+                                    var filenavn = string.Format("{0}.xml", filnavn);
+                                    var funnetToppListeFil = listopprop.FirstOrDefault(x => x.Name == filenavn);
+                                    if (funnetToppListeFil != null)
+                                    {
+                                        RapportXmlClass nyRapport = new RapportXmlClass();
+                                        nyRapport.Filnavn = funnetToppListeFil.FullName;
+                                        nyRapport.BaneType = baneStevne.BaneType;
+                                        nyRapport.ToppListInfoWithRef = new XmlDocument();
+                                        nyRapport.ToppListInfoWithRef.Load(funnetToppListeFil.FullName);
+                                        baneStevne.ToppListeRapporter.Add(nyRapport);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -855,24 +963,84 @@ namespace FileUploaderService.KME
             if (nodeinfoH3 != null && baneInfo != null)
             {
                 HtmlNode Lag = null;
+                HtmlNode LagType = null;
                 HtmlNodeCollection alleLagVise = null;
                 var nodeSibling = nodeinfoH3.NextSibling;
                 while (nodeSibling != null)
                 {
                     if (nodeSibling.NodeType == HtmlNodeType.Element && nodeSibling.Name == "div")
                     {
-                        alleLagVise = nodeSibling.SelectNodes("div");
+                        var attrValClass = nodeSibling.GetAttributeValue("id","DEF");
+                        ProgramType typeOvelse = ProgramType.Innledende;
+                        foreach (var noder in nodeSibling.ChildNodes)
+                        {
+                            if (noder.NodeType == HtmlNodeType.Element && noder.Name == "h3")
+                            {
+                                typeOvelse = StartingListLag.ParseOvelse(noder.InnerText);
+                            }
+                            else if (noder.NodeType == HtmlNodeType.Element && noder.Name == "div")
+                            {
+                                var attrVal = noder.GetAttributeValue("id","DEF");
+                                if (attrVal.StartsWith("accordionsub"))
+                                {
+                                    ParseLagListe(baneInfo, noder, typeOvelse);
+                                }
+                            }
+                        }
+                    }
+                    else if (nodeSibling.NodeType == HtmlNodeType.Element && nodeSibling.Name == "h3")
+                    {
+                        break;
+                    }
+
+                  nodeSibling = nodeSibling.NextSibling;
+                }
+            }
+        }
+
+        private static void GetLagSkytingOpprop(HtmlNode nodeinfoH3, StartListBane baneInfo)
+        {
+            if (nodeinfoH3 != null && baneInfo != null)
+            {
+                HtmlNode Lag = null;
+                HtmlNode LagType = null;
+                HtmlNodeCollection alleLagVise = null;
+                var nodeSibling = nodeinfoH3.NextSibling;
+                while (nodeSibling != null)
+                {
+                    if (nodeSibling.NodeType == HtmlNodeType.Element && nodeSibling.Name == "div")
+                    {
+                        var attrValClass = nodeSibling.GetAttributeValue("id", "DEF");
+                        ProgramType typeOvelse = ProgramType.Innledende;
+                        foreach (var noder in nodeSibling.ChildNodes)
+                        {
+                            if (noder.NodeType == HtmlNodeType.Element && noder.Name == "h3")
+                            {
+                                typeOvelse = StartingListLag.ParseOvelse(noder.InnerText);
+                            }
+                            else if (noder.NodeType == HtmlNodeType.Element && noder.Name == "div")
+                            {
+                                var attrVal = noder.GetAttributeValue("id", "DEF");
+                                if (attrVal.StartsWith("accordionsub"))
+                                {
+                                    ParseLagListe(baneInfo, noder, typeOvelse);
+                                }
+                            }
+                        }
+                    }
+                    else if (nodeSibling.NodeType == HtmlNodeType.Element && nodeSibling.Name == "h3")
+                    {
                         break;
                     }
 
                     nodeSibling = nodeSibling.NextSibling;
                 }
+            }
+        }
 
-                if (alleLagVise != null)
-                {
-                    int dag = 1;
-                    foreach (var lagnode in alleLagVise)
-                    {
+        public static void ParseLagListe(StartListBane baneInfo, HtmlNode lagnode, ProgramType lagType)
+        {
+            int dag = 1;
                         var datonode = lagnode.SelectSingleNode(string.Format("h4[{0}]", dag));
                         while (datonode != null)
                         {
@@ -919,12 +1087,27 @@ namespace FileUploaderService.KME
                                         // Log.Error("Fant korrekt skive men stevne mangler{0} {1}", lagtid, lagnummer);
                                         // continue;
                                         // }
+                                        switch (lagType)
+                                        {
+                                            case ProgramType.Innledende:
+                                                break;
+                                            case ProgramType.Finale:
+                                                lagnummer = lagnummer + 100;
+                                                break;
+                                            case ProgramType.Lagskyting:
+                                                lagnummer = lagnummer + 200;
+                                                break;
+                                            case ProgramType.SamLagskyting:
+                                                lagnummer = lagnummer + 300;
+                                                break;
+                                        }
+
                                         StartingListLag nyttlag = new StartingListLag(lagnummer);
                                         nyttlag.StartTime = lagtid;
                                         nyttlag.BaneType = baneInfo.BaneType;
                                         nyttlag.StevneNavn = baneInfo.StevneNavn;
                                         nyttlag.XmlOppropsListe = xmlfilNavn;
-
+                                        nyttlag.ProgramType = lagType;
                                         baneInfo.AddLag(nyttlag);
                                     }
                                 }
@@ -933,11 +1116,8 @@ namespace FileUploaderService.KME
                             dag++;
                             datonode = lagnode.SelectSingleNode(string.Format("h4[{0}]", dag));
                         }
-                    }
-                }
-            }
+                    
         }
-
         /// <summary>
         /// The get report files for bane.
         /// </summary>
@@ -1011,6 +1191,7 @@ namespace FileUploaderService.KME
                                             }
                                             else
                                             {
+                                                Log.Info("Found report File {0}", val);
                                                 bane.ToppListeFilPrefix.Add(val);
                                             }
                                         }
@@ -1151,11 +1332,18 @@ namespace FileUploaderService.KME
                                         }
 
                                         BaneType baneType = StartListBane.FindBaneType(nodeinfo.InnerText);
+                                        if (baneType == BaneType.Undefined)
+                                        {
+                                            Log.Error("Uknown Banetype {0} fil ={1}", nodeinfo.InnerText, indfile);
+                                            return null;
+                                        }
 
                                         var bane = stevneInfo.FinnBane(baneType);
+                                        
                                         if (bane == null)
                                         {
                                             bane = stevneInfo.AddNewBane(stevneInfo.StevneNavn, directoryName, baneType);
+                                            bane.ReportDirStevneNavn = stevneInfo.ReportDirStevneNavn;
                                         }
                                         else
                                         {
@@ -1164,10 +1352,11 @@ namespace FileUploaderService.KME
 
                                         nodeinfoH3 = nodeinfo;
                                         GetLagvisOpprop(nodeinfoH3, bane);
-                                        break;
                                     }
                                 }
                             }
+                            
+
                         }
                     }
                 }

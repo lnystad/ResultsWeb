@@ -33,6 +33,8 @@ namespace FileUploaderService.KME
 
         public bool Updated { get; set; }
 
+        public bool Initial { get; set; }
+
         public void InitAllNames()
         {
             foreach (var bitmapinfo in this.BitmapFiles)

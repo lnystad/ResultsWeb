@@ -16,14 +16,29 @@
 
   <xsl:template match="result">
     <xsl:copy>
-      
+      <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
   </xsl:template>
 
   <xsl:template match="result/@ref">
+
+  </xsl:template>
+  
+  <xsl:template match="result[@ref]">
     
-      <xsl:variable name ="Lagnr">
-      <xsl:value-of select="substring-after(/Merged/report/header/@name,'Lag ')"/>
+    <xsl:variable name ="Lagnr">
+      <xsl:variable name="Startlagnr">
+        <xsl:choose>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="number(0)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+    
+      <xsl:value-of select="$Startlagnr + number(substring-after(/Merged/report/header/@name,'Lag '))"/>
     </xsl:variable>
 
     <xsl:variable name ="skivenr">
@@ -49,21 +64,36 @@
     <xsl:variable name="FoundBitmap">
       <xsl:value-of select="msxsl:node-set($FoundBitmaps)/Hits/Hit"/>
     </xsl:variable>
-  
+
+    <xsl:copy>
     <!-- produce a fill attribute with content "red" -->
-    <xsl:if test="string($FoundBitmap) !=''">
-      <xsl:attribute name="ref"><xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmap)"/></xsl:attribute>
-    
-    </xsl:if>
-    
+      <xsl:if test="string($FoundBitmap) !=''">
+        <xsl:attribute name="ref">
+           <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmap)"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
   </xsl:template>
 
   <!-- this template is applied to a path node that doesn't have a fill attribute -->
   <xsl:template match="result[not(@ref)]">
     <!-- copy me and my attributes and my subnodes, applying templates as necessary, and add a fill attribute set to red -->
     <xsl:variable name ="Lagnr">
-      <xsl:value-of select="substring-after(/Merged/report/header/@name,'Lag ')"/>
+      <xsl:variable name="Startlagnr">
+        <xsl:choose>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="number(0)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+
+      <xsl:value-of select="$Startlagnr + number(substring-after(/Merged/report/header/@name,'Lag '))"/>
     </xsl:variable>
+
 
     <xsl:variable name ="skivenr">
       <xsl:value-of select="@num"/>

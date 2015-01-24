@@ -17,12 +17,18 @@ namespace FileUploaderService.KME
         public StartingListStevne()
         {
             Rapporter = new List<RapportXmlClass>();
+            ToppListInfoWithRef = new List<RapportXmlClass>();
+            DynamiskeBaner = new List<StartListBane>();
+            TopLister = new List<string>();
         }
 
         public StartingListStevne(StartingListStevne cpy)
         {
             StevneNavn = cpy.StevneNavn;
             Rapporter = new List<RapportXmlClass>();
+            ToppListInfoWithRef = new List<RapportXmlClass>();
+            DynamiskeBaner = new List<StartListBane>();
+            TopLister = new List<string>();
         }
 
         public string StevneNavn { get; set; }

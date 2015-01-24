@@ -367,8 +367,16 @@
 
             string TopListSkyttereXsltFileName = ConfigurationManager.AppSettings["TopListSkyttereXsltFil"];
             string TopListXsltFileName = ConfigurationManager.AppSettings["TopListXsltFil"];
-
-            
+            bool debugMerge = false; 
+            string debugXslt = ConfigurationManager.AppSettings["DebugXslt"];
+            if (!string.IsNullOrEmpty(debugXslt))
+            {
+                bool val;
+                if (Boolean.TryParse(debugXslt, out val))
+                {
+                    debugMerge = val;
+                }
+            }
 
 
 
@@ -459,7 +467,7 @@
             if (!string.IsNullOrEmpty(m_installDir))
             {
                 this.m_fileLoader = new LeonFileLoader(this.m_installDir);
-                
+                this.m_fileLoader.DebugMergedXml = debugMerge;
                 if (!string.IsNullOrEmpty(RapportXsltFilFileName))
                 {
 
