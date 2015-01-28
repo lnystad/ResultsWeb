@@ -367,6 +367,11 @@
 
             string TopListSkyttereXsltFileName = ConfigurationManager.AppSettings["TopListSkyttereXsltFil"];
             string TopListXsltFileName = ConfigurationManager.AppSettings["TopListXsltFil"];
+
+
+            string TopListLagSkyttereXsltFilFileName = ConfigurationManager.AppSettings["TopListLagSkyttereXsltFil"];
+
+   
             bool debugMerge = false; 
             string debugXslt = ConfigurationManager.AppSettings["DebugXslt"];
             if (!string.IsNullOrEmpty(debugXslt))
@@ -480,6 +485,13 @@
 
                     this.m_fileLoader.InitToppListInfoTransform(TopListXsltFileName, TopListSkyttereXsltFileName);
                 }
+
+                if (!string.IsNullOrEmpty(TopListLagSkyttereXsltFilFileName) )
+                {
+                    this.m_fileLoader.InitToppListLagSkytingTransform(TopListLagSkyttereXsltFilFileName);
+                }
+
+                
             }
         }
 

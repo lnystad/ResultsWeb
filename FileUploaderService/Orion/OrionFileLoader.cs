@@ -46,14 +46,19 @@ namespace FileUploaderService.Orion
             if (Directory.Exists(m_bitMapDir))
             {
                 var webInfo = new DirectoryInfo(m_bitMapDir);
-                var listInfo = webInfo.GetFiles("TR*.*");
+                var listInfo = webInfo.GetFiles("TR*.PNG");
                 if (listInfo.Length > 0)
                 {
 
-                    Thread.Sleep(10000);
+                    Thread.Sleep(60000);
+                }
+                else
+                {
+                    Thread.Sleep(2000);
+                    return false;
                 }
 
-                listInfo = webInfo.GetFiles("TR*.*");
+                listInfo = webInfo.GetFiles("TR*.PNG");
                 if (listInfo.Length > 0)
                 {
                     var list = listInfo.OrderByDescending(x => x.LastWriteTime);
@@ -293,7 +298,7 @@ namespace FileUploaderService.Orion
 
         private bool IsValidDirectory(DirectoryInfo inf)
         {
- 	        Thread.Sleep(2000);
+ 	        ///Thread.Sleep(2000);
             if (IsNumeric(inf.Name))
             {
                 var dirList = Directory.GetDirectories(inf.FullName);

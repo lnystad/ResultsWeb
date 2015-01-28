@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="KME\opproplistemal.html" />
+    <Content Include="Leon\LagskytingReport.xslt" />
     <Content Include="Leon\MergeKlasse1.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -103,6 +104,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Leon\readxml.js" />
+    <Content Include="Leon\SkytteriLagskyting.xml" />
+    <Content Include="Leon\SkytteriLagskyting.xslt" />
     <Content Include="Leon\SkytteriLag.xslt" />
     <Content Include="Leon\TopListeXslt.xslt">
       <SubType>Designer</SubType>
@@ -110,6 +113,7 @@
     <Content Include="Leon\TopRapport.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Leon\MERGEOPPROPOmgang.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

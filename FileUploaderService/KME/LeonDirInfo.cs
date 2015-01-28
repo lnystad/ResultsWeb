@@ -449,6 +449,11 @@ namespace FileUploaderService.KME
                                 rapport.BitMapInfo = bitMapDoc;
                             }
 
+                            foreach (var rapport in baneFound.ToppListeLagRapporter)
+                            {
+                                rapport.BitMapInfo = bitMapDoc;
+                            }
+
                     }
                     if (dirs.Updated)
                     {
@@ -710,6 +715,11 @@ namespace FileUploaderService.KME
                     {
                         rapport.BitMapInfo = bitMapDoc;
                     }
+
+                    foreach (var rapport in bane.ToppListeLagRapporter)
+                    {
+                        rapport.BitMapInfo = bitMapDoc;
+                    }
                 }
 
                 return update;
@@ -853,6 +863,28 @@ namespace FileUploaderService.KME
                                 }
                             }
                         }
+
+                        if (baneStevne.ToppListeLagFilPrefix != null && baneStevne.ToppListeLagFilPrefix.Count > 0)
+                        {
+                            foreach (var filnavn in baneStevne.ToppListeLagFilPrefix)
+                            {
+                                if (!string.IsNullOrEmpty(filnavn))
+                                {
+                                    var filenavn = string.Format("{0}.xml", filnavn);
+                                    var funnetToppListeLagFil = listopprop.FirstOrDefault(x => x.Name == filenavn);
+                                    if (funnetToppListeLagFil != null)
+                                    {
+                                        RapportXmlClass nyRapport = new RapportXmlClass();
+                                        nyRapport.Filnavn = funnetToppListeLagFil.FullName;
+                                        nyRapport.BaneType = baneStevne.BaneType;
+                                        nyRapport.ProgramType = ProgramType.Lagskyting;
+                                        nyRapport.ToppListInfoLagWithRef = new XmlDocument();
+                                        nyRapport.ToppListInfoLagWithRef.Load(funnetToppListeLagFil.FullName);
+                                        baneStevne.ToppListeLagRapporter.Add(nyRapport);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -983,6 +1015,8 @@ namespace FileUploaderService.KME
                                 var attrVal = noder.GetAttributeValue("id","DEF");
                                 if (attrVal.StartsWith("accordionsub"))
                                 {
+                                    if (typeOvelse == ProgramType.Finale ||
+                                        typeOvelse == ProgramType.Innledende)
                                     ParseLagListe(baneInfo, noder, typeOvelse);
                                 }
                             }
@@ -1092,13 +1126,13 @@ namespace FileUploaderService.KME
                                             case ProgramType.Innledende:
                                                 break;
                                             case ProgramType.Finale:
-                                                lagnummer = lagnummer + 100;
-                                                break;
-                                            case ProgramType.Lagskyting:
                                                 lagnummer = lagnummer + 200;
                                                 break;
+                                            case ProgramType.Lagskyting:
+                                                lagnummer = lagnummer + 100;
+                                                break;
                                             case ProgramType.SamLagskyting:
-                                                lagnummer = lagnummer + 300;
+                                                lagnummer = lagnummer + 100;
                                                 break;
                                         }
 
@@ -1155,39 +1189,37 @@ namespace FileUploaderService.KME
                                     {
                                         if (!string.IsNullOrEmpty(overskriftNode.InnerText))
                                         {
-                                            if (string.Compare(overskriftNode.InnerText, "SAMLAGSSKYTING SENIOR", StringComparison.OrdinalIgnoreCase)
+                                            if (string.Compare(overskriftNode.InnerText, "UNGDOM", StringComparison.OrdinalIgnoreCase)
+                                                == 0 ||
+                                                string.Compare(overskriftNode.InnerText, "UNGDOM INDIVIDUELL", StringComparison.OrdinalIgnoreCase)
                                                 == 0)
                                             {
+                                                Log.Info("Found report Ungdom Lag File {0}", val);
+                                                bane.ToppListeLagFilPrefix.Add(val);
                                             }
                                             else if (string.Compare(
                                                 overskriftNode.InnerText, 
-                                                "SAMLAGSSKYTING UNGDOM", 
+                                                "VETERAN", 
+                                                StringComparison.OrdinalIgnoreCase) == 0 ||
+                                                string.Compare(
+                                                overskriftNode.InnerText,
+                                                "VETERAN INDIVIDUELL",
                                                 StringComparison.OrdinalIgnoreCase) == 0)
                                             {
+                                                Log.Info("Found report Veteran Lag File {0}", val);
+                                                bane.ToppListeLagFilPrefix.Add(val);
                                             }
                                             else if (string.Compare(
                                                 overskriftNode.InnerText, 
-                                                "SAMLAGSSKYTING VETERAN", 
+                                                "SENIOR", 
+                                                StringComparison.OrdinalIgnoreCase) == 0 ||
+                                                string.Compare(
+                                                overskriftNode.InnerText,
+                                                "SENIOR INDIVIDUELL",
                                                 StringComparison.OrdinalIgnoreCase) == 0)
                                             {
-                                            }
-                                            else if (string.Compare(
-                                                overskriftNode.InnerText, 
-                                                "LAGSKYTING SENIOR", 
-                                                StringComparison.OrdinalIgnoreCase) == 0)
-                                            {
-                                            }
-                                            else if (string.Compare(
-                                                overskriftNode.InnerText, 
-                                                "LAGSKYTING UNGDOM", 
-                                                StringComparison.OrdinalIgnoreCase) == 0)
-                                            {
-                                            }
-                                            else if (string.Compare(
-                                                overskriftNode.InnerText, 
-                                                "LAGSKYTING VETERAN", 
-                                                StringComparison.OrdinalIgnoreCase) == 0)
-                                            {
+                                                Log.Info("Found report Lag File {0}", val);
+                                                bane.ToppListeLagFilPrefix.Add(val);
                                             }
                                             else
                                             {
@@ -1379,6 +1411,10 @@ namespace FileUploaderService.KME
                                     {
                                         GetReportFilesForBane(nodeinfo, bane);
                                     }
+                                    if (nodeinfo.InnerText.ToUpper() == "RANGERING" && bane != null)
+                                    {
+                                        GetReportFilesForBane(nodeinfo, bane);
+                                    }
 
                                     bane = stevneInfo.FinnBane(BaneType.Hundremeter);
                                     if (nodeinfo.InnerText.ToUpper() == "100M" && bane != null)
@@ -1397,6 +1433,9 @@ namespace FileUploaderService.KME
                     }
                 }
 
+                GetLagSkytingOpprop(stevneInfo);
+
+
                 return stevneInfo;
             }
             catch (Exception e)
@@ -1405,6 +1444,218 @@ namespace FileUploaderService.KME
             }
 
             return null;
+        }
+
+        private void GetLagSkytingOpprop(StartingListStevne stevneInfo)
+        {
+            if (stevneInfo == null)
+            {
+                return;
+            }
+            
+            if (stevneInfo.DynamiskeBaner == null)
+            {
+                return;
+            }
+            Encoding enc = Encoding.GetEncoding("ISO-8859-1");
+            foreach (var bane in stevneInfo.DynamiskeBaner)
+            {
+                var rapportDir = Path.Combine(this.Info.FullName, RapportDirName);
+                string filenamesort = null;
+                string prefix = null;
+                string filenamesorthtml = null;
+                string prefixhtml = null;
+                switch (bane.BaneType)
+                {
+                    case BaneType.Hundremeter:
+                         filenamesort = "100m-Lagskyting-opprop-*.csv";
+                         prefix = "100m-Lagskyting-opprop-";
+                         filenamesorthtml = "100m-Lagskyting-opprop-*.html";
+                         prefixhtml = "100m-Lagskyting-opprop-";
+                        break;
+                    case BaneType.Tohundremeter:
+                        filenamesort = "200-300m-Lagskyting-opprop-*.csv";
+                        prefix = "200-300m-Lagskyting-opprop-";
+                        filenamesorthtml = "200-300m-Lagskyting-opprop-*.html";
+                        prefixhtml = "200-300m-Lagskyting-opprop-";
+                        break;
+                }
+                if (string.IsNullOrEmpty(filenamesort) && string.IsNullOrEmpty(filenamesorthtml))
+                {
+                    continue;
+                }
+
+                var rapportInfo = new DirectoryInfo(rapportDir);
+                var listLagskytinghtml = rapportInfo.GetFiles(filenamesorthtml);
+                if (listLagskytinghtml.Length > 0)
+                {
+                    foreach (var file in listLagskytinghtml)
+                    {
+                            var filename = Path.GetFileNameWithoutExtension(file.Name);
+                            var start = filename.Replace(prefixhtml, string.Empty);
+                            int lagNr = -1;
+                            if (int.TryParse(start, out lagNr))
+                            {
+                                ParseLagSkytingHtml(bane, bane.BaneType, lagNr, file.FullName);
+                            }
+                    }
+                }
+                else
+                {
+                    var listLagskyting = rapportInfo.GetFiles(filenamesort);
+                    if (listLagskyting.Length > 0)
+                    {
+                        foreach (var file in listLagskyting)
+                        {
+                            string text = System.IO.File.ReadAllText(file.FullName, enc);
+                            if (!string.IsNullOrEmpty(text))
+                            {
+                                var filename = Path.GetFileNameWithoutExtension(file.Name);
+                                var start = filename.Replace(prefix, string.Empty);
+                                int lagNr = -1;
+                                if (int.TryParse(start, out lagNr))
+                                {
+                                    ParseLagSkyting(bane, file.LastWriteTime, bane.BaneType, lagNr, text);
+                                }
+
+                            }
+                        }
+                    }  
+                }
+            }
+        }
+
+        private void ParseLagSkytingHtml(StartListBane bane, BaneType baneType, int lagNr, string lagfile)
+        {
+            try
+            {
+                string inputString;
+                Encoding enc = Encoding.GetEncoding("ISO-8859-1");
+                using (StreamReader read = new StreamReader(lagfile, enc))
+                {
+                    inputString = read.ReadToEnd();
+                }
+
+                 var test = new HtmlAgilityPack.HtmlDocument();
+                test.LoadHtml(inputString);
+                var nodeopproptid = test.DocumentNode.SelectSingleNode("/html/body/table[@border='0']/tr/td[2]/font/b");
+                if (nodeopproptid == null)
+                {
+                    Log.Error("nodeopproptid null for html lagskyting {0}", lagfile);
+                    return;
+                }
+
+                DateTime? oppropTimevar = StartingListLag.ParseStartDateLagSkyting(bane.StevneNavn, nodeopproptid.InnerText);
+                if (oppropTimevar == null)
+                {
+                    Log.Error("oppropTime null for html lagskyting {0}", lagfile);
+                    return;
+                }
+
+                DateTime oppropTime = oppropTimevar.Value;
+                var nodebodySKyttere = test.DocumentNode.SelectNodes("/html/body/table[@border='1']/tr");
+                var lagskytingLag = new StartingListLag(lagNr + 100) { ProgramType = ProgramType.Lagskyting };
+                
+                lagskytingLag.StartTime = new DateTime(
+                    oppropTime.Year,
+                    oppropTime.Month,
+                    oppropTime.Day,
+                    oppropTime.Hour,
+                    oppropTime.Minute,
+                    0);
+                lagskytingLag.StevneNavn = bane.StevneNavn;
+                lagskytingLag.BaneType = baneType;
+
+                if (nodebodySKyttere != null)
+                {
+                    int count = 0;
+                    foreach (var node in nodebodySKyttere)
+                    {
+                        count++;
+                        if (count == 1)
+                        {
+                            continue;
+                        }
+
+                        var skytternode = node.SelectNodes("td");
+                        if (skytternode.Count >= 4)
+                        {
+                            if (!string.IsNullOrEmpty(skytternode[1].InnerText))
+                            {
+                                int skivenr;
+                                string skiveStr = skytternode[0].InnerText.Replace('.', ' ').Trim();
+                                if (int.TryParse(skiveStr, out skivenr))
+                                {
+                                    var skive = new StartingListSkive
+                                                    {
+                                                        LagSkiveNr = skivenr,
+                                                        SkytterNavn = skytternode[1].InnerText,
+                                                        SkytterLag = skytternode[2].InnerText,
+                                                        Klasse = skytternode[3].InnerText
+                                                    };
+                                    lagskytingLag.Skiver.Add(skive);
+                                }
+                            }
+
+                        }
+
+                       
+
+                      
+                    }
+                }
+
+                if (lagskytingLag.Skiver.Count > 0)
+                {
+                    bane.StevneLag.Add(lagskytingLag);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, string.Format("error parsing {0}", lagfile));
+            }
+
+            return ;
+        }
+
+        private void ParseLagSkyting(StartListBane bane,DateTime oppropTime ,BaneType banetype, int lagnr, string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            var lines = text.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+            var lagskytingLag = new StartingListLag(lagnr + 100) { ProgramType = ProgramType.Lagskyting };
+            lagskytingLag.StartTime = new DateTime(
+                oppropTime.Year,
+                oppropTime.Month,
+                oppropTime.Day,
+                oppropTime.Hour,
+                oppropTime.Minute,
+                0);
+            lagskytingLag.StevneNavn = bane.StevneNavn;
+            lagskytingLag.BaneType = banetype;
+            foreach (var line in lines)
+            {
+                var part = line.Split(new[] { ';' });
+                int skivenr = -1;
+                if (int.TryParse(part[0], out skivenr))
+                {
+                    if (part.Length >= 4)
+                    {
+                        var skive = new StartingListSkive { LagSkiveNr = skivenr, SkytterNavn = part[2], SkytterLag = part[3], Klasse = part[4] };
+                        lagskytingLag.Skiver.Add(skive);
+                    }
+                }
+            }
+
+            if (lagskytingLag.Skiver.Count > 0)
+            {
+                bane.StevneLag.Add(lagskytingLag);
+            }
+            
         }
 
         #endregion

@@ -30,7 +30,7 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
-            <xsl:value-of select="number(100)"/>
+            <xsl:value-of select="number(200)"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="number(0)"/>
@@ -83,7 +83,7 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
-            <xsl:value-of select="number(100)"/>
+            <xsl:value-of select="number(200)"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="number(0)"/>

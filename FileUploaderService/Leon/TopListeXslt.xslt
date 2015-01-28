@@ -129,11 +129,11 @@
             <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
           </xsl:attribute>
         </xsl:when>
-        <!--<xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='true'">
+        <xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='true'">
           <xsl:attribute name="ref">
-            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@reflag"/>
+            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
           </xsl:attribute>
-        </xsl:when>-->
+        </xsl:when>
 
       </xsl:choose>
       <xsl:apply-templates select="@*|node()"/>
@@ -232,11 +232,11 @@
             <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
           </xsl:attribute>
         </xsl:when>
-        <!--<xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='true'">
+        <xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='true'">
           <xsl:attribute name="ref">
-            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@reflag"/>
+            <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
           </xsl:attribute>
-        </xsl:when>-->
+        </xsl:when>
       
       </xsl:choose>
       

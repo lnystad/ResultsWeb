@@ -226,6 +226,100 @@ namespace FileUploaderService.KME
             return oppropsTid;
         }
 
+        internal static DateTime? ParseStartDateLagSkyting(string stevneNavn, string datoString)
+        {
+            DateTime? oppropsTid = null;
+
+            if (string.IsNullOrEmpty(datoString))
+            {
+                Log.Warning("Dato for stevne er tom {0}", stevneNavn);
+                return null;
+            }
+
+            DateTime year = new DateTime(DateTime.Now.Year, 1, 1);
+            if (!string.IsNullOrEmpty(stevneNavn))
+            {
+                int maxYear = 2010;
+                var datePart = stevneNavn.Split(new[] { ' ' });
+                foreach (var stringParts in datePart)
+                {
+                    int testYear = 0;
+                    if (int.TryParse(stringParts, out testYear))
+                    {
+                        if (testYear > 2010 && testYear < 2050)
+                        {
+                            if (testYear > maxYear)
+                            {
+                                maxYear = testYear;
+                            }
+                        }
+                    }
+                }
+
+                if (maxYear != 2010)
+                {
+                    year = new DateTime(maxYear, 1, 1);
+                }
+            }
+
+            var infoPart = datoString.Split(new[] { '-' });
+            if (infoPart.Length >= 3)
+            {
+
+                string dayName = infoPart[1].Trim();
+                int day = -1;
+                int month = -1;
+                int hour = -1;
+                int min = -1;
+                int res = -1;
+                var startDate = infoPart[1].Trim();
+                var dateParts = startDate.Split(new[] { '/', ' ' });
+                if (dateParts.Length > 2)
+                {
+                    if (int.TryParse(dateParts[1], out res))
+                    {
+                        day = res;
+                    }
+                    res = -1;
+                    if (int.TryParse(dateParts[2], out res))
+                    {
+                        month = res;
+                    }
+                }
+
+                var startTimeParts = infoPart[2].Trim();
+                var hourParts = startTimeParts.Split(new[] { ':' });
+                if (hourParts.Length > 1)
+                {
+                    if (int.TryParse(hourParts[0], out res))
+                    {
+                        hour = res;
+                    }
+                    res = -1;
+                    if (int.TryParse(hourParts[1], out res))
+                    {
+                        min = res;
+                    }
+                }
+
+                if (day > 0 && month > 0)
+                {
+                    //LANTODO
+                    //if (month > DateTime.Now.Month)
+                    //{
+                    //    oppropsTid = new DateTime(year.Year - 1, month, day, 0, 0, 0);
+                    //}
+                    //else
+                    //{
+                    oppropsTid = new DateTime(year.Year, month, day, hour, min, 0);
+                    //}
+                }
+            }
+
+            return oppropsTid;
+        }
+
+
         internal static DateTime? ParseStartTime(DateTime? oppropsDato, string klokke)
         {
             if (string.IsNullOrEmpty(klokke))
@@ -295,25 +389,30 @@ namespace FileUploaderService.KME
                 string ovelse = text.Trim().ToUpper();
                 switch (ovelse)
                 {
+                    case "25 SKUDD":
+                        return ProgramType.Innledende;
+                        break;
                     case "INNLEDENDE":
                         return ProgramType.Innledende;
                         break;
                     case "FINALE":
                         return ProgramType.Finale;
                         break;
-                    case "LAGSKYTING":
-                        return ProgramType.Lagskyting;
-                        break;
-                    case "SAMLAGSSKYTING":
-                        return ProgramType.SamLagskyting;
-                        break;
-                    case "NY GRUPPE":
-                        return ProgramType.Lagskyting;
-                        break;
+                    //case "LAGSKYTING":
+                    //    return ProgramType.Lagskyting;
+                    //    break;
+                    //case "SAMLAGSSKYTING":
+                    //    return ProgramType.SamLagskyting;
+                    //    break;
+                    //case "NY GRUPPE":
+                    //    return ProgramType.Lagskyting;
+                    //    break;
                 }
             }
 
-            return ProgramType.Innledende;
+            return ProgramType.UnKnown;
         }
+
+       
     }
 }

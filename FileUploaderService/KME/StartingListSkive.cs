@@ -27,6 +27,8 @@ namespace FileUploaderService.KME
 
         }
 
+        public int LagSkiveNr { get; set; }
+
         public int SkiveNr { get; set; }
         public string SkytterNavn { get; set; }
         public string SkytterLag { get; set; }

@@ -14,11 +14,14 @@ namespace FileUploaderService.KME
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
     using System.Xml.XPath;
     using System.Xml.Xsl;
+
+    using FileUploaderService.Orion;
 
     using SendingResults.Diagnosis;
 
@@ -59,6 +62,10 @@ namespace FileUploaderService.KME
         /// </summary>
         private XslCompiledTransform m_xsltToppListSkyttere;
 
+
+        private XslCompiledTransform m_xsltToppListLagSkyttere;
+
+     //   private XslCompiledTransform m_xsltToppListLagSkytingReport;
         #endregion
 
         #region Constructors and Destructors
@@ -155,7 +162,8 @@ namespace FileUploaderService.KME
                                     Log.Trace("Checking Drectory {0}", element.Info.Name);
                                     if (element.CheckWebFiles())
                                     {
-                                        Log.Info("Updated Directory Detected name {0} ", element.Info.Name);
+                                        Log.Info("Updated Directory Detected name {0} wait 4sec", element.Info.Name);
+                                        Thread.Sleep(4000);
                                         element.CheckRapporter();
                                         if (this.GenerateNewReports(element))
                                         {
@@ -512,7 +520,7 @@ namespace FileUploaderService.KME
                                                         }
                                                     }
 
-                                                    var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.*", bitmapLagDir.LagNr));
+                                                    var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.PNG", bitmapLagDir.LagNr));
                                                     lag.Skiver = this.ParseLagInfo(files);
                                                 }
                                             }
@@ -526,6 +534,55 @@ namespace FileUploaderService.KME
             }
 
             return retList;
+        }
+
+
+        internal void InitToppListLagSkytingTransform(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                this.m_xsltToppListLagSkyttere = new XslCompiledTransform(true);
+                try
+                {
+                    // var myxsltResv = new MyXmlResolver();
+                    // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
+                    XsltSettings settings = new XsltSettings();
+                    settings.EnableScript = true;
+                    this.m_xsltToppListLagSkyttere.Load(filename, settings, null);
+                }
+                catch (XsltException e)
+                {
+                    Log.Error(e, "Line={0} pos={1} File={2}", e.LineNumber, e.LinePosition, filename);
+                    throw;
+                }
+            }
+            else
+            {
+                Log.Info("Could not find file {0}", filename);
+            }
+            
+            //if (File.Exists(lagSkytingReportfilename))
+            //{
+            //    this.m_xsltToppListLagSkytingReport = new XslCompiledTransform(true);
+            //    try
+            //    {
+            //        XsltSettings settings = new XsltSettings();
+            //        settings.EnableScript = true;
+
+            //        // var myxsltResv = new MyXmlResolver();
+            //        // myxsltResv.SetConfigParams(customerId, customConfigPath, configPath, statemachineName);
+            //        this.m_xsltToppListLagSkytingReport.Load(lagSkytingReportfilename, settings, null);
+            //    }
+            //    catch (XsltException e)
+            //    {
+            //        Log.Error(e, "Line={0} pos={1} File={2}", e.LineNumber, e.LinePosition, lagSkytingReportfilename);
+            //        throw;
+            //    }
+            //}
+            //else
+            //{
+            //    Log.Info("Could not find file {0}", lagSkytingReportfilename);
+            //}
         }
 
         /// <summary>
@@ -864,6 +921,27 @@ namespace FileUploaderService.KME
                             var sourceDirName = Path.GetDirectoryName(skiveNr.RawBitmapFile.FullName);
                             var newSourceFileName = "MOV" + sourceFileName;
                             var newSourceFileNameWithPath = Path.Combine(sourceDirName, newSourceFileName);
+                            if (File.Exists(newSourceFileNameWithPath))
+                            {
+                                inf = new FileInfo(newSourceFileNameWithPath);
+                                var filenameonly = Path.GetFileNameWithoutExtension(newSourceFileNameWithPath);
+                                var path = Path.GetDirectoryName(newSourceFileNameWithPath);
+                                var destDirDublettDir = Path.Combine(path, "Copies");
+                                if (!Directory.Exists(destDirDublettDir))
+                                {
+                                    Directory.CreateDirectory(destDirDublettDir);
+                                }
+
+                                Log.Warning("Bitmap Backup destination file already exstst {0}", newSourceFileNameWithPath);
+                                DateTime time = DateTime.Now;
+
+                                string backup = time.ToString("yyyyMMddHHmmss");
+                                string oldFileName = string.Format("{0}old{1}.PNG", filenameonly, backup);
+                                string totfileName = Path.Combine(destDirDublettDir, oldFileName);
+
+                                inf.MoveTo(totfileName);
+                            }
+
                             File.Copy(skiveNr.RawBitmapFile.FullName, newSourceFileNameWithPath);
                             File.Delete(skiveNr.RawBitmapFile.FullName);
                             skiveNr.RawBitmapFile = null;
@@ -1076,6 +1154,7 @@ namespace FileUploaderService.KME
                                 StreamReader readerSkyttereOut = new StreamReader(outputXmlSkyttereStream, enc, true);
                                 XmlTextReader xmlReaderSkyttereOut = new XmlTextReader(readerSkyttereOut);
                                 docSkyttereSaver.Load(xmlReaderSkyttereOut);
+                                
                                 SkyttereiLaget.Add(docSkyttereSaver);
                                 readerSkyttereOut.Dispose();
                             }
@@ -1166,7 +1245,110 @@ namespace FileUploaderService.KME
                             }
                         }
                     }
+
+                    foreach (var toppListe in bane.ToppListeLagRapporter)
+                    {
+                        if (toppListe.BitMapInfo!=null && toppListe.ToppListInfoLagWithRef != null && m_xsltToppListLagSkyttere != null)
+                        {
+                            try
+                            {
+                                List<XmlDocument> docs = new List<XmlDocument>();
+                                List<StartingListLag> lagSkyting= new List<StartingListLag>();
+                                foreach (var lag in bane.StevneLag)
+                                {
+                                    if (lag.ProgramType == ProgramType.Lagskyting)
+                                    {
+                                        lagSkyting.Add(lag);
+                                    }
+                                }
+                                var lagArray = lagSkyting.ToArray();
+                                XmlSerializer ser = new XmlSerializer(typeof(StartingListLag[]));
+                                MemoryStream strem = new MemoryStream();
+                                ser.Serialize(strem,lagArray);
+                                XmlDocument doc = new XmlDocument();
+                                strem.Position = 0;
+                                doc.Load(strem);
+                                docs.Add(doc);
+                                 docs.Add(toppListe.BitMapInfo);
+                                //
+                                XPathDocument xpathDoc;
+                                var outputXmlStream = new MemoryStream { Position = 0 };
+
+                                var readerStream = MergeDocumentsInput(docs);
+                                this.CopyReader(readerStream, toppListe.Filnavn);
+                                Encoding enc = new UTF8Encoding(false);
+                                readerStream.Position = 0;
+                                var reader = new StreamReader(readerStream, enc, true);
+
+                                xpathDoc = new XPathDocument(reader);
+
+                                this.m_xsltToppListLagSkyttere.Transform(xpathDoc, null, outputXmlStream);
+                                update = true;
+                                outputXmlStream.Position = 0;
+                                XmlDocument docSaver = new XmlDocument();
+
+                                StreamReader readerOut = new StreamReader(outputXmlStream, enc, true);
+                                XmlTextReader xmlReaderOut = new XmlTextReader(readerOut);
+                                docSaver.Load(xmlReaderOut);
+
+                                docs.Clear();
+                                docs.Add(docSaver);
+                                docs.Add(toppListe.ToppListInfoLagWithRef);
+                                
+
+                                var readerStreamReport = MergeDocumentsInput(docs);
+                                this.CopyReader(readerStreamReport, toppListe.Filnavn);
+                                readerStreamReport.Position = 0;
+                                var readerReport = new StreamReader(readerStreamReport, enc, true);
+
+                                var xpathDocReport = new XPathDocument(readerReport);
+
+                                var outputXmlStreamReport = new MemoryStream { Position = 0 };
+                                this.m_xsltToppList.Transform(xpathDocReport, null, outputXmlStreamReport);
+                                update = true;
+                                outputXmlStreamReport.Position = 0;
+                                XmlDocument docSaverReport = new XmlDocument();
+
+                                StreamReader readerOutReport = new StreamReader(outputXmlStreamReport, enc, true);
+                                XmlTextReader xmlReaderOutReport = new XmlTextReader(readerOutReport);
+                                docSaverReport.Load(xmlReaderOutReport);
+
+                                if (!string.IsNullOrEmpty(toppListe.Filnavn))
+                                {
+                                    Log.Info("Generating new Top List {0}", toppListe.Filnavn);
+                                    var encServer = Encoding.GetEncoding("ISO-8859-1");
+                                    XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer);
+                                    writer.Formatting = Formatting.Indented;
+                                    docSaverReport.Save(writer);
+                                    writer.Flush();
+                                    writer.Close();
+                                    writer.Dispose();
+                                }
+                                readerOutReport.Dispose();
+                                readerOut.Dispose();
+                                reader.Dispose();
+                            }
+                            catch (XmlException xmlex)
+                            {
+                                Log.Error(xmlex, string.Empty);
+                            }
+                            catch (XsltException exp)
+                            {
+                                Log.Error(exp, string.Empty);
+
+                                return false;
+                            }
+                            catch (Exception exp)
+                            {
+                                Log.Error(exp, string.Empty);
+                            }
+                        }
+                    }
+                    
                 }
+
+
+                
             }
 
             return update;
@@ -1202,5 +1384,7 @@ namespace FileUploaderService.KME
         }
 
         #endregion
+
+      
     }
 }

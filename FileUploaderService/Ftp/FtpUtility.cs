@@ -158,9 +158,12 @@ namespace FileUploaderService.Ftp
 
                 foreach (var localFileWithPath in files)
                 {
-                    var remotefileName = Path.GetFileName(localFileWithPath);
-                    Log.Info("Putting file {0}", remotefileName);
-                    ftp.Put(localFileWithPath, remotefileName);
+                    if (File.Exists(localFileWithPath))
+                    {
+                        var remotefileName = Path.GetFileName(localFileWithPath);
+                        Log.Info("Putting file {0}", remotefileName);
+                        ftp.Put(localFileWithPath, remotefileName);
+                    }
                 }
                 
                 Log.Info("Quitting client");
@@ -264,9 +267,12 @@ namespace FileUploaderService.Ftp
                     ftp.ChDir(remoteSubDir);
                 }
 
-                Log.Info("Putting file {0} to {1}", localFile, m_remotePdfFileName);
-                ftp.Put(localFile, m_remotePdfFileName);
-                
+                if (File.Exists(localFile))
+                {
+                    Log.Info("Putting file {0} to {1}", localFile, m_remotePdfFileName);
+
+                    ftp.Put(localFile, m_remotePdfFileName);
+                }
 
                 Log.Info("Quitting client");
                 ftp.Quit();
@@ -391,8 +397,11 @@ namespace FileUploaderService.Ftp
 
                        foreach (var Skiver in remoteLag.Skiver)
                         {
-                             Log.Info("Putting file {0} to {1}", Skiver.Info.FileInfo.FullName, Skiver.Info.FileInfo.Name);
-                             ftp.Put(Skiver.Info.FileInfo.FullName, Skiver.Info.FileInfo.Name);
+                            if (File.Exists(Skiver.Info.FileInfo.FullName))
+                            {
+                                Log.Info("Putting file {0} to {1}", Skiver.Info.FileInfo.FullName, Skiver.Info.FileInfo.Name);
+                                ftp.Put(Skiver.Info.FileInfo.FullName, Skiver.Info.FileInfo.Name);
+                            }
                         }
 
                        ftp.CdUp();

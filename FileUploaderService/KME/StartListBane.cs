@@ -32,7 +32,9 @@ namespace FileUploaderService.KME
             this.BitmapsStoredInBane = new BitmapDirInfo();
             this.BaneRapporter = new List<RapportXmlClass>();
             this.ToppListeRapporter = new List<RapportXmlClass>();
+            this.ToppListeLagRapporter = new List<RapportXmlClass>();
             this.ToppListeFilPrefix= new List<string>();
+            this.ToppListeLagFilPrefix = new List<string>();
         }
 
         #endregion
@@ -54,6 +56,11 @@ namespace FileUploaderService.KME
         [XmlIgnore]
         public List<string> ToppListeFilPrefix { get; set; }
 
+        [XmlIgnore]
+        public List<string> ToppListeLagFilPrefix { get; set; }
+
+        [XmlIgnore]
+        public List<RapportXmlClass> ToppListeLagRapporter { get; set; }
         /// <summary>
         /// Gets or sets the bane type.
         /// </summary>
@@ -131,6 +138,11 @@ namespace FileUploaderService.KME
                 }
 
                 if (lagText.Contains(Constants.Prefix15m))
+                {
+                    return BaneType.Femtenmeter;
+                }
+
+                if (lagText.ToUpper() == "LAGVIS")
                 {
                     return BaneType.Femtenmeter;
                 }
