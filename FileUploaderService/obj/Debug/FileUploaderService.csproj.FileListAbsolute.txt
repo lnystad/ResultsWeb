@@ -14,3 +14,4 @@ C:\Users\lan\Documents\GitHub\ResultsWeb\FileUploaderService\obj\Debug\FileUploa
 C:\Users\lan\Documents\GitHub\ResultsWeb\FileUploaderService\obj\Debug\FileUploaderService.pdb
 C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\FileUploaderService.pdb
 C:\Users\lan\Documents\GitHub\ResultsWeb\FileUploaderService\obj\Debug\FileUploaderService.csprojResolveAssemblyReference.cache
+C:\Users\lan\Source\Repos\ResultsWeb\FileUploaderService\obj\Debug\FileUploaderService.csprojResolveAssemblyReference.cache
