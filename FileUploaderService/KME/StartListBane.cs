@@ -141,6 +141,14 @@ namespace FileUploaderService.KME
                 {
                     return BaneType.Femtenmeter;
                 }
+                if (lagText.Contains(Constants.PrefixGrovFelt))
+                {
+                    return BaneType.GrovFelt;
+                }
+                if (lagText.Contains(Constants.PrefixFinFelt))
+                {
+                    return BaneType.FinFelt;
+                }
 
                 if (lagText.ToUpper() == "LAGVIS")
                 {

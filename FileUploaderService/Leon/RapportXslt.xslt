@@ -131,6 +131,120 @@
     </xsl:copy>
   </xsl:template>
 
+<!-- FELT-->
+  
+  <xsl:template match="series[@ref]">
+    
+    <xsl:variable name ="Lagnr">
+      <xsl:variable name="Startlagnr">
+        <xsl:choose>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(200)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="number(0)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+    
+      <xsl:value-of select="$Startlagnr + number(substring-after(/Merged/report/header/@name,'Lag '))"/>
+    </xsl:variable>
+
+    <xsl:variable name ="skivenr">
+      <xsl:value-of select="ancestor::result[1]/@num"/>
+    </xsl:variable>
+
+     <xsl:variable name ="serienr">
+      <xsl:value-of select="@id"/>
+    </xsl:variable>
+    
+    <xsl:variable name ="filenameToFind">
+      <xsl:value-of select="concat('TR-',$Lagnr,'-',$skivenr,'-',$serienr,'.PNG')"/>
+    </xsl:variable>
+
+    <xsl:variable name="FoundBitmaps">
+      <Hits>
+        <xsl:for-each select="/Merged/BitmapDirInfo/Bitmaps/FileName" >
+          <xsl:if test="current() = $filenameToFind">
+            <Hit>
+              <xsl:value-of select="current()"/>
+            </Hit>
+          </xsl:if>
+        </xsl:for-each>
+      </Hits>
+    </xsl:variable>
+      
+    <xsl:variable name="FoundBitmap">
+      <xsl:value-of select="msxsl:node-set($FoundBitmaps)/Hits/Hit"/>
+    </xsl:variable>
+
+    <xsl:copy>
+    <!-- produce a fill attribute with content "red" -->
+      <xsl:if test="string($FoundBitmap) !=''">
+        <xsl:attribute name="ref">
+           <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmap)"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <!-- this template is applied to a path node that doesn't have a fill attribute -->
+  <xsl:template match="series[not(@ref)]">
+    <!-- copy me and my attributes and my subnodes, applying templates as necessary, and add a fill attribute set to red -->
+    <xsl:variable name ="Lagnr">
+      <xsl:variable name="Startlagnr">
+        <xsl:choose>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(200)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="number(0)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+
+      <xsl:value-of select="$Startlagnr + number(substring-after(/Merged/report/header/@name,'Lag '))"/>
+    </xsl:variable>
 
 
+    <xsl:variable name ="skivenr">
+      <xsl:value-of select="ancestor::result[1]/@num"/>
+    </xsl:variable>
+
+     <xsl:variable name ="serienr">
+      <xsl:value-of select="@id"/>
+    </xsl:variable>
+    
+    <xsl:variable name ="filenameToFind">
+      <xsl:value-of select="concat('TR-',$Lagnr,'-',$skivenr,'-',$serienr,'.PNG')"/>
+    </xsl:variable>
+
+    <xsl:variable name="FoundBitmaps">
+      <Hits>
+        <xsl:for-each select="/Merged/BitmapDirInfo/Bitmaps/FileName" >
+          <xsl:if test="current() = $filenameToFind">
+            <Hit>
+              <xsl:value-of select="current()"/>
+            </Hit>
+          </xsl:if>
+        </xsl:for-each>
+      </Hits>
+    </xsl:variable>
+
+    <xsl:variable name="FoundBitmap">
+      <xsl:value-of select="msxsl:node-set($FoundBitmaps)/Hits/Hit"/>
+    </xsl:variable>
+
+
+    <xsl:copy>
+      <xsl:if test="string($FoundBitmap) !=''">
+        <xsl:attribute name="ref">
+          <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmap)"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates select="@*|node()"/>
+
+    </xsl:copy>
+  </xsl:template>
 </xsl:stylesheet>

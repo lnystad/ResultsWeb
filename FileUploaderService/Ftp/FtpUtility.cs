@@ -58,6 +58,9 @@ namespace FileUploaderService.Ftp
                 ftp.TransferType = FTPTransferType.BINARY;
                 ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 ftp.DataEncoding = new UTF8Encoding(false);
+                ftp.Timeout = 0;
+                ftp.TransferBufferSize = 4096;
+                ftp.TransferNotifyInterval = ((long)(4096));
                 Log.Info("Changing remote Dir to {0}", remoteDir);
 
                 var remoteDirParts = remoteDir.Split(new char[] { '/', '\\' });

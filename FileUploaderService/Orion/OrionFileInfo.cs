@@ -1,37 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrionFileInfo.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The orion file info.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FileUploaderService.Orion
 {
+    using System;
     using System.IO;
-  
+
     using SendingResults.Diagnosis;
 
+    /// <summary>
+    /// The orion file info.
+    /// </summary>
     public class OrionFileInfo : IEquatable<OrionFileInfo>
     {
+        #region Constructors and Destructors
 
-        public FileInfo FileInfo { get; set; }
-        public int Lag { get; set; }
-        public int Skive { get; set; }
+        public OrionFileInfo()
+        {
+        }
 
-        public DateTime EventDate { get; set; }
-        public DateTime EventDateTime { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrionFileInfo"/> class.
+        /// </summary>
+        /// <param name="info">
+        /// The info.
+        /// </param>
         public OrionFileInfo(FileInfo info)
         {
-            FileInfo = info;
-            EventDate = info.CreationTime.Date;
-            EventDateTime = new DateTime(info.CreationTime.Year,
-                info.CreationTime.Month,
-                info.CreationTime.Day,
-                info.CreationTime.Hour,
-                info.CreationTime.Minute,
+            this.FileInfo = info;
+            this.EventDate = info.CreationTime.Date;
+            this.EventDateTime = new DateTime(
+                info.CreationTime.Year, 
+                info.CreationTime.Month, 
+                info.CreationTime.Day, 
+                info.CreationTime.Hour, 
+                info.CreationTime.Minute, 
                 0);
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the event date.
+        /// </summary>
+        public DateTime EventDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event date time.
+        /// </summary>
+        public DateTime EventDateTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file info.
+        /// </summary>
+        public FileInfo FileInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lag.
+        /// </summary>
+        public int Lag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the skive.
+        /// </summary>
+        public int Skive { get; set; }
+
+
+        public int Serie { get; set; }
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool Equals(OrionFileInfo other)
         {
             if (other == null)
@@ -65,49 +121,58 @@ namespace FileUploaderService.Orion
             return false;
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The parse target.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         internal bool ParseTarget()
         {
             try
             {
+                var splitInf = this.FileInfo.Name.Split(new[] { '-', '.' });
 
-            var splitInf = FileInfo.Name.Split(new[] { '-','.' });
-
-            int tall = 0;
-            if (int.TryParse(splitInf[1], out tall))
-            {
-                Lag = tall;
-            }
-            else
-            {
-                Lag = -1;
-                Log.Warning("Could not parse Lag {0}", FileInfo.Name);
-            }
-
-            tall = 0;
-            if (int.TryParse(splitInf[2], out tall))
-            {
-                Skive = tall;
-            }
-
-            if (string.Compare(splitInf[3], "PNG", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                if (Skive > 0 && Lag > 0)
+                int tall = 0;
+                if (int.TryParse(splitInf[1], out tall))
                 {
-                    return true;
+                    this.Lag = tall;
                 }
+                else
+                {
+                    this.Lag = -1;
+                    Log.Warning("Could not parse Lag {0}", this.FileInfo.Name);
+                }
+
+                tall = 0;
+                if (int.TryParse(splitInf[2], out tall))
+                {
+                    this.Skive = tall;
+                }
+
+                if (string.Compare(splitInf[3], "PNG", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    if (this.Skive > 0 && this.Lag > 0)
+                    {
+                        return true;
+                    }
+                }
+
+                this.Skive = -1;
+                Log.Warning("Could not parse Skive {0}", this.FileInfo.Name);
             }
-
-            Skive = -1;
-            Log.Warning("Could not parse Skive {0}", FileInfo.Name);
-
-           }
-            catch (Exception e )
+            catch (Exception e)
             {
-                Log.Error(e, "Error Parsing {0}", FileInfo.Name);
+                Log.Error(e, "Error Parsing {0}", this.FileInfo.Name);
             }
 
             return false;
         }
 
+        #endregion
     }
 }

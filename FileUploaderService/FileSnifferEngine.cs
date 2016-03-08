@@ -1,12 +1,19 @@
-﻿namespace FileUploaderService
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FileSnifferEngine.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The file sniffer engine.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace FileUploaderService
 {
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.IO;
     using System.Threading;
-    using System.Xml;
-    using System.Xml.Serialization;
 
     using FileUploaderService.Ftp;
     using FileUploaderService.KME;
@@ -15,36 +22,109 @@
 
     using SendingResults.Diagnosis;
 
+    /// <summary>
+    /// The file sniffer engine.
+    /// </summary>
     public class FileSnifferEngine
     {
-        private bool m_stopMe;
+        #region Fields
 
-        
-        private FtpUtility m_myFtpUtil;
+        /// <summary>
+        /// The bk up bitmap.
+        /// </summary>
+        private bool BkUpBitmap;
+
+        /// <summary>
+        /// The upload bitmap.
+        /// </summary>
+        private bool UploadBitmap;
+
+        /// <summary>
+        /// The m_file loader.
+        /// </summary>
         private LeonFileLoader m_fileLoader;
 
-        private OrionFileLoader m_myOrionFileLoaderBkup;
-        private OrionFileLoader m_myOrionFileLoader15m;
-        private OrionFileLoader m_myOrionFileLoader100m;
-        private OrionFileLoader m_myOrionFileLoader200m;
-
+        /// <summary>
+        /// The m_install dir.
+        /// </summary>
         private string m_installDir;
 
-        private string m_remoteDir;
+        /// <summary>
+        /// The m_my ftp util.
+        /// </summary>
+        private FtpUtility m_myFtpUtil;
 
-        private string m_remotePdfFileName;
+        /// <summary>
+        /// The m_my orion file loader 100 m.
+        /// </summary>
+        private OrionFileLoader m_myOrionFileLoader100m;
 
-        private string m_remotePresseListeFileName;
+        /// <summary>
+        /// The m_my orion file loader 15 m.
+        /// </summary>
+        private OrionFileLoader m_myOrionFileLoader15m;
 
-        private string m_remoteBitMapDir15m;
+        /// <summary>
+        /// The m_my orion file loader 200 m.
+        /// </summary>
+        private OrionFileLoader m_myOrionFileLoader200m;
 
+        /// <summary>
+        /// The m_my orion file loader bkup.
+        /// </summary>
+        private OrionFileLoader m_myOrionFileLoaderBkup;
+
+        /// <summary>
+        /// The m_remote bit map dir 100 m.
+        /// </summary>
         private string m_remoteBitMapDir100m;
 
+        /// <summary>
+        /// The m_remote bit map dir 15 m.
+        /// </summary>
+        private string m_remoteBitMapDir15m;
+
+        /// <summary>
+        /// The m_remote bit map dir 200 m.
+        /// </summary>
         private string m_remoteBitMapDir200m;
 
+        /// <summary>
+        /// The m_remote dir.
+        /// </summary>
+        private string m_remoteDir;
 
-        private bool UploadBitmap;
-        private bool BkUpBitmap;
+        /// <summary>
+        /// The m_remote pdf file name.
+        /// </summary>
+        private string m_remotePdfFileName;
+
+        /// <summary>
+        /// The m_remote presse liste file name.
+        /// </summary>
+        private string m_remotePresseListeFileName;
+
+        /// <summary>
+        /// The m_stop me.
+        /// </summary>
+        private bool m_stopMe;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the exit code.
+        /// </summary>
+        public int ExitCode { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The start.
+        /// </summary>
         public void Start()
         {
             try
@@ -53,13 +133,11 @@
                 Log.Info("Starting");
                 while (!this.m_stopMe)
                 {
-                    if (m_fileLoader != null)
+                    if (this.m_fileLoader != null)
                     {
-                  
                         var webDir = this.m_fileLoader.CheckWebDir();
                         if (webDir != null)
                         {
-
                             Thread.Sleep(5000);
                             if (webDir.Command.HasFlag(UploadCommand.Reports))
                             {
@@ -70,12 +148,12 @@
                                 this.UploadWeb(webDir);
                             }
 
-                            if (webDir.Command.HasFlag(UploadCommand.Pdf) && !string.IsNullOrEmpty(m_remotePdfFileName))
+                            if (webDir.Command.HasFlag(UploadCommand.Pdf) && !string.IsNullOrEmpty(this.m_remotePdfFileName))
                             {
                                 this.UploadPdf(webDir);
                             }
 
-                            if (webDir.Command.HasFlag(UploadCommand.PresseListe) && !string.IsNullOrEmpty(m_remotePresseListeFileName))
+                            if (webDir.Command.HasFlag(UploadCommand.PresseListe) && !string.IsNullOrEmpty(this.m_remotePresseListeFileName))
                             {
                                 this.UploadPresseListe(webDir);
                             }
@@ -85,49 +163,58 @@
                                 this.UploadBitMaps(webDir);
                             }
 
-                            //if (webDir.Command.HasFlag(UploadCommand.Reports))
-                            //{
-                            //    this.UploadWeb(webDir);
-                            //}
+                            // if (webDir.Command.HasFlag(UploadCommand.Reports))
+                            // {
+                            // this.UploadWeb(webDir);
+                            // }
 
-                            //if (webDir.Command.HasFlag(UploadCommand.StartingList))
-                            //{
-                            //    this.UploadStartingList(webDir);
-                            //}
+                            // if (webDir.Command.HasFlag(UploadCommand.StartingList))
+                            // {
+                            // this.UploadStartingList(webDir);
+                            // }
                         }
 
-                        if (UploadBitmap)
+                        if (this.UploadBitmap)
                         {
-                           if (m_myOrionFileLoader15m != null)
+                            if (this.m_myOrionFileLoader15m != null)
                             {
-                                var bbkupDir = m_myOrionFileLoader15m.CheckForNewBackupFiles();
-                                if (bbkupDir != null)
+                                var bbkupDir = this.m_myOrionFileLoader15m.CheckForNewBackupFiles();
+                                if (bbkupDir != null && bbkupDir.Count > 0)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Femtenmeter);
-                                    m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
-                                } 
-                            }
-
-                            if (m_myOrionFileLoader100m != null)
-                            {
-                                var bbkupDir = m_myOrionFileLoader100m.CheckForNewBackupFiles();
-                                if (bbkupDir != null)
-                                {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Hundremeter);
-                                    m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                    var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Femtenmeter);
+                                    if (stevnerToUpload != null && stevnerToUpload.Count > 0)
+                                    {
+                                        this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                    }
                                 }
                             }
 
-                            if (m_myOrionFileLoader200m != null)
+                            if (this.m_myOrionFileLoader100m != null)
                             {
-                                var bbkupDir = m_myOrionFileLoader200m.CheckForNewBackupFiles();
-                                if (bbkupDir != null)
+                                var bbkupDir = this.m_myOrionFileLoader100m.CheckForNewBackupFiles();
+                                if (bbkupDir != null && bbkupDir.Count > 0)
                                 {
-                                    var stevnerToUpload = m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Tohundremeter);
-                                    m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+
+                                    var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Hundremeter);
+                                    if (stevnerToUpload != null && stevnerToUpload.Count > 0)
+                                    {
+                                        this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                    }
                                 }
                             }
-                            
+
+                            if (this.m_myOrionFileLoader200m != null)
+                            {
+                                var bbkupDir = this.m_myOrionFileLoader200m.CheckForNewBackupFiles();
+                                if (bbkupDir != null && bbkupDir.Count > 0)
+                                {
+                                    var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Tohundremeter);
+                                    if (stevnerToUpload != null && stevnerToUpload.Count > 0)
+                                    {
+                                        this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -141,12 +228,10 @@
                     }
 
                     Thread.Sleep(2000);
-
                 }
 
                 Log.Info("Stopping");
                 this.ExitCode = 0;
-
             }
             catch (Exception e)
             {
@@ -154,172 +239,25 @@
                 this.ExitCode = 10;
                 throw;
             }
-            
         }
 
-    
-
-        private void UploadBitMaps(LeonDirInfo webDir)
+        /// <summary>
+        /// The stop.
+        /// </summary>
+        public void Stop()
         {
-
-            if (webDir.StevneForAlleBaner == null)
-            {
-                return;
-            }
-
-            if (webDir.StevneForAlleBaner.DynamiskeBaner == null )
-            {
-                return;
-            }
-
-            if (webDir.StevneForAlleBaner.DynamiskeBaner.Count <= 0)
-            {
-                return;
-            }
-            foreach (var bane in webDir.StevneForAlleBaner.DynamiskeBaner)
-            {
-                if (bane.BitmapsStoredInBane == null)
-                {
-                    continue;
-                }
-                    string navn = null;
-                    if (bane.BitmapsStoredInBane.Updated)
-                    {
-                        bane.BitmapsStoredInBane.Updated = false;
-                        List<string> bitmap = new List<string>();
-                        foreach (var file in bane.BitmapsStoredInBane.BitmapFiles)
-                        {
-
-                            bitmap.Add(file.FullName);
-                        }
-
-                        if (bitmap.Count <= 0)
-                        {
-                            Log.Trace(" No bitmaps");
-                            continue;
-                        }
-
-                        var dirbitmapBaner = Path.GetDirectoryName(bitmap[0]);
-                        var dirbitmap = Path.GetDirectoryName(dirbitmapBaner);
-                        var dirStevne = Path.GetDirectoryName(dirbitmap);
-                        dirStevne = Path.GetFileName(dirStevne);
-                        navn = ParseHelper.RemoveDirLetters(dirStevne);
-                        string prefix = null;
-                        switch (bane.BaneType)
-                        {
-                            case BaneType.Femtenmeter:
-                                prefix = Constants.Prefix15m;
-                                break;
-                            case BaneType.Hundremeter:
-                                prefix = Constants.Prefix100m;
-                                break;
-                            case BaneType.Tohundremeter:
-                                prefix = Constants.Prefix200m;
-                                break;
-                        }
-
-                        if (string.IsNullOrEmpty(prefix))
-                        {
-                            Log.Info(" Prefix for bitmaps is missing stevne={0}", navn);
-                            continue;
-                        }
-
-                        this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
-                    }
-                }
-            }
-
-        //private void UploadBitMaps(System.Collections.Generic.List<StartingListStevne> bitmapStevner)
-        //{
-        //    foreach (var stevne in bitmapStevner)
-        //    {
-        //        List<string> backupBitmapMatch = new List<string>();
-        //        foreach (var startingListLag in stevne.StevneLag)
-        //        {
-                  
-
-        //            foreach (var skive in startingListLag.Skiver)
-        //            {
-        //                if (skive.BackUpBitMapFile != null)
-        //                {
-        //                    backupBitmapMatch.Add(skive.BackUpBitMapFile.FullName);
-        //                }
-        //            }
-
-        //            if (!string.IsNullOrEmpty(startingListLag.FullFileNameGravLapper))
-        //            {
-        //                backupBitmapMatch.Add(startingListLag.FullFileNameGravLapper);
-        //            }
-                
-        //        }
-
-        //        if (backupBitmapMatch.Count > 0)
-        //        {
-        //            this.m_myFtpUtil.UploadFiles(this.m_remoteDir, stevne.StevneNavn, backupBitmapMatch.ToArray());
-        //        }
-        //    }
-           
-        //}
-
-
-
-        private void UploadPresseListe(LeonDirInfo webDir)
-        {
-            this.m_myFtpUtil.UploadFile(this.m_remoteDir, webDir.TargetName, webDir.PresseListeFileName, this.m_remotePresseListeFileName);
+            this.m_stopMe = true;
         }
 
-        private void UploadPdf(LeonDirInfo webDir)
-        {
-            this.m_fileLoader.UpdatePdfTimeStamp(webDir);
-            this.m_myFtpUtil.UploadFile(this.m_remoteDir, webDir.TargetName, webDir.PdfFileName, this.m_remotePdfFileName);
-        }
+        #endregion
 
-        private void UploadWeb(LeonDirInfo webDir)
-        {
-            if (Directory.Exists(webDir.WebName))
-            {
-                var files = Directory.GetFiles(webDir.WebName);
-                if (files.Length <= 0)
-                {
-                    return;
-                }
+        #region Methods
 
-                this.m_fileLoader.UpdateWebTimeStamp(webDir);
-                this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
-            }
-        }
-
-        private void UploadWebReportAndBitMap(LeonDirInfo webDir)
-        {
-            if (Directory.Exists(webDir.WebName))
-            {
-                var files = Directory.GetFiles(webDir.WebName);
-                if (files.Length <= 0)
-                {
-                    return;
-                }
-                if (webDir.StevneForAlleBaner != null)
-                {
-                foreach (var baner in webDir.StevneForAlleBaner.DynamiskeBaner)
-                {
-                    if (baner.BitmapsStoredInBane != null)
-                    {
-                        baner.BitmapsStoredInBane.Updated = true;
-                        UploadBitMaps(webDir);
-                    }
-                    
-                }
-                }
-                
-
-                this.m_fileLoader.UpdateWebTimeStamp(webDir);
-                this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
-            }
-        }
-
+        /// <summary>
+        /// The init application.
+        /// </summary>
         private void InitApplication()
         {
-
             var logfile = ConfigurationManager.AppSettings["LogFile"];
 
             var LoggingLevelsString = ConfigurationManager.AppSettings["LoggingLevels"];
@@ -336,7 +274,6 @@
                 }
             }
 
-
             var fileAppsender = new FileAppender(logfile, enumLowestTrace, LoggingLevels.Trace);
             Log.AddAppender(fileAppsender);
             Log.Info("Starting Config");
@@ -348,42 +285,72 @@
             this.m_remoteDir = ConfigurationManager.AppSettings["RemoteSubDir"];
             this.m_remotePdfFileName = ConfigurationManager.AppSettings["RemotePdfFileName"];
             this.m_remotePresseListeFileName = ConfigurationManager.AppSettings["RemotePresseListeFileName"];
-            
+
             string hostIp = ConfigurationManager.AppSettings["FtpHostIp"];
             string hostPort = ConfigurationManager.AppSettings["FtpHostPort"];
 
+
+            string bitMapFeltstr = ConfigurationManager.AppSettings["BitMapFelt"];
+            bool bitmapfelt = false;
+            if (!string.IsNullOrEmpty(bitMapFeltstr))
+            {
+                bool testVal;
+                if (bool.TryParse(bitMapFeltstr, out testVal))
+                {
+                    bitmapfelt = testVal;
+                }
+            }
+
+            string bitMapSkiveriLagetstr = ConfigurationManager.AppSettings["BitMapSkiveriLaget"];
+            int bitMapSkiveriLaget = 0;
+            if (!string.IsNullOrEmpty(bitMapSkiveriLagetstr))
+            {
+                int testValint;
+                if (int.TryParse(bitMapSkiveriLagetstr, out testValint))
+                {
+                    bitMapSkiveriLaget = testValint;
+                }
+            }
+
+            string bitMapStartHoldstr = ConfigurationManager.AppSettings["BitMapStartHold"];
+            int bitMapStartHold = 1;
+            if (!string.IsNullOrEmpty(bitMapStartHoldstr))
+            {
+                int testValint;
+                if (int.TryParse(bitMapStartHoldstr, out testValint))
+                {
+                    bitMapStartHold = testValint;
+                }
+            }
+            
+
             string bitMapDir = ConfigurationManager.AppSettings["BitMapDir"];
             string bitMapBackupDir = ConfigurationManager.AppSettings["BitMapBackupDir"];
+            string bitMapFetchTimeOutstr = ConfigurationManager.AppSettings["BitMapFetchTimeOut"];
 
-
-            m_remoteBitMapDir15m  = ConfigurationManager.AppSettings["RemoteBitMapDir15m"];
-            m_remoteBitMapDir100m = ConfigurationManager.AppSettings["RemoteBitMapDir100m"];
-            m_remoteBitMapDir200m = ConfigurationManager.AppSettings["RemoteBitMapDir200m"];
+            this.m_remoteBitMapDir15m = ConfigurationManager.AppSettings["RemoteBitMapDir15m"];
+            this.m_remoteBitMapDir100m = ConfigurationManager.AppSettings["RemoteBitMapDir100m"];
+            this.m_remoteBitMapDir200m = ConfigurationManager.AppSettings["RemoteBitMapDir200m"];
 
             string uploadBitmapstr = ConfigurationManager.AppSettings["UploadBitmap"];
 
             string RapportXsltFilFileName = ConfigurationManager.AppSettings["RapportXsltFil"];
 
-
             string TopListSkyttereXsltFileName = ConfigurationManager.AppSettings["TopListSkyttereXsltFil"];
             string TopListXsltFileName = ConfigurationManager.AppSettings["TopListXsltFil"];
 
-
             string TopListLagSkyttereXsltFilFileName = ConfigurationManager.AppSettings["TopListLagSkyttereXsltFil"];
 
-   
-            bool debugMerge = false; 
+            bool debugMerge = false;
             string debugXslt = ConfigurationManager.AppSettings["DebugXslt"];
             if (!string.IsNullOrEmpty(debugXslt))
             {
                 bool val;
-                if (Boolean.TryParse(debugXslt, out val))
+                if (bool.TryParse(debugXslt, out val))
                 {
                     debugMerge = val;
                 }
             }
-
-
 
             this.BkUpBitmap = false;
             this.UploadBitmap = false;
@@ -414,23 +381,26 @@
                 bool result = false;
                 if (bool.TryParse(uploadBitmapstr, out result))
                 {
-                    UploadBitmap = result;
-                } 
+                    this.UploadBitmap = result;
+                }
             }
-            
 
             if (this.BkUpBitmap)
             {
-                this.m_myOrionFileLoaderBkup = new OrionFileLoader(bitMapDir, bitMapBackupDir);
-               
+                Log.Info("Bitmap Bakup from Orion Initiated {0} {1}", bitMapDir, bitMapBackupDir);
+                this.m_myOrionFileLoaderBkup = new OrionFileLoader(bitMapDir, bitMapBackupDir, bitMapFetchTimeOutstr, bitmapfelt, bitMapSkiveriLaget, bitMapStartHold);
             }
-            
-            if (!string.IsNullOrEmpty(m_remoteBitMapDir15m))
+            else
             {
-                if (Directory.Exists(m_remoteBitMapDir15m))
+                Log.Info("Bitmap Bakup from Orion not Initiated");
+            }
+
+            if (!string.IsNullOrEmpty(this.m_remoteBitMapDir15m))
+            {
+                if (Directory.Exists(this.m_remoteBitMapDir15m))
                 {
-                    Log.Info("bitmaps fetch for 15m on dir ={0}", m_remoteBitMapDir15m);
-                    m_myOrionFileLoader15m = new OrionFileLoader(m_remoteBitMapDir15m);
+                    Log.Info("bitmaps fetch for 15m on dir ={0}", this.m_remoteBitMapDir15m);
+                    this.m_myOrionFileLoader15m = new OrionFileLoader(this.m_remoteBitMapDir15m);
                 }
                 else
                 {
@@ -438,12 +408,12 @@
                 }
             }
 
-            if (!string.IsNullOrEmpty(m_remoteBitMapDir100m))
+            if (!string.IsNullOrEmpty(this.m_remoteBitMapDir100m))
             {
-                if (Directory.Exists(m_remoteBitMapDir100m))
+                if (Directory.Exists(this.m_remoteBitMapDir100m))
                 {
-                    Log.Info("bitmaps fetch for 100m on dir ={0}", m_remoteBitMapDir100m);
-                    m_myOrionFileLoader100m = new OrionFileLoader(m_remoteBitMapDir100m);
+                    Log.Info("bitmaps fetch for 100m on dir ={0}", this.m_remoteBitMapDir100m);
+                    this.m_myOrionFileLoader100m = new OrionFileLoader(this.m_remoteBitMapDir100m);
                 }
                 else
                 {
@@ -451,57 +421,235 @@
                 }
             }
 
-            if (!string.IsNullOrEmpty(m_remoteBitMapDir200m))
+            if (!string.IsNullOrEmpty(this.m_remoteBitMapDir200m))
             {
-                if (Directory.Exists(m_remoteBitMapDir200m))
+                if (Directory.Exists(this.m_remoteBitMapDir200m))
                 {
-                    Log.Info("bitmaps fetch for 200m on dir ={0}", m_remoteBitMapDir200m);
-                    m_myOrionFileLoader200m = new OrionFileLoader(m_remoteBitMapDir200m);
+                    Log.Info("bitmaps fetch for 200m on dir ={0}", this.m_remoteBitMapDir200m);
+                    this.m_myOrionFileLoader200m = new OrionFileLoader(this.m_remoteBitMapDir200m);
                 }
                 else
                 {
                     Log.Info("No bitmaps fetch for 200m");
-                } 
+                }
             }
 
-            if (UploadBitmap || !string.IsNullOrEmpty(m_installDir))
+            if (this.UploadBitmap || !string.IsNullOrEmpty(this.m_installDir))
             {
                 this.m_myFtpUtil = new FtpUtility(ftpServer, hostIp, hostPort, ftpUserName, ftpPassWord);
             }
-            
-            if (!string.IsNullOrEmpty(m_installDir))
+
+            if (!string.IsNullOrEmpty(this.m_installDir))
             {
                 this.m_fileLoader = new LeonFileLoader(this.m_installDir);
                 this.m_fileLoader.DebugMergedXml = debugMerge;
                 if (!string.IsNullOrEmpty(RapportXsltFilFileName))
                 {
-
                     this.m_fileLoader.InitRapportTransform(RapportXsltFilFileName);
                 }
 
-
                 if (!string.IsNullOrEmpty(RapportXsltFilFileName) && !string.IsNullOrEmpty(TopListSkyttereXsltFileName))
                 {
-
                     this.m_fileLoader.InitToppListInfoTransform(TopListXsltFileName, TopListSkyttereXsltFileName);
                 }
 
-                if (!string.IsNullOrEmpty(TopListLagSkyttereXsltFilFileName) )
+                if (!string.IsNullOrEmpty(TopListLagSkyttereXsltFilFileName))
                 {
                     this.m_fileLoader.InitToppListLagSkytingTransform(TopListLagSkyttereXsltFilFileName);
                 }
-
-                
             }
         }
 
-        public int ExitCode { get; set; }
-
-        public void Stop()
+        /// <summary>
+        /// The upload bit maps.
+        /// </summary>
+        /// <param name="webDir">
+        /// The web dir.
+        /// </param>
+        private void UploadBitMaps(LeonDirInfo webDir)
         {
-            this.m_stopMe = true;
+            if (webDir.StevneForAlleBaner == null)
+            {
+                return;
+            }
+
+            if (webDir.StevneForAlleBaner.DynamiskeBaner == null)
+            {
+                return;
+            }
+
+            if (webDir.StevneForAlleBaner.DynamiskeBaner.Count <= 0)
+            {
+                return;
+            }
+
+            foreach (var bane in webDir.StevneForAlleBaner.DynamiskeBaner)
+            {
+                if (bane.BitmapsStoredInBane == null)
+                {
+                    continue;
+                }
+
+                string navn = null;
+                if (bane.BitmapsStoredInBane.Updated)
+                {
+                    bane.BitmapsStoredInBane.Updated = false;
+                    List<string> bitmap = new List<string>();
+                    foreach (var file in bane.BitmapsStoredInBane.BitmapFiles)
+                    {
+                        bitmap.Add(file.FullName);
+                    }
+
+                    if (bitmap.Count <= 0)
+                    {
+                        Log.Trace(" No bitmaps");
+                        continue;
+                    }
+
+                    var dirbitmapBaner = Path.GetDirectoryName(bitmap[0]);
+                    var dirbitmap = Path.GetDirectoryName(dirbitmapBaner);
+                    var dirStevne = Path.GetDirectoryName(dirbitmap);
+                    dirStevne = Path.GetFileName(dirStevne);
+                    navn = ParseHelper.RemoveDirLetters(dirStevne);
+                    string prefix = null;
+                    switch (bane.BaneType)
+                    {
+                        case BaneType.Femtenmeter:
+                            prefix = Constants.Prefix15m;
+                            break;
+                        case BaneType.Hundremeter:
+                            prefix = Constants.Prefix100m;
+                            break;
+                        case BaneType.Tohundremeter:
+                            prefix = Constants.Prefix200m;
+                            break;
+                        case BaneType.FinFelt:
+                            prefix = Constants.PrefixFinFelt;
+                            break;
+                        case BaneType.GrovFelt:
+                            prefix = Constants.PrefixGrovFelt;
+                            break;
+                    }
+
+                    if (string.IsNullOrEmpty(prefix))
+                    {
+                        Log.Info(" Prefix for bitmaps is missing stevne={0}", navn);
+                        continue;
+                    }
+
+                    this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
+                }
+            }
         }
 
-       
+        // private void UploadBitMaps(System.Collections.Generic.List<StartingListStevne> bitmapStevner)
+        // {
+        // foreach (var stevne in bitmapStevner)
+        // {
+        // List<string> backupBitmapMatch = new List<string>();
+        // foreach (var startingListLag in stevne.StevneLag)
+        // {
+
+        // foreach (var skive in startingListLag.Skiver)
+        // {
+        // if (skive.BackUpBitMapFile != null)
+        // {
+        // backupBitmapMatch.Add(skive.BackUpBitMapFile.FullName);
+        // }
+        // }
+
+        // if (!string.IsNullOrEmpty(startingListLag.FullFileNameGravLapper))
+        // {
+        // backupBitmapMatch.Add(startingListLag.FullFileNameGravLapper);
+        // }
+
+        // }
+
+        // if (backupBitmapMatch.Count > 0)
+        // {
+        // this.m_myFtpUtil.UploadFiles(this.m_remoteDir, stevne.StevneNavn, backupBitmapMatch.ToArray());
+        // }
+        // }
+
+        // }
+
+        /// <summary>
+        /// The upload pdf.
+        /// </summary>
+        /// <param name="webDir">
+        /// The web dir.
+        /// </param>
+        private void UploadPdf(LeonDirInfo webDir)
+        {
+            this.m_fileLoader.UpdatePdfTimeStamp(webDir);
+            this.m_myFtpUtil.UploadFile(this.m_remoteDir, webDir.TargetName, webDir.PdfFileName, this.m_remotePdfFileName);
+        }
+
+        /// <summary>
+        /// The upload presse liste.
+        /// </summary>
+        /// <param name="webDir">
+        /// The web dir.
+        /// </param>
+        private void UploadPresseListe(LeonDirInfo webDir)
+        {
+            this.m_myFtpUtil.UploadFile(this.m_remoteDir, webDir.TargetName, webDir.PresseListeFileName, this.m_remotePresseListeFileName);
+        }
+
+        /// <summary>
+        /// The upload web.
+        /// </summary>
+        /// <param name="webDir">
+        /// The web dir.
+        /// </param>
+        private void UploadWeb(LeonDirInfo webDir)
+        {
+            if (Directory.Exists(webDir.WebName))
+            {
+                var files = Directory.GetFiles(webDir.WebName);
+                if (files.Length <= 0)
+                {
+                    return;
+                }
+
+                this.m_fileLoader.UpdateWebTimeStamp(webDir);
+                this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
+            }
+        }
+
+        /// <summary>
+        /// The upload web report and bit map.
+        /// </summary>
+        /// <param name="webDir">
+        /// The web dir.
+        /// </param>
+        private void UploadWebReportAndBitMap(LeonDirInfo webDir)
+        {
+            if (Directory.Exists(webDir.WebName))
+            {
+                var files = Directory.GetFiles(webDir.WebName);
+                if (files.Length <= 0)
+                {
+                    return;
+                }
+
+                if (webDir.StevneForAlleBaner != null)
+                {
+                    foreach (var baner in webDir.StevneForAlleBaner.DynamiskeBaner)
+                    {
+                        if (baner.BitmapsStoredInBane != null)
+                        {
+                            baner.BitmapsStoredInBane.Updated = true;
+                            this.UploadBitMaps(webDir);
+                        }
+                    }
+                }
+
+                this.m_fileLoader.UpdateWebTimeStamp(webDir);
+                this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
+            }
+        }
+
+        #endregion
     }
 }

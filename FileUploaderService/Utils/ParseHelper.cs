@@ -21,11 +21,39 @@ namespace FileUploaderService.Utils
             }
             string retInput = input.Replace('/', ' ');
             retInput = retInput.Replace('\\', ' ');
-            retInput = retInput.Replace(',', ' ');
-            retInput = retInput.Replace('-', ' ');
-
+            retInput = retInput.Replace('<', ' ');
+            retInput = retInput.Replace('>', ' ');
+            retInput = retInput.Replace(':', ' ');
+            retInput = retInput.Replace('*', ' ');
+            retInput = retInput.Replace('?', ' ');
+            retInput = retInput.Replace('|', ' ');
             return retInput;
         }
-         
+
+        internal static string RemoveAllSpecialLetters(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return input;
+            }
+
+            string retVal = RemoveDirLetters(input);
+            if (string.IsNullOrEmpty(retVal))
+            {
+                return retVal;
+            }
+
+            retVal = retVal.Replace(',', ' ');
+            retVal = retVal.Replace('%', ' ');
+            retVal = retVal.Replace('&', ' ');
+            retVal = retVal.Replace(';', ' ');
+            retVal = retVal.Replace('~', ' ');
+            retVal = retVal.Replace('$', ' ');
+            retVal = retVal.Replace('!', ' ');
+            retVal = retVal.Replace(',', ' ');
+            retVal = retVal.Replace('.', ' ');
+            return retVal;
+        }
     }
+
 }

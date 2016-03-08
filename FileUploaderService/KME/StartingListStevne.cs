@@ -54,9 +54,8 @@ namespace FileUploaderService.KME
         {
             if (!string.IsNullOrEmpty(navneText))
             {
-                this.StevneNavn = ParseHelper.RemoveDirLetters(navneText);
-                this.ReportDirStevneNavn = navneText;
-
+                this.StevneNavn = navneText;
+                this.ReportDirStevneNavn = ParseHelper.RemoveDirLetters(navneText);
             }
         }
 
@@ -126,8 +125,7 @@ namespace FileUploaderService.KME
                 var newStevne = new StartListBane();
                 newStevne.StevneNavn = navn;
                 newStevne.BaneType = baneType;
-            //    newStevne.ReportDirStevneNavn = reportdirnavn;
-                this.DynamiskeBaner.Add(newStevne);
+                  this.DynamiskeBaner.Add(newStevne);
                 return newStevne;
             }
 

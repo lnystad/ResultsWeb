@@ -48,28 +48,104 @@
       <xsl:value-of select="msxsl:node-set($FoundBitmaps)/Hits/Hit"/>
     </xsl:variable>
 
+    
+    <xsl:variable name="SkytterName">
+      <xsl:value-of select="@name"/>
+     </xsl:variable> 
+    <xsl:variable name="SkytterClub">
+      <xsl:value-of select="@club"/>
+     </xsl:variable> 
+       <xsl:variable name="SkytterClass">
+      <xsl:value-of select="@class"/>
+     </xsl:variable> 
+    
     <!-- produce a fill attribute with content "red" -->
-    <xsl:if test="string($FoundBitmap) !=''">
+    <xsl:choose>
+    <xsl:when test="string($FoundBitmap) !=''">
       <xsl:element name="Skytter">
         <xsl:attribute name="name">
-          <xsl:value-of select="@name"/>
+          <xsl:value-of select="$SkytterName"/>
         </xsl:attribute>
         <xsl:attribute name="club">
-          <xsl:value-of select="@club"/>
+          <xsl:value-of select="$SkytterClub"/>
         </xsl:attribute>
         <xsl:attribute name="class">
-          <xsl:value-of select="@class"/>
+          <xsl:value-of select="$SkytterClass"/>
         </xsl:attribute>
         <xsl:attribute name="ref">
           <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmap)"/>
         </xsl:attribute>
       </xsl:element>
-    </xsl:if>
+    </xsl:when>
+    <xsl:otherwise>
+       <xsl:element name="Skytter">
+                  <xsl:attribute name="name">
+                    <xsl:value-of select="$SkytterName"/>
+                  </xsl:attribute>
+                  <xsl:attribute name="club">
+                    <xsl:value-of select="$SkytterClub"/>
+                  </xsl:attribute>
+                  <xsl:attribute name="class">
+                    <xsl:value-of select="$SkytterClass"/>
+                  </xsl:attribute>
+        <xsl:for-each select="series">
+             <xsl:variable name ="serienr">
+                  <xsl:value-of select="@id"/>
+              </xsl:variable>
+             <xsl:variable name ="filenameSerieToFind">
+              <xsl:value-of select="concat('TR-',$Lagnr,'-',$skivenr,'-',$serienr,'.PNG')"/>
+            </xsl:variable>
+             <xsl:variable name="FoundBitmapsSerie">
+              <Hits>
+                <xsl:for-each select="/Merged/BitmapDirInfo/Bitmaps/FileName" >
+                  <xsl:if test="current() = $filenameSerieToFind">
+                    <Hit>
+                      <xsl:value-of select="current()"/>
+                    </Hit>
+                  </xsl:if>
+                </xsl:for-each>
+              </Hits>
+            </xsl:variable>
 
-
+            <xsl:variable name="FoundBitmapSerie">
+              <xsl:value-of select="msxsl:node-set($FoundBitmapsSerie)/Hits/Hit"/>
+            </xsl:variable>
+          <xsl:variable name ="attributeName">
+                  <xsl:value-of select="concat('ref',$serienr)"/>
+              </xsl:variable>
+               <xsl:if test="string($FoundBitmapSerie) !=''">
+                 <xsl:choose>
+                   <xsl:when test="number($serienr)=1">
+                      <xsl:attribute name="ref1">
+                         <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmapSerie)"/>
+                     </xsl:attribute>
+                   </xsl:when>
+                   <xsl:when test="number($serienr)=2">
+                      <xsl:attribute name="ref2">
+                         <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmapSerie)"/>
+                     </xsl:attribute>
+                   </xsl:when>
+                   <xsl:when test="number($serienr)=3">
+                      <xsl:attribute name="ref3">
+                         <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmapSerie)"/>
+                     </xsl:attribute>
+                   </xsl:when>
+                   <xsl:when test="number($serienr)=4">
+                      <xsl:attribute name="ref4">
+                         <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmapSerie)"/>
+                     </xsl:attribute>
+                   </xsl:when>
+                   <xsl:when test="number($serienr)=5">
+                      <xsl:attribute name="ref5">
+                         <xsl:value-of select="concat(/Merged/BitmapDirInfo/BitmapSubDir,'/',$FoundBitmapSerie)"/>
+                     </xsl:attribute>
+                   </xsl:when>
+                 </xsl:choose>
+                </xsl:if>
+        </xsl:for-each>
+          </xsl:element>
+      </xsl:otherwise>
+  </xsl:choose>
   </xsl:template>
-
-
-
 
 </xsl:stylesheet>

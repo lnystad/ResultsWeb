@@ -237,7 +237,8 @@ function ParseResult(a, r) {
 			b+='<td id="resultcategory" >'+i+'</td>'
 		}
 		m=0;
-		$(this).find("series").each(function() {
+		$(this).find("series").each(function () {
+		    png = $(this).attr("ref");
 			if(AllSeriesID[m]==$(this).attr("id")) {
 				n=false;
 				o=false;
@@ -260,7 +261,11 @@ function ParseResult(a, r) {
 					b+='<td id="seriesshot" >'+p+'</td>'
 				}if(n==true) {
 					q=$(this).attr("sum");
-					b+='<td id="seriessum" >'+q+'</td>'
+					//b += '<td id="seriessum" >' + q + '</td>'
+					if (png)
+					    b += '<td id="seriessum" ><a href="' + png + '" target="_blank" onmouseover="style.textDecoration=\'underline\'" onmouseout="style.textDecoration=\'none\'" style="color:#0066cc;">' + q + '</a></td>'
+					else
+					    b += '<td id="seriessum" >' + q + '</td>'
 				}m++
 			}
 		});

@@ -13,6 +13,8 @@ namespace FileUploaderService.KME
         Femtenmeter = 1,
         Hundremeter = 2,
         Tohundremeter = 4,
-        All = 8
+        GrovFelt = 8,
+        FinFelt = 16,
+        All = 32
     }
 }

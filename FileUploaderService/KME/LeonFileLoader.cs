@@ -11,9 +11,11 @@ namespace FileUploaderService.KME
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Xml;
     using System.Xml.Linq;
@@ -22,6 +24,7 @@ namespace FileUploaderService.KME
     using System.Xml.Xsl;
 
     using FileUploaderService.Orion;
+    using FileUploaderService.Utils;
 
     using SendingResults.Diagnosis;
 
@@ -65,7 +68,6 @@ namespace FileUploaderService.KME
 
         private XslCompiledTransform m_xsltToppListLagSkyttere;
 
-     //   private XslCompiledTransform m_xsltToppListLagSkytingReport;
         #endregion
 
         #region Constructors and Destructors
@@ -459,6 +461,7 @@ namespace FileUploaderService.KME
 
                                         var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.*", lag.LagNr));
                                         lag.Skiver = this.ParseLagInfo(files);
+                                        break;
                                     }
                                 }
                             }
@@ -476,17 +479,14 @@ namespace FileUploaderService.KME
                                 {
                                     if (dirFound.StevneForAlleBaner != null && dirFound.StevneForAlleBaner.DynamiskeBaner != null)
                                     {
+                                        bool foundStevne = false;
                                         foreach (var bane in dirFound.StevneForAlleBaner.DynamiskeBaner)
                                         {
                                             if (bane.BaneType == baneType && !string.IsNullOrEmpty(bane.StevneNavn))
                                             {
-                                                var stevneNavn = bane.StevneNavn.Replace(',', ' ');
-                                                stevneNavn = stevneNavn.Replace('/', ' ');
-                                                stevneNavn = stevneNavn.Replace('\\', ' ');
-                                                stevneNavn = stevneNavn.Replace(" ", string.Empty);
-                                                var bitmapdir = bitmapLagDir.StevneNavnInDirName.Replace(" ", string.Empty);
-                                                if (string.Compare(stevneNavn, bitmapdir, StringComparison.OrdinalIgnoreCase) == 0)
+                                                if (CompareStevneNavn(bane.StevneNavn, bitmapLagDir.StevneNavnInDirName))
                                                 {
+                                                    foundStevne = true;
                                                     var stevne = FindStevne(retList, bane.StevneNavn);
                                                     StartingListLag lag;
                                                     if (stevne == null)
@@ -521,9 +521,18 @@ namespace FileUploaderService.KME
                                                     }
 
                                                     var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.PNG", bitmapLagDir.LagNr));
-                                                    lag.Skiver = this.ParseLagInfo(files);
+                                                    if (files != null && files.Length > 0)
+                                                    {
+                                                        lag.Skiver = this.ParseLagInfo(files);
+                                                    }
+                                                    break;
                                                 }
                                             }
+                                        }
+
+                                        if (foundStevne)
+                                        {
+                                            break;
                                         }
                                     }
                                 }
@@ -729,19 +738,63 @@ namespace FileUploaderService.KME
         /// </returns>
         private static StartingListStevne FindStevne(List<StartingListStevne> inputList, string searchnavn)
         {
+            if (string.IsNullOrEmpty(searchnavn))
+            {
+                Log.Error("FindStevne searchnavn is empty");
+                return null;
+            }
+
             if (inputList != null)
             {
                 foreach (var stevne in inputList)
                 {
-                    if (string.Compare(searchnavn, stevne.StevneNavn, StringComparison.OrdinalIgnoreCase) == 0)
+                    
+                    if (string.IsNullOrEmpty(stevne.StevneNavn))
+                    {
+                        Log.Error("FindStevne stevne.StevneNavn is empty");
+                        continue;
+                    }
+
+                    if (CompareStevneNavn(searchnavn, stevne.StevneNavn))
                     {
                         return stevne;
                     }
+                   
                 }
             }
 
             return null;
         }
+
+
+        public static bool CompareStevneNavn(string stevne1, string stevne2)
+        {
+
+            if (string.IsNullOrEmpty(stevne1))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(stevne2))
+            {
+                return false;
+            }
+
+            string newsearchnavn = ParseHelper.RemoveAllSpecialLetters(stevne1);
+            string newStevneNavn = ParseHelper.RemoveAllSpecialLetters(stevne2);
+
+
+            newsearchnavn = newsearchnavn.Replace(" ", string.Empty);
+            newStevneNavn = newStevneNavn.Replace(" ", string.Empty);
+
+            if (string.Compare(newsearchnavn, newStevneNavn, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// The merge documents input.

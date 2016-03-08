@@ -15,8 +15,11 @@ namespace FileUploaderService.KME
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using System.Xml.Serialization;
+
+    using FileUploaderService.Utils;
 
     using HtmlAgilityPack;
 
@@ -107,6 +110,10 @@ namespace FileUploaderService.KME
         /// </summary>
         public DateTime? LastCreate200mBitmapFile { get; set; }
 
+        public DateTime? LastCreateFinFeltBitmapFile { get; set; }
+
+        public DateTime? LastCreateGrovFeltBitmapFile { get; set; }
+        
         /// <summary>
         ///     Gets or sets the last written 100 m bitmap file.
         /// </summary>
@@ -117,6 +124,9 @@ namespace FileUploaderService.KME
         /// </summary>
         public DateTime? LastWritten15mBitmapFile { get; set; }
 
+        public DateTime? LastWrittenFinFeltBitmapFile { get; set; }
+
+        public DateTime? LastWrittenGrovFeltBitmapFile { get; set; }
         /// <summary>
         ///     Gets or sets the last written 200 m bitmap file.
         /// </summary>
@@ -247,14 +257,18 @@ namespace FileUploaderService.KME
             var stevneNavn = Path.GetFileName(this.Info.FullName);
             if (Directory.Exists(bitMapDir))
             {
-                BitmapDirInfo[] bitmapScan = new BitmapDirInfo[3];
+                BitmapDirInfo[] bitmapScan = new BitmapDirInfo[5];
                 bitmapScan[0] = new BitmapDirInfo() { BaneType = BaneType.Femtenmeter };
                 bitmapScan[1] = new BitmapDirInfo() { BaneType = BaneType.Hundremeter };
                 bitmapScan[2] = new BitmapDirInfo() { BaneType = BaneType.Tohundremeter };
+                bitmapScan[3] = new BitmapDirInfo() { BaneType = BaneType.FinFelt };
+                bitmapScan[4] = new BitmapDirInfo() { BaneType = BaneType.GrovFelt };
 
                 bitmapScan[0].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix15m);
                 bitmapScan[1].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix100m);
                 bitmapScan[2].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix200m);
+                bitmapScan[3].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.PrefixFinFelt);
+                bitmapScan[4].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.PrefixGrovFelt);
 
                 foreach (var dir2Check in bitmapScan)
                 {
@@ -313,6 +327,38 @@ namespace FileUploaderService.KME
                                         dir2Check.Initial = true;
                                     }
                                     this.LastWritten200mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                }
+
+                                break;
+                            case BaneType.FinFelt:
+                                if (this.LastWrittenFinFeltBitmapFile.Value < sortlist.FirstOrDefault().LastWriteTime)
+                                {
+                                    if (this.LastWrittenFinFeltBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
+                                    }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+                                    this.LastWrittenFinFeltBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                }
+
+                                break;
+                            case BaneType.GrovFelt:
+                                if (this.LastWrittenGrovFeltBitmapFile.Value < sortlist.FirstOrDefault().LastWriteTime)
+                                {
+                                    if (this.LastWrittenGrovFeltBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
+                                    }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+                                    this.LastWrittenGrovFeltBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
                                 }
 
                                 break;
@@ -378,6 +424,42 @@ namespace FileUploaderService.KME
                                 }
 
                                 break;
+                            case BaneType.FinFelt:
+                                if (this.LastCreateFinFeltBitmapFile.Value < sortlistCreat.FirstOrDefault().CreationTime)
+                                {
+
+                                    if (this.LastCreateFinFeltBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
+                                    }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+
+                                    this.LastCreateFinFeltBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
+                                }
+
+                                break;
+                            case BaneType.GrovFelt:
+                                if (this.LastCreateGrovFeltBitmapFile.Value < sortlistCreat.FirstOrDefault().CreationTime)
+                                {
+
+                                    if (this.LastCreateGrovFeltBitmapFile != DateTime.MinValue)
+                                    {
+                                        dir2Check.Updated = true;
+                                        dir2Check.Initial = false;
+                                    }
+                                    else
+                                    {
+                                        dir2Check.Initial = true;
+                                    }
+
+                                    this.LastCreateGrovFeltBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
+                                }
+
+                                break;
                         }
                     }
                 }
@@ -401,6 +483,12 @@ namespace FileUploaderService.KME
                                     break;
                                 case BaneType.Tohundremeter:
                                     dirs.BitmapSubDir = Constants.Prefix200m;
+                                    break;
+                                case BaneType.FinFelt:
+                                    dirs.BitmapSubDir = Constants.PrefixFinFelt;
+                                    break;
+                                case BaneType.GrovFelt:
+                                    dirs.BitmapSubDir = Constants.PrefixGrovFelt;
                                     break;
                             }
                             break;
@@ -581,15 +669,18 @@ namespace FileUploaderService.KME
             var stevneNavn = Path.GetFileName(this.Info.FullName);
             if (Directory.Exists(bitMapDir))
             {
-                BitmapDirInfo[] bitmapScan = new BitmapDirInfo[3];
+                BitmapDirInfo[] bitmapScan = new BitmapDirInfo[5];
                 bitmapScan[0] = new BitmapDirInfo() { BaneType = BaneType.Femtenmeter };
                 bitmapScan[1] = new BitmapDirInfo() { BaneType = BaneType.Hundremeter };
                 bitmapScan[2] = new BitmapDirInfo() { BaneType = BaneType.Tohundremeter };
+                bitmapScan[3] = new BitmapDirInfo() { BaneType = BaneType.FinFelt };
+                bitmapScan[4] = new BitmapDirInfo() { BaneType = BaneType.GrovFelt };
 
                 bitmapScan[0].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix15m);
                 bitmapScan[1].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix100m);
                 bitmapScan[2].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix200m);
-
+                bitmapScan[3].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.PrefixFinFelt);
+                bitmapScan[4].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.PrefixGrovFelt);
                 foreach (var dir2Check in bitmapScan)
                 {
                     dir2Check.Updated = false;
@@ -618,6 +709,22 @@ namespace FileUploaderService.KME
                                 if (this.LastWritten200mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
                                 {
                                     this.LastWritten200mBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                    dir2Check.Updated = true;
+                                }
+
+                                break;
+                            case BaneType.FinFelt:
+                                if (this.LastWrittenFinFeltBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
+                                {
+                                    this.LastWrittenFinFeltBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
+                                    dir2Check.Updated = true;
+                                }
+
+                                break;
+                            case BaneType.GrovFelt:
+                                if (this.LastWrittenGrovFeltBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
+                                {
+                                    this.LastWrittenGrovFeltBitmapFile = sortlist.FirstOrDefault().LastWriteTime;
                                     dir2Check.Updated = true;
                                 }
 
@@ -654,6 +761,21 @@ namespace FileUploaderService.KME
                                 }
 
                                 break;
+                            case BaneType.FinFelt:
+                                if (this.LastWrittenFinFeltBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                {
+                                    this.LastWrittenFinFeltBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
+                                    dir2Check.Updated = true;
+                                }
+
+                                break;
+                            case BaneType.GrovFelt:
+                                if (this.LastWrittenGrovFeltBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
+                                {
+                                    this.LastWrittenGrovFeltBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
+                                    dir2Check.Updated = true;
+                                }
+                            break;
                         }
                     }
                 }
@@ -690,6 +812,16 @@ namespace FileUploaderService.KME
                                 bitmaps = bitmapScan[2];
                                 bane.BitmapsStoredInBane = bitmapScan[2];
                                 bitmaps.BitmapSubDir = Constants.Prefix200m;
+                                break;
+                            case BaneType.FinFelt:
+                                bitmaps = bitmapScan[3];
+                                bane.BitmapsStoredInBane = bitmapScan[3];
+                                bitmaps.BitmapSubDir = Constants.PrefixFinFelt;
+                                break;
+                            case BaneType.GrovFelt:
+                                bitmaps = bitmapScan[4];
+                                bane.BitmapsStoredInBane = bitmapScan[4];
+                                bitmaps.BitmapSubDir = Constants.PrefixGrovFelt;
                                 break;
                         }
 
@@ -774,9 +906,10 @@ namespace FileUploaderService.KME
                             if (this.LastWrittenWebFile != DateTime.MinValue)
                             {
                                 update = true;
-                                
+                                Thread.Sleep(5000);
                             }
                             this.LastWrittenWebFile = LastWriteTime;
+                            
                             this.ParseIndexHtmlFile(webInfo);
                         }
                     }
@@ -791,6 +924,7 @@ namespace FileUploaderService.KME
         private bool ParseIndexHtmlFile(DirectoryInfo webInfo)
         {
             Log.Info("Parsing new index File {0}", webInfo.FullName);
+           
             var indfile = Path.Combine(webInfo.FullName, "index1.html");
 
             if (File.Exists(indfile))
@@ -836,9 +970,11 @@ namespace FileUploaderService.KME
                                     nyRapport.Filnavn = funnetRapportFil.FullName;
                                     nyRapport.BaneType = baneStevne.BaneType;
                                     nyRapport.ProgramType = lagInfo.ProgramType;
-                                    nyRapport.Rapport = new XmlDocument();
-                                    nyRapport.Rapport.Load(funnetRapportFil.FullName);
-                                    baneStevne.BaneRapporter.Add(nyRapport);
+                                    nyRapport.Rapport = XmlFileReaderHelper.ReadFile(funnetRapportFil.FullName);
+                                    if (nyRapport.Rapport != null)
+                                    {
+                                        baneStevne.BaneRapporter.Add(nyRapport);
+                                    }
                                 }
                             }
                         }
@@ -856,9 +992,12 @@ namespace FileUploaderService.KME
                                         RapportXmlClass nyRapport = new RapportXmlClass();
                                         nyRapport.Filnavn = funnetToppListeFil.FullName;
                                         nyRapport.BaneType = baneStevne.BaneType;
-                                        nyRapport.ToppListInfoWithRef = new XmlDocument();
-                                        nyRapport.ToppListInfoWithRef.Load(funnetToppListeFil.FullName);
-                                        baneStevne.ToppListeRapporter.Add(nyRapport);
+
+                                        nyRapport.ToppListInfoWithRef = XmlFileReaderHelper.ReadFile(funnetToppListeFil.FullName);
+                                        if (nyRapport.ToppListInfoWithRef != null)
+                                        {
+                                            baneStevne.ToppListeRapporter.Add(nyRapport);
+                                        }
                                     }
                                 }
                             }
@@ -878,9 +1017,11 @@ namespace FileUploaderService.KME
                                         nyRapport.Filnavn = funnetToppListeLagFil.FullName;
                                         nyRapport.BaneType = baneStevne.BaneType;
                                         nyRapport.ProgramType = ProgramType.Lagskyting;
-                                        nyRapport.ToppListInfoLagWithRef = new XmlDocument();
-                                        nyRapport.ToppListInfoLagWithRef.Load(funnetToppListeLagFil.FullName);
-                                        baneStevne.ToppListeLagRapporter.Add(nyRapport);
+                                        nyRapport.ToppListInfoWithRef = XmlFileReaderHelper.ReadFile(funnetToppListeLagFil.FullName);
+                                        if (nyRapport.ToppListInfoWithRef != null)
+                                        {
+                                            baneStevne.ToppListeRapporter.Add(nyRapport);
+                                        }
                                     }
                                 }
                             }
@@ -907,9 +1048,13 @@ namespace FileUploaderService.KME
                 this.LastWritten15mBitmapFile = DateTime.MinValue;
                 this.LastWritten100mBitmapFile = DateTime.MinValue;
                 this.LastWritten200mBitmapFile = DateTime.MinValue;
+                this.LastWrittenFinFeltBitmapFile = DateTime.MinValue;
+                this.LastWrittenGrovFeltBitmapFile = DateTime.MinValue;
                 this.LastCreate15mBitmapFile = DateTime.MinValue;
                 this.LastCreate100mBitmapFile = DateTime.MinValue;
                 this.LastCreate200mBitmapFile = DateTime.MinValue;
+                this.LastCreateFinFeltBitmapFile = DateTime.MinValue;
+                this.LastCreateGrovFeltBitmapFile = DateTime.MinValue;
                 this.LastWrittenPresseFile = DateTime.MinValue;
             }
             else
@@ -929,6 +1074,16 @@ namespace FileUploaderService.KME
                     this.LastWritten200mBitmapFile = DateTime.MinValue;
                 }
 
+                if (this.LastWrittenFinFeltBitmapFile == null)
+                {
+                    this.LastWrittenFinFeltBitmapFile = DateTime.MinValue;
+                }
+
+                if (this.LastWrittenGrovFeltBitmapFile == null)
+                {
+                    this.LastWrittenGrovFeltBitmapFile = DateTime.MinValue;
+                }
+
                 if (this.LastCreate15mBitmapFile == null)
                 {
                     this.LastCreate15mBitmapFile = DateTime.MinValue;
@@ -942,6 +1097,16 @@ namespace FileUploaderService.KME
                 if (this.LastCreate200mBitmapFile == null)
                 {
                     this.LastCreate200mBitmapFile = DateTime.MinValue;
+                }
+
+                if (this.LastCreateFinFeltBitmapFile == null)
+                {
+                    this.LastCreateFinFeltBitmapFile = DateTime.MinValue;
+                }
+
+                if (this.LastCreateGrovFeltBitmapFile == null)
+                {
+                    this.LastCreateGrovFeltBitmapFile = DateTime.MinValue;
                 }
 
                 if (this.LastWrittenPresseFile == null)
@@ -1242,6 +1407,87 @@ namespace FileUploaderService.KME
             // }
         }
 
+        private static void GetReportFilesForFelt(HtmlNode nodeinfo, StartListBane bane)
+        {
+            HtmlNode nodeinfoH3;
+
+            // if (nodeinfo.InnerText.ToUpper() == "15M" && bane != null)
+            // {
+            nodeinfoH3 = nodeinfo;
+            var nodeSibling = nodeinfoH3.NextSibling;
+            while (nodeSibling != null)
+            {
+                if (nodeSibling.NodeType == HtmlNodeType.Element && nodeSibling.Name == "div")
+                {
+                    string valclass = nodeSibling.GetAttributeValue("class", "NOVAL");
+                    if (string.Compare(valclass, "ACCORDION_BUTTON", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        var allreportNodesBane = nodeSibling.SelectNodes("div");
+                        if (allreportNodesBane != null && allreportNodesBane.Count > 0)
+                        {
+                            foreach (var nodeKlasse in allreportNodesBane)
+                            {
+                                var val = nodeKlasse.GetAttributeValue("id", "NOVAL");
+                                if (!string.IsNullOrEmpty(val) && string.Compare(val, "NOVAL") != 0)
+                                {
+                                    var overskriftNode = nodeKlasse.SelectSingleNode("a");
+                                    if (overskriftNode != null)
+                                    {
+                                        if (!string.IsNullOrEmpty(overskriftNode.InnerText))
+                                        {
+                                            if (string.Compare(overskriftNode.InnerText, "UNGDOM", StringComparison.OrdinalIgnoreCase)
+                                                == 0 ||
+                                                string.Compare(overskriftNode.InnerText, "UNGDOM INDIVIDUELL", StringComparison.OrdinalIgnoreCase)
+                                                == 0)
+                                            {
+                                                Log.Info("Found report Ungdom Lag File {0}", val);
+                                                bane.ToppListeLagFilPrefix.Add(val);
+                                            }
+                                            else if (string.Compare(
+                                                overskriftNode.InnerText,
+                                                "VETERAN",
+                                                StringComparison.OrdinalIgnoreCase) == 0 ||
+                                                string.Compare(
+                                                overskriftNode.InnerText,
+                                                "VETERAN INDIVIDUELL",
+                                                StringComparison.OrdinalIgnoreCase) == 0)
+                                            {
+                                                Log.Info("Found report Veteran Lag File {0}", val);
+                                                bane.ToppListeLagFilPrefix.Add(val);
+                                            }
+                                            else if (string.Compare(
+                                                overskriftNode.InnerText,
+                                                "SENIOR",
+                                                StringComparison.OrdinalIgnoreCase) == 0 ||
+                                                string.Compare(
+                                                overskriftNode.InnerText,
+                                                "SENIOR INDIVIDUELL",
+                                                StringComparison.OrdinalIgnoreCase) == 0)
+                                            {
+                                                Log.Info("Found report Lag File {0}", val);
+                                                bane.ToppListeLagFilPrefix.Add(val);
+                                            }
+                                            else
+                                            {
+                                                Log.Info("Found report File {0}", val);
+                                                bane.ToppListeFilPrefix.Add(val);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                nodeSibling = nodeSibling.NextSibling;
+            }
+
+            // }
+        }
+
         /// <summary>
         /// The parse rapport fil.
         /// </summary>
@@ -1427,6 +1673,19 @@ namespace FileUploaderService.KME
                                     {
                                         GetReportFilesForBane(nodeinfo, bane);
                                     }
+
+                                    bane = stevneInfo.FinnBane(BaneType.FinFelt);
+                                    if (nodeinfo.InnerText.ToUpper() == "FINFELT" && bane != null)
+                                    {
+                                        GetReportFilesForFelt(nodeinfo, bane);
+                                    }
+
+                                    bane = stevneInfo.FinnBane(BaneType.GrovFelt);
+                                    if (nodeinfo.InnerText.ToUpper() == "GROVFELT" && bane != null)
+                                    {
+                                        GetReportFilesForFelt(nodeinfo, bane);
+                                    }
+
                                 }
                             }
                         }
@@ -1482,6 +1741,12 @@ namespace FileUploaderService.KME
                 }
                 if (string.IsNullOrEmpty(filenamesort) && string.IsNullOrEmpty(filenamesorthtml))
                 {
+                    continue;
+                }
+               
+                if (!Directory.Exists(rapportDir))
+                {
+                    Log.Trace("Dir for lagskyting not found {0}", rapportDir);
                     continue;
                 }
 
