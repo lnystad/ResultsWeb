@@ -53,6 +53,7 @@
     <Compile Include="KME\LagTimeInfo.cs" />
     <Compile Include="KME\RapportXmlClass.cs" />
     <Compile Include="KME\StartingListLag.cs" />
+    <Compile Include="KME\StartingListSerie.cs" />
     <Compile Include="KME\StartingListSkive.cs" />
     <Compile Include="KME\StartingListStevne.cs" />
     <Compile Include="KME\StartListBane.cs" />

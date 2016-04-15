@@ -198,7 +198,8 @@ namespace ProcessMemoryReaderLib
                     break;
                 }
             }
-            return Encoding.UTF8.GetString(retBuffer, 0, len);
+            var encoder = Encoding.GetEncoding("ISO-8859-1");
+            return encoder.GetString(retBuffer, 0, len);
         }
 
         public byte ReadByte(int MemoryAddress)

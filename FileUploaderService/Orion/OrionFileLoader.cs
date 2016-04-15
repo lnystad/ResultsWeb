@@ -15,6 +15,7 @@ namespace FileUploaderService.Orion
     using System.Linq;
     using System.Threading;
 
+    using FileUploaderService.KME;
     using FileUploaderService.Utils;
 
     using SendingResults.Diagnosis;
@@ -51,7 +52,7 @@ namespace FileUploaderService.Orion
         /// </summary>
         private int m_bkupTimeOut;
 
-        private bool m_felt;
+        private BaneType m_bitMapBaneType;
 
         private int m_skiverilaget;
 
@@ -77,11 +78,11 @@ namespace FileUploaderService.Orion
         /// <param name="timeOut">
         /// The time out.
         /// </param>
-        public OrionFileLoader(string bitMapDir, string bitMapBackupDir, string timeOut,bool felt, int skiverilaget, int bitMapStartHold)
+        public OrionFileLoader(string bitMapDir, string bitMapBackupDir, string timeOut,BaneType felt, int skiverilaget, int bitMapStartHold)
         {
             // TODO: Complete member initialization
             this.m_skiverilaget = skiverilaget;
-            this.m_felt = felt;
+            this.m_bitMapBaneType = felt;
             this.m_startHold = bitMapStartHold;
             this.m_bitMapDir = bitMapDir;
             this.m_bitMapBackupDir = bitMapBackupDir;
@@ -321,7 +322,7 @@ namespace FileUploaderService.Orion
 
         private OrionFileInfo ConvertToFeltLag(OrionFileInfo OrionFileInfo)
         {
-            if (!this.m_felt)
+            if (!(this.m_bitMapBaneType == BaneType.GrovFelt || this.m_bitMapBaneType == BaneType.FinFelt))
             {
                 return OrionFileInfo;
             }
@@ -474,6 +475,7 @@ namespace FileUploaderService.Orion
                     if (this.m_orionStevneInfo != null)
                     {
                         var parsedName = ParseHelper.RemoveDirLetters(navn);
+                        parsedName = parsedName.Replace(" ", "");
                         if (string.Compare(parsedName, this.m_orionStevneInfo.Navn, StringComparison.OrdinalIgnoreCase) == 0)
                         {
                             this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
@@ -489,6 +491,7 @@ namespace FileUploaderService.Orion
                     else
                     {
                         var parsedName = ParseHelper.RemoveDirLetters(navn);
+                        parsedName = parsedName.Replace(" ", "");
                         Log.Info("New Stevne detected={0}", parsedName);
                         this.m_orionStevneInfo = new OrionStevneInfo();
                         this.m_orionStevneInfo.Navn = parsedName;

@@ -9,37 +9,20 @@ namespace FileUploaderService.KME
     using System.IO;
     using System.Xml.Serialization;
 
-    public class StartingListSkive
+    public class StartingListSerie
     {
-        public StartingListSkive()
+        public StartingListSerie()
         {
-            Serier = new List<StartingListSerie>();
+            
         }
 
-        public StartingListSkive(StartingListSkive cpy)
+        public StartingListSerie(StartingListSerie cpy)
         {
-            SkiveNr = cpy.SkiveNr;
-            SkytterNavn = cpy.SkytterNavn;
-            SkytterLag = cpy.SkytterLag;
-            Klasse = cpy.Klasse;
-            Extra = cpy.Extra;
             RawBitmapFile = cpy.RawBitmapFile;
-            Serier = cpy.Serier;
         }
 
-        [XmlArray("AllSerier")]
-        [XmlArrayItem("Serie")]
-        public List<StartingListSerie> Serier { get; set; }
 
-        public int LagSkiveNr { get; set; }
-
-        public int SkiveNr { get; set; }
-
-        
-        public string SkytterNavn { get; set; }
-        public string SkytterLag { get; set; }
-        public string Klasse { get; set; }
-        public string Extra { get; set; }
+        public int SerieNr { get; set; }
 
 
         private FileInfo m_rawBitmapFile { get; set; }
@@ -57,6 +40,10 @@ namespace FileUploaderService.KME
                 if (m_rawBitmapFile != null)
                 {
                     m_rawBitmapFileName = m_rawBitmapFile.Name;
+                }
+                else
+                {
+                    m_rawBitmapFileName = null;
                 }
             }
         }
@@ -109,50 +96,25 @@ namespace FileUploaderService.KME
 
         public bool Checked { get; set; }
 
-        internal bool UpdatedSkive(StartingListSkive newskiveInfo)
+        internal bool UpdatedSerie(StartingListSerie newskiveInfo)
         {
             bool changed = false;
-            if (SkiveNr != newskiveInfo.SkiveNr)
+            if (SerieNr != newskiveInfo.SerieNr)
             {
-                SkiveNr = newskiveInfo.SkiveNr;
+                SerieNr = newskiveInfo.SerieNr;
                 changed = true;
             }
-
-            if (SkytterNavn != newskiveInfo.SkytterNavn)
-            {
-                SkytterNavn = newskiveInfo.SkytterNavn;
-                changed = true;
-            }
-
-            if (SkytterLag != newskiveInfo.SkytterLag)
-            {
-                SkytterLag = newskiveInfo.SkytterLag;
-                changed = true;
-            }
-
-            if (Klasse != newskiveInfo.Klasse)
-            {
-                Klasse = newskiveInfo.Klasse;
-                changed = true;
-            }
-            if (Serier.Count > 0)
-            {
-                bool changedSerie=StartingListSerie.CheckUpdateSerier(this.Serier, newskiveInfo.Serier);
-                if (changedSerie)
-                {
-                    changed = true; 
-                }
-            }
-
             return changed;
         }
 
-        public void InsertSerier(List<StartingListSerie> serier)
+        public static bool CheckUpdateSerier(List<StartingListSerie> serier, List<StartingListSerie> startingListSeries)
         {
-            foreach (var serie in serier)
+            if (serier.Count != startingListSeries.Count)
             {
-                this.Serier.Add(serie);
+                return true;
             }
+
+            return false;
         }
     }
 }

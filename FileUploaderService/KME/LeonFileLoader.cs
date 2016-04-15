@@ -299,6 +299,12 @@ namespace FileUploaderService.KME
                         case BaneType.Tohundremeter:
                             subdir = Constants.Prefix200m;
                             break;
+                       case BaneType.FinFelt:
+                            subdir = Constants.PrefixFinFelt;
+                            break;
+                        case BaneType.GrovFelt:
+                            subdir = Constants.PrefixGrovFelt;
+                            break;
                     }
 
                     if (string.IsNullOrEmpty(subdir))
@@ -460,7 +466,27 @@ namespace FileUploaderService.KME
                                         }
 
                                         var files = bitmapLagDir.Directory.GetFiles(string.Format("TR-{0}*.*", lag.LagNr));
-                                        lag.Skiver = this.ParseLagInfo(files);
+                                        var skiverFound= this.ParseLagInfo(files);
+                                        foreach (var skive in skiverFound)
+                                        {
+                                            var skiveF = lag.Skiver.FirstOrDefault(x => x.SkiveNr == skive.SkiveNr);
+                                            if (skiveF!=null && skive.Serier.Count > 0)
+                                            {
+                                                skiveF.InsertSerier(skive.Serier);
+                                            }
+                                            else
+                                            {
+                                                if (skiveF == null)
+                                                {
+                                                    lag.Skiver.Add(skive);
+                                                }
+                                                else
+                                                {
+                                                    lag.Skiver.Add(skive);
+                                                }
+                                            }
+                                        }
+                                        
                                         break;
                                     }
                                 }
@@ -680,6 +706,29 @@ namespace FileUploaderService.KME
                 {
                     if (retVal.SkiveNr > 0)
                     {
+                        return retVal;
+                    }
+                }
+
+                if (splitInf.Length>4 && string.Compare(splitInf[4], "PNG", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    if (retVal.SkiveNr > 0)
+                    {
+                        
+
+                        int tallSerie = 0;
+
+                        tallSerie = 0;
+                        if (int.TryParse(splitInf[3], out tallSerie))
+                        {
+                            StartingListSerie serie = new StartingListSerie();
+                            serie.SerieNr = tallSerie;
+                            serie.RawBitmapFile= inf;
+                            retVal.Serier.Add(serie);
+                            retVal.RawBitmapFile = null;
+                            retVal.RawBitmapFileName = null;
+                        }
+
                         return retVal;
                     }
                 }
@@ -942,72 +991,92 @@ namespace FileUploaderService.KME
             {
                 if (skiveNr.RawBitmapFile != null)
                 {
-                    if (File.Exists(skiveNr.RawBitmapFile.FullName))
+                    skiveNr.BackUpBitMapFile = MoveBitmapFile(skiveNr.RawBitmapFile, destDir);
+                    skiveNr.RawBitmapFile = null;
+                    skiveNr.RawBitmapFileName = string.Empty;
+                }
+                else if (skiveNr.Serier != null && skiveNr.Serier.Count > 0)
+                {
+                    foreach (var serie in skiveNr.Serier)
                     {
-                        var destFileName = Path.Combine(destDir, skiveNr.RawBitmapFile.Name);
-                        try
-                        {
-                            FileInfo inf = new FileInfo(destFileName);
-
-                            if (inf.Exists)
-                            {
-                                var filenameonly = Path.GetFileNameWithoutExtension(inf.Name);
-                                var path = Path.GetDirectoryName(inf.FullName);
-                                var destDirDublettDir = Path.Combine(path, "Copies");
-                                if (!Directory.Exists(destDirDublettDir))
-                                {
-                                    Directory.CreateDirectory(destDirDublettDir);
-                                }
-
-                                Log.Warning("Bitmap destination file already exstst {0}", inf.FullName);
-                                DateTime time = DateTime.Now;
-
-                                string backup = time.ToString("yyyyMMddHHmmss");
-                                string oldFileName = string.Format("{0}old{1}.PNG", filenameonly, backup);
-                                string totfileName = Path.Combine(destDirDublettDir, oldFileName);
-                                inf.MoveTo(totfileName);
-                            }
-
-                            Log.Info("Backing up Raw bitmaps to stevner From={0} To={1}", skiveNr.RawBitmapFile.FullName, destFileName);
-                            File.Copy(skiveNr.RawBitmapFile.FullName, destFileName);
-                            var sourceFileName = Path.GetFileName(skiveNr.RawBitmapFile.FullName);
-                            var sourceDirName = Path.GetDirectoryName(skiveNr.RawBitmapFile.FullName);
-                            var newSourceFileName = "MOV" + sourceFileName;
-                            var newSourceFileNameWithPath = Path.Combine(sourceDirName, newSourceFileName);
-                            if (File.Exists(newSourceFileNameWithPath))
-                            {
-                                inf = new FileInfo(newSourceFileNameWithPath);
-                                var filenameonly = Path.GetFileNameWithoutExtension(newSourceFileNameWithPath);
-                                var path = Path.GetDirectoryName(newSourceFileNameWithPath);
-                                var destDirDublettDir = Path.Combine(path, "Copies");
-                                if (!Directory.Exists(destDirDublettDir))
-                                {
-                                    Directory.CreateDirectory(destDirDublettDir);
-                                }
-
-                                Log.Warning("Bitmap Backup destination file already exstst {0}", newSourceFileNameWithPath);
-                                DateTime time = DateTime.Now;
-
-                                string backup = time.ToString("yyyyMMddHHmmss");
-                                string oldFileName = string.Format("{0}old{1}.PNG", filenameonly, backup);
-                                string totfileName = Path.Combine(destDirDublettDir, oldFileName);
-
-                                inf.MoveTo(totfileName);
-                            }
-
-                            File.Copy(skiveNr.RawBitmapFile.FullName, newSourceFileNameWithPath);
-                            File.Delete(skiveNr.RawBitmapFile.FullName);
-                            skiveNr.RawBitmapFile = null;
-                            skiveNr.RawBitmapFileName = string.Empty;
-                            skiveNr.BackUpBitMapFile = new FileInfo(destFileName);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Error(e, "Error");
-                        }
+                       if (serie.RawBitmapFile != null)
+                       {
+                            serie.BackUpBitMapFile = MoveBitmapFile(serie.RawBitmapFile, destDir);
+                            serie.RawBitmapFile = null;
+                            serie.RawBitmapFileName = string.Empty;
+                       } 
                     }
                 }
             }
+        }
+
+        private static FileInfo MoveBitmapFile(FileInfo rawBitmapFile, string destDir)
+        {
+            if (File.Exists(rawBitmapFile.FullName))
+            {
+                var destFileName = Path.Combine(destDir, rawBitmapFile.Name);
+                try
+                {
+                    FileInfo inf = new FileInfo(destFileName);
+
+                    if (inf.Exists)
+                    {
+                        var filenameonly = Path.GetFileNameWithoutExtension(inf.Name);
+                        var path = Path.GetDirectoryName(inf.FullName);
+                        var destDirDublettDir = Path.Combine(path, "Copies");
+                        if (!Directory.Exists(destDirDublettDir))
+                        {
+                            Directory.CreateDirectory(destDirDublettDir);
+                        }
+
+                        Log.Warning("Bitmap destination file already exstst {0}", inf.FullName);
+                        DateTime time = DateTime.Now;
+
+                        string backup = time.ToString("yyyyMMddHHmmss");
+                        string oldFileName = string.Format("{0}old{1}.PNG", filenameonly, backup);
+                        string totfileName = Path.Combine(destDirDublettDir, oldFileName);
+                        inf.MoveTo(totfileName);
+                    }
+
+                    Log.Info("Backing up Raw bitmaps to stevner From={0} To={1}", rawBitmapFile.FullName, destFileName);
+                    File.Copy(rawBitmapFile.FullName, destFileName);
+                    var sourceFileName = Path.GetFileName(rawBitmapFile.FullName);
+                    var sourceDirName = Path.GetDirectoryName(rawBitmapFile.FullName);
+                    var newSourceFileName = "MOV" + sourceFileName;
+                    var newSourceFileNameWithPath = Path.Combine(sourceDirName, newSourceFileName);
+                    if (File.Exists(newSourceFileNameWithPath))
+                    {
+                        inf = new FileInfo(newSourceFileNameWithPath);
+                        var filenameonly = Path.GetFileNameWithoutExtension(newSourceFileNameWithPath);
+                        var path = Path.GetDirectoryName(newSourceFileNameWithPath);
+                        var destDirDublettDir = Path.Combine(path, "Copies");
+                        if (!Directory.Exists(destDirDublettDir))
+                        {
+                            Directory.CreateDirectory(destDirDublettDir);
+                        }
+
+                        Log.Warning("Bitmap Backup destination file already exstst {0}", newSourceFileNameWithPath);
+                        DateTime time = DateTime.Now;
+
+                        string backup = time.ToString("yyyyMMddHHmmss");
+                        string oldFileName = string.Format("{0}old{1}.PNG", filenameonly, backup);
+                        string totfileName = Path.Combine(destDirDublettDir, oldFileName);
+
+                        inf.MoveTo(totfileName);
+                    }
+
+                    File.Copy(rawBitmapFile.FullName, newSourceFileNameWithPath);
+                    File.Delete(rawBitmapFile.FullName);
+                    return new FileInfo(destFileName);
+                    
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e, "Error");
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -1429,7 +1498,16 @@ namespace FileUploaderService.KME
                 var skive = this.ParseTarget(fileinf);
                 if (skive != null)
                 {
-                    retVal.Add(skive);
+                    var Skive= retVal.FirstOrDefault(x => x.SkiveNr == skive.SkiveNr);
+                    if (Skive != null)
+                    {
+                        Skive.InsertSerier(skive.Serier);
+                    }
+                    else
+                    {
+                        retVal.Add(skive);
+                    }
+                    
                 }
             }
 

@@ -67,7 +67,7 @@ namespace FileUploaderService
         /// <summary>
         /// The m_my orion file loader 200 m.
         /// </summary>
-        private OrionFileLoader m_myOrionFileLoader200m;
+        private List<OrionFileLoader> m_myOrionFileLoader200m;
 
         /// <summary>
         /// The m_my orion file loader bkup.
@@ -174,48 +174,62 @@ namespace FileUploaderService
                             // }
                         }
 
-                        if (this.UploadBitmap)
+                        if (this.UploadBitmap )
                         {
-                            if (this.m_myOrionFileLoader15m != null)
-                            {
-                                var bbkupDir = this.m_myOrionFileLoader15m.CheckForNewBackupFiles();
-                                if (bbkupDir != null && bbkupDir.Count > 0)
+                              if (this.m_myOrionFileLoader15m != null)
                                 {
-                                    var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Femtenmeter);
-                                    if (stevnerToUpload != null && stevnerToUpload.Count > 0)
+                                    var bbkupDir = this.m_myOrionFileLoader15m.CheckForNewBackupFiles();
+                                    if (bbkupDir != null && bbkupDir.Count > 0)
                                     {
-                                        this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                        var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Femtenmeter);
+                                        if (stevnerToUpload != null && stevnerToUpload.Count > 0)
+                                        {
+                                            this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                        }
+                                    }
+                                }
+
+                                if (this.m_myOrionFileLoader100m != null)
+                                {
+                                    var bbkupDir = this.m_myOrionFileLoader100m.CheckForNewBackupFiles();
+                                    if (bbkupDir != null && bbkupDir.Count > 0)
+                                    {
+                                        var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Hundremeter);
+                                        if (stevnerToUpload != null && stevnerToUpload.Count > 0)
+                                        {
+                                            this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                        }
+
+                                        var stevnerToUploadFelt = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.FinFelt);
+                                        if (stevnerToUploadFelt != null && stevnerToUploadFelt.Count > 0)
+                                        {
+                                            this.m_fileLoader.BakupBitmapInStevner(stevnerToUploadFelt);
+                                        }
+                                    }
+                                }
+
+                                if (this.m_myOrionFileLoader200m != null && this.m_myOrionFileLoader200m.Count > 0)
+                                {
+                                    foreach (var orion200mfileLoader in this.m_myOrionFileLoader200m)
+                                    {
+                                        var bbkupDir = orion200mfileLoader.CheckForNewBackupFiles();
+                                        if (bbkupDir != null && bbkupDir.Count > 0)
+                                        {
+                                            var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Tohundremeter);
+                                            if (stevnerToUpload != null && stevnerToUpload.Count > 0)
+                                            {
+                                                this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
+                                            }
+
+                                            var stevnerToUploadGrov = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.GrovFelt);
+                                            if (stevnerToUploadGrov != null && stevnerToUploadGrov.Count > 0)
+                                            {
+                                                this.m_fileLoader.BakupBitmapInStevner(stevnerToUploadGrov);
+                                            }
+                                        }
                                     }
                                 }
                             }
-
-                            if (this.m_myOrionFileLoader100m != null)
-                            {
-                                var bbkupDir = this.m_myOrionFileLoader100m.CheckForNewBackupFiles();
-                                if (bbkupDir != null && bbkupDir.Count > 0)
-                                {
-
-                                    var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Hundremeter);
-                                    if (stevnerToUpload != null && stevnerToUpload.Count > 0)
-                                    {
-                                        this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
-                                    }
-                                }
-                            }
-
-                            if (this.m_myOrionFileLoader200m != null)
-                            {
-                                var bbkupDir = this.m_myOrionFileLoader200m.CheckForNewBackupFiles();
-                                if (bbkupDir != null && bbkupDir.Count > 0)
-                                {
-                                    var stevnerToUpload = this.m_fileLoader.GetStartListForDate(bbkupDir, BaneType.Tohundremeter);
-                                    if (stevnerToUpload != null && stevnerToUpload.Count > 0)
-                                    {
-                                        this.m_fileLoader.BakupBitmapInStevner(stevnerToUpload);
-                                    }
-                                }
-                            }
-                        }
                     }
 
                     if (this.BkUpBitmap && this.m_myOrionFileLoaderBkup != null)
@@ -290,13 +304,14 @@ namespace FileUploaderService
             string hostPort = ConfigurationManager.AppSettings["FtpHostPort"];
 
 
-            string bitMapFeltstr = ConfigurationManager.AppSettings["BitMapFelt"];
-            bool bitmapfelt = false;
+            string bitMapFeltstr = ConfigurationManager.AppSettings["BitMapStevneType"];
+            BaneType bitmapfelt = BaneType.Undefined;
             if (!string.IsNullOrEmpty(bitMapFeltstr))
             {
-                bool testVal;
-                if (bool.TryParse(bitMapFeltstr, out testVal))
+                BaneType testVal;
+                if (Enum.TryParse(bitMapFeltstr, out testVal))
                 {
+                    // We now have an enum type.
                     bitmapfelt = testVal;
                 }
             }
@@ -420,17 +435,28 @@ namespace FileUploaderService
                     Log.Info("No bitmaps fetch for 100m");
                 }
             }
-
+            this.m_myOrionFileLoader200m = new List<OrionFileLoader>();
             if (!string.IsNullOrEmpty(this.m_remoteBitMapDir200m))
             {
-                if (Directory.Exists(this.m_remoteBitMapDir200m))
+                var remote200dirs = this.m_remoteBitMapDir200m.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mDirs200 in remote200dirs)
                 {
-                    Log.Info("bitmaps fetch for 200m on dir ={0}", this.m_remoteBitMapDir200m);
-                    this.m_myOrionFileLoader200m = new OrionFileLoader(this.m_remoteBitMapDir200m);
-                }
-                else
-                {
-                    Log.Info("No bitmaps fetch for 200m");
+                    var mDirs200trimmed = mDirs200.Trim();
+                    if (string.IsNullOrEmpty(mDirs200trimmed))
+                    {
+                        continue;
+                    }
+
+                    if (Directory.Exists(mDirs200trimmed))
+                    {
+                        Log.Info("bitmaps fetch for 200m on dir ={0}", mDirs200trimmed);
+                        this.m_myOrionFileLoader200m.Add(new OrionFileLoader(mDirs200trimmed));
+                    }
+                    else
+                    {
+                        Log.Info("No bitmaps fetch for 200m {0} No specified dir found", mDirs200trimmed);
+                    }
                 }
             }
 

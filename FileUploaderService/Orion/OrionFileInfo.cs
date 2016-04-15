@@ -12,6 +12,8 @@ namespace FileUploaderService.Orion
     using System;
     using System.IO;
 
+    using FileUploaderService.KME;
+
     using SendingResults.Diagnosis;
 
     /// <summary>
@@ -73,7 +75,7 @@ namespace FileUploaderService.Orion
         /// </summary>
         public int Skive { get; set; }
 
-
+        public BaneType BaneType { get; set; }
         public int Serie { get; set; }
         #endregion
 
