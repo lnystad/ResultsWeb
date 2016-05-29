@@ -7,14 +7,13 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
-using SendingResults.Diagnosis;
 
 namespace SendingResults
 {
     using System.Threading;
 
     using FileUploaderService;
-
+    using FileUploaderService.Diagnosis;
     public partial class SendingResults : ServiceBase
     {
         private Thread m_runningThread;

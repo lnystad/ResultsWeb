@@ -10,9 +10,10 @@ namespace FileUploaderService.Ftp
 
     using EnterpriseDT.Net.Ftp;
 
+    using FileUploaderService.Diagnosis;
     using FileUploaderService.Orion;
 
-    using SendingResults.Diagnosis;
+    
 
     public class FtpUtility
     {

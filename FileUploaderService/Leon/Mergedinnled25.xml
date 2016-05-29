@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <report>
+    <header name="Lag 3" />
+    <resultnum name="Sk" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultclass name="Kl." />
+    <resultcategory name="Kat." />
+    <resulttotsum name="25-skudd" />
+    <column>
+      <series id="1" name="1. serie" type="series_shot_sum" />
+      <series id="2" name="2. serie" type="series_shot_sum" />
+      <series id="3" name="3. serie" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10 skudd" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Viljar Kristoffersen" club="Beiarn " class="J" category="" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="2" name="Irmelin Kristoffersen" club="Beiarn " class="ER" category="K" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="3" name="Jan Erik Sørdal" club="Saltdal " class="V65" category="" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="4" name="Per Ernstsen" club="Saltdal " class="V73" category="" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="5" name="Alf Storjord" club="Saltdal " class="V73" category="" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="6" name="Ingvald Storjord" club="Saltdal " class="V73" category="" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="7" name="Jesper Mohaug" club="Røsvik " class="J" category="" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="8" name=" " club="" class="" category="" totsum="">
+        <series id="1" sum="" />
+        <series id="2" sum="" />
+        <series id="3" sum="" />
+        <series id="4" sum="" />
+        <series id="5" sum="" />
+      </result>
+      <result num="9" name=" " club="" class="" category="" totsum="">
+        <series id="1" sum="" />
+        <series id="2" sum="" />
+        <series id="3" sum="" />
+        <series id="4" sum="" />
+        <series id="5" sum="" />
+      </result>
+      <result num="10" name=" " club="" class="" category="" totsum="">
+        <series id="1" sum="" />
+        <series id="2" sum="" />
+        <series id="3" sum="" />
+        <series id="4" sum="" />
+        <series id="5" sum="" />
+      </result>
+      <result num="11" name="Nikolai Fagerbakk  Larsen" club="Valnesfjord " class="R" category="L" totsum="250">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="12" name=" " club="" class="" category="" totsum="">
+        <series id="1" sum="" />
+        <series id="2" sum="" />
+        <series id="3" sum="" />
+        <series id="4" sum="" />
+        <series id="5" sum="" />
+      </result>
+    </data>
+  </report>
+  <BitmapDirInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Bitmaps>
+      <FileName>TR-101-1.PNG</FileName>
+      <FileName>TR-101-10.PNG</FileName>
+      <FileName>TR-101-11.PNG</FileName>
+      <FileName>TR-101-12.PNG</FileName>
+      <FileName>TR-101-2.PNG</FileName>
+      <FileName>TR-101-3.PNG</FileName>
+      <FileName>TR-101-4.PNG</FileName>
+      <FileName>TR-101-5.PNG</FileName>
+      <FileName>TR-101-8.PNG</FileName>
+      <FileName>TR-101-9.PNG</FileName>
+      <FileName>TR-102-1.PNG</FileName>
+      <FileName>TR-102-2.PNG</FileName>
+      <FileName>TR-102-3.PNG</FileName>
+      <FileName>TR-102-4.PNG</FileName>
+      <FileName>TR-102-5.PNG</FileName>
+      <FileName>TR-102-8.PNG</FileName>
+      <FileName>TR-102-9.PNG</FileName>
+      <FileName>TR-103-1.PNG</FileName>
+      <FileName>TR-103-2.PNG</FileName>
+      <FileName>TR-103-3.PNG</FileName>
+      <FileName>TR-103-4.PNG</FileName>
+      <FileName>TR-103-5.PNG</FileName>
+      <FileName>TR-103-6.PNG</FileName>
+      <FileName>TR-201-1.PNG</FileName>
+      <FileName>TR-201-2.PNG</FileName>
+      <FileName>TR-201-3.PNG</FileName>
+      <FileName>TR-201-4.PNG</FileName>
+      <FileName>TR-201-5.PNG</FileName>
+      <FileName>TR-201-6.PNG</FileName>
+      <FileName>TR-201-7.PNG</FileName>
+      <FileName>TR-201-8.PNG</FileName>
+      <FileName>TR-202-1.PNG</FileName>
+      <FileName>TR-202-2.PNG</FileName>
+      <FileName>TR-202-3.PNG</FileName>
+      <FileName>TR-202-4.PNG</FileName>
+      <FileName>TR-202-5.PNG</FileName>
+      <FileName>TR-202-6.PNG</FileName>
+      <FileName>TR-202-7.PNG</FileName>
+      <FileName>TR-202-8.PNG</FileName>
+      <FileName>TR-3-11.PNG</FileName>
+      <FileName>TR-3-2.PNG</FileName>
+      <FileName>TR-3-3.PNG</FileName>
+      <FileName>TR-3-4.PNG</FileName>
+      <FileName>TR-3-5.PNG</FileName>
+      <FileName>TR-3-6.PNG</FileName>
+      <FileName>TR-3-7.PNG</FileName>
+      <FileName>TR-3-8.PNG</FileName>
+      <FileName>TR-4-1.PNG</FileName>
+      <FileName>TR-4-12.PNG</FileName>
+      <FileName>TR-4-2.PNG</FileName>
+      <FileName>TR-4-4.PNG</FileName>
+      <FileName>TR-4-5.PNG</FileName>
+      <FileName>TR-4-6.PNG</FileName>
+      <FileName>TR-4-7.PNG</FileName>
+      <FileName>TR-4-8.PNG</FileName>
+    </Bitmaps>
+    <BaneType>Hundremeter</BaneType>
+    <BitmapSubDir>100m</BitmapSubDir>
+    <Updated>true</Updated>
+    <Initial>false</Initial>
+  </BitmapDirInfo>
+</Merged>

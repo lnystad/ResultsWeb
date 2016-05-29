@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SendingResults.Diagnosis
+﻿namespace FileUploaderService.Diagnosis
 {
+    using System;
     using System.IO;
 
     public static class PathUtils

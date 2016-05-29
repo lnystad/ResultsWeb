@@ -15,10 +15,9 @@ namespace FileUploaderService.Orion
     using System.Linq;
     using System.Threading;
 
+    using FileUploaderService.Diagnosis;
     using FileUploaderService.KME;
     using FileUploaderService.Utils;
-
-    using SendingResults.Diagnosis;
 
     /// <summary>
     ///     The orion file loader.
@@ -40,24 +39,24 @@ namespace FileUploaderService.Orion
         /// <summary>
         ///     The m_bit map dir.
         /// </summary>
-        private string m_bitMapDir;
+        //private string m_bitMapDir;
 
-        /// <summary>
-        ///     The m_bit map error dir.
-        /// </summary>
-        private string m_bitMapErrorDir;
+        ///// <summary>
+        /////     The m_bit map error dir.
+        ///// </summary>
+        //private string m_bitMapErrorDir;
 
-        /// <summary>
-        ///     The m_bkup time out.
-        /// </summary>
-        private int m_bkupTimeOut;
+        ///// <summary>
+        /////     The m_bkup time out.
+        ///// </summary>
+        //private int m_bkupTimeOut;
 
-        private BaneType m_bitMapBaneType;
+        //private BaneType m_bitMapBaneType;
 
-        private int m_skiverilaget;
+        //private int m_skiverilaget;
 
-        private int m_startHold;
-        /// <summary>
+        //private int m_startHold;
+        ///// <summary>
         ///     The m_orion stevne info.
         /// </summary>
         private OrionStevneInfo m_orionStevneInfo;
@@ -78,35 +77,35 @@ namespace FileUploaderService.Orion
         /// <param name="timeOut">
         /// The time out.
         /// </param>
-        public OrionFileLoader(string bitMapDir, string bitMapBackupDir, string timeOut,BaneType felt, int skiverilaget, int bitMapStartHold)
-        {
-            // TODO: Complete member initialization
-            this.m_skiverilaget = skiverilaget;
-            this.m_bitMapBaneType = felt;
-            this.m_startHold = bitMapStartHold;
-            this.m_bitMapDir = bitMapDir;
-            this.m_bitMapBackupDir = bitMapBackupDir;
-            this.m_bitMapErrorDir = Path.Combine(this.m_bitMapBackupDir, "Error");
-            this.m_bkupTimeOut = 60000;
-            if (!string.IsNullOrEmpty(timeOut))
-            {
-                int timeoutInt = -1;
-                if (int.TryParse(timeOut, out timeoutInt))
-                {
-                    this.m_bkupTimeOut = timeoutInt;
-                    if (this.m_bkupTimeOut < 60)
-                    {
-                        this.m_bkupTimeOut = 60000;
-                    }
-                    else
-                    {
-                        this.m_bkupTimeOut = this.m_bkupTimeOut * 1000;
-                    }
-                }
-            }
+        //public OrionFileLoader(string bitMapDir, string bitMapBackupDir, string timeOut,BaneType felt, int skiverilaget, int bitMapStartHold)
+        //{
+        //    // TODO: Complete member initialization
+        //    this.m_skiverilaget = skiverilaget;
+        //    this.m_bitMapBaneType = felt;
+        //    this.m_startHold = bitMapStartHold;
+        //    this.m_bitMapDir = bitMapDir;
+        //    this.m_bitMapBackupDir = bitMapBackupDir;
+        //    this.m_bitMapErrorDir = Path.Combine(this.m_bitMapBackupDir, "Error");
+        //    this.m_bkupTimeOut = 60000;
+        //    if (!string.IsNullOrEmpty(timeOut))
+        //    {
+        //        int timeoutInt = -1;
+        //        if (int.TryParse(timeOut, out timeoutInt))
+        //        {
+        //            this.m_bkupTimeOut = timeoutInt;
+        //            if (this.m_bkupTimeOut < 60)
+        //            {
+        //                this.m_bkupTimeOut = 60000;
+        //            }
+        //            else
+        //            {
+        //                this.m_bkupTimeOut = this.m_bkupTimeOut * 1000;
+        //            }
+        //        }
+        //    }
 
-            Log.Info("Bakup Timeout = {0}", this.m_bkupTimeOut);
-        }
+        //    Log.Info("Bakup Timeout = {0}", this.m_bkupTimeOut);
+        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrionFileLoader"/> class.
@@ -117,10 +116,10 @@ namespace FileUploaderService.Orion
         public OrionFileLoader(string remotebitMapBackupDir)
         {
             // TODO: Complete member initialization
-            this.m_bitMapDir = null;
+            //this.m_bitMapDir = null;
             this.m_bitMapBackupDir = remotebitMapBackupDir;
-            this.m_bitMapErrorDir = Path.Combine(this.m_bitMapBackupDir, "Error");
-            this.m_bkupTimeOut = 60000;
+            //this.m_bitMapErrorDir = Path.Combine(this.m_bitMapBackupDir, "Error");
+            //this.m_bkupTimeOut = 60000;
         }
 
         #endregion
@@ -264,103 +263,103 @@ namespace FileUploaderService.Orion
         /// <returns>
         ///     The <see cref="bool" />.
         /// </returns>
-        internal bool CheckForNewBitmapFiles()
-        {
-            this.m_lagInfo = new List<Lag>();
-            bool foundSkiver = false;
-            if (Directory.Exists(this.m_bitMapDir))
-            {
-                var webInfo = new DirectoryInfo(this.m_bitMapDir);
-                var listInfo = webInfo.GetFiles("TR*.PNG");
-                if (listInfo.Length > 0)
-                {
-                    this.SetOrionStevneInfo();
-                    Thread.Sleep(this.m_bkupTimeOut);
-                }
-                else
-                {
-                     Thread.Sleep(2000);
-                    return false;
-                }
+        //internal bool CheckForNewBitmapFiles()
+        //{
+        //    this.m_lagInfo = new List<Lag>();
+        //    bool foundSkiver = false;
+        //    if (Directory.Exists(this.m_bitMapDir))
+        //    {
+        //        var webInfo = new DirectoryInfo(this.m_bitMapDir);
+        //        var listInfo = webInfo.GetFiles("TR*.PNG");
+        //        if (listInfo.Length > 0)
+        //        {
+        //            this.SetOrionStevneInfo();
+        //            Thread.Sleep(this.m_bkupTimeOut);
+        //        }
+        //        else
+        //        {
+        //             Thread.Sleep(2000);
+        //            return false;
+        //        }
 
-                listInfo = webInfo.GetFiles("TR*.PNG");
-                if (listInfo.Length > 0)
-                {
-                    var list = listInfo.OrderByDescending(x => x.LastWriteTime);
+        //        listInfo = webInfo.GetFiles("TR*.PNG");
+        //        if (listInfo.Length > 0)
+        //        {
+        //            var list = listInfo.OrderByDescending(x => x.LastWriteTime);
                     
-                    foreach (var file in list)
-                    {
-                        var inf = new OrionFileInfo(file);
-                        if (inf.ParseTarget())
-                        {
-                            var converted = ConvertToFeltLag(inf);
+        //            foreach (var file in list)
+        //            {
+        //                var inf = new OrionFileInfo(file);
+        //                if (inf.ParseTarget())
+        //                {
+        //                    var converted = ConvertToFeltLag(inf);
 
-                            var foundLag = this.m_lagInfo.FirstOrDefault(x => x.LagNr == converted.Lag && x.ArrangeDate == converted.EventDate);
-                            if (foundLag != null)
-                            {
-                                foundLag.InsertSkive(converted);
-                                foundSkiver = true;
-                            }
-                            else
-                            {
-                                foundLag = new Lag(inf.EventDateTime, converted.Lag);
-                                this.m_lagInfo.Add(foundLag);
-                                foundLag.InsertSkive(converted);
-                                foundSkiver = true;
-                            }
-                        }
-                        else
-                        {
-                            this.HandleErrorFile(file);
-                        }
-                    }
-                }
-            }
+        //                    var foundLag = this.m_lagInfo.FirstOrDefault(x => x.LagNr == converted.Lag && x.ArrangeDate == converted.EventDate);
+        //                    if (foundLag != null)
+        //                    {
+        //                        foundLag.InsertSkive(converted);
+        //                        foundSkiver = true;
+        //                    }
+        //                    else
+        //                    {
+        //                        foundLag = new Lag(inf.EventDateTime, converted.Lag);
+        //                        this.m_lagInfo.Add(foundLag);
+        //                        foundLag.InsertSkive(converted);
+        //                        foundSkiver = true;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    this.HandleErrorFile(file);
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return foundSkiver;
-        }
+        //    return foundSkiver;
+        //}
 
-        private OrionFileInfo ConvertToFeltLag(OrionFileInfo OrionFileInfo)
-        {
-            if (!(this.m_bitMapBaneType == BaneType.GrovFelt || this.m_bitMapBaneType == BaneType.FinFelt))
-            {
-                return OrionFileInfo;
-            }
+        //private OrionFileInfo ConvertToFeltLag(OrionFileInfo OrionFileInfo)
+        //{
+        //    if (!(this.m_bitMapBaneType == BaneType.GrovFelt || this.m_bitMapBaneType == BaneType.FinFelt))
+        //    {
+        //        return OrionFileInfo;
+        //    }
 
-            int StartLeonLag = OrionFileInfo.Lag;
-            int Leonserienr = 0;
-            int LeonLagNr;
-            int leonSkivenr;
+        //    int StartLeonLag = OrionFileInfo.Lag;
+        //    int Leonserienr = 0;
+        //    int LeonLagNr;
+        //    int leonSkivenr;
 
-            OrionFileInfo retVal = new OrionFileInfo();
+        //    OrionFileInfo retVal = new OrionFileInfo();
             
-            int serieNr = 0;
-            if (OrionFileInfo.Skive <= this.m_skiverilaget)
-            {
-                retVal.Lag = StartLeonLag;
-                retVal.Skive = OrionFileInfo.Skive;
-                retVal.Serie = 1;
-            }
-            else
-            {
-                int brok = (OrionFileInfo.Skive - 1) / this.m_skiverilaget;
-                Leonserienr = brok + 1;
-                LeonLagNr = StartLeonLag - brok;
-                leonSkivenr = this.m_skiverilaget - OrionFileInfo.Skive % this.m_skiverilaget;
-                retVal.Lag = LeonLagNr;
-                retVal.Skive = leonSkivenr;
-                retVal.Serie = Leonserienr;
-            }
+        //    int serieNr = 0;
+        //    if (OrionFileInfo.Skive <= this.m_skiverilaget)
+        //    {
+        //        retVal.Lag = StartLeonLag;
+        //        retVal.Skive = OrionFileInfo.Skive;
+        //        retVal.Serie = 1;
+        //    }
+        //    else
+        //    {
+        //        int brok = (OrionFileInfo.Skive - 1) / this.m_skiverilaget;
+        //        Leonserienr = brok + 1;
+        //        LeonLagNr = StartLeonLag - brok;
+        //        leonSkivenr = this.m_skiverilaget - OrionFileInfo.Skive % this.m_skiverilaget;
+        //        retVal.Lag = LeonLagNr;
+        //        retVal.Skive = leonSkivenr;
+        //        retVal.Serie = Leonserienr;
+        //    }
 
-            string newFileName = string.Format("TR-{0}-{1}-{2}.png", retVal.Lag, retVal.Skive, retVal.Serie);
-            string path = Path.GetDirectoryName(OrionFileInfo.FileInfo.FullName);
-            string newFile = Path.Combine(path, newFileName);
-            OrionFileInfo.FileInfo.MoveTo(newFile);
+        //    string newFileName = string.Format("TR-{0}-{1}-{2}.png", retVal.Lag, retVal.Skive, retVal.Serie);
+        //    string path = Path.GetDirectoryName(OrionFileInfo.FileInfo.FullName);
+        //    string newFile = Path.Combine(path, newFileName);
+        //    OrionFileInfo.FileInfo.MoveTo(newFile);
 
-            retVal.FileInfo = new FileInfo(newFile);
+        //    retVal.FileInfo = new FileInfo(newFile);
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
         /// <summary>
         /// The handle error file.
@@ -368,36 +367,36 @@ namespace FileUploaderService.Orion
         /// <param name="file">
         /// The file.
         /// </param>
-        private void HandleErrorFile(FileInfo file)
-        {
-            try
-            {
-                if (!Directory.Exists(this.m_bitMapErrorDir))
-                {
-                    Directory.CreateDirectory(this.m_bitMapErrorDir);
-                }
+        //private void HandleErrorFile(FileInfo file)
+        //{
+        //    try
+        //    {
+        //        if (!Directory.Exists(this.m_bitMapErrorDir))
+        //        {
+        //            Directory.CreateDirectory(this.m_bitMapErrorDir);
+        //        }
 
-                string dateDir = string.Format("{0:D4}{1:D2}{2:D2}", file.CreationTime.Year, file.CreationTime.Month, file.CreationTime.Day);
-                string fulldir = Path.Combine(this.m_bitMapErrorDir, dateDir);
-                if (!Directory.Exists(fulldir))
-                {
-                    Directory.CreateDirectory(fulldir);
-                }
+        //        string dateDir = string.Format("{0:D4}{1:D2}{2:D2}", file.CreationTime.Year, file.CreationTime.Month, file.CreationTime.Day);
+        //        string fulldir = Path.Combine(this.m_bitMapErrorDir, dateDir);
+        //        if (!Directory.Exists(fulldir))
+        //        {
+        //            Directory.CreateDirectory(fulldir);
+        //        }
 
-                var errorFileName = Path.Combine(fulldir, file.Name);
-                if (File.Exists(errorFileName))
-                {
-                    errorFileName += DateTime.Now.ToString("yyyyMMddHHmmss");
-                }
+        //        var errorFileName = Path.Combine(fulldir, file.Name);
+        //        if (File.Exists(errorFileName))
+        //        {
+        //            errorFileName += DateTime.Now.ToString("yyyyMMddHHmmss");
+        //        }
 
-                File.Copy(file.FullName, errorFileName);
-                File.Delete(file.FullName);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "Error in HandleErrorFile");
-            }
-        }
+        //        File.Copy(file.FullName, errorFileName);
+        //        File.Delete(file.FullName);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Log.Error(e, "Error in HandleErrorFile");
+        //    }
+        //}
 
         /// <summary>
         /// The is valid directory.
@@ -452,58 +451,58 @@ namespace FileUploaderService.Orion
         /// <summary>
         /// The set orion stevne info.
         /// </summary>
-        private void SetOrionStevneInfo()
-        {
-            try
-            {
-                var navn = OrionProgramInfo.GetStevneNavn();
-                if (string.IsNullOrEmpty(navn))
-                {
-                    if (this.m_orionStevneInfo != null)
-                    {
-                        TimeSpan span3 = TimeSpan.FromMinutes(30);
-                        var timeOutTime = this.m_orionStevneInfo.LastCheckedTime.Add(span3);
-                        if (timeOutTime < DateTime.Now)
-                        {
-                            Log.Info("Too long since last found STevneNavn {0}", this.m_orionStevneInfo.LastCheckedTime);
-                            this.m_orionStevneInfo = null;
-                        }
-                    }
-                }
-                else
-                {
-                    if (this.m_orionStevneInfo != null)
-                    {
-                        var parsedName = ParseHelper.RemoveDirLetters(navn);
-                        parsedName = parsedName.Replace(" ", "");
-                        if (string.Compare(parsedName, this.m_orionStevneInfo.Navn, StringComparison.OrdinalIgnoreCase) == 0)
-                        {
-                            this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
-                        }
-                        else
-                        {
-                            Log.Info("Stevne changed in Orion old={0} new={1}", this.m_orionStevneInfo.Navn, parsedName);
-                        }
+        //private void SetOrionStevneInfo()
+        //{
+        //    try
+        //    {
+        //        var navn = OrionProgramInfo.GetStevneNavn();
+        //        if (string.IsNullOrEmpty(navn))
+        //        {
+        //            if (this.m_orionStevneInfo != null)
+        //            {
+        //                TimeSpan span3 = TimeSpan.FromMinutes(30);
+        //                var timeOutTime = this.m_orionStevneInfo.LastCheckedTime.Add(span3);
+        //                if (timeOutTime < DateTime.Now)
+        //                {
+        //                    Log.Info("Too long since last found STevneNavn {0}", this.m_orionStevneInfo.LastCheckedTime);
+        //                    this.m_orionStevneInfo = null;
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (this.m_orionStevneInfo != null)
+        //            {
+        //                var parsedName = ParseHelper.RemoveDirLetters(navn);
+        //                parsedName = parsedName.Replace(" ", "");
+        //                if (string.Compare(parsedName, this.m_orionStevneInfo.Navn, StringComparison.OrdinalIgnoreCase) == 0)
+        //                {
+        //                    this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
+        //                }
+        //                else
+        //                {
+        //                    Log.Info("Stevne changed in Orion old={0} new={1}", this.m_orionStevneInfo.Navn, parsedName);
+        //                }
 
-                        this.m_orionStevneInfo.Navn = parsedName;
-                        this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
-                    }
-                    else
-                    {
-                        var parsedName = ParseHelper.RemoveDirLetters(navn);
-                        parsedName = parsedName.Replace(" ", "");
-                        Log.Info("New Stevne detected={0}", parsedName);
-                        this.m_orionStevneInfo = new OrionStevneInfo();
-                        this.m_orionStevneInfo.Navn = parsedName;
-                        this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Trace(e, "GetStevneNavn");
-            }
-        }
+        //                this.m_orionStevneInfo.Navn = parsedName;
+        //                this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
+        //            }
+        //            else
+        //            {
+        //                var parsedName = ParseHelper.RemoveDirLetters(navn);
+        //                parsedName = parsedName.Replace(" ", "");
+        //                Log.Info("New Stevne detected={0}", parsedName);
+        //                this.m_orionStevneInfo = new OrionStevneInfo();
+        //                this.m_orionStevneInfo.Navn = parsedName;
+        //                this.m_orionStevneInfo.LastCheckedTime = DateTime.Now;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Log.Trace(e, "GetStevneNavn");
+        //    }
+        //}
 
         #endregion
     }

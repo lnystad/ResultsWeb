@@ -15,7 +15,7 @@ namespace FileUploaderService.Utils
     using System.Threading;
     using System.Xml;
 
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     /// <summary>
     /// The xml file reader helper.

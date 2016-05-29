@@ -14,7 +14,7 @@ namespace FileUploaderService.Orion
 
     using FileUploaderService.KME;
 
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     /// <summary>
     /// The orion file info.

@@ -9,7 +9,7 @@ using ProcessMemoryReaderLib;
 
 namespace ProcessMemoryReaderLib
 {
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     class ProcessMemoryReaderApi
     {

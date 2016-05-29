@@ -1,4 +1,4 @@
-namespace SendingResults.Diagnosis
+namespace FileUploaderService.Diagnosis
 {
     /// <summary>
     /// Interface implemented by log appenders

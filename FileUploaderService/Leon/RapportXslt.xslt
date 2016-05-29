@@ -30,6 +30,9 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">
             <xsl:value-of select="number(200)"/>
           </xsl:when>
           <xsl:otherwise>
@@ -83,6 +86,9 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+           <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">
             <xsl:value-of select="number(200)"/>
           </xsl:when>
           <xsl:otherwise>
@@ -139,6 +145,9 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+           <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">
             <xsl:value-of select="number(200)"/>
           </xsl:when>
           <xsl:otherwise>
@@ -196,6 +205,9 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">
             <xsl:value-of select="number(200)"/>
           </xsl:when>
           <xsl:otherwise>

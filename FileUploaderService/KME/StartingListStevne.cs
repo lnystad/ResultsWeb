@@ -10,7 +10,7 @@ namespace FileUploaderService.KME
 
     using FileUploaderService.Utils;
 
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     public class StartingListStevne
     {

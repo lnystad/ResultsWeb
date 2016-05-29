@@ -15,12 +15,11 @@ namespace FileUploaderService
     using System.IO;
     using System.Threading;
 
+    using FileUploaderService.Diagnosis;
     using FileUploaderService.Ftp;
     using FileUploaderService.KME;
     using FileUploaderService.Orion;
     using FileUploaderService.Utils;
-
-    using SendingResults.Diagnosis;
 
     /// <summary>
     /// The file sniffer engine.
@@ -232,14 +231,14 @@ namespace FileUploaderService
                             }
                     }
 
-                    if (this.BkUpBitmap && this.m_myOrionFileLoaderBkup != null)
-                    {
-                        bool upload = this.m_myOrionFileLoaderBkup.CheckForNewBitmapFiles();
-                        if (upload)
-                        {
-                            var bitmapFiles = this.m_myOrionFileLoaderBkup.BackUpBitMaps();
-                        }
-                    }
+                    //if (this.BkUpBitmap && this.m_myOrionFileLoaderBkup != null)
+                    //{
+                    //    bool upload = this.m_myOrionFileLoaderBkup.CheckForNewBitmapFiles();
+                    //    if (upload)
+                    //    {
+                    //        var bitmapFiles = this.m_myOrionFileLoaderBkup.BackUpBitMaps();
+                    //    }
+                    //}
 
                     Thread.Sleep(2000);
                 }
@@ -339,9 +338,9 @@ namespace FileUploaderService
             }
             
 
-            string bitMapDir = ConfigurationManager.AppSettings["BitMapDir"];
-            string bitMapBackupDir = ConfigurationManager.AppSettings["BitMapBackupDir"];
-            string bitMapFetchTimeOutstr = ConfigurationManager.AppSettings["BitMapFetchTimeOut"];
+            //string bitMapDir = ConfigurationManager.AppSettings["BitMapDir"];
+            //string bitMapBackupDir = ConfigurationManager.AppSettings["BitMapBackupDir"];
+            //string bitMapFetchTimeOutstr = ConfigurationManager.AppSettings["BitMapFetchTimeOut"];
 
             this.m_remoteBitMapDir15m = ConfigurationManager.AppSettings["RemoteBitMapDir15m"];
             this.m_remoteBitMapDir100m = ConfigurationManager.AppSettings["RemoteBitMapDir100m"];
@@ -367,29 +366,29 @@ namespace FileUploaderService
                 }
             }
 
-            this.BkUpBitmap = false;
+            //this.BkUpBitmap = false;
             this.UploadBitmap = false;
-            if (!string.IsNullOrEmpty(bitMapDir) && !string.IsNullOrEmpty(bitMapBackupDir))
-            {
-                if (!Directory.Exists(bitMapDir))
-                {
-                    Log.Error("Bitmap dir not exsist {0} ", bitMapDir);
-                    this.BkUpBitmap = false;
-                }
-                else
-                {
-                    if (!Directory.Exists(bitMapBackupDir))
-                    {
-                        Log.Error("bitMapBackupDir dir not exsist {0} ", bitMapBackupDir);
-                        this.BkUpBitmap = false;
-                    }
-                    else
-                    {
-                        this.BkUpBitmap = true;
-                        Log.Error("Bitmaps will be backedup from {0} to {1} ", bitMapDir, bitMapBackupDir);
-                    }
-                }
-            }
+            //if (!string.IsNullOrEmpty(bitMapDir) && !string.IsNullOrEmpty(bitMapBackupDir))
+            //{
+            //    if (!Directory.Exists(bitMapDir))
+            //    {
+            //        Log.Error("Bitmap dir not exsist {0} ", bitMapDir);
+            //        this.BkUpBitmap = false;
+            //    }
+            //    else
+            //    {
+            //        if (!Directory.Exists(bitMapBackupDir))
+            //        {
+            //            Log.Error("bitMapBackupDir dir not exsist {0} ", bitMapBackupDir);
+            //            this.BkUpBitmap = false;
+            //        }
+            //        else
+            //        {
+            //            this.BkUpBitmap = true;
+            //            Log.Error("Bitmaps will be backedup from {0} to {1} ", bitMapDir, bitMapBackupDir);
+            //        }
+            //    }
+            //}
 
             if (!string.IsNullOrEmpty(uploadBitmapstr))
             {
@@ -400,15 +399,15 @@ namespace FileUploaderService
                 }
             }
 
-            if (this.BkUpBitmap)
-            {
-                Log.Info("Bitmap Bakup from Orion Initiated {0} {1}", bitMapDir, bitMapBackupDir);
-                this.m_myOrionFileLoaderBkup = new OrionFileLoader(bitMapDir, bitMapBackupDir, bitMapFetchTimeOutstr, bitmapfelt, bitMapSkiveriLaget, bitMapStartHold);
-            }
-            else
-            {
-                Log.Info("Bitmap Bakup from Orion not Initiated");
-            }
+            //if (this.BkUpBitmap)
+            //{
+            //    Log.Info("Bitmap Bakup from Orion Initiated {0} {1}", bitMapDir, bitMapBackupDir);
+            //    this.m_myOrionFileLoaderBkup = new OrionFileLoader(bitMapDir, bitMapBackupDir, bitMapFetchTimeOutstr, bitmapfelt, bitMapSkiveriLaget, bitMapStartHold);
+            //}
+            //else
+            //{
+            //    Log.Info("Bitmap Bakup from Orion not Initiated");
+            //}
 
             if (!string.IsNullOrEmpty(this.m_remoteBitMapDir15m))
             {

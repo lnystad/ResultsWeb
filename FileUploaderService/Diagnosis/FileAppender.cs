@@ -1,4 +1,4 @@
-namespace SendingResults.Diagnosis
+namespace FileUploaderService.Diagnosis
 {
     using System;
     using System.Diagnostics;
@@ -243,7 +243,7 @@ namespace SendingResults.Diagnosis
                     {
                         using (StreamWriter writer = new StreamWriter(stream))
                         {
-                            writer.WriteLine("{0:dd.MM.yyyy HH:mm:ss} [{1,-8}]: {2}", DateTime.Now, level, FormatMessage(level, loggingEvent));
+                            writer.WriteLine("{0:dd.MM.yyyy HH:mm:ss} [{1,-8}]: {2}", DateTime.Now, level, this.FormatMessage(level, loggingEvent));
                             writer.Flush();
                         }
                     }

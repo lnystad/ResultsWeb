@@ -1,7 +1,6 @@
-namespace SendingResults.Diagnosis
+namespace FileUploaderService.Diagnosis
 {
     using System;
-    using System.Globalization;
     using System.Reflection;
     using System.Text;
     using System.Xml.Serialization;

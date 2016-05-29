@@ -1,0 +1,4 @@
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\BitmapSnifferEngine.dll
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\BitmapSnifferEngine.pdb
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\BitmapSnifferEngine\obj\Debug\BitmapSnifferEngine.dll
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\BitmapSnifferEngine\obj\Debug\BitmapSnifferEngine.pdb

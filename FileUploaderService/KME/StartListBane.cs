@@ -14,7 +14,7 @@ namespace FileUploaderService.KME
     using System.Linq;
     using System.Xml.Serialization;
 
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     /// <summary>
     /// The start list bane.

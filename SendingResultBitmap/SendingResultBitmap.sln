@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendingResultBitmap", "SendingResultBitmap\SendingResultBitmap.csproj", "{E0EA1797-286E-4C7B-B4A4-84892136AC8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitmapSnifferEngine", "BitmapSnifferEngine\BitmapSnifferEngine.csproj", "{329A8AF4-F9A0-491F-AB49-2852ED08C4EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSendingResultBitmap", "TestSendingResultBitmap\TestSendingResultBitmap.csproj", "{1DBE5E69-BE5F-4E4F-9EE3-A53895B1CE0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{79EC4CC3-7886-4262-BB0A-DDD77EDAD0EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{8416A6D9-D9F6-4A9C-8EB8-5FEA0AC80D95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestSendingBitmap", "UnitTestSendingBitmap\UnitTestSendingBitmap.csproj", "{735D9C79-4F39-4229-80D6-78E37BCAB50B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0EA1797-286E-4C7B-B4A4-84892136AC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0EA1797-286E-4C7B-B4A4-84892136AC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0EA1797-286E-4C7B-B4A4-84892136AC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0EA1797-286E-4C7B-B4A4-84892136AC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{329A8AF4-F9A0-491F-AB49-2852ED08C4EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329A8AF4-F9A0-491F-AB49-2852ED08C4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329A8AF4-F9A0-491F-AB49-2852ED08C4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329A8AF4-F9A0-491F-AB49-2852ED08C4EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DBE5E69-BE5F-4E4F-9EE3-A53895B1CE0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DBE5E69-BE5F-4E4F-9EE3-A53895B1CE0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DBE5E69-BE5F-4E4F-9EE3-A53895B1CE0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DBE5E69-BE5F-4E4F-9EE3-A53895B1CE0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{735D9C79-4F39-4229-80D6-78E37BCAB50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{735D9C79-4F39-4229-80D6-78E37BCAB50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{735D9C79-4F39-4229-80D6-78E37BCAB50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{735D9C79-4F39-4229-80D6-78E37BCAB50B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0EA1797-286E-4C7B-B4A4-84892136AC8E} = {8416A6D9-D9F6-4A9C-8EB8-5FEA0AC80D95}
+		{329A8AF4-F9A0-491F-AB49-2852ED08C4EC} = {8416A6D9-D9F6-4A9C-8EB8-5FEA0AC80D95}
+		{1DBE5E69-BE5F-4E4F-9EE3-A53895B1CE0A} = {79EC4CC3-7886-4262-BB0A-DDD77EDAD0EF}
+		{735D9C79-4F39-4229-80D6-78E37BCAB50B} = {79EC4CC3-7886-4262-BB0A-DDD77EDAD0EF}
+	EndGlobalSection
+EndGlobal

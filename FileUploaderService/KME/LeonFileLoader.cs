@@ -23,16 +23,16 @@ namespace FileUploaderService.KME
     using System.Xml.XPath;
     using System.Xml.Xsl;
 
+    using FileUploaderService.Diagnosis;
     using FileUploaderService.Orion;
     using FileUploaderService.Utils;
-
-    using SendingResults.Diagnosis;
 
     /// <summary>
     ///     The leon file loader.
     /// </summary>
     public class LeonFileLoader
     {
+        private const string rapportEnCoding = "UTF-8";
         #region Fields
 
         /// <summary>
@@ -765,12 +765,17 @@ namespace FileUploaderService.KME
         /// </param>
         internal void UpdateWebTimeStamp(LeonDirInfo webDir)
         {
-            webDir.CheckWebFiles();
-            int idx = this.m_DetectedDirs.IndexOf(webDir);
-            if (idx >= 0)
+            DateTime now= DateTime.Now;
+            webDir.LastWrittenWebFile = now;
+            if (this.m_DetectedDirs != null)
             {
-                this.m_DetectedDirs[idx].LastWrittenWebFile = webDir.LastWrittenWebFile;
+                int idx = this.m_DetectedDirs.IndexOf(webDir);
+                if (idx >= 0)
+                {
+                    this.m_DetectedDirs[idx].LastWrittenWebFile = now;
+                }
             }
+            
         }
 
         /// <summary>
@@ -1258,13 +1263,17 @@ namespace FileUploaderService.KME
                             if (!string.IsNullOrEmpty(rapport.Filnavn))
                             {
                                 Log.Info("Generating new Start List {0}", rapport.Filnavn);
-                                var encServer = Encoding.GetEncoding("ISO-8859-1");
-                                XmlTextWriter writer = new XmlTextWriter(rapport.Filnavn, encServer);
-                                writer.Formatting = Formatting.Indented;
-                                docSaver.Save(writer);
-                                writer.Flush();
-                                writer.Close();
-                                writer.Dispose();
+                                var encServer = Encoding.GetEncoding(rapportEnCoding);
+                                using (XmlTextWriter writer = new XmlTextWriter(rapport.Filnavn, encServer))
+                                {
+                                    writer.Formatting = Formatting.Indented;
+                                    docSaver.Save(writer);
+                                    writer.Flush();
+                                    writer.Close();
+                                }
+                                
+                            
+                           
                             }
 
                             if (this.m_xsltToppListSkyttere != null)
@@ -1339,13 +1348,14 @@ namespace FileUploaderService.KME
                                 if (!string.IsNullOrEmpty(toppListe.Filnavn))
                                 {
                                     Log.Info("Generating new Top List {0}", toppListe.Filnavn);
-                                    var encServer = Encoding.GetEncoding("ISO-8859-1");
-                                    XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer);
-                                    writer.Formatting = Formatting.Indented;
-                                    docSaver.Save(writer);
-                                    writer.Flush();
-                                    writer.Close();
-                                    writer.Dispose();
+                                    var encServer = Encoding.GetEncoding(rapportEnCoding);
+                                    using (XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer))
+                                    {
+                                        writer.Formatting = Formatting.Indented;
+                                        docSaver.Save(writer);
+                                        writer.Flush();
+                                        writer.Close();
+                                    }
                                 }
 
                                 readerOut.Dispose();
@@ -1438,13 +1448,14 @@ namespace FileUploaderService.KME
                                 if (!string.IsNullOrEmpty(toppListe.Filnavn))
                                 {
                                     Log.Info("Generating new Top List {0}", toppListe.Filnavn);
-                                    var encServer = Encoding.GetEncoding("ISO-8859-1");
-                                    XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer);
-                                    writer.Formatting = Formatting.Indented;
-                                    docSaverReport.Save(writer);
-                                    writer.Flush();
-                                    writer.Close();
-                                    writer.Dispose();
+                                    var encServer = Encoding.GetEncoding(rapportEnCoding);
+                                    using (XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer))
+                                    {
+                                        writer.Formatting = Formatting.Indented;
+                                        docSaverReport.Save(writer);
+                                        writer.Flush();
+                                        writer.Close();
+                                    }
                                 }
                                 readerOutReport.Dispose();
                                 readerOut.Dispose();

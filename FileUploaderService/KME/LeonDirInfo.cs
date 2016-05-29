@@ -19,11 +19,10 @@ namespace FileUploaderService.KME
     using System.Xml;
     using System.Xml.Serialization;
 
+    using FileUploaderService.Diagnosis;
     using FileUploaderService.Utils;
 
     using HtmlAgilityPack;
-
-    using SendingResults.Diagnosis;
 
     /// <summary>
     ///     The leon dir info.
@@ -468,6 +467,15 @@ namespace FileUploaderService.KME
                 {
                     StartListBane baneFound = null;
                     string prefix = null;
+                    if (this.StevneForAlleBaner == null)
+                    {
+                        if (dirs.BitmapFiles != null && dirs.BitmapFiles.Count > 0)
+                        {
+                            Log.Info("Ingen baner funnet bitmap ikke hentet {0}", stevneNavn);
+                        }
+                        break;
+                    }
+
                     foreach (var bane in this.StevneForAlleBaner.DynamiskeBaner)
                     {
                         if (dirs.BaneType == bane.BaneType)
@@ -876,6 +884,8 @@ namespace FileUploaderService.KME
             if (this.LastWrittenWebFile == null)
             {
                 this.LastWrittenWebFile = DateTime.MinValue;
+                Log.Trace("Setting LastWrittenWebFile to Min Val");
+
             }
 
             var web = Path.Combine(this.Info.FullName, WebDirName);
@@ -905,12 +915,16 @@ namespace FileUploaderService.KME
                             
                             if (this.LastWrittenWebFile != DateTime.MinValue)
                             {
+                                Log.Info("Update detected for stevne {0}", webInfo.FullName);
                                 update = true;
                                 Thread.Sleep(5000);
+                                Log.Info("Start parsing index file for stevne {0}", webInfo.FullName);
+                                this.ParseIndexHtmlFile(webInfo);
                             }
+
                             this.LastWrittenWebFile = LastWriteTime;
                             
-                            this.ParseIndexHtmlFile(webInfo);
+                            
                         }
                     }
 
@@ -1042,6 +1056,7 @@ namespace FileUploaderService.KME
         {
             if (forcemin)
             {
+                Log.Trace("Init all Timestams to min forced");
                 this.LastWrittenWebFile = DateTime.MinValue;
                 this.LastWrittenPdfFile = DateTime.MinValue;
                 this.LastWrittenStartingFile = DateTime.MinValue;
@@ -1059,6 +1074,7 @@ namespace FileUploaderService.KME
             }
             else
             {
+                Log.Trace("Init all Timestams Null to min");
                 if (this.LastWritten15mBitmapFile == null)
                 {
                     this.LastWritten15mBitmapFile = DateTime.MinValue;
@@ -1291,13 +1307,13 @@ namespace FileUploaderService.KME
                                             case ProgramType.Innledende:
                                                 break;
                                             case ProgramType.Finale:
-                                                lagnummer = lagnummer + 200;
+                                                lagnummer = lagnummer + 100;
                                                 break;
                                             case ProgramType.Lagskyting:
-                                                lagnummer = lagnummer + 100;
+                                                lagnummer = lagnummer + 200;
                                                 break;
                                             case ProgramType.SamLagskyting:
-                                                lagnummer = lagnummer + 100;
+                                                lagnummer = lagnummer + 200;
                                                 break;
                                         }
 

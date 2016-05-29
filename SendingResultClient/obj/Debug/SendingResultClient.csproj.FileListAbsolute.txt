@@ -1,0 +1,17 @@
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResultClient.exe.config
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResultClient.exe
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResultClient.pdb
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.csprojResolveAssemblyReference.cache
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\Bitmap\ViewModel\BitMapWindow.g.cs
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\MainWindow.g.cs
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\App.g.cs
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient_MarkupCompile.cache
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient_MarkupCompile.lref
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\Bitmap\ViewModel\BitMapWindow.baml
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\MainWindow.baml
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.g.resources
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.Properties.Resources.resources
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.Resource.resources
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.csproj.GenerateResource.Cache
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.exe
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.pdb

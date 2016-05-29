@@ -9,7 +9,7 @@ namespace FileUploaderService.KME
     using System.IO;
     using System.Xml.Serialization;
 
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     public class StartingListLag : IEquatable<StartingListLag>
     {

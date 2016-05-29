@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileUploaderService.Orion
 {
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     public class Lag
     {

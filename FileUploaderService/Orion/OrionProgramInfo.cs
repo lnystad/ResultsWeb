@@ -14,7 +14,7 @@ namespace FileUploaderService.Orion
 
     using ProcessMemoryReaderLib;
 
-    using SendingResults.Diagnosis;
+    using FileUploaderService.Diagnosis;
 
     /// <summary>
     /// The orion program info.
