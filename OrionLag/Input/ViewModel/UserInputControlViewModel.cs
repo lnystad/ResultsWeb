@@ -8,6 +8,7 @@ namespace OrionLag.ViewModel
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Configuration;
     using System.IO;
     using System.Windows;
     using System.Windows.Forms;
@@ -25,13 +26,39 @@ namespace OrionLag.ViewModel
         {
             int count=0;
             m_inputRows = new ObservableCollection<InputData>();
-            while (count < 10)
+            //while (count < 10)
+            //{
+            //    InputData data = new InputData();
+            //    data.SkytterNr = count;
+            //    m_inputRows.Add(data);
+            //    count++;
+            //}
+
+            var SkiverILaget = ConfigurationManager.AppSettings["SkiverILaget"];
+            if (!string.IsNullOrEmpty(SkiverILaget))
             {
-                InputData data = new InputData();
-                data.SkytterNr = count;
-                m_inputRows.Add(data);
-                count++;
+                int num = 0;
+                if (int.TryParse(SkiverILaget, out num))
+                {
+                    this.m_SkiverILaget = num;
+                }
             }
+            var LagNummer = ConfigurationManager.AppSettings["LagNummer"];
+            if (!string.IsNullOrEmpty(LagNummer))
+            {
+                int num = 0;
+                if (int.TryParse(LagNummer, out num))
+                {
+                    this.m_lagNummer = num;
+                }
+            }
+
+            var KlasseSort = ConfigurationManager.AppSettings["KlasseSort"];
+            if (!string.IsNullOrEmpty(KlasseSort))
+            {
+                this.m_KlasseSort = KlasseSort;
+            }
+            m_SpaceAfterKlasse = true;
         }
 
         private ObservableCollection<InputData> m_inputRows;
@@ -89,6 +116,37 @@ namespace OrionLag.ViewModel
             }
         }
 
+        private bool m_GenerateEmptyLagIsChecked;
+        public bool GenerateEmptyLagIsChecked
+        {
+            get { return m_GenerateEmptyLagIsChecked; }
+            set
+            {
+                m_GenerateEmptyLagIsChecked = value;
+                NotifyPropertyChanged("GenerateEmptyLagIsChecked");
+            }
+        }
+        private bool m_SpaceAfterKlasse;
+        public bool SpaceAfterKlasse
+        {
+            get { return m_SpaceAfterKlasse; }
+            set
+            {
+                m_SpaceAfterKlasse = value;
+                NotifyPropertyChanged("SpaceAfterKlasse");
+            }
+        }
+
+        private bool m_FinfeltLinks;
+        public bool FinfeltLinks
+        {
+            get { return m_FinfeltLinks; }
+            set
+            {
+                m_FinfeltLinks = value;
+                NotifyPropertyChanged("FinfeltLinks");
+            }
+        }
         
 
         public ObservableCollection<InputData> InputRows
@@ -125,22 +183,26 @@ namespace OrionLag.ViewModel
             }
             LagGenerator Generator = new LagGenerator();
 
-            List<string> KlasseListe = new List<string>();
+            List<KlasseSort> KlasseListe = new List<KlasseSort>();
 
             if (string.IsNullOrEmpty(KlasseSort))
             {
-                KlasseListe = InputRows.Select(o => o.Klasse).Distinct().ToList();
+                var liste= InputRows.Select(o => o.Klasse).Distinct().ToList();
+                string viewString = string.Empty;
+                foreach (var kl in liste)
+                {
+                    KlasseSort el = new KlasseSort();
+                    el.Klasse = kl;
+                    el.SpaceInLag = 0;
+                    viewString = viewString + "," + el.Klasse + "-" + el.SpaceInLag;
+                }
+
+                KlasseSort = viewString;
             }
             else
             {
-                var klasser=KlasseSort.Split(new []{';', ',' },StringSplitOptions.None);
-                foreach (var element in klasser)
-                {
-                    if (!string.IsNullOrEmpty(element))
-                    {
-                        KlasseListe.Add(element);
-                    }
-                }
+                KlasseListe = GetklasseListe(KlasseSort);
+               
             }
 
             List<InputData> AlleSkyttere = new List<InputData>();
@@ -149,30 +211,74 @@ namespace OrionLag.ViewModel
             {
                 InputDataComparer computer = new InputDataComparer();
                 KlasseVis.Sort(computer);
+                //InputDataComparerLinksFelt links = new InputDataComparerLinksFelt();
+                //KlasseVis.Sort(links);
             }
 
-            //public List<Lag> GenererSimpelLag(List<List<InputData>> alleSkytterePrKlasse, int startLag, int antallskiver, int? GenerateSpaceEach)
+            List<Lag> inputGenererteLag=null;
+            if (FinfeltLinks)
+            {
+                inputGenererteLag = Generator.GenererSimpelLagFinfelt(ListerAvKlasser, KlasseListe, LagNummer, SkiverILaget);
+            }
+            else
+            {
+                inputGenererteLag = Generator.GenererSimpelLag(ListerAvKlasser, KlasseListe, LagNummer, SkiverILaget, GenerateSpaceEach, GenerateEmptyLagIsChecked, SpaceAfterKlasse);
+            }
+            
 
-            var list = Generator.GenererSimpelLag(ListerAvKlasser, LagNummer, SkiverILaget, GenerateSpaceEach);
-
-            LagOppsettViewModel viewmodel  = new LagOppsettViewModel(list,6,new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            LagOppsettViewModel viewmodel  = new LagOppsettViewModel(inputGenererteLag,new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             var view = new LagOppsettView(viewmodel);
 
             OpenWindow(view, "Data input");
 
         }
 
-        private List<List<InputData>> SorterLagPaaKlasse(List<string> klasseListe, ObservableCollection<InputData> inputRows)
+        private List<KlasseSort> GetklasseListe(string klasseSort)
+        {
+            List<KlasseSort> retVal = new List<KlasseSort>();
+            var klasser = KlasseSort.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var element in klasser)
+            {
+                if (!string.IsNullOrEmpty(element))
+                {
+                    KlasseSort el = new KlasseSort();
+                    if (element.Contains("-"))
+                    {
+                        var splits = element.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                        el.Klasse = splits[0];
+                        if (splits.Length > 0)
+                        {
+                            int num = 0;
+                            if (int.TryParse(splits[1], out num))
+                            {
+                                el.SpaceInLag = num;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        el.Klasse = element;
+                        el.SpaceInLag = 0;
+                    }
+
+                    retVal.Add(el);
+                }
+            }
+
+            return retVal;
+        }
+
+        private List<List<InputData>> SorterLagPaaKlasse(List<KlasseSort> klasseListe, ObservableCollection<InputData> inputRows)
         {
 
             List<List<InputData>> retVal = new List<List<InputData>>();
 
 
-            foreach (var klasseNavn in klasseListe)
+            foreach (var klasseel in klasseListe)
             {
                 List<InputData> klasseliste= new List<InputData>();
 
-                klasseliste = inputRows.Where(o => o.Klasse == klasseNavn).ToList();
+                klasseliste = inputRows.Where(o => o.Klasse == klasseel.Klasse).ToList();
 
                 retVal.Add(klasseliste);
             }

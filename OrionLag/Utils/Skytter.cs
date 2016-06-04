@@ -22,6 +22,7 @@ namespace OrionLag.Utils
             Name = copy.Name;
             Skytterlag = copy.Skytterlag;
             Klasse = copy.Klasse;
+            Links = copy.Links;
             InputXmlData = copy.InputXmlData;
         }
 
@@ -40,6 +41,7 @@ namespace OrionLag.Utils
 
         public string Klasse { get; set; }
 
+        public bool Links { get; set; }
 
         public Collection<XmlTags> InputXmlData { get; set; }
     }

@@ -29,13 +29,16 @@ namespace BitmapSnifferEngine.Orion
         private OrionStevneInfo m_orionStevneInfo;
 
         private SetupConfiguration m_config;
+
+        private int m_runorder;
+
         #endregion
 
         #region Constructors and Destructors
 
         public OrionFileLoader()
         {
-            
+            m_runorder = 1;
         }
 
         /// <summary>
@@ -84,7 +87,20 @@ namespace BitmapSnifferEngine.Orion
                 Directory.CreateDirectory(this.m_config.BitMapErrorDir);
             }
 
+            if (string.IsNullOrEmpty(this.m_config.BitMapRunOriginalDir))
+            {
+                this.m_config.BitMapRunOriginalDir = Path.Combine(this.m_config.BitMapDir, "Original");
+            }
+            if (!Directory.Exists(this.m_config.BitMapRunOriginalDir))
+            {
+                Directory.CreateDirectory(this.m_config.BitMapRunOriginalDir);
+            }
+
+            FindRunOrder(this.m_config.BitMapRunOriginalDir);
+
             Log.Info("Reading From set  to {0}", this.m_config.BitMapDir);
+
+            Log.Info("Runorder dir set  to {0}", this.m_config.BitMapRunOriginalDir);
 
             Log.Info("Sending to set  to {0}", this.m_config.BitMapBackupDir);
 
@@ -92,6 +108,89 @@ namespace BitmapSnifferEngine.Orion
 
             Log.Info("Bakup Timeout = {0}", config.BitMapFetchTimeOut);
             return true;
+        }
+
+        private void FindRunOrder(string bitMapRunOriginalDir)
+        {
+            if (!Directory.Exists(this.m_config.BitMapRunOriginalDir))
+            {
+                return;
+            }
+
+            var dirs = Directory.GetDirectories(bitMapRunOriginalDir);
+
+            if (dirs.Length == 0)
+            {
+                return;
+            }
+            List<Tuple<DateTime,int>> sorteddirs = new List<Tuple<DateTime, int>>();
+
+            foreach (var dirname in dirs)
+            {
+                var splitString = dirname.Split(new[] { '_' });
+                if (splitString.Length != 2)
+                {
+                    continue;
+                }
+                string onlydirname = Path.GetFileName(splitString[0]);
+
+                if (string.IsNullOrEmpty(onlydirname) || onlydirname.Length != 8)
+                {
+                    continue;
+                }
+
+
+                try
+                {
+                    int year;
+                    if (!int.TryParse(onlydirname.Substring(0, 4), out year))
+                    {
+                        continue;
+                    }
+                    int month;
+                    if (!int.TryParse(onlydirname.Substring(4, 2), out month))
+                    {
+                        continue;
+                    }
+                    int day;
+                    if (!int.TryParse(onlydirname.Substring(6, 2), out day))
+                    {
+                        continue;
+                    }
+
+                    var dateTime = new DateTime(year, month, day);
+
+                    int runorderOfDay;
+                        if (!int.TryParse(splitString[1], out runorderOfDay))
+                    {
+                        continue;
+                    }
+
+                    sorteddirs.Add(new Tuple<DateTime, int>(dateTime, runorderOfDay));
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+            }
+
+            if (!(sorteddirs.Count > 0))
+            {
+                return;
+            }
+
+            var date = sorteddirs.OrderByDescending(x => x.Item1).ThenByDescending(y => y.Item2);
+            var element = date.ElementAt(0);
+            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            if (element.Item1 != now)
+            {
+                this.m_runorder = 1;
+            }
+            else
+            {
+                this.m_runorder = element.Item2;
+            }
         }
 
         //public Init(string bitMapDir, string bitMapBackupDir, string timeOut, BaneType felt, int skiverilaget, int bitMapStartHold)
@@ -300,11 +399,13 @@ namespace BitmapSnifferEngine.Orion
                 listInfo = webInfo.GetFiles("TR*.PNG");
                 if (listInfo.Length > 0)
                 {
+                    this.m_runorder++;
                     var list = listInfo.OrderByDescending(x => x.LastWriteTime);
 
                     foreach (var file in list)
                     {
                         var inf = new OrionFileInfo(file);
+                        CopyFile(file);
                         if (inf.ParseTarget())
                         {
                             var converted = ConvertToFeltLag(inf);
@@ -338,6 +439,24 @@ namespace BitmapSnifferEngine.Orion
             }
 
             return foundSkiver;
+        }
+
+        private void CopyFile(FileInfo file)
+        {
+            if (file == null)
+            {
+                return;
+            }
+
+            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            string dirName = Path.Combine(this.m_config.BitMapRunOriginalDir, string.Format("{0}_{1}", now.ToString("yyyyMMdd"), this.m_runorder));
+            if (!Directory.Exists(dirName))
+            {
+                Directory.CreateDirectory(dirName);
+            }
+            var copyFileName = Path.Combine(dirName, file.Name);
+            Log.Info("Copy file to dir {0} {1}", dirName, file.Name);
+            file.CopyTo(copyFileName);
         }
 
         private OrionFileInfo ConvertToFeltLag(OrionFileInfo OrionFileInfo)
@@ -387,18 +506,23 @@ namespace BitmapSnifferEngine.Orion
                 retVal.LagInfo.SkiveNr = OrionFileInfo.LagInfo.SkiveNr - info.StartSkive + 1;
             }
 
+            if (retVal.LagInfo.LagNr < 0)
+            {
+                Log.Error(
+                    "LagNr is invalid={0} using holdconfig={1} filename={2}",
+                    retVal.LagInfo.LagNr,
+                    info.HoldNr,
+                    OrionFileInfo.FileInfo.FullName);
+                return null;
+            }
+
             retVal.LagInfo.SerieNr = info.HoldNr;
             retVal.LagInfo.HoldType = info.HoldType;
            
             string newFileName = string.Empty;
-            if (retVal.LagInfo.SerieNr.HasValue)
-            {
-                 newFileName = string.Format("TR-{0}-{1}-{2}.png", retVal.LagInfo.LagNr, retVal.LagInfo.SkiveNr, retVal.LagInfo.SerieNr);
-            }
-            else
-            {
-                 newFileName = string.Format("TR-{0}-{1}.png", retVal.LagInfo.LagNr, retVal.LagInfo.SkiveNr);
-            }
+            
+            newFileName = string.Format("TR-{0}-{1}-{2}.png", retVal.LagInfo.LagNr, retVal.LagInfo.SkiveNr, retVal.LagInfo.SerieNr);
+            
             
             string path = Path.GetDirectoryName(OrionFileInfo.FileInfo.FullName);
             string newFile = Path.Combine(path, newFileName);
@@ -410,6 +534,7 @@ namespace BitmapSnifferEngine.Orion
                 File.Move(newFile, Path.Combine(testPAth,newName));
             }
 
+            Log.Info("Renaming file from {0} to {1}", OrionFileInfo.FileInfo.Name, newFileName);
             OrionFileInfo.FileInfo.MoveTo(newFile);
 
             retVal.FileInfo = new FileInfo(newFile);
@@ -440,6 +565,7 @@ namespace BitmapSnifferEngine.Orion
         {
             try
             {
+                Log.Error("Error file handled {0}", file.FullName);
                 if (!Directory.Exists(this.m_config.BitMapErrorDir))
                 {
                     Directory.CreateDirectory(this.m_config.BitMapErrorDir);

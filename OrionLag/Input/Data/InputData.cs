@@ -24,6 +24,8 @@ namespace OrionLag.Input.Data
         
         public string Klasse { get; set; }
 
+        public bool Links { get; set; }
+
         public Collection<XmlTags> InputXmlData { get; set; }
     }
 

@@ -23,6 +23,7 @@ namespace OrionLag.Input.ViewModel
                 Name = skive.Skytter.Name;
                 Skytterlag = skive.Skytter.Skytterlag;
                 Klasse = skive.Skytter.Klasse;
+                Links = skive.Skytter.Links;
             }
             
         }
@@ -36,5 +37,7 @@ namespace OrionLag.Input.ViewModel
         public string Skytterlag { get; set; }
 
         public string Klasse { get; set; }
+
+        public bool Links { get; set; }
     }
 }

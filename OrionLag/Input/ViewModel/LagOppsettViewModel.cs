@@ -8,6 +8,7 @@ namespace OrionLag.Input.ViewModel
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Configuration;
     using System.IO;
     using System.Windows;
     using System.Windows.Controls;
@@ -21,24 +22,68 @@ namespace OrionLag.Input.ViewModel
     public class LagOppsettViewModel : INotifyPropertyChanged
     {
         private List<Lag> lagOppsett;
-        public LagOppsettViewModel(List<Lag> lagOppsett,int minutes,DateTime startTime)
+        public LagOppsettViewModel(List<Lag> lagOppsett,DateTime startTime)
         {
             lagOppsett = lagOppsett;
             m_inputRows = new ObservableCollection<Lag>(lagOppsett);
             m_skiver = new ObservableCollection<SkiverViewModel>();
             this.LagKilde = new ObservableCollection<Lag>();
             LagStart = startTime.ToString("HH:mm");
-            LagDuration = minutes.ToString();
-            var sortedlagOppsett= lagOppsett.OrderBy(o => o.LagNummer).ToList();
+            LagDuration = string.Empty;
+
+            var LagStartString = ConfigurationManager.AppSettings["LagStart"];
+            if (!string.IsNullOrEmpty(LagStartString))
+            {
+                LagStart = LagStartString;
+            }
+
+            var LagDurationString = ConfigurationManager.AppSettings["LagDuration"];
+            if (!string.IsNullOrEmpty(LagStartString))
+            {
+                LagDuration = LagDurationString;
+            }
+            var OppropsTidString = ConfigurationManager.AppSettings["OppropsTid"];
+            if (!string.IsNullOrEmpty(OppropsTidString))
+            {
+                int dur = 0;
+                if (int.TryParse(OppropsTidString, out dur))
+                {
+                    OppropsTid = dur;
+                }
+            }
+
+            var LagFellesOppropString = ConfigurationManager.AppSettings["LagFellesOpprop"];
+            if (!string.IsNullOrEmpty(LagFellesOppropString))
+            {
+                int dur = 0;
+                if (int.TryParse(LagFellesOppropString, out dur))
+                {
+                    LagFellesOpprop = dur;
+                }
+            }
+
+            var SortertFilePath = ConfigurationManager.AppSettings["SortertFilePath"];
+            if (!string.IsNullOrEmpty(SortertFilePath))
+            {
+                FilePath = SortertFilePath;
+            }
+
+
+
+            int totalantSkyttere = 0;
+             var sortedlagOppsett= lagOppsett.OrderBy(o => o.LagNummer).ToList();
             foreach (var lag in sortedlagOppsett)
             {
                 this.LagKilde.Add(lag);
                 var sortedSkiver = lag.SkiverILaget.OrderBy(x => x.SkiveNummer);
                 foreach (var skive in sortedSkiver)
                 {
+                    totalantSkyttere++;
                     m_skiver.Add(item: new SkiverViewModel(lag.LagNummer, skive));
                 }
             }
+
+            m_TotalAntallSkytter = totalantSkyttere.ToString();
         }
 
         private void SortGrid()
@@ -52,6 +97,14 @@ namespace OrionLag.Input.ViewModel
             NotifyPropertyChanged("InputRows");
         }
 
+        
+
+        private string m_TotalAntallSkytter;
+        public string TotalAntallSkytter
+        {
+            get { return m_TotalAntallSkytter; }
+            
+        }
 
         private string m_lagDuration;
         public string LagDuration
@@ -98,6 +151,16 @@ namespace OrionLag.Input.ViewModel
             }
         }
 
+        private bool m_GenerateTimeAfterLagIsChecked;
+        public bool GenerateTimeAfterLagIsChecked
+        {
+            get { return m_GenerateTimeAfterLagIsChecked; }
+            set
+            {
+                m_GenerateTimeAfterLagIsChecked = value;
+                NotifyPropertyChanged("GenerateTimeAfterLagIsChecked");
+            }
+        }
         
 
         private int m_lagStartNumber;
@@ -265,29 +328,66 @@ namespace OrionLag.Input.ViewModel
             }
             
             int LagCount = 1;
+            int LagCountmedFelles = 0;
+            string currentKlasse = string.Empty;
             foreach (var lag in LagKilde)
             {
-                lag.LagTid = startTime;
-                startTime = startTime.Add(span);
-                if (LagFellesOpprop > 0)
+                string klasseILaget = string.Empty;
+                if (LagCount == 1)
                 {
-                    int fellesOpp = LagCount % LagFellesOpprop;
-                    if (fellesOpp == 0)
+                    
+                    currentKlasse = FinnKlasse(lag);
+                    klasseILaget = currentKlasse;
+                }
+                else
+                {
+                    klasseILaget = FinnKlasse(lag);
+                }
+               
+                
+                if (GenerateTimeAfterLagIsChecked && klasseILaget!= currentKlasse)
+                {
+                    currentKlasse = klasseILaget;
+                    startTime = startTime.Add(span);
+                    startTime = startTime.Add(span);
+                    startTime = startTime.Add(span);
+                    startTime = startTime.Add(span);
+                    lag.LagTid = startTime;
+                    TimeSpan oppropspan = new TimeSpan(0, -oppropfortid, 0);
+                    lag.OppropsTid = startTime.Add(oppropspan);
+                    LagCountmedFelles = 1;
+                    startTime = startTime.Add(span);
+                }
+                else
+                {
+                    lag.LagTid = startTime;
+                   
+                    if (LagFellesOpprop > 0)
+                    {
+                        int fellesOpp = LagCountmedFelles % LagFellesOpprop;
+                        if (fellesOpp == 0)
+                        {
+                            TimeSpan oppropspan = new TimeSpan(0, -oppropfortid, 0);
+                            lag.OppropsTid = startTime.Add(oppropspan);
+                            LagCountmedFelles = 0;
+                        }
+                        else
+                        {
+                            TimeSpan oppropspan = new TimeSpan(0, -oppropfortid - (minutes * fellesOpp), 0);
+                            lag.OppropsTid = startTime.Add(oppropspan);
+                        }
+                        LagCountmedFelles ++;
+                    }
+                    else
                     {
                         TimeSpan oppropspan = new TimeSpan(0, -oppropfortid, 0);
                         lag.OppropsTid = startTime.Add(oppropspan);
                     }
-                    else
-                    {
-                        TimeSpan oppropspan = new TimeSpan(0, -oppropfortid-(minutes * fellesOpp), 0);
-                        lag.OppropsTid = startTime.Add(oppropspan);
-                    }
+
+                    startTime = startTime.Add(span);
                 }
-                else
-                {
-                    TimeSpan oppropspan = new TimeSpan(0, -oppropfortid, 0);
-                    lag.OppropsTid = startTime.Add(oppropspan);
-                }
+
+               
 
                 LagCount++;
             }
@@ -297,6 +397,19 @@ namespace OrionLag.Input.ViewModel
             NotifyPropertyChanged("LagKilde");
             LagKilde = test;
             NotifyPropertyChanged("LagKilde");
+        }
+
+        private string FinnKlasse(Lag lag)
+        {
+
+            foreach (var skive in lag.SkiverILaget)
+            {
+                if (skive.Skytter != null)
+                {
+                    return skive.Skytter.Klasse;
+                }
+            }
+            return string.Empty;
         }
 
         public void SortButton_OnClick(object sender, RoutedEventArgs routedEventArgs)

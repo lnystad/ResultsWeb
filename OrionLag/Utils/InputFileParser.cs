@@ -60,6 +60,16 @@ namespace OrionLag.Utils
                                 data.SkytterNr = skytterid;
                             }
                         }
+
+                        string Links = data.InputXmlData.FirstOrDefault(x => x.Name == "kat-l").Value;
+                        if (!string.IsNullOrEmpty(Links))
+                        {
+                            if (Links == "1")
+                            {
+                                data.Links = true;
+                            }
+                        }
+
                         data.Skytterlag = data.InputXmlData.FirstOrDefault(x => x.Name == "sklag-nr").Value;
                         restunVal.Add(data);
                     }

@@ -36,6 +36,8 @@ namespace BitmapSnifferEngine.Orion
 
         public string BitMapDir { get; set; }
 
+        public string BitMapRunOriginalDir { get; set; }
+
         public string BitMapErrorDir { get; set; }
 
         public string BitMapBackupDir { get; set; }

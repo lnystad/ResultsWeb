@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:OrionLag.Input.Views"
              xmlns:ViewModel="clr-namespace:OrionLag.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="300"
+             d:DesignHeight="800" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance ViewModel:UserInputControlViewModel}">
    
      <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="250"/>
+                <RowDefinition Height="300"/>
             </Grid.RowDefinitions>
 
         <DataGrid Grid.Row="0" ItemsSource="{Binding InputRows}" x:Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -34,6 +34,8 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="StartLag"/>
                     <TextBox Grid.Row="1"  Text="{Binding LagNummer}"/>
@@ -43,6 +45,8 @@
                     <TextBox Grid.Row="5"  Text="{Binding GenerateSpaceEach}"/>
                     <Label Grid.Row="6" Content="KlasseSort"/>
                     <TextBox Grid.Row="7"  Text="{Binding KlasseSort}"/>
+                    <CheckBox  Grid.Row="8"  Content="AddSpaceAfterKlasse"  IsChecked="{Binding SpaceAfterKlasse}" />
+                    <CheckBox  Grid.Row="9"  Content="FinFelt"  IsChecked="{Binding FinfeltLinks}" />
                 </Grid>
                 <Button Grid.Column="2" Content="GenerateLag" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" 	Width="75" Click="GenerateLag_OnClick"/>
             </Grid>

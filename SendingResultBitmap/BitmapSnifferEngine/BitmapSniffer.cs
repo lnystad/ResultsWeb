@@ -8,6 +8,7 @@ namespace BitmapSnifferEngine
     using System.Configuration;
     using System.IO;
     using System.Threading;
+    using System.Xml;
     using System.Xml.Serialization;
 
     using BitmapSnifferEngine.Common;
@@ -72,10 +73,8 @@ namespace BitmapSnifferEngine
                 Log.Info("Starting");
                 while (!this.m_stopMe)
                 {
-
-
-                   
-                        bool upload = this.m_myOrionFileLoaderBkup.CheckForNewBitmapFiles();
+                        var timeout = System.Diagnostics.Debugger.IsAttached;
+                        bool upload = this.m_myOrionFileLoaderBkup.CheckForNewBitmapFiles(!timeout);
                         if (upload)
                         {
                             var bitmapFiles = this.m_myOrionFileLoaderBkup.BackUpBitMaps();
@@ -153,10 +152,14 @@ namespace BitmapSnifferEngine
             else
             {
                 XmlSerializer reader = new XmlSerializer(typeof(SetupConfiguration));
-                System.IO.StreamReader file =  new System.IO.StreamReader(bitMapConfigFile);
+                var memosyStream = ReadFile(bitMapConfigFile);
+                using (XmlTextReader readerXml = new XmlTextReader(memosyStream))
+                {
+                    inputConfig = (SetupConfiguration)reader.Deserialize(readerXml);
+                }
 
                 // Deserialize the content of the file into a Book object.
-                inputConfig  = (SetupConfiguration)reader.Deserialize(file);
+               
             }
 
             //string bitMapFeltstr = ConfigurationManager.AppSettings["BitMapStevneType"];
@@ -246,5 +249,37 @@ namespace BitmapSnifferEngine
 
 
         #endregion
+
+        private static MemoryStream ReadFile(string file)
+        {
+            Log.Info("Trying to read configuration {0}", file);
+            MemoryStream returnStream;
+            using (var xmlFile = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                try
+                {
+                    var buffer = new byte[xmlFile.Length];
+                    xmlFile.Read(buffer, 0, (int)xmlFile.Length);
+                    returnStream = new MemoryStream(buffer) { Position = 0 };
+                }
+                catch (InvalidOperationException ee)
+                {
+                    string mess = ee.Message;
+                    Exception inner = ee.InnerException;
+                    if (inner != null)
+                    {
+                        mess = mess + inner.Message;
+                    }
+
+                    Log.Error(string.Format("{0}  : {1} {2}", "ReadFile", file, mess), ee);
+                    xmlFile.Close();
+                    throw;
+                }
+            }
+
+            return returnStream;
+        }
     }
+
+    
 }
