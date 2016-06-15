@@ -1,0 +1,6 @@
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResults.exe.config
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResults.exe
+C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResults.pdb
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.csprojResolveAssemblyReference.cache
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.exe
+C:\Users\lan\Source\Repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.pdb
