@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Aspirant" group_name="30 skudd"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resulttotsum name="30-skudd"/>
+  <column>
+    <series id="1" name="Hold 1" type="series_sum"/>
+    <series id="2" name="Hold 2" type="series_sum"/>
+    <series id="3" name="Hold 3" type="series_sum"/>
+    <series id="4" name="Hold 4" type="series_sum"/>
+    <series id="5" name="Hold 5" type="series_sum"/>
+  </column>
+  <data/>
+</report>

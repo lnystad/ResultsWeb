@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 70"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <resulttotsum name="30-skudd"/>
+  <column>
+    <series id="1" name="Hold 1" type="series_sum"/>
+    <series id="2" name="Hold 2" type="series_sum"/>
+    <series id="3" name="Hold 3" type="series_sum"/>
+    <series id="4" name="Hold 4" type="series_sum"/>
+    <series id="5" name="Hold 5" type="series_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Torinn Håkstad" club="Lakselvdal " class="ER" category="K" totsum="">
+      <series id="1" sum=""/>
+      <series id="2" sum=""/>
+      <series id="3" sum=""/>
+      <series id="4" sum=""/>
+      <series id="5" sum=""/>
+    </result>
+    <result num="2" name="Kim Rune Sagmo" club="Austerbygda " class="ER" category="" totsum="">
+      <series id="1" sum=""/>
+      <series id="2" sum=""/>
+      <series id="3" sum=""/>
+      <series id="4" sum=""/>
+      <series id="5" sum=""/>
+    </result>
+  </data>
+</report>

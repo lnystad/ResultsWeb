@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FileUploaderService</RootNamespace>
     <AssemblyName>FileUploaderService</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -95,6 +95,8 @@
   <ItemGroup>
     <Content Include="KME\opproplistemal.html" />
     <Content Include="Leon\LagskytingReport.xslt" />
+    <Content Include="Leon\MergeBitmapLagMinne.xml" />
+    <Content Include="Leon\MergeBitmapLag.xml" />
     <Content Include="Leon\mergefeltER.xml" />
     <Content Include="Leon\MergeKlasse1.xml">
       <SubType>Designer</SubType>

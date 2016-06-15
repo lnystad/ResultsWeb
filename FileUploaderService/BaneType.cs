@@ -15,6 +15,9 @@ namespace FileUploaderService.KME
         Tohundremeter = 4,
         GrovFelt = 8,
         FinFelt = 16,
-        All = 32
+        Minne = 32,
+        MinneFin = 64,
+        MinneGrov = 128,
+        All = 256
     }
 }

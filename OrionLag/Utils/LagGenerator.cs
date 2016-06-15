@@ -144,6 +144,25 @@ namespace OrionLag.Utils
                     
                 }
 
+                if (linkslist.Count > 0)
+                {
+                    foreach (var linkSkytter in linkslist)
+                    {
+                        var SKivel = new Skiver(CurrentSkivenr);
+                        SKivel.Skytter = new Skytter()
+                        {
+                            Klasse = linkSkytter.Klasse,
+                            Name = linkSkytter.Name,
+                            Skytterlag = linkSkytter.Skytterlag,
+                            Links = linkSkytter.Links,
+                            SkytterNr = linkSkytter.SkytterNr,
+                            InputXmlData = linkSkytter.InputXmlData
+                        };
+                        CurrentLag.SkiverILaget.Add(SKivel);
+                        CurrentSkivenr++;
+                    }
+                }
+
                 if (!alredyadded)
                 {
                    

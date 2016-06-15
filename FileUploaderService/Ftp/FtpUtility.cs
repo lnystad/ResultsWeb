@@ -47,8 +47,9 @@ namespace FileUploaderService.Ftp
             try
             {
                 remoteSubDir = remoteSubDir.Replace('/', ' ');
-                ftp = new FTPClient(m_hostName);
-
+                ftp = new FTPClient();
+                ftp.RemoteHost = m_hostName;
+                ftp.Connect();
                 // login
                 Log.Info("Logging in");
                 ftp.Login(m_userName, m_passWord);
@@ -166,7 +167,27 @@ namespace FileUploaderService.Ftp
                     {
                         var remotefileName = Path.GetFileName(localFileWithPath);
                         Log.Info("Putting file {0}", remotefileName);
-                        ftp.Put(localFileWithPath, remotefileName);
+                        FileInfo info = new FileInfo(localFileWithPath);
+                        long filelen = info.Length;
+                        byte[] buffer = new byte[filelen];
+                        using (FileStream stream = new FileStream(localFileWithPath, FileMode.Open))
+                        {
+                            // Read bytes from stream and interpret them as ints
+                            int count;
+                            // Read from the IO stream fewer times.
+                            while ((count = stream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                // Copy the bytes into the memory space of the Int32 array in one big swoop
+                                //Buffer.BlockCopy(buffer, 0, intArray, count);
+
+                                //for (int i = 0; i < count; i += 4)
+                                //    Console.WriteLine(intArray[i]);
+                            }
+                        }
+
+                        MemoryStream st= new MemoryStream(buffer.ToArray());
+
+                        ftp.Put(st, remotefileName,false);
                     }
                 }
                 

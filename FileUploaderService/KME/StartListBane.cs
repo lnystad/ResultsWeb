@@ -150,10 +150,50 @@ namespace FileUploaderService.KME
                     return BaneType.FinFelt;
                 }
 
+                if (lagText.Contains(Constants.PrefixMinne))
+                {
+                    return BaneType.Minne;
+                }
+                
                 if (lagText.ToUpper() == "LAGVIS")
                 {
                     return BaneType.Femtenmeter;
                 }
+            }
+
+            return BaneType.Undefined;
+        }
+
+        public static BaneType FindMinneBaneTypeForKlasse(string klasseText)
+        {
+            if (!string.IsNullOrEmpty(klasseText))
+            {
+                if (klasseText.CompareTo("V73")==0)
+                {
+                    return BaneType.MinneFin;
+                }
+
+                if (klasseText.CompareTo("V65") == 0)
+                {
+                    return BaneType.MinneFin;
+                }
+
+                if (klasseText.CompareTo("R") == 0)
+                {
+                    return BaneType.MinneFin;
+                }
+
+                if (klasseText.CompareTo("J") == 0)
+                {
+                    return BaneType.MinneFin;
+                }
+
+                if (klasseText.CompareTo("ER") == 0)
+                {
+                    return BaneType.MinneFin;
+                }
+
+               return BaneType.MinneGrov;
             }
 
             return BaneType.Undefined;
@@ -184,5 +224,7 @@ namespace FileUploaderService.KME
         }
 
         #endregion
+
+       
     }
 }

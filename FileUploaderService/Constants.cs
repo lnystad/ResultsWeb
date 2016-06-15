@@ -15,5 +15,7 @@ namespace FileUploaderService
         public const string Prefix200m = "200-300m";
         public const string  PrefixOnly200m = "200m";
         public const string PrefixOnly300m = "300m";
+
+        public const string PrefixMinne = "Minneskyting";
     }
 }

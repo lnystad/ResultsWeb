@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Merged>
+  <report>
+    <header name="Lag 1"/>
+    <resultnum name="Sk"/>
+    <resultname name="Navn"/>
+    <resultclub name="Skytterlag"/>
+    <resultclass name="Kl."/>
+    <resultcategory name="Kat."/>
+    <column>
+      <series id="1" name="Minne" type="series_shot_sum"/>
+    </column>
+    <data>
+      <result num="1" name="Magne Drægni" club="Bodø Østre " class="V73" category="">
+        <series id="1" sum="51">
+          <shot val="7"/>
+          <shot val="8"/>
+          <shot val="9"/>
+          <shot val="9"/>
+          <shot val="9"/>
+          <shot val="9"/>
+        </series>
+      </result>
+      <result num="2" name="Hans Kristian Øvermark" club="Bodø Østre " class="V73" category="">
+        <series id="1" sum="60">
+          <shot val="X"/>
+          <shot val="*"/>
+          <shot val="*"/>
+          <shot val="*"/>
+          <shot val="*"/>
+          <shot val="*"/>
+        </series>
+      </result>
+    </data>
+  </report>
+  <BitmapDirInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Bitmaps>
+      <FileName>TR-1-1-0.png</FileName>
+      <FileName>TR-1-1-1.png</FileName>
+      <FileName>TR-1-1-2.png</FileName>
+      <FileName>TR-1-1-3.png</FileName>
+      <FileName>TR-1-1-4.png</FileName>
+      <FileName>TR-1-1-5.png</FileName>
+      <FileName>TR-1-2-0.png</FileName>
+      <FileName>TR-1-2-1.png</FileName>
+      <FileName>TR-1-2-2.png</FileName>
+      <FileName>TR-1-2-3.png</FileName>
+      <FileName>TR-1-2-4.png</FileName>
+      <FileName>TR-1-2-5.png</FileName>
+    </Bitmaps>
+    <BaneType>FinFelt</BaneType>
+    <BitmapSubDir>Finfelt</BitmapSubDir>
+    <Updated>true</Updated>
+    <Initial>false</Initial>
+  </BitmapDirInfo>
+</Merged>

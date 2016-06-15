@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendingResults", "SendingRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendingResultClient", "SendingResultClient\SendingResultClient.csproj", "{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestSendingResult", "UnitTestSendingResult\UnitTestSendingResult.csproj", "{D61F69B5-64B3-4E1F-8EF9-F80BCFA1E555}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61F69B5-64B3-4E1F-8EF9-F80BCFA1E555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61F69B5-64B3-4E1F-8EF9-F80BCFA1E555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61F69B5-64B3-4E1F-8EF9-F80BCFA1E555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61F69B5-64B3-4E1F-8EF9-F80BCFA1E555}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

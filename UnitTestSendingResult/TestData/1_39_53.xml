@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 53"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Julie Kruhaug" club="Bjerkvik " class="J" category="K">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="2" name="Jan Oddbjørn Skår" club="Vestvågøy " class="V65" category="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+  </data>
+</report>
