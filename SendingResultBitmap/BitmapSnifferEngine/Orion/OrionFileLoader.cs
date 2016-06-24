@@ -61,7 +61,7 @@ namespace BitmapSnifferEngine.Orion
             {
                 this.m_config.BitMapFetchTimeOut = 60000;
             }
-            else if (this.m_config.BitMapFetchTimeOut < 60)
+            else if (this.m_config.BitMapFetchTimeOut < 30)
             {
                 this.m_config.BitMapFetchTimeOut = 60000;
             }
@@ -462,6 +462,10 @@ namespace BitmapSnifferEngine.Orion
         private OrionFileInfo ConvertToFeltLag(OrionFileInfo OrionFileInfo)
         {
             if (!(this.m_config.BaneType == BaneType.GrovFelt || this.m_config.BaneType == BaneType.FinFelt))
+            {
+                return OrionFileInfo;
+            }
+            if (OrionFileInfo.LagInfo.LagNr > 99)
             {
                 return OrionFileInfo;
             }

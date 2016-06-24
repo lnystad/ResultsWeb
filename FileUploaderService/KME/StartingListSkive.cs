@@ -41,7 +41,7 @@ namespace FileUploaderService.KME
         public string Klasse { get; set; }
         public string Extra { get; set; }
 
-
+        public string XmlFileName { get; set; }
         private FileInfo m_rawBitmapFile { get; set; }
 
         [XmlIgnore]
@@ -108,6 +108,8 @@ namespace FileUploaderService.KME
         public bool Updated { get; set; }
 
         public bool Checked { get; set; }
+        public string BackUpBitMapFileNameFinale { get; set; }
+        public string BackUpBitMapFileNameMinne { get; set; }
 
         internal bool UpdatedSkive(StartingListSkive newskiveInfo)
         {

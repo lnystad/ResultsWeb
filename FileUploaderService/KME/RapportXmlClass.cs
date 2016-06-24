@@ -26,5 +26,7 @@ namespace FileUploaderService.KME
         public XmlDocument ToppListInfoLagWithRef { get; set; }
 
         public ProgramType ProgramType { get; set; }
+
+        public List<string> Klasse { get; set; }
     }
 }

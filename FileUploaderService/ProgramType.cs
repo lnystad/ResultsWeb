@@ -13,6 +13,7 @@ namespace FileUploaderService
         Lagskyting = 2,
         SamLagskyting = 3,
         Finale = 4,
-        Extra = 5,
+        Minne = 5,
+        Mesterskap = 6
     }
 }

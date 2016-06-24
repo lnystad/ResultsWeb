@@ -33,10 +33,14 @@
                
                 
                    <xsl:for-each select="../series">
+                        <xsl:variable name="treff">
+                         <xsl:value-of select="number(substring-before(@sum,'/'))"/> 
+                        </xsl:variable>
+                        <xsl:if test="$treff!='NaN'">
                         <Treff>
-                       <xsl:value-of select="number(substring-before(@sum,'/'))"></xsl:value-of> 
-                          </Treff>
-                    
+                           <xsl:value-of select="$treff"/> 
+                        </Treff>
+                        </xsl:if>
                    </xsl:for-each>
                
                  
@@ -53,10 +57,15 @@
                
                 
                    <xsl:for-each select="../series">
+                      
+                        <xsl:variable name="treff">
+                         <xsl:value-of select="number(substring-after(@sum,'/'))"/> 
+                        </xsl:variable>
+                        <xsl:if test="$treff!='NaN'">
                         <Treff>
-                       <xsl:value-of select="number(substring-after(@sum,'/'))"></xsl:value-of> 
-                          </Treff>
-                    
+                           <xsl:value-of select="$treff"/> 
+                        </Treff>
+                        </xsl:if>
                    </xsl:for-each>
                
                  
@@ -97,6 +106,12 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Finale'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Mesterskap'">
             <xsl:value-of select="number(100)"/>
           </xsl:when>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">
@@ -193,6 +208,12 @@
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
             <xsl:value-of select="number(100)"/>
           </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Finale'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Mesterskap'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">
             <xsl:value-of select="number(200)"/>
           </xsl:when>
@@ -283,6 +304,12 @@
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
             <xsl:value-of select="number(100)"/>
           </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Finale'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Mesterskap'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">
             <xsl:value-of select="number(200)"/>
           </xsl:when>
@@ -357,6 +384,12 @@
       <xsl:variable name="Startlagnr">
         <xsl:choose>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Omgang'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+            <xsl:when test="/Merged/report/resulttotsum/@name = 'Finale'">
+            <xsl:value-of select="number(100)"/>
+          </xsl:when>
+          <xsl:when test="/Merged/report/resulttotsum/@name = 'Mesterskap'">
             <xsl:value-of select="number(100)"/>
           </xsl:when>
           <xsl:when test="/Merged/report/resulttotsum/@name = 'Lagskyting'">

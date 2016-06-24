@@ -427,7 +427,7 @@ namespace FileUploaderService.Orion
                         var files = laginf.GetFiles("TR*.PNG");
                         if (files.Length > 0)
                         {
-                            Log.Info("Found new bitmaps in Dir {0}", inf.FullName);
+                            Log.Trace("Found new bitmaps in Dir {0}", inf.FullName);
                             return true;
                         }
                         else

@@ -147,15 +147,15 @@ namespace FileUploaderService
                                 this.UploadWeb(webDir);
                             }
 
-                            if (webDir.Command.HasFlag(UploadCommand.Pdf) && !string.IsNullOrEmpty(this.m_remotePdfFileName))
-                            {
-                                this.UploadPdf(webDir);
-                            }
+                            //if (webDir.Command.HasFlag(UploadCommand.Pdf) && !string.IsNullOrEmpty(this.m_remotePdfFileName))
+                            //{
+                            //    this.UploadPdf(webDir);
+                            //}
 
-                            if (webDir.Command.HasFlag(UploadCommand.PresseListe) && !string.IsNullOrEmpty(this.m_remotePresseListeFileName))
-                            {
-                                this.UploadPresseListe(webDir);
-                            }
+                            //if (webDir.Command.HasFlag(UploadCommand.PresseListe) && !string.IsNullOrEmpty(this.m_remotePresseListeFileName))
+                            //{
+                            //    this.UploadPresseListe(webDir);
+                            //}
 
                             if (webDir.Command.HasFlag(UploadCommand.BitMap))
                             {
@@ -240,7 +240,7 @@ namespace FileUploaderService
                     //    }
                     //}
 
-                    Thread.Sleep(2000);
+                    Thread.Sleep(10000);
                 }
 
                 Log.Info("Stopping");
@@ -347,6 +347,9 @@ namespace FileUploaderService
             this.m_remoteBitMapDir200m = ConfigurationManager.AppSettings["RemoteBitMapDir200m"];
 
             string uploadBitmapstr = ConfigurationManager.AppSettings["UploadBitmap"];
+
+       
+
 
             string RapportXsltFilFileName = ConfigurationManager.AppSettings["RapportXsltFil"];
 
@@ -459,9 +462,20 @@ namespace FileUploaderService
                 }
             }
 
+            string UploadLoadWebstr = ConfigurationManager.AppSettings["UploadLoadWeb"];
+            bool uploadWeb = true;
+            if (!string.IsNullOrEmpty(UploadLoadWebstr))
+            {
+                bool result = false;
+                if (bool.TryParse(UploadLoadWebstr, out result))
+                {
+                    uploadWeb = result;
+                }
+            }
+
             if (this.UploadBitmap || !string.IsNullOrEmpty(this.m_installDir))
             {
-                this.m_myFtpUtil = new FtpUtility(ftpServer, hostIp, hostPort, ftpUserName, ftpPassWord);
+                this.m_myFtpUtil = new FtpUtility(uploadWeb, ftpServer, hostIp, hostPort, ftpUserName, ftpPassWord);
             }
 
             if (!string.IsNullOrEmpty(this.m_installDir))

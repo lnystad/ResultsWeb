@@ -1,34 +1,216 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LeonDirInfo.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The leon dir info.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace FileUploaderService.KME
+﻿namespace FileUploaderService.KME
 {
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.IO;
     using System.Linq;
+    using System.Runtime.InteropServices.WindowsRuntime;
+    using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Threading;
     using System.Xml;
     using System.Xml.Serialization;
 
     using FileUploaderService.Diagnosis;
+    using FileUploaderService.ListeSort;
     using FileUploaderService.Utils;
 
     using HtmlAgilityPack;
+
+    public class fileOpprop
+    {
+        public fileOpprop()
+        {
+        }
+
+        public fileOpprop(FileInfo info, int prefix, int ovelseNo, int lagno)
+        {
+            Info = info;
+            Prefix = prefix;
+            OvelseNo = ovelseNo;
+            Lagno = lagno;
+        }
+
+        public FileInfo Info { get; set; }
+        public int Prefix { get; set; }
+
+        public int OvelseNo { get; set; }
+
+        public int Lagno { get; set; }
+    }
 
     /// <summary>
     ///     The leon dir info.
     /// </summary>
     public class LeonDirInfo : IEquatable<LeonDirInfo>
     {
+        #region Public Methods and Operators
+
+        /// <summary>
+        ///     The equals.
+        /// </summary>
+        /// <param name="other">
+        ///     The other.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="bool" />.
+        /// </returns>
+        public bool Equals(LeonDirInfo other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (other.Info == null && this.Info == null)
+            {
+                return true;
+            }
+
+            if (other.Info != null && this.Info == null)
+            {
+                return false;
+            }
+
+            if (other.Info == null && this.Info != null)
+            {
+                return false;
+            }
+
+            if (other.Info != null && this.Info != null)
+            {
+                if (other.Info.Name == this.Info.Name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        public bool CheckOppropsListe()
+        {
+            if (this.Info == null)
+            {
+                return false;
+            }
+
+            if (this.LastWrittenOppropFile == null)
+            {
+                this.LastWrittenOppropFile = DateTime.MinValue;
+                Log.Trace("Setting LastWrittenOppropFile to Min Val");
+            }
+
+            var web = Path.Combine(this.Info.FullName, WebDirName);
+            var stevneNavn = Path.GetDirectoryName(this.Info.FullName);
+            if (Directory.Exists(web))
+            {
+                this.WebName = web;
+                var webInfo = new DirectoryInfo(web);
+
+                var listInfo = webInfo.GetFiles("*.*");
+
+                if (listInfo.Length > 0)
+                {
+                    bool update = false;
+                    var list = listInfo.OrderByDescending(x => x.LastWriteTime);
+                    var fileelement = list.FirstOrDefault();
+                    if (fileelement != null)
+                    {
+                        DateTime LastWriteTime = new DateTime(
+                            fileelement.LastWriteTime.Year,
+                            fileelement.LastWriteTime.Month,
+                            fileelement.LastWriteTime.Day,
+                            fileelement.LastWriteTime.Hour,
+                            fileelement.LastWriteTime.Minute,
+                            0);
+                        if (this.LastWrittenOppropFile < LastWriteTime)
+                        {
+                            if (this.LastWrittenOppropFile != DateTime.MinValue)
+                            {
+                                Log.Info("Update detected for stevne {0}", webInfo.FullName);
+                                update = true;
+                                Thread.Sleep(5000);
+                                Log.Info("Start parsing index file for stevne {0}", webInfo.FullName);
+                                this.ParseIndexHtmlFile(webInfo);
+                            }
+
+                            this.LastWrittenOppropFile = LastWriteTime;
+                        }
+                    }
+
+                    return update;
+                }
+            }
+
+            return false;
+        }
+
+        public List<List<fileOpprop>> GetOppropsLister(string dir)
+        {
+            var returnValue = new List<List<fileOpprop>>();
+            var webInfo = new DirectoryInfo(dir);
+            var listInfo = webInfo.GetFiles("*_*_*.xml");
+            List < fileOpprop > allopprop= new List<fileOpprop>();
+            foreach (FileInfo filename in listInfo)
+            {
+                var nameelementpart = Path.GetFileNameWithoutExtension(filename.Name).Split(new char[] { '_' });
+                if (nameelementpart.Length != 3)
+                {
+                    continue;
+                }
+                int ovelse = -1;
+                int lag = -1;
+                if (int.TryParse(nameelementpart[1], out ovelse))
+                {
+                    if (int.TryParse(nameelementpart[2], out lag))
+                    {
+                        fileOpprop opprop = new fileOpprop(filename, 1, ovelse, lag);
+                        allopprop.Add(opprop);
+                    }
+                }
+            }
+
+            SortOvelse sortOvelse = new SortOvelse();
+            allopprop.Sort(sortOvelse);
+            var listOfOvelser = allopprop.Select(x => x.OvelseNo).Distinct();
+            foreach (var ovelseNo in listOfOvelser)
+            {
+                List<fileOpprop> newOvelse = allopprop.Where(Y => Y.OvelseNo == ovelseNo).ToList();
+                returnValue.Add(newOvelse);
+            }
+
+            return returnValue;
+        }
+
+        public List<fileOpprop> GetTopLister(string dir)
+        {
+            var returnValue = new List<fileOpprop>();
+            var webInfo = new DirectoryInfo(dir);
+            var listInfo = webInfo.GetFiles("*_*.xml");
+            List<fileOpprop> allopprop = new List<fileOpprop>();
+            foreach (FileInfo filename in listInfo)
+            {
+                var nameelementpart = Path.GetFileNameWithoutExtension(filename.Name).Split(new char[] { '_' });
+                if (nameelementpart.Length != 2)
+                {
+                    continue;
+                }
+                int ovelse = -1;
+                if (int.TryParse(nameelementpart[1], out ovelse))
+                {
+                    fileOpprop opp = new fileOpprop();
+                    opp.Info = filename;
+                    allopprop.Add(opp);
+                }
+            }
+
+            return allopprop;
+        }
+
         #region Constants
 
         private XmlSerializer m_serBitInfo = null;
@@ -67,10 +249,10 @@ namespace FileUploaderService.KME
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LeonDirInfo"/> class.
+        ///     Initializes a new instance of the <see cref="LeonDirInfo" /> class.
         /// </summary>
         /// <param name="info">
-        /// The info.
+        ///     The info.
         /// </param>
         public LeonDirInfo(DirectoryInfo info)
         {
@@ -112,7 +294,7 @@ namespace FileUploaderService.KME
         public DateTime? LastCreateFinFeltBitmapFile { get; set; }
 
         public DateTime? LastCreateGrovFeltBitmapFile { get; set; }
-        
+
         /// <summary>
         ///     Gets or sets the last written 100 m bitmap file.
         /// </summary>
@@ -126,6 +308,7 @@ namespace FileUploaderService.KME
         public DateTime? LastWrittenFinFeltBitmapFile { get; set; }
 
         public DateTime? LastWrittenGrovFeltBitmapFile { get; set; }
+
         /// <summary>
         ///     Gets or sets the last written 200 m bitmap file.
         /// </summary>
@@ -151,13 +334,15 @@ namespace FileUploaderService.KME
         /// </summary>
         public DateTime? LastWrittenWebFile { get; set; }
 
+        public DateTime? LastWrittenOppropFile { get; set; }
+
         /// <summary>
         ///     Gets or sets the pdf file name.
         /// </summary>
         public string PdfFileName { get; set; }
 
         /// <summary>
-        /// Gets or sets the presse liste file name.
+        ///     Gets or sets the presse liste file name.
         /// </summary>
         public string PresseListeFileName { get; set; }
 
@@ -188,59 +373,13 @@ namespace FileUploaderService.KME
 
         #endregion
 
-        #region Public Methods and Operators
-
-        /// <summary>
-        /// The equals.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Equals(LeonDirInfo other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-
-            if (other.Info == null && this.Info == null)
-            {
-                return true;
-            }
-
-            if (other.Info != null && this.Info == null)
-            {
-                return false;
-            }
-
-            if (other.Info == null && this.Info != null)
-            {
-                return false;
-            }
-
-            if (other.Info != null && this.Info != null)
-            {
-                if (other.Info.Name == this.Info.Name)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        #endregion
-
         #region Methods
 
         /// <summary>
-        /// The check bit map.
+        ///     The check bit map.
         /// </summary>
         /// <returns>
-        /// The <see cref="bool"/>.
+        ///     The <see cref="bool" />.
         /// </returns>
         internal bool CheckBitMap()
         {
@@ -280,7 +419,6 @@ namespace FileUploaderService.KME
                             case BaneType.Femtenmeter:
                                 if (this.LastWritten15mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
                                 {
-                                   
                                     if (this.LastWritten15mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
@@ -298,7 +436,6 @@ namespace FileUploaderService.KME
                             case BaneType.Hundremeter:
                                 if (this.LastWritten100mBitmapFile < sortlist.FirstOrDefault().LastWriteTime)
                                 {
-                                    
                                     if (this.LastWritten100mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
@@ -363,7 +500,7 @@ namespace FileUploaderService.KME
                                 break;
                         }
                     }
-                   
+
                     var sortlistCreat = dir2Check.BitmapFiles.OrderByDescending(x => x.CreationTime);
                     if (sortlistCreat.FirstOrDefault() != null)
                     {
@@ -372,7 +509,6 @@ namespace FileUploaderService.KME
                             case BaneType.Femtenmeter:
                                 if (this.LastCreate15mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-                                    
                                     if (this.LastCreate15mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
@@ -390,7 +526,6 @@ namespace FileUploaderService.KME
                             case BaneType.Hundremeter:
                                 if (this.LastCreate100mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-                                    
                                     if (this.LastCreate100mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
@@ -408,7 +543,6 @@ namespace FileUploaderService.KME
                             case BaneType.Tohundremeter:
                                 if (this.LastCreate200mBitmapFile < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-                                   
                                     if (this.LastCreate200mBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
@@ -426,7 +560,6 @@ namespace FileUploaderService.KME
                             case BaneType.FinFelt:
                                 if (this.LastCreateFinFeltBitmapFile.Value < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-
                                     if (this.LastCreateFinFeltBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
@@ -444,7 +577,6 @@ namespace FileUploaderService.KME
                             case BaneType.GrovFelt:
                                 if (this.LastCreateGrovFeltBitmapFile.Value < sortlistCreat.FirstOrDefault().CreationTime)
                                 {
-
                                     if (this.LastCreateGrovFeltBitmapFile != DateTime.MinValue)
                                     {
                                         dir2Check.Updated = true;
@@ -526,30 +658,29 @@ namespace FileUploaderService.KME
                             update = true;
                         }
 
-                            var memStevne = new MemoryStream();
-                            XmlTextWriter write = new XmlTextWriter(memStevne, new UTF8Encoding(false));
-                            dirs.InitAllNames();
-                            this.m_serBitInfo.Serialize(write, dirs);
-                            write.Flush();
-                            memStevne.Position = 0;
-                            var bitMapDoc = new XmlDocument();
-                            bitMapDoc.Load(memStevne);
+                        var memStevne = new MemoryStream();
+                        XmlTextWriter write = new XmlTextWriter(memStevne, new UTF8Encoding(false));
+                        dirs.InitAllNames();
+                        this.m_serBitInfo.Serialize(write, dirs);
+                        write.Flush();
+                        memStevne.Position = 0;
+                        var bitMapDoc = new XmlDocument();
+                        bitMapDoc.Load(memStevne);
 
-                            foreach (var rapport in baneFound.BaneRapporter)
-                            {
-                                rapport.BitMapInfo = bitMapDoc;
-                            }
+                        foreach (var rapport in baneFound.BaneRapporter)
+                        {
+                            rapport.BitMapInfo = bitMapDoc;
+                        }
 
-                            foreach (var rapport in baneFound.ToppListeRapporter)
-                            {
-                                rapport.BitMapInfo = bitMapDoc;
-                            }
+                        foreach (var rapport in baneFound.ToppListeRapporter)
+                        {
+                            rapport.BitMapInfo = bitMapDoc;
+                        }
 
-                            foreach (var rapport in baneFound.ToppListeLagRapporter)
-                            {
-                                rapport.BitMapInfo = bitMapDoc;
-                            }
-
+                        foreach (var rapport in baneFound.ToppListeLagRapporter)
+                        {
+                            rapport.BitMapInfo = bitMapDoc;
+                        }
                     }
                     if (dirs.Updated)
                     {
@@ -783,7 +914,7 @@ namespace FileUploaderService.KME
                                     this.LastWrittenGrovFeltBitmapFile = sortlistCreat.FirstOrDefault().CreationTime;
                                     dir2Check.Updated = true;
                                 }
-                            break;
+                                break;
                         }
                     }
                 }
@@ -797,7 +928,6 @@ namespace FileUploaderService.KME
                     }
                 }
 
-               
                 foreach (var bane in this.StevneForAlleBaner.DynamiskeBaner)
                 {
                     XmlDocument bitMapDoc = null;
@@ -871,12 +1001,12 @@ namespace FileUploaderService.KME
         }
 
         /// <summary>
-        /// The check web files.
+        ///     The check web files.
         /// </summary>
         /// <returns>
-        /// The <see cref="bool"/>.
+        ///     The <see cref="bool" />.
         /// </returns>
-        internal bool CheckWebFiles()
+        internal bool CheckWebFiles(bool forceWebParse = false)
         {
             if (this.Info == null)
             {
@@ -887,7 +1017,6 @@ namespace FileUploaderService.KME
             {
                 this.LastWrittenWebFile = DateTime.MinValue;
                 Log.Trace("Setting LastWrittenWebFile to Min Val");
-
             }
 
             var web = Path.Combine(this.Info.FullName, WebDirName);
@@ -904,30 +1033,31 @@ namespace FileUploaderService.KME
                     bool update = false;
                     var list = listInfo.OrderByDescending(x => x.LastWriteTime);
                     var fileelement = list.FirstOrDefault();
-                    if (fileelement != null )
+                    if (fileelement != null)
                     {
-                        DateTime LastWriteTime = new DateTime(fileelement.LastWriteTime.Year,
+                        DateTime LastWriteTime = new DateTime(
+                            fileelement.LastWriteTime.Year,
                             fileelement.LastWriteTime.Month,
                             fileelement.LastWriteTime.Day,
                             fileelement.LastWriteTime.Hour,
                             fileelement.LastWriteTime.Minute,
                             0);
-                        if (this.LastWrittenWebFile < LastWriteTime)
+                        if (this.LastWrittenWebFile < LastWriteTime || forceWebParse)
                         {
-                            
-                            if (this.LastWrittenWebFile != DateTime.MinValue)
+                            if (this.LastWrittenWebFile != DateTime.MinValue || forceWebParse)
                             {
                                 Log.Info("Update detected for stevne {0}", webInfo.FullName);
                                 update = true;
-                                Thread.Sleep(5000);
+                                if (!forceWebParse)
+                                {
+                                    Thread.Sleep(5000);
+                                }
+
                                 Log.Info("Start parsing index file for stevne {0}", webInfo.FullName);
                                 this.ParseIndexHtmlFile(webInfo);
-                              
                             }
 
-
                             this.LastWrittenWebFile = LastWriteTime;
-
                         }
                     }
 
@@ -941,7 +1071,7 @@ namespace FileUploaderService.KME
         public bool ParseIndexHtmlFile(DirectoryInfo webInfo)
         {
             Log.Info("Parsing new index File {0}", webInfo.FullName);
-           
+
             var indfile = Path.Combine(webInfo.FullName, "index1.html");
 
             if (File.Exists(indfile))
@@ -956,6 +1086,22 @@ namespace FileUploaderService.KME
                     return false;
                 }
             }
+
+           // LANTODO
+           //var alleopropslister = GetOppropsLister(webInfo.FullName);
+           // ParseXmlOpp parser = new ParseXmlOpp();
+           // List<StartListBane> lister = new List<StartListBane>();
+           // foreach (var ovelser in alleopropslister)
+           // {
+           //     StartListBane bn = parser.ParseOvelse(ovelser);
+           //     if (bn != null)
+           //     {
+           //         lister.Add(bn);
+           //     }
+           // }
+
+           // var XmlOpprop = parser.GetOppropKat(lister);
+
 
             if (this.StevneForAlleBaner != null)
             {
@@ -998,18 +1144,20 @@ namespace FileUploaderService.KME
 
                         if (baneStevne.ToppListeFilPrefix != null && baneStevne.ToppListeFilPrefix.Count > 0)
                         {
-                            foreach (var filnavn in baneStevne.ToppListeFilPrefix)
+                            foreach (var element in baneStevne.ToppListeFilPrefix)
                             {
-                                if (!string.IsNullOrEmpty(filnavn))
+                                if (!string.IsNullOrEmpty(element.ReportName))
                                 {
-                                    var filenavn = string.Format("{0}.xml", filnavn);
+                                    var filenavn = string.Format("{0}.xml", element.ReportName);
                                     var funnetToppListeFil = listopprop.FirstOrDefault(x => x.Name == filenavn);
                                     if (funnetToppListeFil != null)
                                     {
+                                        ProgramType program = FinnProgramTypeFromXml(funnetToppListeFil);
                                         RapportXmlClass nyRapport = new RapportXmlClass();
                                         nyRapport.Filnavn = funnetToppListeFil.FullName;
                                         nyRapport.BaneType = baneStevne.BaneType;
-
+                                        nyRapport.ProgramType = program;
+                                        nyRapport.Klasse = element.Klasse;
                                         nyRapport.ToppListInfoWithRef = XmlFileReaderHelper.ReadFile(funnetToppListeFil.FullName);
                                         if (nyRapport.ToppListInfoWithRef != null)
                                         {
@@ -1049,17 +1197,72 @@ namespace FileUploaderService.KME
             return true;
         }
 
+        private ProgramType FinnProgramTypeFromXml(FileInfo funnetToppListeFil)
+        {
+            if (funnetToppListeFil == null)
+            {
+                return ProgramType.UnKnown;
+            }
+
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(funnetToppListeFil.FullName);
+                var node=doc.SelectSingleNode("/report/resulttotsum/@name");
+                if (node == null)
+                {
+                    var nodeMinne = doc.SelectSingleNode("/report/header/@group_name");
+                    if (nodeMinne != null)
+                    {
+                        if (nodeMinne.InnerText.Trim().ToUpper() == "MINNESKYTING")
+                        {
+                            return ProgramType.Minne;
+                        }
+                    }
+                    
+                    return ProgramType.UnKnown;
+                }
+
+                switch (node.InnerText.Trim().ToUpper())
+                {
+                    case "30-SKUDD":
+                        return ProgramType.Innledende;
+                    case "25 SKUDD":
+                        return ProgramType.Innledende;
+                    case "FINALE":
+                        return ProgramType.Finale;
+                    case "35 SKUDD":
+                        return ProgramType.Mesterskap;
+                    case "42-SKUDD":
+                        return ProgramType.Mesterskap;
+                    default:
+                        Log.Warning("FinnProgramTypeFromXml unknown {0}", node.InnerText.Trim().ToUpper());
+                        break;
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                
+                Log.Error(e,"Error prsing file {0}", funnetToppListeFil.Name);
+            }
+
+            return ProgramType.UnKnown;
+        }
+
         /// <summary>
-        /// The init time stamps.
+        ///     The init time stamps.
         /// </summary>
         /// <param name="forcemin">
-        /// The forcemin.
+        ///     The forcemin.
         /// </param>
         internal void InitTimeStamps(bool forcemin = true)
         {
             if (forcemin)
             {
                 Log.Trace("Init all Timestams to min forced");
+                this.LastWrittenOppropFile = DateTime.MinValue;
                 this.LastWrittenWebFile = DateTime.MinValue;
                 this.LastWrittenPdfFile = DateTime.MinValue;
                 this.LastWrittenStartingFile = DateTime.MinValue;
@@ -1132,20 +1335,25 @@ namespace FileUploaderService.KME
                 {
                     this.LastWrittenPresseFile = DateTime.MinValue;
                 }
+
+                if (this.LastWrittenOppropFile == null)
+                {
+                    this.LastWrittenOppropFile = DateTime.MinValue;
+                }
             }
         }
 
         /// <summary>
-        /// The get bit map files.
+        ///     The get bit map files.
         /// </summary>
         /// <param name="stevnePath">
-        /// The stevne path.
+        ///     The stevne path.
         /// </param>
         /// <param name="subDir">
-        /// The sub dir.
+        ///     The sub dir.
         /// </param>
         /// <returns>
-        /// The <see cref="List"/>.
+        ///     The <see cref="List" />.
         /// </returns>
         private static List<FileInfo> GetBitMapFiles(string stevnePath, string subDir)
         {
@@ -1166,13 +1374,13 @@ namespace FileUploaderService.KME
         }
 
         /// <summary>
-        /// The get lagvis opprop.
+        ///     The get lagvis opprop.
         /// </summary>
         /// <param name="nodeinfoH3">
-        /// The nodeinfo h 3.
+        ///     The nodeinfo h 3.
         /// </param>
         /// <param name="baneInfo">
-        /// The bane info.
+        ///     The bane info.
         /// </param>
         private static void GetLagvisOpprop(HtmlNode nodeinfoH3, StartListBane baneInfo)
         {
@@ -1186,7 +1394,7 @@ namespace FileUploaderService.KME
                 {
                     if (nodeSibling.NodeType == HtmlNodeType.Element && nodeSibling.Name == "div")
                     {
-                        var attrValClass = nodeSibling.GetAttributeValue("id","DEF");
+                        var attrValClass = nodeSibling.GetAttributeValue("id", "DEF");
                         ProgramType typeOvelse = ProgramType.Innledende;
                         foreach (var noder in nodeSibling.ChildNodes)
                         {
@@ -1196,12 +1404,13 @@ namespace FileUploaderService.KME
                             }
                             else if (noder.NodeType == HtmlNodeType.Element && noder.Name == "div")
                             {
-                                var attrVal = noder.GetAttributeValue("id","DEF");
+                                var attrVal = noder.GetAttributeValue("id", "DEF");
                                 if (attrVal.StartsWith("accordionsub"))
                                 {
-                                    if (typeOvelse == ProgramType.Finale ||
-                                        typeOvelse == ProgramType.Innledende)
-                                    ParseLagListe(baneInfo, noder, typeOvelse);
+                                    if (typeOvelse == ProgramType.Finale || typeOvelse == ProgramType.Innledende)
+                                    {
+                                        ParseLagListe(baneInfo, noder, typeOvelse);
+                                    }
                                 }
                             }
                         }
@@ -1211,7 +1420,7 @@ namespace FileUploaderService.KME
                         break;
                     }
 
-                  nodeSibling = nodeSibling.NextSibling;
+                    nodeSibling = nodeSibling.NextSibling;
                 }
             }
         }
@@ -1259,91 +1468,91 @@ namespace FileUploaderService.KME
         public static void ParseLagListe(StartListBane baneInfo, HtmlNode lagnode, ProgramType lagType)
         {
             int dag = 1;
-                        var datonode = lagnode.SelectSingleNode(string.Format("h4[{0}]", dag));
-                        while (datonode != null)
+            var datonode = lagnode.SelectSingleNode(string.Format("h4[{0}]", dag));
+            while (datonode != null)
+            {
+                var dagnode = lagnode.SelectSingleNode(string.Format("div[{0}]/table", dag));
+                DateTime? oppropsDato = StartingListLag.ParseStartDate(baneInfo.StevneNavn, datonode.InnerText);
+                var lagnoder = dagnode.SelectNodes("tr");
+                if (lagnoder != null)
+                {
+                    foreach (var lag in lagnoder)
+                    {
+                        string xmlfilNavn = null;
+                        var xmlfil = lag.SelectSingleNode("td[1]");
+                        if (xmlfil != null)
                         {
-                            var dagnode = lagnode.SelectSingleNode(string.Format("div[{0}]/table", dag));
-                            DateTime? oppropsDato = StartingListLag.ParseStartDate(baneInfo.StevneNavn, datonode.InnerText);
-                            var lagnoder = dagnode.SelectNodes("tr");
-                            if (lagnoder != null)
+                            xmlfilNavn = xmlfil.GetAttributeValue("id", "NULL");
+                        }
+
+                        var lagnrnode = lag.SelectSingleNode("td[1]/a");
+                        int lagnummer = -1;
+                        if (lagnrnode != null)
+                        {
+                            lagnummer = StartingListLag.ParseLagNr(lagnrnode.InnerText);
+                        }
+                        else
+                        {
+                            Log.Error("Lagnr ikke satt {0}", lag.InnerText);
+                        }
+
+                        DateTime? lagtid = null;
+                        var klokkeslett = lag.SelectSingleNode("td[2]");
+                        if (klokkeslett != null)
+                        {
+                            lagtid = StartingListLag.ParseStartTime(oppropsDato, klokkeslett.InnerText);
+                        }
+                        else
+                        {
+                            Log.Error("klokkeslett ikke satt {0}", lag.InnerText);
+                        }
+
+                        if (lagtid != null && lagnummer > -1)
+                        {
+                            // if (stevneInfo == null)
+                            // {
+                            // Log.Error("Fant korrekt skive men stevne mangler{0} {1}", lagtid, lagnummer);
+                            // continue;
+                            // }
+                            switch (lagType)
                             {
-                                foreach (var lag in lagnoder)
-                                {
-                                    string xmlfilNavn = null;
-                                    var xmlfil = lag.SelectSingleNode("td[1]");
-                                    if (xmlfil != null)
-                                    {
-                                        xmlfilNavn = xmlfil.GetAttributeValue("id", "NULL");
-                                    }
-
-                                    var lagnrnode = lag.SelectSingleNode("td[1]/a");
-                                    int lagnummer = -1;
-                                    if (lagnrnode != null)
-                                    {
-                                        lagnummer = StartingListLag.ParseLagNr(lagnrnode.InnerText);
-                                    }
-                                    else
-                                    {
-                                        Log.Error("Lagnr ikke satt {0}", lag.InnerText);
-                                    }
-
-                                    DateTime? lagtid = null;
-                                    var klokkeslett = lag.SelectSingleNode("td[2]");
-                                    if (klokkeslett != null)
-                                    {
-                                        lagtid = StartingListLag.ParseStartTime(oppropsDato, klokkeslett.InnerText);
-                                    }
-                                    else
-                                    {
-                                        Log.Error("klokkeslett ikke satt {0}", lag.InnerText);
-                                    }
-
-                                    if (lagtid != null && lagnummer > -1)
-                                    {
-                                        // if (stevneInfo == null)
-                                        // {
-                                        // Log.Error("Fant korrekt skive men stevne mangler{0} {1}", lagtid, lagnummer);
-                                        // continue;
-                                        // }
-                                        switch (lagType)
-                                        {
-                                            case ProgramType.Innledende:
-                                                break;
-                                            case ProgramType.Finale:
-                                                lagnummer = lagnummer + 100;
-                                                break;
-                                            case ProgramType.Lagskyting:
-                                                lagnummer = lagnummer + 200;
-                                                break;
-                                            case ProgramType.SamLagskyting:
-                                                lagnummer = lagnummer + 200;
-                                                break;
-                                        }
-
-                                        StartingListLag nyttlag = new StartingListLag(lagnummer);
-                                        nyttlag.StartTime = lagtid;
-                                        nyttlag.BaneType = baneInfo.BaneType;
-                                        nyttlag.StevneNavn = baneInfo.StevneNavn;
-                                        nyttlag.XmlOppropsListe = xmlfilNavn;
-                                        nyttlag.ProgramType = lagType;
-                                        baneInfo.AddLag(nyttlag);
-                                    }
-                                }
+                                case ProgramType.Innledende:
+                                    break;
+                                case ProgramType.Finale:
+                                    lagnummer = lagnummer + 100;
+                                    break;
+                                case ProgramType.Lagskyting:
+                                    lagnummer = lagnummer + 200;
+                                    break;
+                                case ProgramType.SamLagskyting:
+                                    lagnummer = lagnummer + 200;
+                                    break;
                             }
 
-                            dag++;
-                            datonode = lagnode.SelectSingleNode(string.Format("h4[{0}]", dag));
+                            StartingListLag nyttlag = new StartingListLag(lagnummer);
+                            nyttlag.StartTime = lagtid;
+                            nyttlag.BaneType = baneInfo.BaneType;
+                            nyttlag.StevneNavn = baneInfo.StevneNavn;
+                            nyttlag.XmlOppropsListe = xmlfilNavn;
+                            nyttlag.ProgramType = lagType;
+                            baneInfo.AddLag(nyttlag);
                         }
-                    
+                    }
+                }
+
+                dag++;
+                datonode = lagnode.SelectSingleNode(string.Format("h4[{0}]", dag));
+            }
         }
+
         /// <summary>
-        /// The get report files for bane.
+        ///     The get report files for bane.
         /// </summary>
         /// <param name="nodeinfo">
-        /// The nodeinfo.
+        ///     The nodeinfo.
         /// </param>
         /// <param name="bane">
-        /// The bane.
+        ///     The bane.
         /// </param>
         private static void GetReportFilesForBane(HtmlNode nodeinfo, StartListBane bane)
         {
@@ -1373,34 +1582,27 @@ namespace FileUploaderService.KME
                                     {
                                         if (!string.IsNullOrEmpty(overskriftNode.InnerText))
                                         {
-                                            if (string.Compare(overskriftNode.InnerText, "UNGDOM", StringComparison.OrdinalIgnoreCase)
-                                                == 0 ||
-                                                string.Compare(overskriftNode.InnerText, "UNGDOM INDIVIDUELL", StringComparison.OrdinalIgnoreCase)
+                                            if (string.Compare(overskriftNode.InnerText, "UNGDOM", StringComparison.OrdinalIgnoreCase) == 0
+                                                || string.Compare(overskriftNode.InnerText, "UNGDOM INDIVIDUELL", StringComparison.OrdinalIgnoreCase)
                                                 == 0)
                                             {
                                                 Log.Info("Found report Ungdom Lag File {0}", val);
                                                 bane.ToppListeLagFilPrefix.Add(val);
                                             }
-                                            else if (string.Compare(
-                                                overskriftNode.InnerText, 
-                                                "VETERAN", 
-                                                StringComparison.OrdinalIgnoreCase) == 0 ||
-                                                string.Compare(
-                                                overskriftNode.InnerText,
-                                                "VETERAN INDIVIDUELL",
-                                                StringComparison.OrdinalIgnoreCase) == 0)
+                                            else if (string.Compare(overskriftNode.InnerText, "VETERAN", StringComparison.OrdinalIgnoreCase) == 0
+                                                     || string.Compare(
+                                                         overskriftNode.InnerText,
+                                                         "VETERAN INDIVIDUELL",
+                                                         StringComparison.OrdinalIgnoreCase) == 0)
                                             {
                                                 Log.Info("Found report Veteran Lag File {0}", val);
                                                 bane.ToppListeLagFilPrefix.Add(val);
                                             }
-                                            else if (string.Compare(
-                                                overskriftNode.InnerText, 
-                                                "SENIOR", 
-                                                StringComparison.OrdinalIgnoreCase) == 0 ||
-                                                string.Compare(
-                                                overskriftNode.InnerText,
-                                                "SENIOR INDIVIDUELL",
-                                                StringComparison.OrdinalIgnoreCase) == 0)
+                                            else if (string.Compare(overskriftNode.InnerText, "SENIOR", StringComparison.OrdinalIgnoreCase) == 0
+                                                     || string.Compare(
+                                                         overskriftNode.InnerText,
+                                                         "SENIOR INDIVIDUELL",
+                                                         StringComparison.OrdinalIgnoreCase) == 0)
                                             {
                                                 Log.Info("Found report Lag File {0}", val);
                                                 bane.ToppListeLagFilPrefix.Add(val);
@@ -1408,7 +1610,9 @@ namespace FileUploaderService.KME
                                             else
                                             {
                                                 Log.Info("Found report File {0}", val);
-                                                bane.ToppListeFilPrefix.Add(val);
+                                                List<string> klasse=GetKlasse(overskriftNode.InnerText);
+                                                var element=new TopListElement() { Klasse = klasse,ReportName = val }; 
+                                                bane.ToppListeFilPrefix.Add(element);
                                             }
                                         }
                                     }
@@ -1424,6 +1628,79 @@ namespace FileUploaderService.KME
             }
 
             // }
+        }
+
+        private static List<string> GetKlasse(string innerText)
+        {
+            List < string > retVal = new List<string>();
+            if (string.IsNullOrEmpty(innerText))
+            {
+                return retVal;
+            }
+
+            switch (innerText.Trim().ToUpper())
+            {
+                case "JUNIOR":
+                    retVal.Add("J");
+                    break;
+                case "V73":
+                    retVal.Add("V73");
+                    break;
+                case "V65":
+                    retVal.Add("V65");
+                    break;
+                case "ELDRE REKRUTT":
+                    retVal.Add("ER");
+                    break;
+                case "REKRUTT":
+                    retVal.Add("R");
+                    break;
+                case "ASPIRANT":
+                    retVal.Add("ASP");
+                    break;
+                case "AG3":
+                    retVal.Add("AG3");
+                    break;
+                case "HK4":
+                    retVal.Add("HK416");
+                    break;
+                case "KLASSE 1":
+                    retVal.Add("1");
+                    break;
+                case "KLASSE 2":
+                    retVal.Add("2");
+                    break;
+                case "KLASSE 3":
+                    retVal.Add("3");
+                    break;
+                case "KLASSE 4":
+                    retVal.Add("4");
+                    break;
+                case "KLASSE 5":
+                    retVal.Add("5");
+                    break;
+                case "KLASSE V55":
+                case "V55":
+                    retVal.Add("V55");
+                    break;
+                case "KLASSE 2-5, V55":
+                    retVal.Add("2");
+                    retVal.Add("3");
+                    retVal.Add("4");
+                    retVal.Add("5");
+                    retVal.Add("V55");
+                    break;
+                case "KLASSE 3-5":
+                    retVal.Add("3");
+                    retVal.Add("4");
+                    retVal.Add("5");
+                    break;
+                default:
+                    Log.Warning("Uknown klasse GetKlasse {0}", innerText.Trim().ToUpper());
+                   break;
+            }
+
+            return retVal;
         }
 
         private static void GetReportFilesForFelt(HtmlNode nodeinfo, StartListBane bane)
@@ -1454,34 +1731,27 @@ namespace FileUploaderService.KME
                                     {
                                         if (!string.IsNullOrEmpty(overskriftNode.InnerText))
                                         {
-                                            if (string.Compare(overskriftNode.InnerText, "UNGDOM", StringComparison.OrdinalIgnoreCase)
-                                                == 0 ||
-                                                string.Compare(overskriftNode.InnerText, "UNGDOM INDIVIDUELL", StringComparison.OrdinalIgnoreCase)
+                                            if (string.Compare(overskriftNode.InnerText, "UNGDOM", StringComparison.OrdinalIgnoreCase) == 0
+                                                || string.Compare(overskriftNode.InnerText, "UNGDOM INDIVIDUELL", StringComparison.OrdinalIgnoreCase)
                                                 == 0)
                                             {
                                                 Log.Info("Found report Ungdom Lag File {0}", val);
                                                 bane.ToppListeLagFilPrefix.Add(val);
                                             }
-                                            else if (string.Compare(
-                                                overskriftNode.InnerText,
-                                                "VETERAN",
-                                                StringComparison.OrdinalIgnoreCase) == 0 ||
-                                                string.Compare(
-                                                overskriftNode.InnerText,
-                                                "VETERAN INDIVIDUELL",
-                                                StringComparison.OrdinalIgnoreCase) == 0)
+                                            else if (string.Compare(overskriftNode.InnerText, "VETERAN", StringComparison.OrdinalIgnoreCase) == 0
+                                                     || string.Compare(
+                                                         overskriftNode.InnerText,
+                                                         "VETERAN INDIVIDUELL",
+                                                         StringComparison.OrdinalIgnoreCase) == 0)
                                             {
                                                 Log.Info("Found report Veteran Lag File {0}", val);
                                                 bane.ToppListeLagFilPrefix.Add(val);
                                             }
-                                            else if (string.Compare(
-                                                overskriftNode.InnerText,
-                                                "SENIOR",
-                                                StringComparison.OrdinalIgnoreCase) == 0 ||
-                                                string.Compare(
-                                                overskriftNode.InnerText,
-                                                "SENIOR INDIVIDUELL",
-                                                StringComparison.OrdinalIgnoreCase) == 0)
+                                            else if (string.Compare(overskriftNode.InnerText, "SENIOR", StringComparison.OrdinalIgnoreCase) == 0
+                                                     || string.Compare(
+                                                         overskriftNode.InnerText,
+                                                         "SENIOR INDIVIDUELL",
+                                                         StringComparison.OrdinalIgnoreCase) == 0)
                                             {
                                                 Log.Info("Found report Lag File {0}", val);
                                                 bane.ToppListeLagFilPrefix.Add(val);
@@ -1489,7 +1759,9 @@ namespace FileUploaderService.KME
                                             else
                                             {
                                                 Log.Info("Found report File {0}", val);
-                                                bane.ToppListeFilPrefix.Add(val);
+                                                List<string> klasse = GetKlasse(overskriftNode.InnerText);
+                                                var element = new TopListElement() { Klasse = klasse, ReportName = val };
+                                                bane.ToppListeFilPrefix.Add(element);
                                             }
                                         }
                                     }
@@ -1543,7 +1815,9 @@ namespace FileUploaderService.KME
                                             else
                                             {
                                                 Log.Info("Found report File {0}", val);
-                                                bane.ToppListeFilPrefix.Add(val);
+                                                List<string> klasse = GetKlasse(overskriftNode.InnerText);
+                                                var element = new TopListElement() { Klasse = klasse, ReportName = val };
+                                                bane.ToppListeFilPrefix.Add(element);
                                             }
                                         }
                                     }
@@ -1560,11 +1834,12 @@ namespace FileUploaderService.KME
 
             // }
         }
+
         /// <summary>
-        /// The parse rapport fil.
+        ///     The parse rapport fil.
         /// </summary>
         /// <param name="filNavn">
-        /// The fil navn.
+        ///     The fil navn.
         /// </param>
         private void ParseRapportFil(string filNavn)
         {
@@ -1631,20 +1906,21 @@ namespace FileUploaderService.KME
         }
 
         /// <summary>
-        /// The parse stevne info.
+        ///     The parse stevne info.
         /// </summary>
         /// <param name="indfile">
-        /// The indfile.
+        ///     The indfile.
         /// </param>
         /// <returns>
-        /// The <see cref="StartingListStevne"/>.
+        ///     The <see cref="StartingListStevne" />.
         /// </returns>
         private StartingListStevne ParseStevneInfo(string indfile)
         {
             try
             {
                 string inputString;
-                Encoding enc = Encoding.GetEncoding("ISO-8859-1");
+                Encoding enc = Encoding.GetEncoding("UTF-8");
+                
                 using (StreamReader read = new StreamReader(indfile, enc))
                 {
                     inputString = read.ReadToEnd();
@@ -1654,6 +1930,7 @@ namespace FileUploaderService.KME
                 List<string> topListeFiler = new List<string>();
                 StartingListStevne stevneInfo = null;
                 var test = new HtmlAgilityPack.HtmlDocument();
+                test.OptionDefaultStreamEncoding = new UTF8Encoding(false);
                 test.LoadHtml(inputString);
                 var nodehead = test.DocumentNode.SelectSingleNode("/html/body/div[@id='header']/h1");
 
@@ -1664,7 +1941,8 @@ namespace FileUploaderService.KME
                 {
                     foreach (var node in nodebody2)
                     {
-                        var h3 = node.SelectNodes("//h3");
+                        var h3 = node.SelectNodes("h3");
+
                         bool found = false;
                         if (h3 != null)
                         {
@@ -1673,7 +1951,7 @@ namespace FileUploaderService.KME
                             {
                                 if (nodeinfo != null && !string.IsNullOrEmpty(nodeinfo.InnerText))
                                 {
-                                    if (nodeinfo.InnerText.ToUpper().Contains("LAGVIS") )
+                                    if (nodeinfo.InnerText.ToUpper().Contains("LAGVIS"))
                                     {
                                         if (stevneInfo == null)
                                         {
@@ -1689,7 +1967,7 @@ namespace FileUploaderService.KME
                                         }
 
                                         var bane = stevneInfo.FinnBane(baneType);
-                                        
+
                                         if (bane == null)
                                         {
                                             bane = stevneInfo.AddNewBane(stevneInfo.StevneNavn, directoryName, baneType);
@@ -1712,61 +1990,139 @@ namespace FileUploaderService.KME
                                         }
                                         bool breakFound = false;
                                         string klasse = string.Empty;
-                                        var sibling = nodeinfo.NextSibling;
-                                        while (!breakFound)
+                                        HtmlNodeCollection KlasseVisMinneNode = null;
+                                        HtmlNode sibling = nodeinfo;
+                                        do
                                         {
                                             sibling = sibling.NextSibling;
-                                            if (sibling.NodeType == HtmlNodeType.Element && sibling.InnerText.ToUpper().Contains("KL."))
+                                            if (sibling == null)
                                             {
-                                                var typenode = sibling.SelectSingleNode("div/a");
-                                                if (typenode != null)
+                                                breakFound = true;
+                                            }
+                                            else
+                                            {
+                                                if (sibling.NodeType == HtmlNodeType.Element && sibling.Name == "div" && sibling.HasAttributes)
+                                                {
+                                                    if (sibling.GetAttributeValue("class", "") == "accordion_button") ;
+                                                    {
+                                                        KlasseVisMinneNode = sibling.SelectNodes("div");
+                                                        breakFound = true;
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                        while (!breakFound);
+
+                                        if (KlasseVisMinneNode != null)
+                                        {
+                                            foreach (var minnesk in KlasseVisMinneNode)
+                                            {
+                                                var typenode = minnesk.SelectSingleNode("a");
+                                                var fileid = minnesk.GetAttributeValue("id", "");
+                                                if (typenode != null && !string.IsNullOrEmpty(fileid))
                                                 {
                                                     var tostr = typenode.InnerText;
                                                     if (!string.IsNullOrEmpty(tostr))
                                                     {
                                                         tostr = tostr.ToUpper();
-                                                        var splits = tostr.Split(new string[] { "KL." }, StringSplitOptions.RemoveEmptyEntries);
+                                                        var splits = tostr.Split(
+                                                            new string[] { "KL." },
+                                                            StringSplitOptions.RemoveEmptyEntries);
                                                         if (splits.Length >= 2)
                                                         {
                                                             klasse = splits[1].Trim();
-                                                        }
+                                                            BaneType baneType = StartListBane.FindMinneBaneTypeForKlasse(klasse);
+                                                            if (baneType == BaneType.MinneGrov)
+                                                            {
+                                                                var Bane = stevneInfo.FinnBane(BaneType.GrovFelt);
+                                                                if (Bane != null)
+                                                                {
+                                                                    TopListElement el = new TopListElement();
+                                                                    el.Klasse= new List<string>();
+                                                                    el.Klasse.Add(klasse);
+                                                                    el.ReportName = fileid;
+                                                                    Bane.ToppListeFilPrefix.Add(el);
+                                                                }
+                                                            }
+                                                            else if (baneType == BaneType.MinneFin)
+                                                            {
+                                                                var Bane = stevneInfo.FinnBane(BaneType.FinFelt);
+                                                                if (Bane != null)
+                                                                {
+                                                                    TopListElement el = new TopListElement();
+                                                                    el.Klasse = new List<string>();
+                                                                    el.Klasse.Add(klasse);
+                                                                    el.ReportName = fileid;
+                                                                    Bane.ToppListeFilPrefix.Add(el);
+                                                                }  
+                                                                
+                                                            }
+                                                        } 
                                                     }
                                                 }
-                                                breakFound = true;
                                             }
 
-                                            if (sibling == null)
-                                            {
-                                                breakFound = true;
-                                            }
-                                        }
+                                            //{
+                                            //    sibling = sibling.NextSibling;
+                                            //    if (sibling != null)
+                                            //    {
+                                            //        if (sibling.NodeType == HtmlNodeType.Element && sibling.InnerText.ToUpper().Contains("KL."))
+                                            //        {
+                                            //            var typenode = sibling.SelectSingleNode("div/a");
+                                            //            if (typenode != null)
+                                            //            {
+                                            //                var tostr = typenode.InnerText;
+                                            //                if (!string.IsNullOrEmpty(tostr))
+                                            //                {
+                                            //                    tostr = tostr.ToUpper();
+                                            //                    var splits = tostr.Split(
+                                            //                        new string[] { "KL." },
+                                            //                        StringSplitOptions.RemoveEmptyEntries);
+                                            //                    if (splits.Length >= 2)
+                                            //                    {
+                                            //                        klasse = splits[1].Trim();
+                                            //                    }
+                                            //                }
+                                            //            }
 
-                                        BaneType baneType = StartListBane.FindMinneBaneTypeForKlasse(klasse);
-                                        if (baneType == BaneType.Undefined)
-                                        {
-                                            Log.Error("Uknown Banetype {0} fil ={1}", nodeinfo.InnerText, indfile);
-                                            return null;
-                                        }
+                                            //        }
+                                            //    }
 
-                                        var bane = stevneInfo.FinnBane(baneType);
+                                            //    if (sibling == null)
+                                            //    {
+                                            //        breakFound = true;
+                                            //    }
+                                            //}
 
-                                        if (bane == null)
-                                        {
-                                            bane = stevneInfo.AddNewBane(stevneInfo.StevneNavn, directoryName, baneType);
-                                            bane.ReportDirStevneNavn = stevneInfo.ReportDirStevneNavn;
-                                        }
-                                        else
-                                        {
-                                            bane.StevneLag.Clear();
-                                        }
+                                            //BaneType baneType = StartListBane.FindMinneBaneTypeForKlasse(klasse);
+                                            //if (baneType == BaneType.Undefined)
+                                            //{
+                                            //    Log.Error("Uknown Banetype {0} fil ={1}", nodeinfo.InnerText, indfile);
+                                            //}
+                                            //else
+                                            //{
 
-                                        nodeinfoH3 = nodeinfo;
-                                        GetLagvisOpprop(nodeinfoH3, bane);
+
+                                            //    var bane = stevneInfo.FinnBane(baneType);
+
+                                            //    if (bane == null)
+                                            //    {
+                                            //        bane = stevneInfo.AddNewBane(stevneInfo.StevneNavn, directoryName, baneType);
+                                            //        bane.ReportDirStevneNavn = stevneInfo.ReportDirStevneNavn;
+                                            //    }
+                                            //    else
+                                            //    {
+                                            //        bane.StevneLag.Clear();
+                                            //    }
+
+                                            //    nodeinfoH3 = nodeinfo;
+                                            //    GetLagvisOpprop(nodeinfoH3, bane);
+                                            //}
+                                        }
                                     }
                                 }
                             }
-                            
-
                         }
                     }
                 }
@@ -1829,7 +2185,6 @@ namespace FileUploaderService.KME
                                     {
                                         GetReportFilesForMinne(nodeinfo, bane);
                                     }
-
                                 }
                             }
                         }
@@ -1837,7 +2192,7 @@ namespace FileUploaderService.KME
                 }
 
                 GetLagSkytingOpprop(stevneInfo);
-
+               // GetLagOpprop(stevneInfo);
 
                 return stevneInfo;
             }
@@ -1849,13 +2204,327 @@ namespace FileUploaderService.KME
             return null;
         }
 
+        //private void GetLagOpprop(StartingListStevne stevneInfo)
+        //{
+        //    if (stevneInfo == null)
+        //    {
+        //        return;
+        //    }
+
+        //    if (stevneInfo.DynamiskeBaner == null)
+        //    {
+        //        return;
+        //    }
+
+        //    Encoding enc = Encoding.GetEncoding("ISO-8859-1");
+        //    foreach (var bane in stevneInfo.DynamiskeBaner)
+        //    {
+        //        if (this.Info == null)
+        //        {
+        //            continue;
+        //        }
+
+        //        var rapportDir = Path.Combine(this.Info.FullName, RapportDirName);
+        //        string prefix = null;
+        //        string filenamesorthtml = null;
+        //        string prefixhtml = null;
+        //        switch (bane.BaneType)
+        //        {
+        //            case BaneType.MinneFin:
+        //                prefix = "Minneskyting-Oppropsliste";
+        //                filenamesorthtml = "Minneskyting-Oppropsliste*.html";
+        //                prefixhtml = "Minneskyting-Oppropsliste";
+        //                break;
+        //        }
+        //        if (string.IsNullOrEmpty(filenamesorthtml))
+        //        {
+        //            continue;
+        //        }
+
+        //        if (!Directory.Exists(rapportDir))
+        //        {
+        //            Log.Trace("Dir for lagskyting not found {0}", rapportDir);
+        //            continue;
+        //        }
+
+        //        var rapportInfo = new DirectoryInfo(rapportDir);
+        //        var listopprophtml = rapportInfo.GetFiles(filenamesorthtml);
+        //        if (listopprophtml.Length > 0)
+        //        {
+        //            foreach (var file in listopprophtml)
+        //            {
+        //                ParseOppropMinneHtml(bane, file.FullName);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //public void ParseOppropMinneHtml(StartListBane bane, string indfile)
+        //{
+        //    try
+        //    {
+        //        string inputString;
+        //        Encoding enc = Encoding.GetEncoding("ISO-8859-1");
+        //        using (StreamReader read = new StreamReader(indfile, enc))
+        //        {
+        //            inputString = read.ReadToEnd();
+        //        }
+
+        //        var directoryName = Path.GetDirectoryName(indfile);
+        //        List<string> topListeFiler = new List<string>();
+        //        StartingListStevne stevneInfo = null;
+        //        var test = new HtmlAgilityPack.HtmlDocument();
+        //        test.LoadHtml(inputString);
+        //        var nodehead = test.DocumentNode.SelectSingleNode("/html/body/table");
+        //        if (nodehead == null)
+        //        {
+        //            return;
+        //        }
+        //        int lagno = -1;
+        //        var nodebodyTable = nodehead.SelectNodes("//td");
+        //        foreach (var body in nodebodyTable)
+        //        {
+        //            if (body.InnerText.ToUpper().Contains("LAG"))
+        //            {
+        //                string text = body.InnerText.Trim();
+        //                var list = text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        //                if (list.Length > 1)
+        //                {
+        //                    if (!Int32.TryParse(list[1], out lagno))
+        //                    {
+        //                        return;
+        //                    }
+        //                    break;
+        //                }
+        //            }
+        //        }
+
+        //        if (lagno <= 0)
+        //        {
+        //            return;
+        //        }
+
+        //        var nodelistTable = test.DocumentNode.SelectSingleNode("/html/body/table[@border='1']");
+        //        if (nodelistTable == null)
+        //        {
+        //            return;
+        //        }
+        //        var nodelistSkytter = nodelistTable.SelectNodes("//tr");
+        //        if (nodelistSkytter == null)
+        //        {
+        //            return;
+        //        }
+
+        //        int cout = 0;
+        //        foreach (var skytter in nodelistSkytter)
+        //        {
+        //            if (cout <= 1)
+        //            {
+        //                cout++;
+        //                continue;
+        //            }
+        //            var valnodes = skytter.SelectNodes("//td");
+        //            if (valnodes.Count > 4)
+        //            {
+        //                var name = valnodes[1];
+        //            }
+        //        }
+
+        //        //if (nodebody2 != null)
+        //        //{
+        //        //    foreach (var node in nodebody2)
+        //        //    {
+        //        //        var h3 = node.SelectNodes("//h3");
+        //        //        bool found = false;
+        //        //        if (h3 != null)
+        //        //        {
+        //        //            HtmlNode nodeinfoH3 = null;
+        //        //            foreach (var nodeinfo in h3)
+        //        //            {
+        //        //                if (nodeinfo != null && !string.IsNullOrEmpty(nodeinfo.InnerText))
+        //        //                {
+        //        //                    if (nodeinfo.InnerText.ToUpper().Contains("LAGVIS"))
+        //        //                    {
+        //        //                        if (stevneInfo == null)
+        //        //                        {
+        //        //                            stevneInfo = new StartingListStevne();
+        //        //                            stevneInfo.ParseStevneNavn(nodehead.InnerText);
+        //        //                        }
+
+        //        //                        BaneType baneType = StartListBane.FindBaneType(nodeinfo.InnerText);
+        //        //                        if (baneType == BaneType.Undefined)
+        //        //                        {
+        //        //                            Log.Error("Uknown Banetype {0} fil ={1}", nodeinfo.InnerText, indfile);
+        //        //                            return null;
+        //        //                        }
+
+        //        //                        var bane = stevneInfo.FinnBane(baneType);
+
+        //        //                        if (bane == null)
+        //        //                        {
+        //        //                            bane = stevneInfo.AddNewBane(stevneInfo.StevneNavn, directoryName, baneType);
+        //        //                            bane.ReportDirStevneNavn = stevneInfo.ReportDirStevneNavn;
+        //        //                        }
+        //        //                        else
+        //        //                        {
+        //        //                            bane.StevneLag.Clear();
+        //        //                        }
+
+        //        //                        nodeinfoH3 = nodeinfo;
+        //        //                        GetLagvisOpprop(nodeinfoH3, bane);
+        //        //                    }
+        //        //                    else if (nodeinfo.InnerText.ToUpper().Contains("MINNESKYTING"))
+        //        //                    {
+        //        //                        if (stevneInfo == null)
+        //        //                        {
+        //        //                            stevneInfo = new StartingListStevne();
+        //        //                            stevneInfo.ParseStevneNavn(nodehead.InnerText);
+        //        //                        }
+        //        //                        bool breakFound = false;
+        //        //                        string klasse = string.Empty;
+        //        //                        var sibling = nodeinfo.NextSibling;
+        //        //                        while (!breakFound)
+        //        //                        {
+        //        //                            sibling = sibling.NextSibling;
+        //        //                            if (sibling.NodeType == HtmlNodeType.Element && sibling.InnerText.ToUpper().Contains("KL."))
+        //        //                            {
+        //        //                                var typenode = sibling.SelectSingleNode("div/a");
+        //        //                                if (typenode != null)
+        //        //                                {
+        //        //                                    var tostr = typenode.InnerText;
+        //        //                                    if (!string.IsNullOrEmpty(tostr))
+        //        //                                    {
+        //        //                                        tostr = tostr.ToUpper();
+        //        //                                        var splits = tostr.Split(new string[] { "KL." }, StringSplitOptions.RemoveEmptyEntries);
+        //        //                                        if (splits.Length >= 2)
+        //        //                                        {
+        //        //                                            klasse = splits[1].Trim();
+        //        //                                        }
+        //        //                                    }
+        //        //                                }
+        //        //                                breakFound = true;
+        //        //                            }
+
+        //        //                            if (sibling == null)
+        //        //                            {
+        //        //                                breakFound = true;
+        //        //                            }
+        //        //                        }
+
+        //        //                        BaneType baneType = StartListBane.FindMinneBaneTypeForKlasse(klasse);
+        //        //                        if (baneType == BaneType.Undefined)
+        //        //                        {
+        //        //                            Log.Error("Uknown Banetype {0} fil ={1}", nodeinfo.InnerText, indfile);
+        //        //                            return null;
+        //        //                        }
+
+        //        //                        var bane = stevneInfo.FinnBane(baneType);
+
+        //        //                        if (bane == null)
+        //        //                        {
+        //        //                            bane = stevneInfo.AddNewBane(stevneInfo.StevneNavn, directoryName, baneType);
+        //        //                            bane.ReportDirStevneNavn = stevneInfo.ReportDirStevneNavn;
+        //        //                        }
+        //        //                        else
+        //        //                        {
+        //        //                            bane.StevneLag.Clear();
+        //        //                        }
+
+        //        //                        nodeinfoH3 = nodeinfo;
+        //        //                        GetLagvisOpprop(nodeinfoH3, bane);
+        //        //                    }
+        //        //                }
+        //        //            }
+
+        //        //        }
+        //        //    }
+        //        //}
+
+        //        //if (nodebody2 != null && stevneInfo != null)
+        //        //{
+        //        //    foreach (var node in nodebody2)
+        //        //    {
+        //        //        var h3 = node.SelectNodes("//h3");
+        //        //        bool found = false;
+        //        //        if (h3 != null)
+        //        //        {
+        //        //            HtmlNode nodeinfoH3 = null;
+        //        //            foreach (var nodeinfo in h3)
+        //        //            {
+        //        //                if (nodeinfo != null && !string.IsNullOrEmpty(nodeinfo.InnerText))
+        //        //                {
+        //        //                    var bane = stevneInfo.FinnBane(BaneType.Femtenmeter);
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "15M" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForBane(nodeinfo, bane);
+        //        //                    }
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "RANGERING" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForBane(nodeinfo, bane);
+        //        //                    }
+
+        //        //                    bane = stevneInfo.FinnBane(BaneType.Hundremeter);
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "100M" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForBane(nodeinfo, bane);
+        //        //                    }
+
+        //        //                    bane = stevneInfo.FinnBane(BaneType.Tohundremeter);
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "200M" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForBane(nodeinfo, bane);
+        //        //                    }
+
+        //        //                    bane = stevneInfo.FinnBane(BaneType.FinFelt);
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "FINFELT" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForFelt(nodeinfo, bane);
+        //        //                    }
+
+        //        //                    bane = stevneInfo.FinnBane(BaneType.GrovFelt);
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "GROVFELT" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForFelt(nodeinfo, bane);
+        //        //                    }
+
+        //        //                    bane = stevneInfo.FinnBane(BaneType.MinneFin);
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "MINNESKYTING" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForMinne(nodeinfo, bane);
+        //        //                    }
+
+        //        //                    bane = stevneInfo.FinnBane(BaneType.MinneGrov);
+        //        //                    if (nodeinfo.InnerText.ToUpper() == "MINNESKYTING" && bane != null)
+        //        //                    {
+        //        //                        GetReportFilesForMinne(nodeinfo, bane);
+        //        //                    }
+
+        //        //                }
+        //        //            }
+        //        //        }
+        //        //    }
+        //        //}
+
+        //        //GetLagSkytingOpprop(stevneInfo);
+        //        //GetLagOpprop(stevneInfo);
+
+        //        //return stevneInfo;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Log.Error(e, string.Format("error parsing {0}", indfile));
+        //    }
+
+        //    return;
+        //}
+
         private void GetLagSkytingOpprop(StartingListStevne stevneInfo)
         {
             if (stevneInfo == null)
             {
                 return;
             }
-            
+
             if (stevneInfo.DynamiskeBaner == null)
             {
                 return;
@@ -1876,10 +2545,10 @@ namespace FileUploaderService.KME
                 switch (bane.BaneType)
                 {
                     case BaneType.Hundremeter:
-                         filenamesort = "100m-Lagskyting-opprop-*.csv";
-                         prefix = "100m-Lagskyting-opprop-";
-                         filenamesorthtml = "100m-Lagskyting-opprop-*.html";
-                         prefixhtml = "100m-Lagskyting-opprop-";
+                        filenamesort = "100m-Lagskyting-opprop-*.csv";
+                        prefix = "100m-Lagskyting-opprop-";
+                        filenamesorthtml = "100m-Lagskyting-opprop-*.html";
+                        prefixhtml = "100m-Lagskyting-opprop-";
                         break;
                     case BaneType.Tohundremeter:
                         filenamesort = "200-300m-Lagskyting-opprop-*.csv";
@@ -1892,7 +2561,7 @@ namespace FileUploaderService.KME
                 {
                     continue;
                 }
-               
+
                 if (!Directory.Exists(rapportDir))
                 {
                     Log.Trace("Dir for lagskyting not found {0}", rapportDir);
@@ -1905,13 +2574,13 @@ namespace FileUploaderService.KME
                 {
                     foreach (var file in listLagskytinghtml)
                     {
-                            var filename = Path.GetFileNameWithoutExtension(file.Name);
-                            var start = filename.Replace(prefixhtml, string.Empty);
-                            int lagNr = -1;
-                            if (int.TryParse(start, out lagNr))
-                            {
-                                ParseLagSkytingHtml(bane, bane.BaneType, lagNr, file.FullName);
-                            }
+                        var filename = Path.GetFileNameWithoutExtension(file.Name);
+                        var start = filename.Replace(prefixhtml, string.Empty);
+                        int lagNr = -1;
+                        if (int.TryParse(start, out lagNr))
+                        {
+                            ParseLagSkytingHtml(bane, bane.BaneType, lagNr, file.FullName);
+                        }
                     }
                 }
                 else
@@ -1931,10 +2600,9 @@ namespace FileUploaderService.KME
                                 {
                                     ParseLagSkyting(bane, file.LastWriteTime, bane.BaneType, lagNr, text);
                                 }
-
                             }
                         }
-                    }  
+                    }
                 }
             }
         }
@@ -1950,7 +2618,7 @@ namespace FileUploaderService.KME
                     inputString = read.ReadToEnd();
                 }
 
-                 var test = new HtmlAgilityPack.HtmlDocument();
+                var test = new HtmlAgilityPack.HtmlDocument();
                 test.LoadHtml(inputString);
                 var nodeopproptid = test.DocumentNode.SelectSingleNode("/html/body/table[@border='0']/tr/td[2]/font/b");
                 if (nodeopproptid == null)
@@ -1969,14 +2637,8 @@ namespace FileUploaderService.KME
                 DateTime oppropTime = oppropTimevar.Value;
                 var nodebodySKyttere = test.DocumentNode.SelectNodes("/html/body/table[@border='1']/tr");
                 var lagskytingLag = new StartingListLag(lagNr + 100) { ProgramType = ProgramType.Lagskyting };
-                
-                lagskytingLag.StartTime = new DateTime(
-                    oppropTime.Year,
-                    oppropTime.Month,
-                    oppropTime.Day,
-                    oppropTime.Hour,
-                    oppropTime.Minute,
-                    0);
+
+                lagskytingLag.StartTime = new DateTime(oppropTime.Year, oppropTime.Month, oppropTime.Day, oppropTime.Hour, oppropTime.Minute, 0);
                 lagskytingLag.StevneNavn = bane.StevneNavn;
                 lagskytingLag.BaneType = baneType;
 
@@ -2010,12 +2672,7 @@ namespace FileUploaderService.KME
                                     lagskytingLag.Skiver.Add(skive);
                                 }
                             }
-
                         }
-
-                       
-
-                      
                     }
                 }
 
@@ -2023,17 +2680,16 @@ namespace FileUploaderService.KME
                 {
                     bane.StevneLag.Add(lagskytingLag);
                 }
-
             }
             catch (Exception e)
             {
                 Log.Error(e, string.Format("error parsing {0}", lagfile));
             }
 
-            return ;
+            return;
         }
 
-        private void ParseLagSkyting(StartListBane bane,DateTime oppropTime ,BaneType banetype, int lagnr, string text)
+        private void ParseLagSkyting(StartListBane bane, DateTime oppropTime, BaneType banetype, int lagnr, string text)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -2042,13 +2698,7 @@ namespace FileUploaderService.KME
 
             var lines = text.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
             var lagskytingLag = new StartingListLag(lagnr + 100) { ProgramType = ProgramType.Lagskyting };
-            lagskytingLag.StartTime = new DateTime(
-                oppropTime.Year,
-                oppropTime.Month,
-                oppropTime.Day,
-                oppropTime.Hour,
-                oppropTime.Minute,
-                0);
+            lagskytingLag.StartTime = new DateTime(oppropTime.Year, oppropTime.Month, oppropTime.Day, oppropTime.Hour, oppropTime.Minute, 0);
             lagskytingLag.StevneNavn = bane.StevneNavn;
             lagskytingLag.BaneType = banetype;
             foreach (var line in lines)
@@ -2069,7 +2719,6 @@ namespace FileUploaderService.KME
             {
                 bane.StevneLag.Add(lagskytingLag);
             }
-            
         }
 
         #endregion

@@ -60,7 +60,10 @@
     <Compile Include="KME\StartingListSkive.cs" />
     <Compile Include="KME\StartingListStevne.cs" />
     <Compile Include="KME\StartListBane.cs" />
+    <Compile Include="KME\TopListElement.cs" />
     <Compile Include="Leon\Report.cs" />
+    <Compile Include="ListeSort\ParseXmlOpp.cs" />
+    <Compile Include="ListeSort\SortOvelse.cs" />
     <Compile Include="Orion\OrionProgramInfo.cs" />
     <Compile Include="Orion\OrionStevneInfo.cs" />
     <Compile Include="ProcessMemoryReader.cs" />

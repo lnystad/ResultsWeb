@@ -50,6 +50,7 @@ namespace FileUploaderService.KME
         /// </summary>
         private XmlSerializer m_ser;
 
+        private XmlSerializer m_serSKive;
         /// <summary>
         ///     The m_xslt rapport.
         /// </summary>
@@ -82,8 +83,7 @@ namespace FileUploaderService.KME
         {
             this.m_installDir = Path;
             this.m_DetectedDirs = new List<LeonDirInfo>();
-
-            // m_ser = new XmlSerializer(typeof(StartingListLag));
+            this.m_serSKive = new XmlSerializer(typeof(List<StartingListSkive>));
         }
 
         #endregion
@@ -105,7 +105,7 @@ namespace FileUploaderService.KME
         /// <returns>
         ///     The <see cref="LeonDirInfo" />.
         /// </returns>
-        public LeonDirInfo CheckWebDir()
+        public LeonDirInfo CheckWebDir(bool forceWebParse=false)
         {
             try
             {
@@ -127,7 +127,8 @@ namespace FileUploaderService.KME
                         foreach (var dir in sortedDir)
                         {
                             var element = new LeonDirInfo(dir);
-                            element.CheckWebFiles();
+                            element.CheckOppropsListe();
+                            element.CheckWebFiles(forceWebParse);
                             element.CheckPdfFiles();
                             element.CheckPresselisteFiles();
                             element.InitTimeStamps();
@@ -143,7 +144,7 @@ namespace FileUploaderService.KME
 
                             if (!this.m_DetectedDirs.Contains(element))
                             {
-                                element.CheckWebFiles();
+                                element.CheckWebFiles(forceWebParse);
                                 element.CheckPdfFiles();
                                 element.CheckBitMap();
                                 element.CheckPresselisteFiles();
@@ -162,12 +163,16 @@ namespace FileUploaderService.KME
                                     element = this.m_DetectedDirs[idx];
                                     element.Command = UploadCommand.none;
                                     Log.Trace("Checking Drectory {0}", element.Info.Name);
-                                    if (element.CheckWebFiles())
+                                    if (element.CheckWebFiles(forceWebParse))
                                     {
                                         Log.Info("Updated Directory Detected name {0} wait 4sec", element.Info.Name);
-                                        Thread.Sleep(4000);
+                                        if (!forceWebParse)
+                                        {
+                                            Thread.Sleep(4000);
+                                        }
+
                                         element.CheckRapporter();
-                                        if (this.GenerateNewReports(element))
+                                        if (this.GenerateNewReports(element, forceWebParse))
                                         {
                                             Log.Info("Updated Reports Detected name");
                                             element.Command = element.Command | UploadCommand.Reports;
@@ -186,7 +191,7 @@ namespace FileUploaderService.KME
                                     {
                                         Log.Info("Updated Bitmap Detected name");
                                         
-                                        if (this.GenerateNewReports(element))
+                                        if (this.GenerateNewReports(element, forceWebParse))
                                         {
                                             Log.Info("Updated Reports Detected name");
                                             element.Command = element.Command | UploadCommand.Reports;
@@ -629,7 +634,7 @@ namespace FileUploaderService.KME
         /// <param name="skytterxsltfilenavn">
         /// The skytterxsltfilenavn.
         /// </param>
-        internal void InitToppListInfoTransform(string filename, string skytterxsltfilenavn)
+        public void InitToppListInfoTransform(string filename, string skytterxsltfilenavn)
         {
             if (File.Exists(filename))
             {
@@ -1224,10 +1229,21 @@ namespace FileUploaderService.KME
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private bool GenerateNewReports(LeonDirInfo element)
+        private bool GenerateNewReports(LeonDirInfo element,bool forceWebParse)
         {
             if (this.m_xsltRapport == null)
             {
+                return false;
+            }
+
+            if (element == null)
+            {
+                Log.Warning("element in GenerateNewReports is null");
+                return false;
+            }
+            if (element.StevneForAlleBaner == null)
+            {
+                Log.Warning("StevneForAlleBaner in GenerateNewReports is null");
                 return false;
             }
 
@@ -1245,6 +1261,7 @@ namespace FileUploaderService.KME
 
                             var outputXmlStream = new MemoryStream { Position = 0 };
                             var readerStream = MergeDocumentsInput(rapport.Rapport, rapport.BitMapInfo);
+                            
                             this.CopyReader(readerStream, rapport.Filnavn);
 
                             var enc = new UTF8Encoding(false);
@@ -1264,7 +1281,8 @@ namespace FileUploaderService.KME
                             {
                                 Log.Info("Generating new Start List {0}", rapport.Filnavn);
                                 var encServer = Encoding.GetEncoding(rapportEnCoding);
-                                using (XmlTextWriter writer = new XmlTextWriter(rapport.Filnavn, encServer))
+                                var newFileName = FindNewFileName(rapport.Filnavn, forceWebParse);
+                                using (XmlTextWriter writer = new XmlTextWriter(newFileName, encServer))
                                 {
                                     writer.Formatting = Formatting.Indented;
                                     docSaver.Save(writer);
@@ -1274,20 +1292,6 @@ namespace FileUploaderService.KME
                                 
                             
                            
-                            }
-
-                            if (this.m_xsltToppListSkyttere != null)
-                            {
-                                var outputXmlSkyttereStream = new MemoryStream { Position = 0 };
-                                this.m_xsltToppListSkyttere.Transform(xpathDoc, null, outputXmlSkyttereStream);
-                                outputXmlSkyttereStream.Position = 0;
-                                XmlDocument docSkyttereSaver = new XmlDocument();
-                                StreamReader readerSkyttereOut = new StreamReader(outputXmlSkyttereStream, enc, true);
-                                XmlTextReader xmlReaderSkyttereOut = new XmlTextReader(readerSkyttereOut);
-                                docSkyttereSaver.Load(xmlReaderSkyttereOut);
-                                
-                                SkyttereiLaget.Add(docSkyttereSaver);
-                                readerSkyttereOut.Dispose();
                             }
 
                             readerOut.Dispose();
@@ -1310,19 +1314,245 @@ namespace FileUploaderService.KME
                     }
                 }
 
-                if (this.m_xsltToppList != null && SkyttereiLaget.Count > 0)
+                //var allSKyttere = bane.StevneLag.Where(x => x.BaneType == rapport.BaneType && x.ProgramType == rapport.ProgramType);
+                //if (this.m_xsltToppListSkyttere != null)
+                //{
+                //    var outputXmlSkyttereStream = new MemoryStream { Position = 0 };
+                //    this.m_xsltToppListSkyttere.Transform(xpathDoc, null, outputXmlSkyttereStream);
+                //    outputXmlSkyttereStream.Position = 0;
+                //    XmlDocument docSkyttereSaver = new XmlDocument();
+                //    StreamReader readerSkyttereOut = new StreamReader(outputXmlSkyttereStream, enc, true);
+                //    XmlTextReader xmlReaderSkyttereOut = new XmlTextReader(readerSkyttereOut);
+                //    docSkyttereSaver.Load(xmlReaderSkyttereOut);
+
+                //    SkyttereiLaget.Add(docSkyttereSaver);
+                //    readerSkyttereOut.Dispose();
+                //}
+
+                if (this.m_xsltToppList != null )
                 {
+                    if (bane.ToppListeRapporter.Count > 0)
+                    {
+                            string dirName = string.Empty;
+                            if (!string.IsNullOrEmpty(bane.ToppListeRapporter[0].Filnavn))
+                            {
+                                dirName = Path.GetDirectoryName(bane.ToppListeRapporter[0].Filnavn);
+                            }
+
+                       FinnSkyttere(bane.StevneLag, dirName, forceWebParse);
+                       
+                    }
+
                     foreach (var toppListe in bane.ToppListeRapporter)
                     {
+                     
+                        List<StartingListSkive> skyttereIRapporten= new List<StartingListSkive>();
+                        var actualLag= bane.StevneLag.Where(x => x.BaneType == toppListe.BaneType && x.ProgramType == toppListe.ProgramType).ToList();
+
+                        if (actualLag != null)
+                        {
+                            if (actualLag.Count > 0)
+                            {
+                                foreach (var lag in actualLag)
+                                {
+                                    foreach (var skive in lag.Skiver)
+                                    {
+                                        if (toppListe.Klasse.Contains(skive.Klasse))
+                                        {
+                                            skive.LagSkiveNr = lag.LagNr;
+                                            skyttereIRapporten.Add(skive);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (toppListe.ProgramType == ProgramType.Mesterskap)
+                                {
+                                    var actualAllLag = bane.StevneLag.Where(x => x.BaneType == toppListe.BaneType).ToList();
+                                    if (actualAllLag != null && actualAllLag.Count > 0)
+                                    {
+                                        List<StartingListLag> innledendeLag =
+                                            actualAllLag.Where(x => x.ProgramType == ProgramType.Innledende).ToList();
+                                        var finaleLagLag = actualAllLag.Where(x => x.ProgramType == ProgramType.Finale).ToList();
+                                        if (finaleLagLag != null && finaleLagLag.Count > 0)
+                                        {
+                                            foreach (var lag in finaleLagLag)
+                                            {
+                                                foreach (var finaleSkive in lag.Skiver)
+                                                {
+                                                    if (!string.IsNullOrEmpty(finaleSkive.BackUpBitMapFileName))
+                                                    {
+                                                        // Finn SKytter og legg inn
+                                                        var finnSKytter = FindMarksman(finaleSkive, innledendeLag);
+                                                        if (finnSKytter != null)
+                                                        {
+                                                            if (!string.IsNullOrEmpty(finaleSkive.BackUpBitMapFileName))
+                                                            {
+                                                                finnSKytter.BackUpBitMapFileNameFinale = finaleSkive.BackUpBitMapFileName;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+
+                                                        var finnSKytter = FindMarksman(finaleSkive, innledendeLag);
+                                                        if (finnSKytter != null)
+                                                        {
+                                                            foreach (var serier in finaleSkive.Serier)
+                                                            {
+                                                                if (!string.IsNullOrEmpty(serier.BackUpBitMapFileName))
+                                                                {
+                                                                    // Finn SKytter og legg inn
+
+                                                                    if (finnSKytter != null)
+                                                                    {
+                                                                        if (!string.IsNullOrEmpty(finnSKytter.BackUpBitMapFileName))
+                                                                        {
+                                                                            finnSKytter.BackUpBitMapFileNameFinale = finaleSkive.BackUpBitMapFileName;
+                                                                        }
+
+                                                                        foreach (var ski in finaleSkive.Serier)
+                                                                        {
+                                                                            if (!string.IsNullOrEmpty(ski.BackUpBitMapFileName))
+                                                                            {
+                                                                                //ski.SerieNr
+                                                                                finnSKytter.Serier.Add(ski);
+                                                                            }
+
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        foreach (var innLag in innledendeLag.AsReadOnly())
+                                        {
+                                            foreach (var skive in innLag.Skiver)
+                                            {
+                                                if (toppListe.Klasse.Contains(skive.Klasse))
+                                                {
+                                                    skive.LagSkiveNr = innLag.LagNr;
+                                                    skyttereIRapporten.Add(skive);
+                                                }
+                                            }
+
+
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        Log.Info(
+                                            "Zero lag found for toppListe Mesterskap toppListe.BaneType = {0} toppListe.ProgramType={1}",
+                                            toppListe.BaneType,
+                                            toppListe.ProgramType);
+                                    }
+                                }
+                                else if (toppListe.ProgramType == ProgramType.Minne)
+                                {
+                                    var actualAlleLag = bane.StevneLag.Where(x => x.BaneType == toppListe.BaneType).ToList();
+                                    if (actualAlleLag != null && actualAlleLag.Count > 0)
+                                    {
+                                        List<StartingListLag> innledendeLag =
+                                            actualAlleLag.Where(x => x.ProgramType == ProgramType.Innledende).ToList();
+
+                                        if (innledendeLag != null && innledendeLag.Count > 0)
+                                        {
+                                            foreach (var lag in innledendeLag)
+                                            {
+                                                foreach (var skive in lag.Skiver)
+                                                {
+                                                    if (toppListe.Klasse.Contains(skive.Klasse))
+                                                    {
+                                                        skive.LagSkiveNr = lag.LagNr;
+                                                        if (bane.BitmapsStoredInBane != null)
+                                                        {
+                                                            if (bane.BitmapsStoredInBane.BitmapFileNames != null
+                                                                && bane.BitmapsStoredInBane.BitmapFileNames.Count > 0)
+                                                            {
+                                                                string minneskive = string.Format("TR-{0}-{1}-0.", lag.LagNr, skive.SkiveNr);
+                                                                var foundBitMap=bane.BitmapsStoredInBane.BitmapFileNames.Where(
+                                                                    x => x.ToUpper().StartsWith(minneskive.ToUpper())).ToList();
+
+                                                                string prefix = string.Empty;
+                                                                if (toppListe.BaneType == BaneType.GrovFelt)
+                                                                {
+                                                                    prefix = Constants.PrefixGrovFelt;
+                                                                }
+                                                                else
+                                                                {
+                                                                    prefix = Constants.PrefixFinFelt;
+                                                                }
+        
+                                                                if (foundBitMap != null && foundBitMap.Count > 0)
+                                                                {
+                                                                    skive.BackUpBitMapFileNameMinne = string.Format("{0}/{1}", prefix,foundBitMap[0]);
+                                                                }
+                                                            }
+                                                        }
+
+                                                        skyttereIRapporten.Add(skive);
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        //foreach (var innLag in innledendeLag.AsReadOnly())
+                                        //{
+                                        //    foreach (var skive in innLag.Skiver)
+                                        //    {
+                                        //        if (toppListe.Klasse.Contains(skive.Klasse))
+                                        //        {
+                                        //            skive.LagSkiveNr = innLag.LagNr;
+                                        //            skyttereIRapporten.Add(skive);
+                                        //        }
+                                        //    }
+
+
+                                        //}
+                                    }
+                                }
+                                else
+                                {
+                                    Log.Info(
+                                        "Zero lag found for toppListe toppListe.BaneType = {0} toppListe.ProgramType={1}",
+                                        toppListe.BaneType,
+                                        toppListe.ProgramType);
+                                }
+
+                            }
+                        }
+
+                        XmlDocument skytterdoc = null;
+                        if (skyttereIRapporten.Count > 0)
+                        {
+                           
+                            MemoryStream strem= new MemoryStream();
+                            m_serSKive.Serialize(strem,skyttereIRapporten);
+                            skytterdoc = new XmlDocument();
+                            strem.Position = 0;
+                            skytterdoc.Load(strem);
+                        }
+
                         if (toppListe.ToppListInfoWithRef != null)
                         {
                             try
                             {
                                 List<XmlDocument> docs = new List<XmlDocument>();
-                                foreach (var skytterdoc in SkyttereiLaget)
+                                if (skytterdoc != null)
                                 {
                                     docs.Add(skytterdoc);
                                 }
+
+                                //foreach (var skytterdoc in SkyttereiLaget)
+                                //{
+                                //    docs.Add(skytterdoc);
+                                //}
 
                                 docs.Add(toppListe.ToppListInfoWithRef);
 
@@ -1349,7 +1579,8 @@ namespace FileUploaderService.KME
                                 {
                                     Log.Info("Generating new Top List {0}", toppListe.Filnavn);
                                     var encServer = Encoding.GetEncoding(rapportEnCoding);
-                                    using (XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer))
+                                    var newFileName = FindNewFileName(toppListe.Filnavn, forceWebParse);
+                                    using (XmlTextWriter writer = new XmlTextWriter(newFileName, encServer))
                                     {
                                         writer.Formatting = Formatting.Indented;
                                         docSaver.Save(writer);
@@ -1449,7 +1680,8 @@ namespace FileUploaderService.KME
                                 {
                                     Log.Info("Generating new Top List {0}", toppListe.Filnavn);
                                     var encServer = Encoding.GetEncoding(rapportEnCoding);
-                                    using (XmlTextWriter writer = new XmlTextWriter(toppListe.Filnavn, encServer))
+                                    var newFileName = FindNewFileName(toppListe.Filnavn, forceWebParse);
+                                    using (XmlTextWriter writer = new XmlTextWriter(newFileName, encServer))
                                     {
                                         writer.Formatting = Formatting.Indented;
                                         docSaverReport.Save(writer);
@@ -1485,6 +1717,142 @@ namespace FileUploaderService.KME
             }
 
             return update;
+        }
+
+        private string FindNewFileName(string filnavn, bool forceWebParse)
+        {
+            if (forceWebParse)
+            {
+                if (string.IsNullOrEmpty(filnavn))
+                {
+                    return filnavn;
+                }
+
+                var dir = Path.GetDirectoryName(filnavn);
+                if (dir == null)
+                {
+                    return filnavn;
+                }
+
+                var newfilename = Path.GetFileName(filnavn);
+                var newDir = Path.Combine(dir, "NewXml");
+                var newfilenameWithDir = Path.Combine(newDir, newfilename);
+                if (!Directory.Exists(newDir))
+                {
+                    Directory.CreateDirectory(newDir);
+                }
+
+                return newfilenameWithDir;
+            }
+            return filnavn;
+        }
+
+        private StartingListSkive FindMarksman(StartingListSkive finaleSkive, List<StartingListLag> innledendeLag)
+        {
+            if (string.IsNullOrEmpty(finaleSkive.SkytterNavn))
+            {
+                return null;
+            }
+            string navn = finaleSkive.SkytterNavn.Trim().ToUpper();
+            string skytterlag = finaleSkive.SkytterLag.Trim().ToUpper();
+            foreach (var lag in innledendeLag)
+            {
+                foreach (var skive in lag.Skiver)
+                {
+                    if (skive.SkytterNavn.ToUpper().Trim() == navn)
+                    {
+                        if (skive.SkytterLag.ToUpper().Trim() == skytterlag)
+                        {
+                            return skive;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private void FinnSkyttere(IEnumerable<StartingListLag> allSKyttere,string dirName,bool forceWebParse)
+        {
+            foreach (var lag in allSKyttere)
+            {
+                if (!string.IsNullOrEmpty(lag.XmlOppropsListe))
+                {
+                    var fullFileNAme = Path.Combine(dirName, string.Concat(lag.XmlOppropsListe,".xml"));
+                    fullFileNAme = FindNewFileName(fullFileNAme, forceWebParse);
+                    if (File.Exists(fullFileNAme))
+                    {
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(fullFileNAme);
+                        var lagnode = doc.SelectSingleNode("/report/header/@name");
+                        if (lagnode == null)
+                        {
+                            continue;
+                        }
+                        int lagnummer = StartingListLag.ParseLagNr(lagnode.InnerText);
+                        if (lagnummer <= 0)
+                        {
+                            continue;
+                        }
+
+                        var Skivenode = doc.SelectNodes("/report/data/result");
+                        if (Skivenode == null)
+                        {
+                            continue;
+                        }
+
+                        lag.Skiver= new List<StartingListSkive>();
+                        foreach (XmlNode Skive in Skivenode)
+                        {
+                            var skiveno=Skive.SelectSingleNode("@num");
+                            var Name = Skive.SelectSingleNode("@name");
+                            var club = Skive.SelectSingleNode("@club");
+                            var classSK = Skive.SelectSingleNode("@class");
+                            var refserie = Skive.SelectSingleNode("@ref");
+                            if (skiveno == null || Name == null || club == null || classSK == null)
+                            {
+                                continue;
+                            }
+
+                            var skive = new StartingListSkive();
+                            skive.SkiveNr = Convert.ToInt32(skiveno.InnerText);
+                            skive.SkytterNavn = Name.InnerText;
+                            skive.SkytterLag = club.InnerText;
+                            skive.Klasse = classSK.InnerText;
+                            if (refserie != null)
+                            {
+                                skive.BackUpBitMapFileName = refserie.InnerText;
+                            }
+                            
+                            var serieNoder=Skive.SelectNodes("series");
+                            if (serieNoder != null)
+                            {
+                                foreach (XmlNode serienode in serieNoder)
+                                {
+                                    var png = serienode.SelectSingleNode("@ref");
+                                    var serieno = serienode.SelectSingleNode("@id");
+                                    var totsum = serienode.SelectSingleNode("@sum");
+                                    if (serieno != null && png != null)
+                                    {
+                                        StartingListSerie serie = new StartingListSerie();
+                                        serie.SerieNr = Convert.ToInt32(serieno.InnerText);
+                                        serie.BackUpBitMapFileName = png.InnerText;
+                                        skive.Serier.Add(serie);
+                                    }
+                                    
+                                }   
+                            }
+
+                            lag.Skiver.Add(skive);
+
+
+                        }
+
+                    }
+                }
+
+            }
+            return ;
         }
 
         /// <summary>

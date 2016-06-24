@@ -33,7 +33,7 @@ namespace FileUploaderService.KME
             this.BaneRapporter = new List<RapportXmlClass>();
             this.ToppListeRapporter = new List<RapportXmlClass>();
             this.ToppListeLagRapporter = new List<RapportXmlClass>();
-            this.ToppListeFilPrefix= new List<string>();
+            this.ToppListeFilPrefix= new List<TopListElement>();
             this.ToppListeLagFilPrefix = new List<string>();
         }
 
@@ -46,6 +46,7 @@ namespace FileUploaderService.KME
         public string ReportDirStevneNavn { get; set; }
 
         public string StevneNavn { get; set; }
+        
 
         [XmlIgnore]
         public List<RapportXmlClass> BaneRapporter { get; set; }
@@ -54,7 +55,7 @@ namespace FileUploaderService.KME
         public List<RapportXmlClass> ToppListeRapporter { get; set; }
 
         [XmlIgnore]
-        public List<string> ToppListeFilPrefix { get; set; }
+        public List<TopListElement> ToppListeFilPrefix { get; set; }
 
         [XmlIgnore]
         public List<string> ToppListeLagFilPrefix { get; set; }
@@ -82,6 +83,8 @@ namespace FileUploaderService.KME
         [XmlArray("AllLag")]
         [XmlArrayItem("Laget")]
         public List<StartingListLag> StevneLag { get; set; }
+
+        public ProgramType ProgramType { get; set; }
 
         #endregion
 
