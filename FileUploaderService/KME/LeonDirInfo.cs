@@ -1227,11 +1227,13 @@
                 {
                     case "30-SKUDD":
                         return ProgramType.Innledende;
+                    case "25-SKUDD":
                     case "25 SKUDD":
                         return ProgramType.Innledende;
                     case "FINALE":
                         return ProgramType.Finale;
                     case "35 SKUDD":
+                    case "35-SKUDD":
                         return ProgramType.Mesterskap;
                     case "42-SKUDD":
                         return ProgramType.Mesterskap;
