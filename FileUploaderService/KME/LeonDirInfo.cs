@@ -1907,6 +1907,23 @@
             }
         }
 
+
+        public static string RemoveControlCharacters(string inString)
+        {
+            if (inString == null) return null;
+            StringBuilder newString = new StringBuilder();
+            char ch;
+            for (int i = 0; i < inString.Length; i++)
+            {
+                ch = inString[i];
+                if (!char.IsControl(ch))
+                {
+                    newString.Append(ch);
+                }
+            }
+            return newString.ToString();
+        }
+
         /// <summary>
         ///     The parse stevne info.
         /// </summary>
@@ -1927,7 +1944,17 @@
                 {
                     inputString = read.ReadToEnd();
                 }
-
+                var teststring=RemoveControlCharacters(inputString);
+                if (teststring != inputString)
+                {
+                    string inputString2;
+                    Encoding enc2 = Encoding.GetEncoding("ISO-8859-1");
+                    using (StreamReader read = new StreamReader(indfile, enc2))
+                    {
+                        inputString2 = read.ReadToEnd();
+                    }
+                    inputString = inputString2;
+                }
                 var directoryName = Path.GetDirectoryName(indfile);
                 List<string> topListeFiler = new List<string>();
                 StartingListStevne stevneInfo = null;

@@ -105,5 +105,30 @@ namespace FileUploaderService
 
             info.ParseIndexHtmlFile(infoDir);
         }
+
+
+        [TestMethod]
+        public void TestMethodBane()
+        {
+            var fileLoader = new LeonFileLoader(@"C:\Users\lan\Source\Repos\ResultsWeb\UnitTestSendingResult\TestData\ResultaterBane");
+            fileLoader.InitRapportTransform(@"C:\Users\lan\Source\Repos\ResultsWeb\FileUploaderService\Leon\RapportXslt.xslt");
+            fileLoader.InitToppListInfoTransform(@"C:\Users\lan\Source\Repos\ResultsWeb\FileUploaderService\Leon\TopListeXslt.xslt", @"C:\Users\lan\Source\Repos\ResultsWeb\FileUploaderService\Leon\SkytteriLag.xslt");
+            fileLoader.DebugMergedXml = true;
+            var webDir1 = fileLoader.CheckWebDir(true);
+            var webDir2 = fileLoader.CheckWebDir(true);
+
+
+        }
+
+        [TestMethod]
+        public void TestMethodIndexBane()
+        {
+            LeonDirInfo info = new LeonDirInfo();
+            DirectoryInfo infoDir = new DirectoryInfo(@"C:\Users\lan\Source\Repos\ResultsWeb\UnitTestSendingResult\TestData\ResultaterBane\Vårmønstring AN 2 100m\Web");
+
+            info.ParseIndexHtmlFile(infoDir);
+
+
+        }
     }
 }

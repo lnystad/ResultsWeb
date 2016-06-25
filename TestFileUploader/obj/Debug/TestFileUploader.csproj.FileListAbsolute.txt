@@ -1,24 +1,3 @@
-c:\users\lan\documents\visual studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\TestFileUploader.exe.config
-c:\users\lan\documents\visual studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\TestFileUploader.exe
-c:\users\lan\documents\visual studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\TestFileUploader.pdb
-c:\users\lan\documents\visual studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\FileUploaderService.dll
-c:\users\lan\documents\visual studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\FileUploaderService.pdb
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\edtFTPnet.dll
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\HtmlAgilityPack.dll
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\HtmlAgilityPack.pdb
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\bin\Debug\HtmlAgilityPack.xml
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\bin\Debug\TestFileUploader.exe.config
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\bin\Debug\TestFileUploader.exe
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\bin\Debug\TestFileUploader.pdb
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\obj\Debug\TestFileUploader.csprojResolveAssemblyReference.cache
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\obj\Debug\TestFileUploader.exe
-C:\Users\lan\Documents\Visual Studio 2013\Projects\SendingResults\TestFileUploader\obj\Debug\TestFileUploader.pdb
-C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\TestFileUploader.exe.config
-C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\TestFileUploader.exe
-C:\Users\lan\Documents\GitHub\ResultsWeb\bin\Debug\TestFileUploader.pdb
-C:\Users\lan\Documents\GitHub\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.exe
-C:\Users\lan\Documents\GitHub\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.pdb
-C:\Users\lan\Documents\GitHub\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.csprojResolveAssemblyReference.cache
 C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\TestFileUploader.exe.config
 C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\TestFileUploader.exe
 C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\TestFileUploader.pdb
