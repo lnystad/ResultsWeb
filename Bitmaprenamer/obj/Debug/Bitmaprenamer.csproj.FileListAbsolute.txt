@@ -1,0 +1,9 @@
+C:\Users\lnyst\Source\Repos\ResultsWeb\bin\Debug\Bitmaprenamer.exe.config
+C:\Users\lnyst\Source\Repos\ResultsWeb\bin\Debug\Bitmaprenamer.exe
+C:\Users\lnyst\Source\Repos\ResultsWeb\bin\Debug\Bitmaprenamer.pdb
+C:\Users\lnyst\Source\Repos\ResultsWeb\Bitmaprenamer\obj\Debug\Bitmaprenamer.csprojResolveAssemblyReference.cache
+C:\Users\lnyst\Source\Repos\ResultsWeb\Bitmaprenamer\obj\Debug\Bitmaprenamer.Properties.Resources.resources
+C:\Users\lnyst\Source\Repos\ResultsWeb\Bitmaprenamer\obj\Debug\Bitmaprenamer.csproj.GenerateResource.Cache
+C:\Users\lnyst\Source\Repos\ResultsWeb\Bitmaprenamer\obj\Debug\Bitmaprenamer.exe
+C:\Users\lnyst\Source\Repos\ResultsWeb\Bitmaprenamer\obj\Debug\Bitmaprenamer.pdb
+C:\Users\lnyst\Source\Repos\ResultsWeb\Bitmaprenamer\obj\Debug\Bitmaprenamer.Form1.resources
