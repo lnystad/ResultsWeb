@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Felthurtig sammenlagt" group_name="Felthurtig"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resulttotsum name="Felthurtig"/>
+  <column>
+    <series id="1" name="Felthurtig" type="series_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Karl Gunnar Strøm" club="Bodø Østre " class="4" totsum="9,42">
+      <series id="1" sum="9,42"/>
+    </result>
+    <result num="2" name="Asle Jensen" club="Bodø Østre " class="4" totsum="11,77">
+      <series id="1" sum="11,77"/>
+    </result>
+    <result num="3" name="Per Ove Røkke" club="Bodø Østre " class="4" totsum="14,19">
+      <series id="1" sum="14,19"/>
+    </result>
+    <result num="4" name="Lars-Håkon Nohr Nystad" club="Bodø Østre " class="5" totsum="16,34">
+      <series id="1" sum="16,34"/>
+    </result>
+    <result num="5" name="Roald Parelius" club="Bodø Østre " class="4" totsum="16,40">
+      <series id="1" sum="16,40"/>
+    </result>
+    <result num="6" name="Anders Heiberg Jakobsen" club="Bodø Østre " class="3" totsum="17,09">
+      <series id="1" sum="17,09"/>
+    </result>
+    <result num="7" name="Geir Torkildsen" club="Bodø Østre " class="3" totsum="17,41">
+      <series id="1" sum="17,41"/>
+    </result>
+    <result num="8" name="Elisabeth Nystad" club="Bodø Østre " class="4" totsum="17,97">
+      <series id="1" sum="17,97"/>
+    </result>
+    <result num="9" name="Ole Christian Lorentsen" club="Bodø Østre " class="2" totsum="18,50">
+      <series id="1" sum="18,50"/>
+    </result>
+    <result num="10" name="Abel Leander Sandvei" club="Bodø Østre " class="4" totsum="19,77">
+      <series id="1" sum="19,77"/>
+    </result>
+    <result num="11" name="Magnus Lund" club="Bodø Østre " class="V55" totsum="23,57">
+      <series id="1" sum="23,57"/>
+    </result>
+    <result num="12" name="Espen Kirkesæther" club="Bodø Østre " class="4" totsum="9999,00">
+      <series id="1" sum="9999,00"/>
+    </result>
+    <result num="12" name="Lene Mari Sæthre" club="Bodø Østre " class="2" totsum="9999,00">
+      <series id="1" sum="9999,00"/>
+    </result>
+  </data>
+</report>

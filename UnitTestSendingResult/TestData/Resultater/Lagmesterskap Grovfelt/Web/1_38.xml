@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Minneskyting sammenlagt" group_name="Minneskyting"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Bård Johan Furnes" club="Bodø Østre " class="5">
+      <series id="1" sum="59">
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="2" name="Lars-Andreas Nystad" club="Bodø Østre " class="5">
+      <series id="1" sum="58">
+        <shot val="*"/>
+        <shot val="*"/>
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="*"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="3" name="Ole Christian Lorentsen" club="Bodø Østre " class="2">
+      <series id="1" sum="58">
+        <shot val="*"/>
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="8"/>
+        <shot val="*"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="4" name="Magnus Skyrud Jensen" club="Bodø Østre " class="5">
+      <series id="1" sum="57">
+        <shot val="X"/>
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="5" name="Lene Mari Sæthre" club="Bodø Østre " class="2">
+      <series id="1" sum="57">
+        <shot val="9"/>
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="6" name="Jan Erik Aasheim" club="Bodø Østre " class="5">
+      <series id="1" sum="56">
+        <shot val="X"/>
+        <shot val="*"/>
+        <shot val="X"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="6" name="Roald Parelius" club="Bodø Østre " class="4">
+      <series id="1" sum="56">
+        <shot val="X"/>
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="8" name="Anders Heiberg Jakobsen" club="Bodø Østre " class="3">
+      <series id="1" sum="56">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="*"/>
+      </series>
+    </result>
+    <result num="8" name="Lars-Håkon Nohr Nystad" club="Bodø Østre " class="5">
+      <series id="1" sum="56">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="10" name="Espen Kirkesæther" club="Bodø Østre " class="4">
+      <series id="1" sum="56">
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="11" name="Karl Gunnar Strøm" club="Bodø Østre " class="4">
+      <series id="1" sum="55">
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="*"/>
+      </series>
+    </result>
+    <result num="12" name="Svein Andreassen" club="Bodø Østre " class="V55">
+      <series id="1" sum="53">
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="13" name="Mats Jensen" club="Bodø Østre " class="4">
+      <series id="1" sum="53">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="14" name="Miklas Ellingsen Brunes" club="Bodø Østre " class="5">
+      <series id="1" sum="52">
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="14" name="Asle Jensen" club="Bodø Østre " class="4">
+      <series id="1" sum="52">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="16" name="Per Ove Røkke" club="Bodø Østre " class="4">
+      <series id="1" sum="51">
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="*"/>
+        <shot val="8"/>
+        <shot val="8"/>
+      </series>
+    </result>
+    <result num="17" name="Elisabeth Nystad" club="Bodø Østre " class="4">
+      <series id="1" sum="51">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="7"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+      </series>
+    </result>
+    <result num="18" name="Abel Leander Sandvei" club="Bodø Østre " class="4">
+      <series id="1" sum="51">
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="8"/>
+      </series>
+    </result>
+    <result num="19" name="Thor-Arne Tobiassen" club="Bodø Østre " class="4">
+      <series id="1" sum="49">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="20" name="Julie Simonette Lian" club="Bodø Østre " class="1">
+      <series id="1" sum="45">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="7"/>
+        <shot val="7"/>
+      </series>
+    </result>
+    <result num="21" name="Terje Holten" club="Bodø Østre " class="3">
+      <series id="1" sum="43">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="6"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="7"/>
+      </series>
+    </result>
+    <result num="22" name="Magnus Lund" club="Bodø Østre " class="V55">
+      <series id="1" sum="36">
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="0"/>
+      </series>
+    </result>
+    <result num="23" name="Geir Torkildsen" club="Bodø Østre " class="3">
+      <series id="1" sum="0">
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+      </series>
+    </result>
+  </data>
+</report>

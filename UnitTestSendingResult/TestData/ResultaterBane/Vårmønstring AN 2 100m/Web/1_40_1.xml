@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 1"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultinnerten name="*"/>
+  <resulttotsum name="Samlagskyting"/>
+  <data>
+    <result num="1" name="Lisa Iren Husnes Larsen" club="Røvassdalen " class="ER" innerten="0" totsum=""/>
+  </data>
+</report>

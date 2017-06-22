@@ -1,0 +1,264 @@
+<html>
+<head>
+  <title>Leon</title>
+  <link type="text/css" href="jquery.css" rel="stylesheet" media="print, projection, screen">
+  <link type="text/css" href="leon.css" rel="stylesheet">
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="jquery-ui.js"></script>
+  <script type="text/javascript" src="readxml.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $("#accordion").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false });
+    $("#accordionsub1").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false});
+    $("#accordionsub2").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false});
+    $("#accordionsub3").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false});
+    $("#accordionsub4").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false});
+    $("#accordionsub5").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false});
+    $('div.accordion_link').click(function(){
+      elementId = this.id;
+      $("#ContentArea").empty();
+      $("#ContentArea").append('<img src="loading.gif" width="64" height="64" style="position: absolute; top: 20%; left: 50%;"/>');
+      $.ParseLeonXML(elementId);
+      return true;
+    });
+    $('table.accordion_link td').click(function(){
+      elementId = this.id;
+      $("#ContentArea").empty();
+      $("#ContentArea").append('<img src="loading.gif" width="64" height="64" style="position: absolute; top: 20%; left: 50%;"/>');
+      $.ParseLeonXML(elementId);
+      return true;
+    });
+  });
+  </script>
+</head>
+<body>
+<div id="header">
+<h1>Lagmesterskap Grovfelt</h1>
+</div>
+<div id="container">
+  <div id="navigation">
+    <div id="accordion" class="accordion_menu ">
+      <h3><a href="#ContentArea1">Felthurtig</a></h3>
+      <div class ="accordion_button">
+        <div id ="1_1" class ="accordion_link"> 
+          <a href="#">Felthurtig sammenlagt</a>
+        </div>
+      </div>
+      <h3><a href="#ContentArea2">Finfelt</a></h3>
+      <div class ="accordion_button">
+        <h3>30 skudd</h3>
+        <h3>Lagskyting 30-skudd</h3>
+        <h3>Mesterskap</h3>
+      </div>
+      <h3><a href="#ContentArea3">Finfelt lagvis</a></h3>
+      <div class ="accordion_button">
+        <h3>Finale</h3>
+	  <div id="accordionsub1" class="accordion_menu_sub" >
+   </div>	 
+        <h3>Innledende</h3>
+	  <div id="accordionsub2" class="accordion_menu_sub" >
+		<h4><a href="#">Tue 21/06</a></h4>
+		<div>
+		  <table class="accordion_link">
+		  <tr>
+			<td id ="1_19_1"><a href="#">Lag 1</a></td>
+			<td>18:00</td>
+		  </tr>
+		  <tr>
+			<td id ="1_19_2"><a href="#">Lag 2</a></td>
+			<td>18:07</td>
+		  </tr>
+		  <tr>
+			<td id ="1_19_3"><a href="#">Lag 3</a></td>
+			<td>18:14</td>
+		  </tr>
+		  <tr>
+			<td id ="1_19_4"><a href="#">Lag 4</a></td>
+			<td>18:21</td>
+		  </tr>
+		  <tr>
+			<td id ="1_19_5"><a href="#">Lag 5</a></td>
+			<td>18:28</td>
+		  </tr>
+		  <tr>
+			<td id ="1_19_6"><a href="#">Lag 6</a></td>
+			<td>18:35</td>
+		  </tr>
+		  <tr>
+			<td id ="1_19_7"><a href="#">Lag 7</a></td>
+			<td>18:42</td>
+		  </tr>
+		  <tr>
+			<td id ="1_19_8"><a href="#">Lag 8</a></td>
+			<td>18:49</td>
+		  </tr>
+		  </table>
+		</div>   </div>	 
+      </div>
+      <h3><a href="#ContentArea4">Grovfelt</a></h3>
+      <div class ="accordion_button">
+        <h3>30 skudd</h3>
+        <div id ="1_23" class ="accordion_link"> 
+          <a href="#">Klasse 1</a>
+        </div>
+        <div id ="1_24" class ="accordion_link"> 
+          <a href="#">Klasse 2</a>
+        </div>
+        <div id ="1_25" class ="accordion_link"> 
+          <a href="#">Klasse 2-5, V55</a>
+        </div>
+        <div id ="1_26" class ="accordion_link"> 
+          <a href="#">Klasse 3</a>
+        </div>
+        <div id ="1_27" class ="accordion_link"> 
+          <a href="#">Klasse 4</a>
+        </div>
+        <div id ="1_28" class ="accordion_link"> 
+          <a href="#">Klasse 5</a>
+        </div>
+        <div id ="1_29" class ="accordion_link"> 
+          <a href="#">V55</a>
+        </div>
+        <h3>Lagskyting 30-skudd</h3>
+        <h3>Mesterskap</h3>
+        <div id ="1_33" class ="accordion_link"> 
+          <a href="#">Klasse 2-5, V55</a>
+        </div>
+        <div id ="1_34" class ="accordion_link"> 
+          <a href="#">V55</a>
+        </div>
+      </div>
+      <h3><a href="#ContentArea5">Grovfelt lagvis</a></h3>
+      <div class ="accordion_button">
+        <h3>Finale</h3>
+	  <div id="accordionsub3" class="accordion_menu_sub" >
+		<h4><a href="#">Tue 21/06</a></h4>
+		<div>
+		  <table class="accordion_link">
+		  <tr>
+			<td id ="1_35_1"><a href="#">Lag 1</a></td>
+			<td>19:30</td>
+		  </tr>
+		  <tr>
+			<td id ="1_35_2"><a href="#">Lag 2</a></td>
+			<td>19:45</td>
+		  </tr>
+		  <tr>
+			<td id ="1_35_3"><a href="#">Lag 3</a></td>
+			<td>20:00</td>
+		  </tr>
+		  </table>
+		</div>   </div>	 
+	  <div id="accordionsub4" class="accordion_menu_sub" >
+		<h4><a href="#">Tue 21/06</a></h4>
+		<div>
+		  <table class="accordion_link">
+		  <tr>
+			<td id ="1_36_1"><a href="#">Lag 1</a></td>
+			<td>18:00</td>
+		  </tr>
+		  <tr>
+			<td id ="1_36_2"><a href="#">Lag 2</a></td>
+			<td>18:07</td>
+		  </tr>
+		  <tr>
+			<td id ="1_36_3"><a href="#">Lag 3</a></td>
+			<td>18:14</td>
+		  </tr>
+		  <tr>
+			<td id ="1_36_4"><a href="#">Lag 4</a></td>
+			<td>18:21</td>
+		  </tr>
+		  <tr>
+			<td id ="1_36_5"><a href="#">Lag 5</a></td>
+			<td>18:28</td>
+		  </tr>
+		  <tr>
+			<td id ="1_36_6"><a href="#">Lag 6</a></td>
+			<td>18:35</td>
+		  </tr>
+		  <tr>
+			<td id ="1_36_7"><a href="#">Lag 7</a></td>
+			<td>18:42</td>
+		  </tr>
+		  </table>
+		</div>   </div>	 
+        <h3>Innledende</h3>
+	  <div id="accordionsub5" class="accordion_menu_sub" >
+		<h4><a href="#">Tue 21/06</a></h4>
+		<div>
+		  <table class="accordion_link">
+		  <tr>
+			<td id ="1_37_1"><a href="#">Lag 1</a></td>
+			<td>18:00</td>
+		  </tr>
+		  <tr>
+			<td id ="1_37_2"><a href="#">Lag 2</a></td>
+			<td>18:07</td>
+		  </tr>
+		  <tr>
+			<td id ="1_37_3"><a href="#">Lag 3</a></td>
+			<td>18:14</td>
+		  </tr>
+		  <tr>
+			<td id ="1_37_4"><a href="#">Lag 4</a></td>
+			<td>18:21</td>
+		  </tr>
+		  <tr>
+			<td id ="1_37_5"><a href="#">Lag 5</a></td>
+			<td>18:28</td>
+		  </tr>
+		  <tr>
+			<td id ="1_37_6"><a href="#">Lag 6</a></td>
+			<td>18:35</td>
+		  </tr>
+		  <tr>
+			<td id ="1_37_7"><a href="#">Lag 7</a></td>
+			<td>18:42</td>
+		  </tr>
+		  </table>
+		</div>   </div>	 
+      </div>
+      <h3><a href="#ContentArea6">Minneskyting</a></h3>
+      <div class ="accordion_button">
+        <div id ="1_38" class ="accordion_link"> 
+          <a href="#">Minneskyting sammenlagt</a>
+        </div>
+        <div id ="1_39" class ="accordion_link"> 
+          <a href="#">Minneskyting - Minneskyting kl. 1</a>
+        </div>
+        <div id ="1_40" class ="accordion_link"> 
+          <a href="#">Minneskyting - Minneskyting kl. 2</a>
+        </div>
+        <div id ="1_41" class ="accordion_link"> 
+          <a href="#">Minneskyting - Minneskyting kl. 3</a>
+        </div>
+        <div id ="1_42" class ="accordion_link"> 
+          <a href="#">Minneskyting - Minneskyting kl. 4</a>
+        </div>
+        <div id ="1_43" class ="accordion_link"> 
+          <a href="#">Minneskyting - Minneskyting kl. 5</a>
+        </div>
+        <div id ="1_44" class ="accordion_link"> 
+          <a href="#">Minneskyting - Minneskyting kl. V55</a>
+        </div>
+      </div>
+      <h3><a href="#ContentArea7">Stang</a></h3>
+      <div class ="accordion_button">
+        <div id ="1_45" class ="accordion_link"> 
+          <a href="#">Stang sammenlagt</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="wrapper">
+    <div id="content" class="accordion_content">
+      <div id="ContentArea"></div>
+    </div>
+  </div>
+<div id="extra">
+  <p>Leon Resultatprogram - Kongsberg Target Systems AS  -   Sist oppdatert: 6/21/2016 9:19:06 PM</p>
+</div>
+</div>
+</body>
+</html>

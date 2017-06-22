@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 2" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <resulttotsum name="30-skudd" />
+  <column>
+    <series id="1" name="Hold 1" type="series_sum" />
+    <series id="2" name="Hold 2" type="series_sum" />
+    <series id="3" name="Hold 3" type="series_sum" />
+    <series id="4" name="Hold 4" type="series_sum" />
+    <series id="5" name="Hold 5" type="series_sum" />
+  </column>
+  <data>
+    <result num="1" name="Bård Johan Furnes" club="Bodø Østre " class="5" category="" totsum="26/15">
+      <series ref="Grovfelt/TR-2-1-1.png" id="1" sum="6/5" />
+      <series ref="Grovfelt/TR-2-1-2.png" id="2" sum="5/2" />
+      <series ref="Grovfelt/TR-2-1-3.png" id="3" sum="6/5" />
+      <series ref="Grovfelt/TR-2-1-4.png" id="4" sum="6/2" />
+      <series ref="Grovfelt/TR-2-1-5.png" id="5" sum="3/1" />
+    </result>
+    <result num="2" name="Roald Parelius" club="Bodø Østre " class="4" category="" totsum="28/10">
+      <series ref="Grovfelt/TR-2-2-1.png" id="1" sum="6/3" />
+      <series ref="Grovfelt/TR-2-2-2.png" id="2" sum="6/1" />
+      <series ref="Grovfelt/TR-2-2-3.png" id="3" sum="4/0" />
+      <series ref="Grovfelt/TR-2-2-4.png" id="4" sum="6/5" />
+      <series ref="Grovfelt/TR-2-2-5.png" id="5" sum="6/1" />
+    </result>
+    <result num="3" name="Lars-Andreas Nystad" club="Bodø Østre " class="5" category="" totsum="29/22">
+      <series ref="Grovfelt/TR-2-3-1.png" id="1" sum="6/5" />
+      <series ref="Grovfelt/TR-2-3-2.png" id="2" sum="6/5" />
+      <series ref="Grovfelt/TR-2-3-3.png" id="3" sum="6/6" />
+      <series ref="Grovfelt/TR-2-3-4.png" id="4" sum="6/4" />
+      <series ref="Grovfelt/TR-2-3-5.png" id="5" sum="5/2" />
+    </result>
+    <result num="4" name=" " club="" class="" category="" totsum="0/0">
+      <series id="1" sum="" />
+      <series id="2" sum="" />
+      <series id="3" sum="" />
+      <series id="4" sum="" />
+      <series id="5" sum="" />
+    </result>
+  </data>
+</report>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Klasse 2-5, V55" group_name="Mesterskap"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resulttotsum name="42-skudd"/>
+  <column>
+    <series id="1" name="Hold 1" type="series_sum"/>
+    <series id="2" name="Hold 2" type="series_sum"/>
+    <series id="3" name="Hold 3" type="series_sum"/>
+    <series id="4" name="Hold 4" type="series_sum"/>
+    <series id="5" name="Hold 5" type="series_sum"/>
+    <series id="7" name="Hold 6" type="series_sum"/>
+    <series id="8" name="Hold 7" type="series_sum"/>
+  </column>
+  <data>
+    <result num="1" name="SKive1 SKive" club="Bodø Østre " class="4" totsum="30/20">
+      <series id="1" sum="6/4"/>
+      <series id="2" sum="6/4"/>
+      <series id="3" sum="6/4"/>
+      <series id="4" sum="6/4"/>
+      <series id="5" sum="6/4"/>
+      <series id="7" sum=""/>
+      <series id="8" sum=""/>
+    </result>
+    <result num="2" name="SKiv2 SKive2" club="Bodø Østre " class="4" totsum="30/15">
+      <series id="1" sum="6/3"/>
+      <series id="2" sum="6/3"/>
+      <series id="3" sum="6/3"/>
+      <series id="4" sum="6/3"/>
+      <series id="5" sum="6/3"/>
+      <series id="7" sum=""/>
+      <series id="8" sum=""/>
+    </result>
+    <result num="3" name="SKive3 SKive3" club="Bodø Østre " class="4" totsum="30/12">
+      <series id="1" sum="6/3"/>
+      <series id="2" sum="6/3"/>
+      <series id="3" sum="6/2"/>
+      <series id="4" sum="6/2"/>
+      <series id="5" sum="6/2"/>
+      <series id="7" sum=""/>
+      <series id="8" sum=""/>
+    </result>
+    <result num="4" name="SKive4 Skive4" club="Bodø Østre " class="4" totsum="25/10">
+      <series id="1" sum="5/2"/>
+      <series id="2" sum="5/2"/>
+      <series id="3" sum="5/2"/>
+      <series id="4" sum="5/2"/>
+      <series id="5" sum="5/2"/>
+      <series id="7" sum=""/>
+      <series id="8" sum=""/>
+    </result>
+  </data>
+</report>

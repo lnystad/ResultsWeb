@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 3"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <data>
+    <result num="1" name="SKive1 SKive" club="Bodø Østre " class="4" category=""/>
+    <result num="2" name="SKiv2 SKive2" club="Bodø Østre " class="4" category=""/>
+    <result num="3" name="SKive3 SKive3" club="Bodø Østre " class="4" category=""/>
+    <result num="4" name="SKive4 Skive4" club="Bodø Østre " class="4" category=""/>
+  </data>
+</report>

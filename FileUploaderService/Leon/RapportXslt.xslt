@@ -88,7 +88,7 @@
  
        <xsl:attribute name="totsum">
            <xsl:choose>
-              <xsl:when test="$Totaltreff and $TotalInnertreff">
+              <xsl:when test="contains(., '/') and $Totaltreff and $TotalInnertreff">
                 <xsl:value-of select="concat($Totaltreff,'/',$TotalInnertreff)"/>
               </xsl:when>
               <xsl:otherwise>

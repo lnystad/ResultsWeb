@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 1" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <resulttotsum name="Omgang" />
+  <data>
+    <result ref="100m/TR-101-1.PNG" num="1" name="Carina Ysland" club="Bodø Østre " class="R" category="K" totsum="91" />
+    <result ref="100m/TR-101-2.PNG" num="2" name="Kjell Arne Mulstrand Aune" club="Beiarn " class="R" category="" totsum="93" />
+    <result ref="100m/TR-101-3.PNG" num="3" name="Nikolai Fagerbakk  Larsen" club="Valnesfjord " class="R" category="L" totsum="71" />
+    <result ref="100m/TR-101-4.PNG" num="4" name="Tina Mari Husnes Larsen" club="Røvassdalen " class="R" category="K" totsum="86" />
+    <result ref="100m/TR-101-5.PNG" num="5" name="Edvart K. B. Bakkemo" club="Bodø Østre " class="R" category="L" totsum="81" />
+    <result num="6" name=" " club="" class="" category="" totsum="" />
+    <result num="7" name="Henning Olai Hansen Skaldehaug" club="Bodø Østre " class="R" category="" totsum="" />
+    <result ref="100m/TR-101-8.PNG" num="8" name="Runar Tobiassen" club="Bodø Østre " class="ER" category="" totsum="97" />
+    <result ref="100m/TR-101-9.PNG" num="9" name="Irmelin Kristoffersen" club="Beiarn " class="ER" category="K" totsum="98" />
+    <result ref="100m/TR-101-10.PNG" num="10" name="Julian Brunes Ellingsen" club="Bodø Østre " class="ER" category="" totsum="99" />
+    <result ref="100m/TR-101-11.PNG" num="11" name="Andreas Strømsvik" club="Bodø Østre " class="ER" category="" totsum="97" />
+    <result ref="100m/TR-101-12.PNG" num="12" name="Lisa Iren Husnes Larsen" club="Røvassdalen " class="ER" category="K" totsum="97" />
+  </data>
+</report>

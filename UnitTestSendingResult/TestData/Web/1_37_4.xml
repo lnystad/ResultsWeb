@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 4"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Natalie Forshaw" club="Bodø Østre " class="J" category="K">
+      <series id="1" sum="54">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="2" name="Vegard Ysland" club="Bodø Østre " class="J" category="">
+      <series id="1" sum="54">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+  </data>
+</report>

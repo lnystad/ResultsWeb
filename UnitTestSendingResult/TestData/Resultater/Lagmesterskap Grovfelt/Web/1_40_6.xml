@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 6"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Svein Andreassen" club="Bodø Østre " class="V55" category="">
+      <series id="1" sum="53">
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="2" name="Julie Simonette Lian" club="Bodø Østre " class="1" category="K">
+      <series id="1" sum="45">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="7"/>
+        <shot val="7"/>
+      </series>
+    </result>
+    <result num="3" name="Mats Jensen" club="Bodø Østre " class="4" category="">
+      <series id="1" sum="53">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="4" name="Abel Leander Sandvei" club="Bodø Østre " class="4" category="">
+      <series id="1" sum="51">
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="8"/>
+      </series>
+    </result>
+  </data>
+</report>

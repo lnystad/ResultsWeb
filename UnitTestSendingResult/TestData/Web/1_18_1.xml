@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 1"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <resulttotsum name="Finale"/>
+  <column>
+    <series id="1" name="Hold 6" type="series_sum"/>
+    <series id="2" name="Hold 7" type="series_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Lars Håkon Nystad" club="Bodø Østre " class="V73" category="" totsum="12/12">
+      <series id="1" sum="6/6"/>
+      <series id="2" sum="6/6"/>
+    </result>
+    <result num="2" name="Alf Tobiassen" club="Bodø Østre " class="V73" category="" totsum="12/12">
+      <series id="1" sum="6/6"/>
+      <series id="2" sum="6/6"/>
+    </result>
+  </data>
+</report>

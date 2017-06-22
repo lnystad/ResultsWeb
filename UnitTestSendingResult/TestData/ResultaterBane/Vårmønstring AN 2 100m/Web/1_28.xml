@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="V55" group_name="25 skudd"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultinnerten name="*"/>
+  <resulttotsum name="25-skudd"/>
+  <column>
+    <series id="1" name="Ligg" type="series_shot_sum"/>
+    <series id="2" name="Stå" type="series_shot_sum"/>
+    <series id="3" name="Kne" type="series_shot_sum"/>
+    <series id="4" name="15-skudd" type="subtot"/>
+    <series id="5" name="10-skudd" type="series_shot_sum"/>
+  </column>
+  <data/>
+</report>

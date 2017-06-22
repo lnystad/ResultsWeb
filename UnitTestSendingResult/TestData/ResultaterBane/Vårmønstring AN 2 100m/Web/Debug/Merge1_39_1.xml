@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <report>
+    <header name="Lag 1" />
+    <resultnum name="Sk" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultclass name="Kl." />
+    <resultcategory name="Kat." />
+    <resulttotsum name="25-skudd" />
+    <column>
+      <series id="1" name="Ligg" type="series_shot_sum" />
+      <series id="2" name="Stå" type="series_shot_sum" />
+      <series id="3" name="Kne" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10-skudd" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name=" " club="" class="" category="" totsum="">
+        <series id="1" sum="" />
+        <series id="2" sum="" />
+        <series id="3" sum="" />
+        <series id="4" sum="" />
+        <series id="5" sum="" />
+      </result>
+    </data>
+  </report>
+  <BitmapDirInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Bitmaps />
+    <BaneType>Tohundremeter</BaneType>
+    <BitmapSubDir>200-300m</BitmapSubDir>
+    <Updated>false</Updated>
+    <Initial>false</Initial>
+  </BitmapDirInfo>
+</Merged>

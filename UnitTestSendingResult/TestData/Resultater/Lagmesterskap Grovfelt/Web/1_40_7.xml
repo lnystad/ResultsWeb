@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 7"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Lene Mari Sæthre" club="Bodø Østre " class="2" category="">
+      <series id="1" sum="57">
+        <shot val="9"/>
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="2" name="Lars-Håkon Nohr Nystad" club="Bodø Østre " class="5" category="">
+      <series id="1" sum="56">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="*"/>
+        <shot val="9"/>
+        <shot val="X"/>
+      </series>
+    </result>
+    <result num="3" name="Elisabeth Nystad" club="Bodø Østre " class="4" category="">
+      <series id="1" sum="51">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="7"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+      </series>
+    </result>
+    <result num="4" name=" " club="" class="" category="">
+      <series id="1" sum=""/>
+    </result>
+  </data>
+</report>

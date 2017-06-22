@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <ArrayOfStartingListSkive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartingListSkive>
+      <AllSerier>
+        <Serie>
+          <SerieNr>1</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-1.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>2</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-2.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>3</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-3.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>4</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-4.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>5</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-5.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+      </AllSerier>
+      <LagSkiveNr>6</LagSkiveNr>
+      <SkiveNr>2</SkiveNr>
+      <SkytterNavn>Julie Simonette Lian</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>1</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameMinne>TR-6-2-0.png</BackUpBitMapFileNameMinne>
+    </StartingListSkive>
+  </ArrayOfStartingListSkive>
+  <report>
+    <header name="Minneskyting - Minneskyting kl. 1" group_name="Minneskyting" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <column>
+      <series id="1" name="Minne" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Julie Simonette Lian" club="Bodø Østre ">
+        <series id="1" sum="45">
+          <shot val="7" />
+          <shot val="7" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="7" />
+          <shot val="7" />
+        </series>
+      </result>
+    </data>
+  </report>
+</Merged>

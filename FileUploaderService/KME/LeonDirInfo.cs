@@ -1639,12 +1639,14 @@
             {
                 return retVal;
             }
-
-            switch (innerText.Trim().ToUpper())
+            string klasse = innerText.Trim().ToUpper();
+            switch (klasse)
             {
+               
                 case "JUNIOR":
                     retVal.Add("J");
                     break;
+             
                 case "V73":
                     retVal.Add("V73");
                     break;
@@ -1660,6 +1662,8 @@
                 case "ASPIRANT":
                     retVal.Add("ASP");
                     break;
+              
+
                 case "AG3":
                     retVal.Add("AG3");
                     break;
@@ -1697,9 +1701,62 @@
                     retVal.Add("4");
                     retVal.Add("5");
                     break;
+                case "ÅPEN":
+                    retVal.Add("Å");
+                    break;
+                case "JEGER":
+                    retVal.Add("J");
+                    break;
                 default:
-                    Log.Warning("Uknown klasse GetKlasse {0}", innerText.Trim().ToUpper());
-                   break;
+                    if (klasse.StartsWith("ELDRE JUNIOR"))
+                    {
+                        retVal.Add("EJ");
+                    }else if (klasse.StartsWith("EJ"))
+                    {
+                        retVal.Add("EJ");
+                    }
+                    else if (klasse.StartsWith("JUNIOR"))
+                    {
+                        retVal.Add("J");
+                    }
+                    else if (klasse.StartsWith("J"))
+                    {
+                        retVal.Add("J");
+                    }
+                    else if (klasse.StartsWith("ELDRE REKRUTT"))
+                    {
+                        retVal.Add("ER");
+                    }
+                    else if (klasse.StartsWith("ER"))
+                    {
+                        retVal.Add("ER");
+                    }
+                    else if (klasse.StartsWith("REKRUTT"))
+                    {
+                        retVal.Add("R");
+                    }
+                    else if (klasse.StartsWith("R"))
+                    {
+                        retVal.Add("R");
+                    }
+                    else if (klasse.StartsWith("NYBEGYNNER UNGDOM"))
+                    {
+                        retVal.Add("NU");
+                    }
+                    
+                    else if (klasse.StartsWith("NYBEGYNNER VOKSEN"))
+                    {
+                        retVal.Add("NV");
+                    }
+                    else if (klasse.EndsWith("PEN"))
+                    {
+                        retVal.Add("Å");
+                    }
+                    else
+                    {
+                        Log.Warning("Uknown klasse GetKlasse {0}", innerText.Trim().ToUpper());
+                    }
+                    break;
             }
 
             return retVal;

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 2" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <resulttotsum name="Omgang" />
+  <data>
+    <result ref="100m/TR-102-1.PNG" num="1" name="Ingvill Tobiassen" club="Bodø Østre " class="J" category="K" totsum="100" />
+    <result ref="100m/TR-102-2.PNG" num="2" name="Vegard Ysland" club="Bodø Østre " class="J" category="" totsum="100" />
+    <result ref="100m/TR-102-3.PNG" num="3" name="Tobias Breivik" club="Bodø Østre " class="J" category="" totsum="100" />
+    <result ref="100m/TR-102-4.PNG" num="4" name="Jesper Mohaug" club="Røsvik " class="J" category="" totsum="98" />
+    <result ref="100m/TR-102-5.PNG" num="5" name="Natalie Forshaw" club="Bodø Østre " class="J" category="K" totsum="99" />
+    <result num="6" name=" " club="" class="" category="" totsum="" />
+    <result num="7" name=" " club="" class="" category="" totsum="" />
+    <result ref="100m/TR-102-8.PNG" num="8" name="Aksel Skoglund" club="Beiarn " class="V65" category="" totsum="89" />
+    <result ref="100m/TR-102-9.PNG" num="9" name="Jan Erik Sørdal" club="Saltdal " class="V65" category="" totsum="86" />
+    <result num="10" name=" " club="" class="" category="" totsum="" />
+    <result num="11" name=" " club="" class="" category="" totsum="" />
+    <result num="12" name=" " club="" class="" category="" totsum="" />
+  </data>
+</report>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Veteran" />
+  <teamnum name="Nr" />
+  <teamname name="Navn" />
+  <teamtotsum name="Tot" />
+  <teaminnerten name="*" />
+  <resultnum name="Nr" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultinnerten name="*" />
+  <resulttotsum name="Lagskyting" />
+  <data>
+    <team num="1" name="BØS 2" totsum="197" innerten="12">
+      <result num="1" name="Hans Kristian Øvermark" club="Bodø Østre " class="V73" innerten="6" totsum="99" />
+      <result num="2" name="Magnus  Lund" club="Bodø Østre " class="V55" innerten="6" totsum="98" />
+    </team>
+    <team num="2" name="BØS 1" totsum="196" innerten="9">
+      <result num="1" name="Alf Tobiassen" club="Bodø Østre " class="V73" innerten="3" totsum="98" />
+      <result num="2" name="Svein Andreassen" club="Bodø Østre " class="V55" innerten="6" totsum="98" />
+    </team>
+    <team num="3" name="Saltstraumen" totsum="192" innerten="4">
+      <result num="1" name="Magne Drægni" club="Bodø Østre " class="V73" innerten="2" totsum="97" />
+      <result num="2" name="Terje Thorstad" club="Saltstraumen " class="V55" innerten="2" totsum="95" />
+    </team>
+  </data>
+</report>

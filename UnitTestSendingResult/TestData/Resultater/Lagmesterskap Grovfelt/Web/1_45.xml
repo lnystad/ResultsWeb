@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Stang sammenlagt" group_name="Stang"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resulttotsum name="Stang"/>
+  <column>
+    <series id="1" name="Hold 1" type="series_sum"/>
+    <series id="2" name="Hold 2" type="series_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Lars-Håkon Nohr Nystad" club="Bodø Østre " class="5" totsum="19">
+      <series id="1" sum="9"/>
+      <series id="2" sum="10"/>
+    </result>
+    <result num="2" name="Karl Gunnar Strøm" club="Bodø Østre " class="4" totsum="18">
+      <series id="1" sum="8"/>
+      <series id="2" sum="10"/>
+    </result>
+    <result num="3" name="Per Ove Røkke" club="Bodø Østre " class="4" totsum="16">
+      <series id="1" sum="9"/>
+      <series id="2" sum="7"/>
+    </result>
+    <result num="4" name="Espen Kirkesæther" club="Bodø Østre " class="4" totsum="15">
+      <series id="1" sum="6"/>
+      <series id="2" sum="9"/>
+    </result>
+    <result num="4" name="Roald Parelius" club="Bodø Østre " class="4" totsum="15">
+      <series id="1" sum="6"/>
+      <series id="2" sum="9"/>
+    </result>
+    <result num="6" name="Ole Christian Lorentsen" club="Bodø Østre " class="2" totsum="15">
+      <series id="1" sum="7"/>
+      <series id="2" sum="8"/>
+    </result>
+    <result num="7" name="Asle Jensen" club="Bodø Østre " class="4" totsum="15">
+      <series id="1" sum="9"/>
+      <series id="2" sum="6"/>
+    </result>
+    <result num="8" name="Magnus Lund" club="Bodø Østre " class="V55" totsum="14">
+      <series id="1" sum="6"/>
+      <series id="2" sum="8"/>
+    </result>
+    <result num="8" name="Elisabeth Nystad" club="Bodø Østre " class="4" totsum="14">
+      <series id="1" sum="6"/>
+      <series id="2" sum="8"/>
+    </result>
+    <result num="10" name="Terje Holten" club="Bodø Østre " class="3" totsum="11">
+      <series id="1" sum="5"/>
+      <series id="2" sum="6"/>
+    </result>
+    <result num="11" name="Geir Torkildsen" club="Bodø Østre " class="3" totsum="10">
+      <series id="1" sum="6"/>
+      <series id="2" sum="4"/>
+    </result>
+    <result num="12" name="Abel Leander Sandvei" club="Bodø Østre " class="4" totsum="8">
+      <series id="1" sum="3"/>
+      <series id="2" sum="5"/>
+    </result>
+    <result num="13" name="Anders Heiberg Jakobsen" club="Bodø Østre " class="3" totsum="7">
+      <series id="1" sum="0"/>
+      <series id="2" sum="7"/>
+    </result>
+    <result num="14" name="Lene Mari Sæthre" club="Bodø Østre " class="2" totsum="5">
+      <series id="1" sum="2"/>
+      <series id="2" sum="3"/>
+    </result>
+  </data>
+</report>

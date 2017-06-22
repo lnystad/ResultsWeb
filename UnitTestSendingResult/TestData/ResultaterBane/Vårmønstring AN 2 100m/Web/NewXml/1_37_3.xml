@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 3" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <resulttotsum name="Omgang" />
+  <data>
+    <result num="1" name="Alf Tobiassen" club="Bodø Østre " class="V73" category="" totsum="0/0" />
+    <result num="2" name="Magne Drægni" club="Bodø Østre " class="V73" category="" totsum="0/0" />
+    <result num="3" name="Alf Storjord" club="Saltdal " class="V73" category="" totsum="0/0" />
+    <result num="4" name="Per Ernstsen" club="Saltdal " class="V73" category="" totsum="0/0" />
+    <result num="5" name="Hans Kristian Øvermark" club="Bodø Østre " class="V73" category="" totsum="0/0" />
+    <result num="6" name="Terje Håkonsen" club="Beiarn " class="V73" category="" totsum="0/0" />
+    <result num="7" name="Jarl Kristensen" club="Røsvik " class="V73" category="" totsum="0/0" />
+    <result num="8" name="Lars Håkon Nystad" club="Bodø Østre " class="V73" category="" totsum="0/0" />
+    <result num="9" name="Ingvald Storjord" club="Saltdal " class="V73" category="" totsum="0/0" />
+    <result num="10" name=" " club="" class="" category="" totsum="0/0" />
+    <result num="11" name=" " club="" class="" category="" totsum="0/0" />
+    <result num="12" name=" " club="" class="" category="" totsum="0/0" />
+  </data>
+</report>

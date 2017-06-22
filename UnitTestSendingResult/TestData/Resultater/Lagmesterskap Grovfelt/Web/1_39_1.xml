@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 1"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <data>
+    <result num="1" name="Terje Holten" club="Bodø Østre " class="3" category=""/>
+    <result num="2" name="Karl Gunnar Strøm" club="Bodø Østre " class="4" category=""/>
+    <result num="3" name="Jan Peter Ysland" club="Bodø Østre " class="2" category=""/>
+    <result num="4" name="Espen Kirkesæther" club="Bodø Østre " class="4" category="L"/>
+  </data>
+</report>

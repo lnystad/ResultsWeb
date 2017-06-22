@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 2" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <resulttotsum name="Finale" />
+  <column>
+    <series id="1" name="Hold 6" type="series_sum" />
+    <series id="2" name="Hold 7" type="series_sum" />
+  </column>
+  <data>
+    <result num="1" name="Bård Johan Furnes" club="Bodø Østre " class="5" category="" totsum="0/0">
+      <series  id="1" sum="" />
+      <series  id="2" sum="" />
+    </result>
+    <result  num="2" name="Elisabeth Nystad" club="Bodø Østre " class="4" category="" totsum="10/3">
+      <series  id="1" sum="6/3" />
+      <series  id="2" sum="4/0" />
+    </result>
+    <result  num="3" name="Magnus Skyrud Jensen" club="Bodø Østre " class="5" category="" totsum="9/3">
+      <series  id="1" sum="6/3" />
+      <series  id="2" sum="3/0" />
+    </result>
+    <result  num="4" name="Mats Jensen" club="Bodø Østre " class="4" category="" totsum="8/2">
+      <series id="1" sum="6/2" />
+      <series id="2" sum="2/0" />
+    </result>
+    <result  num="5" name="Lars-Håkon Nohr Nystad" club="Bodø Østre " class="5" category="" totsum="12/6">
+      <series id="1" sum="6/6" />
+      <series id="2" sum="6/0" />
+    </result>
+    <result num="6" name="Magnus Lund" club="Bodø Østre " class="V55" category="" totsum="0/0">
+      <series id="1" sum="" />
+      <series id="2" sum="" />
+    </result>
+    <result  num="7" name="Asle Jensen" club="Bodø Østre " class="4" category="" totsum="12/5">
+      <series id="1" sum="6/5" />
+      <series id="2" sum="6/0" />
+    </result>
+    <result num="8" name="Terje Holten" club="Bodø Østre " class="3" category="" totsum="0/0">
+      <series id="1" sum="" />
+      <series id="2" sum="" />
+    </result>
+    <result num="9" name="Svein Andreassen" club="Bodø Østre " class="V55" category="" totsum="0/0">
+      <series id="1" sum="" />
+      <series id="2" sum="" />
+    </result>
+  </data>
+</report>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <report>
+    <header name="Lag 2" />
+    <resultnum name="Sk" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultclass name="Kl." />
+    <resultcategory name="Kat." />
+    <resulttotsum name="Omgang" />
+    <data>
+      <result ref="100m/TR-102-1.PNG" num="1" name="Ingvill Tobiassen" club="Bodø Østre " class="J" category="K" totsum="100" />
+      <result ref="100m/TR-102-2.PNG" num="2" name="Vegard Ysland" club="Bodø Østre " class="J" category="" totsum="100" />
+      <result ref="100m/TR-102-3.PNG" num="3" name="Tobias Breivik" club="Bodø Østre " class="J" category="" totsum="100" />
+      <result ref="100m/TR-102-4.PNG" num="4" name="Jesper Mohaug" club="Røsvik " class="J" category="" totsum="98" />
+      <result ref="100m/TR-102-5.PNG" num="5" name="Natalie Forshaw" club="Bodø Østre " class="J" category="K" totsum="99" />
+      <result num="6" name=" " club="" class="" category="" totsum="" />
+      <result num="7" name=" " club="" class="" category="" totsum="" />
+      <result ref="100m/TR-102-8.PNG" num="8" name="Aksel Skoglund" club="Beiarn " class="V65" category="" totsum="89" />
+      <result ref="100m/TR-102-9.PNG" num="9" name="Jan Erik Sørdal" club="Saltdal " class="V65" category="" totsum="86" />
+      <result num="10" name=" " club="" class="" category="" totsum="" />
+      <result num="11" name=" " club="" class="" category="" totsum="" />
+      <result num="12" name=" " club="" class="" category="" totsum="" />
+    </data>
+  </report>
+  <BitmapDirInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Bitmaps>
+      <FileName>TR-1-1.PNG</FileName>
+      <FileName>TR-1-2.PNG</FileName>
+      <FileName>TR-1-3.PNG</FileName>
+      <FileName>TR-1-4.PNG</FileName>
+      <FileName>TR-1-6.PNG</FileName>
+      <FileName>TR-1-7.PNG</FileName>
+      <FileName>TR-1-8.PNG</FileName>
+      <FileName>TR-101-1.PNG</FileName>
+      <FileName>TR-101-10.PNG</FileName>
+      <FileName>TR-101-11.PNG</FileName>
+      <FileName>TR-101-12.PNG</FileName>
+      <FileName>TR-101-2.PNG</FileName>
+      <FileName>TR-101-3.PNG</FileName>
+      <FileName>TR-101-4.PNG</FileName>
+      <FileName>TR-101-5.PNG</FileName>
+      <FileName>TR-101-8.PNG</FileName>
+      <FileName>TR-101-9.PNG</FileName>
+      <FileName>TR-102-1.PNG</FileName>
+      <FileName>TR-102-2.PNG</FileName>
+      <FileName>TR-102-3.PNG</FileName>
+      <FileName>TR-102-4.PNG</FileName>
+      <FileName>TR-102-5.PNG</FileName>
+      <FileName>TR-102-8.PNG</FileName>
+      <FileName>TR-102-9.PNG</FileName>
+      <FileName>TR-103-1.PNG</FileName>
+      <FileName>TR-103-2.PNG</FileName>
+      <FileName>TR-103-3.PNG</FileName>
+      <FileName>TR-103-4.PNG</FileName>
+      <FileName>TR-103-5.PNG</FileName>
+      <FileName>TR-103-6.PNG</FileName>
+      <FileName>TR-3-11.PNG</FileName>
+      <FileName>TR-3-2.PNG</FileName>
+      <FileName>TR-3-3.PNG</FileName>
+      <FileName>TR-3-4.PNG</FileName>
+      <FileName>TR-3-5.PNG</FileName>
+      <FileName>TR-3-6.PNG</FileName>
+      <FileName>TR-3-7.PNG</FileName>
+      <FileName>TR-3-8.PNG</FileName>
+      <FileName>TR-4-1.PNG</FileName>
+      <FileName>TR-4-12.PNG</FileName>
+      <FileName>TR-4-2.PNG</FileName>
+      <FileName>TR-4-4.PNG</FileName>
+      <FileName>TR-4-5.PNG</FileName>
+      <FileName>TR-4-6.PNG</FileName>
+      <FileName>TR-4-7.PNG</FileName>
+      <FileName>TR-4-8.PNG</FileName>
+    </Bitmaps>
+    <BaneType>Hundremeter</BaneType>
+    <BitmapSubDir>100m</BitmapSubDir>
+    <Updated>true</Updated>
+    <Initial>false</Initial>
+  </BitmapDirInfo>
+</Merged>

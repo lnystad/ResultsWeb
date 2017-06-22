@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Alle klasser" group_name="Felthurtig"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resulttotsum name="Felthurtig"/>
+  <column>
+    <series id="1" name="Felthurtig" type="series_sum"/>
+  </column>
+  <data/>
+</report>

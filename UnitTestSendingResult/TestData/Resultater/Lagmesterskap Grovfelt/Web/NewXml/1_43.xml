@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Minneskyting - Minneskyting kl. 5" group_name="Minneskyting" />
+  <resultnum name="Nr" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum" />
+  </column>
+  <data>
+    <result ref="TR-2-1-0.png" num="1" name="Bård Johan Furnes" club="Bodø Østre ">
+      <series id="1" sum="59">
+        <shot val="X" />
+        <shot val="X" />
+        <shot val="X" />
+        <shot val="*" />
+        <shot val="9" />
+        <shot val="X" />
+      </series>
+    </result>
+    <result ref="TR-2-3-0.png" num="2" name="Lars-Andreas Nystad" club="Bodø Østre ">
+      <series id="1" sum="58">
+        <shot val="*" />
+        <shot val="*" />
+        <shot val="*" />
+        <shot val="9" />
+        <shot val="*" />
+        <shot val="9" />
+      </series>
+    </result>
+    <result ref="TR-3-1-0.png" num="3" name="Magnus Skyrud Jensen" club="Bodø Østre ">
+      <series id="1" sum="57">
+        <shot val="X" />
+        <shot val="*" />
+        <shot val="9" />
+        <shot val="X" />
+        <shot val="9" />
+        <shot val="9" />
+      </series>
+    </result>
+    <result ref="TR-4-1-0.png" num="4" name="Jan Erik Aasheim" club="Bodø Østre ">
+      <series id="1" sum="56">
+        <shot val="X" />
+        <shot val="*" />
+        <shot val="X" />
+        <shot val="8" />
+        <shot val="9" />
+        <shot val="9" />
+      </series>
+    </result>
+    <result ref="TR-7-2-0.png" num="5" name="Lars-Håkon Nohr Nystad" club="Bodø Østre ">
+      <series id="1" sum="56">
+        <shot val="9" />
+        <shot val="9" />
+        <shot val="9" />
+        <shot val="*" />
+        <shot val="9" />
+        <shot val="X" />
+      </series>
+    </result>
+    <result ref="TR-3-2-0.png" num="6" name="Miklas Ellingsen Brunes" club="Bodø Østre ">
+      <series id="1" sum="52">
+        <shot val="8" />
+        <shot val="9" />
+        <shot val="9" />
+        <shot val="8" />
+        <shot val="9" />
+        <shot val="9" />
+      </series>
+    </result>
+  </data>
+</report>

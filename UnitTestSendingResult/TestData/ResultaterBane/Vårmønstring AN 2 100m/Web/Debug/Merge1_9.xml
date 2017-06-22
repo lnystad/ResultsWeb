@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <report>
+    <header name="Ungdom individuell" group_name="Lagskyting" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultclass name="Kl." />
+    <resultinnerten name="*" />
+    <column>
+      <series id="1" name="10-skudd" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Ingvill Tobiassen" club="Bodø Østre " class="J" innerten="7">
+        <series id="1" sum="100">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="2" name="Runar Tobiassen" club="Bodø Østre " class="ER" innerten="5">
+        <series id="1" sum="99">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="3" name="Julian Brunes Ellingsen" club="Bodø Østre " class="ER" innerten="4">
+        <series id="1" sum="99">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="4" name="Carina Ysland" club="Bodø Østre " class="R" innerten="1">
+        <series id="1" sum="99">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="5" name="Tobias Breivik" club="Bodø Østre " class="J" innerten="4">
+        <series id="1" sum="98">
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="6" name="Andreas Strømsvik" club="Bodø Østre " class="ER" innerten="5">
+        <series id="1" sum="97">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="7" name="Lisa Iren Husnes Larsen" club="Røvassdalen " class="ER" innerten="2">
+        <series id="1" sum="96">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="8" name="Vegard Ysland" club="Bodø Østre " class="J" innerten="0">
+        <series id="1" sum="95">
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="9" name="Natalie Forshaw" club="Bodø Østre " class="J" innerten="1">
+        <series id="1" sum="93">
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+      </result>
+      <result num="10" name="Tina Mari Husnes Larsen" club="Røvassdalen " class="R" innerten="1">
+        <series id="1" sum="86">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="0" />
+        </series>
+      </result>
+    </data>
+  </report>
+</Merged>

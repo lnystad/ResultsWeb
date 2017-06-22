@@ -14,6 +14,7 @@ namespace FileUploaderService
     using System.Configuration;
     using System.IO;
     using System.Threading;
+    using System.Web.Configuration;
 
     using FileUploaderService.Diagnosis;
     using FileUploaderService.Ftp;
@@ -107,6 +108,9 @@ namespace FileUploaderService
         /// The m_stop me.
         /// </summary>
         private bool m_stopMe;
+
+
+        private bool m_FullFtpUpload;
 
         #endregion
 
@@ -301,6 +305,17 @@ namespace FileUploaderService
 
             string hostIp = ConfigurationManager.AppSettings["FtpHostIp"];
             string hostPort = ConfigurationManager.AppSettings["FtpHostPort"];
+
+            m_FullFtpUpload = false;
+            string FtpFullUpload = ConfigurationManager.AppSettings["FtpFullUpload"];
+            if (!string.IsNullOrEmpty(FtpFullUpload))
+            {
+                bool test;
+                if (bool.TryParse(FtpFullUpload, out test))
+                {
+                    m_FullFtpUpload = test;
+                }
+            }
 
 
             string bitMapFeltstr = ConfigurationManager.AppSettings["BitMapStevneType"];
@@ -576,7 +591,7 @@ namespace FileUploaderService
                         continue;
                     }
 
-                    this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
+                    this.m_myFtpUtil.UploadFiles(m_FullFtpUpload,this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
                 }
             }
         }
@@ -652,7 +667,7 @@ namespace FileUploaderService
                 }
 
                 this.m_fileLoader.UpdateWebTimeStamp(webDir);
-                this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
+                this.m_myFtpUtil.UploadFiles(m_FullFtpUpload, this.m_remoteDir, webDir.TargetName, files);
             }
         }
 
@@ -685,7 +700,7 @@ namespace FileUploaderService
                 }
 
                 this.m_fileLoader.UpdateWebTimeStamp(webDir);
-                this.m_myFtpUtil.UploadFiles(this.m_remoteDir, webDir.TargetName, files);
+                this.m_myFtpUtil.UploadFiles(m_FullFtpUpload, this.m_remoteDir, webDir.TargetName, files);
             }
         }
 

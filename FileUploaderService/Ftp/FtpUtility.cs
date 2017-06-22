@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace FileUploaderService.Ftp
 {
     using System.IO;
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
     using System.Threading;
 
     using EnterpriseDT.Net.Ftp;
@@ -29,6 +31,30 @@ namespace FileUploaderService.Ftp
             public int Order { get; set; }
         }
 
+
+        public class listedFile
+        {
+
+            public listedFile()
+            {
+                
+            }
+            public listedFile(FTPFile fileinfo)
+            {
+                OriginalFilname = fileinfo.Name;
+                Filname = fileinfo.Name.ToUpper().Trim();
+                Size = fileinfo.Size;
+                LastUpdated = fileinfo.LastModified;
+            }
+
+            public string OriginalFilname { get; set; }
+            public string Filname { get; set; }
+
+            public long Size { get; set; }
+
+            public DateTime  LastUpdated{ get; set; }
+        }
+
         private Dictionary<string, List<string>> HandleDirs;
        
 
@@ -43,7 +69,7 @@ namespace FileUploaderService.Ftp
             HandleDirs = new Dictionary<string, List<string>>();
         }
 
-        internal bool UploadFiles(string remoteDir, string remoteSubDir,  string[] files, string subsubdir=null)
+        internal bool UploadFiles(bool fullUpload,string remoteDir, string remoteSubDir,  string[] files, string subsubdir=null)
         {
             if (!m_enableFtp)
             {
@@ -72,6 +98,16 @@ namespace FileUploaderService.Ftp
             try
             {
                 ftp = this.Connect(false, remoteDir,remoteSubDir, subsubdir);
+
+
+                var ftpDetails = ftp.DirDetails();
+                List< listedFile > foundFiles = new List<listedFile>();
+                foreach (var element in ftpDetails)
+                {
+                    foundFiles.Add(new listedFile(element));
+                }
+
+
                 int errorCount = 0;
 
                 int countFiles = 0;
@@ -82,49 +118,27 @@ namespace FileUploaderService.Ftp
                         if (File.Exists(filesToAdd[countFiles].Filname))
                         {
                             var remotefileName = Path.GetFileName(filesToAdd[countFiles].Filname);
+                           
+                            if (!fullUpload)
+                            {
+                                FileInfo info = new FileInfo(filesToAdd[countFiles].Filname);
+                                long filelen = info.Length;
+                                var remoteFille =
+                                foundFiles.FirstOrDefault(x => x.Filname == Path.GetFileName(filesToAdd[countFiles].Filname).Trim().ToUpper());
+                                if (remoteFille != null)
+                                {
+                                    var size = ftp.Size(remoteFille.OriginalFilname);
+                                    if (size == filelen)
+                                    {
+                                        Log.Trace("file of same size not sent {0} {1}", filesToAdd[countFiles].Filname, filelen);
+                                        countFiles ++;
+                                        continue;
+                                    }
+                                }
+                            }
+
                             Log.Info("Putting file {0}", remotefileName);
-                            FileInfo info = new FileInfo(filesToAdd[countFiles].Filname);
-                            long filelen = info.Length;
-                            byte[] buffer = new byte[filelen];
-                            //using (FileStream stream = new FileStream(filesToAdd[countFiles].Filname, FileMode.Open))
-                            //{
-                            //    // Read bytes from stream and interpret them as ints
-                            //    int count;
-                            //    // Read from the IO stream fewer times.
-                            //    while ((count = stream.Read(buffer, 0, buffer.Length)) > 0)
-                            //    {
-                            //        // Copy the bytes into the memory space of the Int32 array in one big swoop
-                            //        //Buffer.BlockCopy(buffer, 0, intArray, count);
-
-                            //        //for (int i = 0; i < count; i += 4)
-                            //        //    Console.WriteLine(intArray[i]);
-                            //    }
-                            //}
-
-                            //MemoryStream st = new MemoryStream(buffer.ToArray());
-                            //if (st.Length >= 4096)
-                            //{
-                            //    int incomingOffset = 0;
-                            //    byte[] outboundBuffer = new byte[2048];
-                            //    bool append = false;
-                            //    while (incomingOffset < buffer.Length)
-                            //    {
-                            //        int length = Math.Min(outboundBuffer.Length, buffer.Length - incomingOffset);
-
-                            //        // Changed from Array.Copy as per Marc's suggestion
-                            //        Buffer.BlockCopy(buffer, incomingOffset, outboundBuffer, 0, length);
-
-                            //        incomingOffset += length;
-                            //        ftp.Put(outboundBuffer, remotefileName, append);
-                            //        append = true;
-                            //        // Transmit outbound buffer
-                            //    }
-                            //}
-                            //else
-                            //{
-                                ftp.Put(filesToAdd[countFiles].Filname, remotefileName, false);
-                            //}
-
+                            ftp.Put(filesToAdd[countFiles].Filname, remotefileName, false);
                         }
                         countFiles++;
                     }

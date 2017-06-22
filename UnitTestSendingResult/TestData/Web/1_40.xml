@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Minneskyting - Minneskyting kl. R" group_name="Minneskyting"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Henning Olai Hansen Skaldehaug" club="Bodø Østre ">
+      <series id="1" sum="54">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="1" name="Carina Ysland" club="Bodø Østre ">
+      <series id="1" sum="54">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+  </data>
+</report>

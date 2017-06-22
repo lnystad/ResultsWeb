@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 1"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Terje Holten" club="Bodø Østre " class="3" category="">
+      <series id="1" sum="43">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="6"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="7"/>
+      </series>
+    </result>
+    <result num="2" name="Karl Gunnar Strøm" club="Bodø Østre " class="4" category="">
+      <series id="1" sum="55">
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="*"/>
+      </series>
+    </result>
+    <result num="3" name="Jan Peter Ysland" club="Bodø Østre " class="2" category="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="4" name="Espen Kirkesæther" club="Bodø Østre " class="4" category="L">
+      <series id="1" sum="56">
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="X"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="9"/>
+      </series>
+    </result>
+  </data>
+</report>

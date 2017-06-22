@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <ArrayOfStartingListSkive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>1</LagSkiveNr>
+      <SkiveNr>3</SkiveNr>
+      <SkytterNavn>Noah Rommetveit</SkytterNavn>
+      <SkytterLag>Ørnes </SkytterLag>
+      <Klasse>ASP</Klasse>
+      <BackUpBitMapFileName>100m/TR-1-3.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>1</LagSkiveNr>
+      <SkiveNr>4</SkiveNr>
+      <SkytterNavn>Stian Andrè Johansen</SkytterNavn>
+      <SkytterLag>Ørnes </SkytterLag>
+      <Klasse>ASP</Klasse>
+      <BackUpBitMapFileName>100m/TR-1-4.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>1</LagSkiveNr>
+      <SkiveNr>8</SkiveNr>
+      <SkytterNavn>Sigurd Berg</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>ASP</Klasse>
+      <BackUpBitMapFileName>100m/TR-1-8.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>2</LagSkiveNr>
+      <SkiveNr>9</SkiveNr>
+      <SkytterNavn>Magnus Ramstad Ysland</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>ASP</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+  </ArrayOfStartingListSkive>
+  <report>
+    <header name="Aspirant" group_name="25 skudd" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resulttotsum name="25-skudd" />
+    <column>
+      <series id="1" name="1. serie" type="series_shot_sum" />
+      <series id="2" name="2. serie" type="series_shot_sum" />
+      <series id="3" name="3. serie" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10 skudd" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Sigurd Berg" club="Bodø Østre " totsum="233">
+        <series id="1" sum="49">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="49">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="3" sum="46">
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="144" />
+        <series id="5" sum="89">
+          <shot val="8" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="8" />
+        </series>
+      </result>
+      <result num="1" name="Stian Andrè Johansen" club="Ørnes " totsum="209">
+        <series id="1" sum="36">
+          <shot val="5" />
+          <shot val="7" />
+          <shot val="6" />
+          <shot val="*" />
+          <shot val="8" />
+        </series>
+        <series id="2" sum="43">
+          <shot val="6" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="43">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="*" />
+          <shot val="6" />
+        </series>
+        <series id="4" sum="122" />
+        <series id="5" sum="87">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="9" />
+        </series>
+      </result>
+      <result num="1" name="Noah Rommetveit" club="Ørnes " totsum="238">
+        <series id="1" sum="47">
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="48">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="48">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="143" />
+        <series id="5" sum="95">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+        </series>
+      </result>
+      <result num="1" name="Magnus Ramstad Ysland" club="Bodø Østre " totsum="223">
+        <series id="1" sum="48">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="47">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="8" />
+        </series>
+        <series id="3" sum="47">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="9" />
+        </series>
+        <series id="4" sum="142" />
+        <series id="5" sum="81">
+          <shot val="8" />
+          <shot val="8" />
+          <shot val="8" />
+          <shot val="8" />
+          <shot val="7" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="7" />
+        </series>
+      </result>
+    </data>
+  </report>
+</Merged>

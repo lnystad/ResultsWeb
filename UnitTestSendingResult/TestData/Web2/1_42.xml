@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Minneskyting - Minneskyting kl. 5" group_name="Minneskyting"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data/>
+</report>

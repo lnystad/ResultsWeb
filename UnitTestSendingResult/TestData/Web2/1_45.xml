@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Stang sammenlagt" group_name="Stang"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resulttotsum name="Stang"/>
+  <column>
+    <series id="1" name="Hold 1" type="series_sum"/>
+    <series id="2" name="Hold 2" type="series_sum"/>
+  </column>
+  <data/>
+</report>

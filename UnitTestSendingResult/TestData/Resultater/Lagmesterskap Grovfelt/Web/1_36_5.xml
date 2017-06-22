@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 5" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <data>
+    <result num="1" name="Magnus Lund" club="Bodø Østre " class="V55" category="" />
+    <result num="2" name="Geir Torkildsen" club="Bodø Østre " class="3" category="N" />
+    <result num="3" name="Asle Jensen" club="Bodø Østre " class="4" category="" />
+    <result num="4" name="Thor-Arne Tobiassen" club="Bodø Østre " class="4" category="" />
+  </data>
+</report>

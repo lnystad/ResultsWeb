@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Minneskyting - Minneskyting kl. 3" group_name="Minneskyting" />
+  <resultnum name="Nr" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum" />
+  </column>
+  <data>
+    <result ref="TR-4-2-0.png" num="1" name="Anders Heiberg Jakobsen" club="Bodø Østre ">
+      <series id="1" sum="56">
+        <shot val="9" />
+        <shot val="9" />
+        <shot val="X" />
+        <shot val="9" />
+        <shot val="9" />
+        <shot val="*" />
+      </series>
+    </result>
+    <result ref="TR-1-1-0.png" num="2" name="Terje Holten" club="Bodø Østre ">
+      <series id="1" sum="43">
+        <shot val="7" />
+        <shot val="7" />
+        <shot val="6" />
+        <shot val="8" />
+        <shot val="8" />
+        <shot val="7" />
+      </series>
+    </result>
+    <result ref="TR-5-2-0.png" num="3" name="Geir Torkildsen" club="Bodø Østre ">
+      <series id="1" sum="0">
+        <shot val="0" />
+        <shot val="0" />
+        <shot val="0" />
+        <shot val="0" />
+        <shot val="0" />
+        <shot val="0" />
+      </series>
+    </result>
+  </data>
+</report>

@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <ArrayOfStartingListSkive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>3</LagSkiveNr>
+      <SkiveNr>2</SkiveNr>
+      <SkytterNavn>Irmelin Kristoffersen</SkytterNavn>
+      <SkytterLag>Beiarn </SkytterLag>
+      <Klasse>ER</Klasse>
+      <BackUpBitMapFileName>100m/TR-3-2.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-101-9.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>3</LagSkiveNr>
+      <SkiveNr>8</SkiveNr>
+      <SkytterNavn>Runar Tobiassen</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>ER</Klasse>
+      <BackUpBitMapFileName>100m/TR-3-8.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-101-8.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>4</LagSkiveNr>
+      <SkiveNr>5</SkiveNr>
+      <SkytterNavn>Julian Brunes Ellingsen</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>ER</Klasse>
+      <BackUpBitMapFileName>100m/TR-4-5.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-101-10.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>4</LagSkiveNr>
+      <SkiveNr>6</SkiveNr>
+      <SkytterNavn>Lisa Iren Husnes Larsen</SkytterNavn>
+      <SkytterLag>Røvassdalen </SkytterLag>
+      <Klasse>ER</Klasse>
+      <BackUpBitMapFileName>100m/TR-4-6.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-101-12.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>4</LagSkiveNr>
+      <SkiveNr>8</SkiveNr>
+      <SkytterNavn>Andreas Strømsvik</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>ER</Klasse>
+      <BackUpBitMapFileName>100m/TR-4-8.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-101-11.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+  </ArrayOfStartingListSkive>
+  <report>
+    <header name="Eldre rekrutt" group_name="Mesterskap" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultinnerten name="*" />
+    <resulttotsum name="35-skudd" />
+    <column>
+      <series id="1" name="1. serie" type="series_shot_sum" />
+      <series id="2" name="2. serie" type="series_shot_sum" />
+      <series id="3" name="3. serie" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10 skudd" type="series_shot_sum" />
+      <series id="6" name="25-skudd" type="subtot" />
+      <series id="7" name="Omgang" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Julian Brunes Ellingsen" club="Bodø Østre " innerten="4" totsum="347">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="49">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="149" />
+        <series id="5" sum="99">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+        </series>
+        <series id="6" sum="248" />
+        <series ref="100m/TR-101-10.PNG" id="7" sum="99">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="2" name="Irmelin Kristoffersen" club="Beiarn " innerten="7" totsum="346">
+        <series id="1" sum="48">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="148" />
+        <series id="5" sum="100">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="6" sum="248" />
+        <series ref="100m/TR-101-9.PNG" id="7" sum="98">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="3" name="Runar Tobiassen" club="Bodø Østre " innerten="5" totsum="346">
+        <series id="1" sum="50">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="99">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="6" sum="249" />
+        <series ref="100m/TR-101-8.PNG" id="7" sum="97">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="4" name="Andreas Strømsvik" club="Bodø Østre " innerten="3" totsum="343">
+        <series id="1" sum="49">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="48">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="49">
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+        <series id="4" sum="146" />
+        <series id="5" sum="100">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="6" sum="246" />
+        <series ref="100m/TR-101-11.PNG" id="7" sum="97">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+      </result>
+      <result num="5" name="Lisa Iren Husnes Larsen" club="Røvassdalen " innerten="4" totsum="342">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="48">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="49">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+        </series>
+        <series id="4" sum="147" />
+        <series id="5" sum="98">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="6" sum="245" />
+        <series ref="100m/TR-101-12.PNG" id="7" sum="97">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+        </series>
+      </result>
+    </data>
+  </report>
+</Merged>

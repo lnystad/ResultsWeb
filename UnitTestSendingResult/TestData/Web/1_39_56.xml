@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 56" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum" />
+  </column>
+  <data>
+    <result num="1" name="Gunnbjørn Fagervik" club="Mosjøen " class="V65" category="">
+      <series id="1" sum="">
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+      </series>
+    </result>
+    <result num="2" name="Julie Nymo Johnsen" club="Gisund " class="V65" category="K">
+      <series id="1" sum="">
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+        <shot val="" />
+      </series>
+    </result>
+  </data>
+</report>

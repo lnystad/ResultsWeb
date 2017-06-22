@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <ArrayOfStartingListSkive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>1</LagSkiveNr>
+      <SkiveNr>7</SkiveNr>
+      <SkytterNavn>Natalie Forshaw</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>J</Klasse>
+      <BackUpBitMapFileName>100m/TR-1-7.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-102-5.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>2</LagSkiveNr>
+      <SkiveNr>1</SkiveNr>
+      <SkytterNavn>Ingvill Tobiassen</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>J</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-102-1.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>2</LagSkiveNr>
+      <SkiveNr>5</SkiveNr>
+      <SkytterNavn>Tobias Breivik</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>J</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-102-3.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>2</LagSkiveNr>
+      <SkiveNr>8</SkiveNr>
+      <SkytterNavn>Vegard Ysland</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>J</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-102-2.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>3</LagSkiveNr>
+      <SkiveNr>1</SkiveNr>
+      <SkytterNavn>Viljar Kristoffersen</SkytterNavn>
+      <SkytterLag>Beiarn </SkytterLag>
+      <Klasse>J</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>3</LagSkiveNr>
+      <SkiveNr>7</SkiveNr>
+      <SkytterNavn>Jesper Mohaug</SkytterNavn>
+      <SkytterLag>Røsvik </SkytterLag>
+      <Klasse>J</Klasse>
+      <BackUpBitMapFileName>100m/TR-3-7.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-102-4.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+  </ArrayOfStartingListSkive>
+  <report>
+    <header name="Junior" group_name="Mesterskap" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultinnerten name="*" />
+    <resulttotsum name="35-skudd" />
+    <column>
+      <series id="1" name="1. serie" type="series_shot_sum" />
+      <series id="2" name="2. serie" type="series_shot_sum" />
+      <series id="3" name="3. serie" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10 skudd" type="series_shot_sum" />
+      <series id="6" name="25-skudd" type="subtot" />
+      <series id="7" name="Omgang" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Ingvill Tobiassen" club="Bodø Østre " innerten="7" totsum="349">
+        <series id="1" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="99">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="6" sum="249" />
+        <series ref="100m/TR-102-1.PNG" id="7" sum="100">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="2" name="Vegard Ysland" club="Bodø Østre " innerten="6" totsum="346">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="4" sum="150" />
+        <series id="5" sum="96">
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="6" sum="246" />
+        <series ref="100m/TR-102-2.PNG" id="7" sum="100">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="3" name="Tobias Breivik" club="Bodø Østre " innerten="6" totsum="344">
+        <series id="1" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="45">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+        <series id="4" sum="145" />
+        <series id="5" sum="99">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="6" sum="244" />
+        <series ref="100m/TR-102-3.PNG" id="7" sum="100">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="4" name="Jesper Mohaug" club="Røsvik " innerten="5" totsum="337">
+        <series id="1" sum="50">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="47">
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="147" />
+        <series id="5" sum="92">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="6" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="6" sum="239" />
+        <series ref="100m/TR-102-4.PNG" id="7" sum="98">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+      </result>
+      <result num="5" name="Natalie Forshaw" club="Bodø Østre " innerten="3" totsum="337">
+        <series id="1" sum="49">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="2" sum="47">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="4" sum="146" />
+        <series id="5" sum="92">
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="7" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="6" sum="238" />
+        <series ref="100m/TR-102-5.PNG" id="7" sum="99">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+      </result>
+    </data>
+  </report>
+</Merged>

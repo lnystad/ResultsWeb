@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 5"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Magnus Lund" club="Bodø Østre " class="V55" category="">
+      <series id="1" sum="36">
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="0"/>
+      </series>
+    </result>
+    <result num="2" name="Geir Torkildsen" club="Bodø Østre " class="3" category="N">
+      <series id="1" sum="0">
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+        <shot val="0"/>
+      </series>
+    </result>
+    <result num="3" name="Asle Jensen" club="Bodø Østre " class="4" category="">
+      <series id="1" sum="52">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="4" name="Thor-Arne Tobiassen" club="Bodø Østre " class="4" category="">
+      <series id="1" sum="49">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="X"/>
+      </series>
+    </result>
+  </data>
+</report>

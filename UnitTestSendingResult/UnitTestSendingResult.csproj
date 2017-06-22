@@ -1039,7 +1039,13 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="TestData\XML\klassevis\1_25.xml" />
-    <Content Include="TestData\XML\Mesterskap\1_33.xml" />
+    <Content Include="TestData\XML\klassevis\1_36_1.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="TestData\XML\Mesterskap\1_33.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="TestData\XML\Mesterskap\Merge1_2.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FileUploaderService\FileUploaderService.csproj">

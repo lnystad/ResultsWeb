@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <report>
+    <header name="Lag 1" />
+    <resultnum name="Sk" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultclass name="Kl." />
+    <resultcategory name="Kat." />
+    <resulttotsum name="Omgang" />
+    <data>
+      <result num="1" name="Carina Ysland" club="Bodø Østre " class="R" category="K" totsum="0/0" />
+      <result num="2" name="Kjell Arne Mulstrand Aune" club="Beiarn " class="R" category="" totsum="0/0" />
+      <result ref="100m/TR-101-3.PNG" num="3" name="Nikolai Fagerbakk  Larsen" club="Valnesfjord " class="R" category="L" totsum="0/0" />
+      <result num="4" name="Tina Mari Husnes Larsen" club="Røvassdalen " class="R" category="K" totsum="0/0" />
+      <result num="5" name="Edvart K. B. Bakkemo" club="Bodø Østre " class="R" category="L" totsum="0/0" />
+      <result num="6" name=" " club="" class="" category="" totsum="0/0" />
+      <result ref="100m/TR-101-7.PNG" num="7" name="Henning Olai Hansen Skaldehaug" club="Bodø Østre " class="R" category="" totsum="0/0" />
+      <result num="8" name="Runar Tobiassen" club="Bodø Østre " class="ER" category="" totsum="0/0" />
+      <result ref="100m/TR-101-9.PNG" num="9" name="Irmelin Kristoffersen" club="Beiarn " class="ER" category="K" totsum="0/0" />
+      <result ref="100m/TR-101-10.PNG" num="10" name="Julian Brunes Ellingsen" club="Bodø Østre " class="ER" category="" totsum="0/0" />
+      <result ref="100m/TR-101-11.PNG" num="11" name="Andreas Strømsvik" club="Bodø Østre " class="ER" category="" totsum="0/0" />
+      <result num="12" name="Lisa Iren Husnes Larsen" club="Røvassdalen " class="ER" category="K" totsum="0/0" />
+    </data>
+  </report>
+  <BitmapDirInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Bitmaps>
+      <FileName>TR-1-1.PNG</FileName>
+      <FileName>TR-1-2.PNG</FileName>
+      <FileName>TR-10-10.PNG</FileName>
+      <FileName>TR-10-11.PNG</FileName>
+      <FileName>TR-10-12.PNG</FileName>
+      <FileName>TR-10-9.PNG</FileName>
+      <FileName>TR-101-10.PNG</FileName>
+      <FileName>TR-101-11.PNG</FileName>
+      <FileName>TR-101-3.PNG</FileName>
+      <FileName>TR-101-7.PNG</FileName>
+      <FileName>TR-101-9.PNG</FileName>
+      <FileName>TR-102-10.PNG</FileName>
+      <FileName>TR-102-11.PNG</FileName>
+      <FileName>TR-102-3.PNG</FileName>
+      <FileName>TR-102-4.PNG</FileName>
+      <FileName>TR-102-9.PNG</FileName>
+      <FileName>TR-11-11.PNG</FileName>
+      <FileName>TR-11-12.PNG</FileName>
+      <FileName>TR-2-1.PNG</FileName>
+      <FileName>TR-2-2.PNG</FileName>
+      <FileName>TR-2-3.PNG</FileName>
+      <FileName>TR-2-4.PNG</FileName>
+      <FileName>TR-3-1.PNG</FileName>
+      <FileName>TR-3-2.PNG</FileName>
+      <FileName>TR-3-3.PNG</FileName>
+      <FileName>TR-3-4.PNG</FileName>
+      <FileName>TR-3-5.PNG</FileName>
+      <FileName>TR-3-6.PNG</FileName>
+      <FileName>TR-4-1.PNG</FileName>
+      <FileName>TR-4-2.PNG</FileName>
+      <FileName>TR-4-3.PNG</FileName>
+      <FileName>TR-4-4.PNG</FileName>
+      <FileName>TR-4-5.PNG</FileName>
+      <FileName>TR-4-6.PNG</FileName>
+      <FileName>TR-4-7.PNG</FileName>
+      <FileName>TR-4-8.PNG</FileName>
+      <FileName>TR-5-1.PNG</FileName>
+      <FileName>TR-5-10.PNG</FileName>
+      <FileName>TR-5-2.PNG</FileName>
+      <FileName>TR-5-3.PNG</FileName>
+      <FileName>TR-5-4.PNG</FileName>
+      <FileName>TR-5-5.PNG</FileName>
+      <FileName>TR-5-6.PNG</FileName>
+      <FileName>TR-5-7.PNG</FileName>
+      <FileName>TR-5-8.PNG</FileName>
+      <FileName>TR-5-9.PNG</FileName>
+      <FileName>TR-6-1.PNG</FileName>
+      <FileName>TR-6-10.PNG</FileName>
+      <FileName>TR-6-11.PNG</FileName>
+      <FileName>TR-6-12.PNG</FileName>
+      <FileName>TR-6-2.PNG</FileName>
+      <FileName>TR-6-3.PNG</FileName>
+      <FileName>TR-6-4.PNG</FileName>
+      <FileName>TR-6-5.PNG</FileName>
+      <FileName>TR-6-6.PNG</FileName>
+      <FileName>TR-6-7.PNG</FileName>
+      <FileName>TR-6-8.PNG</FileName>
+      <FileName>TR-6-9.PNG</FileName>
+      <FileName>TR-7-10.PNG</FileName>
+      <FileName>TR-7-11.PNG</FileName>
+      <FileName>TR-7-12.PNG</FileName>
+      <FileName>TR-7-3.PNG</FileName>
+      <FileName>TR-7-4.PNG</FileName>
+      <FileName>TR-7-5.PNG</FileName>
+      <FileName>TR-7-6.PNG</FileName>
+      <FileName>TR-7-7.PNG</FileName>
+      <FileName>TR-7-8.PNG</FileName>
+      <FileName>TR-7-9.PNG</FileName>
+      <FileName>TR-8-10.PNG</FileName>
+      <FileName>TR-8-11.PNG</FileName>
+      <FileName>TR-8-12.PNG</FileName>
+      <FileName>TR-8-5.PNG</FileName>
+      <FileName>TR-8-6.PNG</FileName>
+      <FileName>TR-8-7.PNG</FileName>
+      <FileName>TR-8-8.PNG</FileName>
+      <FileName>TR-8-9.PNG</FileName>
+      <FileName>TR-9-10.PNG</FileName>
+      <FileName>TR-9-11.PNG</FileName>
+      <FileName>TR-9-12.PNG</FileName>
+      <FileName>TR-9-7.PNG</FileName>
+      <FileName>TR-9-8.PNG</FileName>
+      <FileName>TR-9-9.PNG</FileName>
+    </Bitmaps>
+    <BaneType>Hundremeter</BaneType>
+    <BitmapSubDir>100m</BitmapSubDir>
+    <Updated>true</Updated>
+    <Initial>false</Initial>
+  </BitmapDirInfo>
+</Merged>

@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <ArrayOfStartingListSkive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>1</LagSkiveNr>
+      <SkiveNr>6</SkiveNr>
+      <SkytterNavn>Henning Olai Hansen Skaldehaug</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>R</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-101-7.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>2</LagSkiveNr>
+      <SkiveNr>7</SkiveNr>
+      <SkytterNavn>Carina Ysland</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>R</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>3</LagSkiveNr>
+      <SkiveNr>11</SkiveNr>
+      <SkytterNavn>Nikolai Fagerbakk  Larsen</SkytterNavn>
+      <SkytterLag>Valnesfjord </SkytterLag>
+      <Klasse>R</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-101-3.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>4</LagSkiveNr>
+      <SkiveNr>1</SkiveNr>
+      <SkytterNavn>Kjell Arne Mulstrand Aune</SkytterNavn>
+      <SkytterLag>Beiarn </SkytterLag>
+      <Klasse>R</Klasse>
+      <BackUpBitMapFileName>100m/TR-4-1.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>4</LagSkiveNr>
+      <SkiveNr>7</SkiveNr>
+      <SkytterNavn>Tina Mari Husnes Larsen</SkytterNavn>
+      <SkytterLag>Røvassdalen </SkytterLag>
+      <Klasse>R</Klasse>
+      <BackUpBitMapFileName>100m/TR-4-7.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>4</LagSkiveNr>
+      <SkiveNr>12</SkiveNr>
+      <SkytterNavn>Edvart K. B. Bakkemo</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>R</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+    </StartingListSkive>
+  </ArrayOfStartingListSkive>
+  <report>
+    <header name="Rekrutt" group_name="Mesterskap" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultinnerten name="*" />
+    <resulttotsum name="35-skudd" />
+    <column>
+      <series id="1" name="1. serie" type="series_shot_sum" />
+      <series id="2" name="2. serie" type="series_shot_sum" />
+      <series id="3" name="3. serie" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10 skudd" type="series_shot_sum" />
+      <series id="6" name="25-skudd" type="subtot" />
+      <series id="7" name="Omgang" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Carina Ysland" club="Bodø Østre " innerten="0" totsum="339">
+        <series id="1" sum="49">
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="49">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="4" sum="148" />
+        <series id="5" sum="100">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="6" sum="248" />
+        <series id="7" sum="91">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="X" />
+        </series>
+      </result>
+      <result num="2" name="Kjell Arne Mulstrand Aune" club="Beiarn " innerten="1" totsum="335">
+        <series id="1" sum="50">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="48">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="3" sum="48">
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="146" />
+        <series id="5" sum="96">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="*" />
+        </series>
+        <series id="6" sum="242" />
+        <series id="7" sum="93">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="8" />
+        </series>
+      </result>
+      <result num="3" name="Tina Mari Husnes Larsen" club="Røvassdalen " innerten="0" totsum="320">
+        <series id="1" sum="48">
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="47">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="3" sum="47">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="142" />
+        <series id="5" sum="92">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="6" sum="234" />
+        <series id="7" sum="86">
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="9" />
+        </series>
+      </result>
+      <result num="4" name="Edvart K. B. Bakkemo" club="Bodø Østre " innerten="1" totsum="308">
+        <series id="1" sum="45">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="6" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="44">
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="8" />
+        </series>
+        <series id="3" sum="45">
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="9" />
+        </series>
+        <series id="4" sum="134" />
+        <series id="5" sum="93">
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="7" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+        </series>
+        <series id="6" sum="227" />
+        <series id="7" sum="81">
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="0" />
+        </series>
+      </result>
+      <result num="5" name="Nikolai Fagerbakk  Larsen" club="Valnesfjord " innerten="0" totsum="306">
+        <series id="1" sum="46">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="48">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+        </series>
+        <series id="3" sum="48">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="142" />
+        <series id="5" sum="93">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="7" />
+        </series>
+        <series id="6" sum="235" />
+        <series id="7" sum="71">
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="0" />
+          <shot val="0" />
+        </series>
+      </result>
+      <result num="6" name="Henning Olai Hansen Skaldehaug" club="Bodø Østre " innerten="0" totsum="202">
+        <series id="1" sum="33">
+          <shot val="6" />
+          <shot val="6" />
+          <shot val="5" />
+          <shot val="8" />
+          <shot val="8" />
+        </series>
+        <series id="2" sum="37">
+          <shot val="7" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="6" />
+          <shot val="6" />
+        </series>
+        <series id="3" sum="41">
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="7" />
+          <shot val="9" />
+        </series>
+        <series id="4" sum="111" />
+        <series id="5" sum="91">
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="8" />
+        </series>
+        <series id="6" sum="202" />
+        <series id="7" sum="">
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+          <shot val="" />
+        </series>
+      </result>
+    </data>
+  </report>
+</Merged>

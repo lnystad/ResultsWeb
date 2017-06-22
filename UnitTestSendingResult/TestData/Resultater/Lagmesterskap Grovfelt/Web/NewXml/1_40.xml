@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Minneskyting - Minneskyting kl. 2" group_name="Minneskyting" />
+  <resultnum name="Nr" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <column>
+    <series id="1" name="Minne" type="series_shot_sum" />
+  </column>
+  <data>
+    <result ref="TR-4-4-0.png" num="1" name="Ole Christian Lorentsen" club="Bodø Østre ">
+      <series id="1" sum="58">
+        <shot val="*" />
+        <shot val="X" />
+        <shot val="X" />
+        <shot val="8" />
+        <shot val="*" />
+        <shot val="X" />
+      </series>
+    </result>
+    <result ref="TR-7-1-0.png" num="2" name="Lene Mari Sæthre" club="Bodø Østre ">
+      <series id="1" sum="57">
+        <shot val="9" />
+        <shot val="X" />
+        <shot val="X" />
+        <shot val="9" />
+        <shot val="9" />
+        <shot val="X" />
+      </series>
+    </result>
+  </data>
+</report>

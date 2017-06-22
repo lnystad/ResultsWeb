@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 3" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <data>
+    <result num="1" name="Magnus Skyrud Jensen" club="Bodø Østre " class="5" category="" />
+    <result num="2" name="Miklas Ellingsen Brunes" club="Bodø Østre " class="5" category="" />
+    <result num="3" name=" " club="" class="" category="" />
+    <result num="4" name=" " club="" class="" category="" />
+  </data>
+</report>

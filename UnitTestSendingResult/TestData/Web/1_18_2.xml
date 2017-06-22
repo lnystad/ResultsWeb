@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 2"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultcategory name="Kat."/>
+  <resulttotsum name="Finale"/>
+  <column>
+    <series id="1" name="Hold 6" type="series_sum"/>
+    <series id="2" name="Hold 7" type="series_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Carina Ysland" club="Bodø Østre " class="R" category="K" totsum="12/10">
+      <series id="1" sum="6/5"/>
+      <series id="2" sum="6/5"/>
+    </result>
+    <result num="2" name="Henning Olai Hansen Skaldehaug" club="Bodø Østre " class="R" category="" totsum="12/08">
+      <series id="1" sum="6/4"/>
+      <series id="2" sum="6/4"/>
+    </result>
+  </data>
+</report>

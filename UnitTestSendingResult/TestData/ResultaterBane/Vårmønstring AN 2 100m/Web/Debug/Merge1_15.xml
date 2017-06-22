@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <ArrayOfStartingListSkive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>3</LagSkiveNr>
+      <SkiveNr>3</SkiveNr>
+      <SkytterNavn>Jan Erik Sørdal</SkytterNavn>
+      <SkytterLag>Saltdal </SkytterLag>
+      <Klasse>V65</Klasse>
+      <BackUpBitMapFileName>100m/TR-3-3.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-102-9.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+    <StartingListSkive>
+      <AllSerier />
+      <LagSkiveNr>4</LagSkiveNr>
+      <SkiveNr>4</SkiveNr>
+      <SkytterNavn>Aksel Skoglund</SkytterNavn>
+      <SkytterLag>Beiarn </SkytterLag>
+      <Klasse>V65</Klasse>
+      <BackUpBitMapFileName>100m/TR-4-4.PNG</BackUpBitMapFileName>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameFinale>100m/TR-102-8.PNG</BackUpBitMapFileNameFinale>
+    </StartingListSkive>
+  </ArrayOfStartingListSkive>
+  <report>
+    <header name="V65" group_name="Mesterskap" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resultinnerten name="*" />
+    <resulttotsum name="35-skudd" />
+    <column>
+      <series id="1" name="1. serie" type="series_shot_sum" />
+      <series id="2" name="2. serie" type="series_shot_sum" />
+      <series id="3" name="3. serie" type="series_shot_sum" />
+      <series id="4" name="15-skudd" type="subtot" />
+      <series id="5" name="10 skudd" type="series_shot_sum" />
+      <series id="6" name="25-skudd" type="subtot" />
+      <series id="7" name="Omgang" type="series_shot_sum" />
+    </column>
+    <data>
+      <result num="1" name="Aksel Skoglund" club="Beiarn " innerten="3" totsum="335">
+        <series id="1" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+        </series>
+        <series id="2" sum="49">
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+        </series>
+        <series id="3" sum="48">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="147" />
+        <series id="5" sum="99">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="6" sum="246" />
+        <series ref="100m/TR-102-8.PNG" id="7" sum="89">
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="0" />
+        </series>
+      </result>
+      <result num="2" name="Jan Erik Sørdal" club="Saltdal " innerten="0" totsum="332">
+        <series id="1" sum="50">
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="2" sum="48">
+          <shot val="9" />
+          <shot val="*" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="3" sum="50">
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+          <shot val="X" />
+        </series>
+        <series id="4" sum="148" />
+        <series id="5" sum="98">
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="X" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="X" />
+          <shot val="*" />
+          <shot val="*" />
+          <shot val="X" />
+        </series>
+        <series id="6" sum="246" />
+        <series ref="100m/TR-102-9.PNG" id="7" sum="86">
+          <shot val="9" />
+          <shot val="8" />
+          <shot val="8" />
+          <shot val="9" />
+          <shot val="9" />
+          <shot val="7" />
+          <shot val="X" />
+          <shot val="8" />
+          <shot val="X" />
+          <shot val="8" />
+        </series>
+      </result>
+    </data>
+  </report>
+</Merged>

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <header name="Lag 4" />
+  <resultnum name="Sk" />
+  <resultname name="Navn" />
+  <resultclub name="Skytterlag" />
+  <resultclass name="Kl." />
+  <resultcategory name="Kat." />
+  <resulttotsum name="30-skudd" />
+  <column>
+    <series id="1" name="Hold 1" type="series_sum" />
+    <series id="2" name="Hold 2" type="series_sum" />
+    <series id="3" name="Hold 3" type="series_sum" />
+    <series id="4" name="Hold 4" type="series_sum" />
+    <series id="5" name="Hold 5" type="series_sum" />
+  </column>
+  <data>
+    <result num="1" name="Jan Erik Aasheim" club="Bodø Østre " class="5" category="" totsum="30/18">
+      <series  id="1" sum="6/6" />
+      <series  id="2" sum="6/3" />
+      <series  id="3" sum="6/1" />
+      <series  id="4" sum="6/5" />
+      <series  id="5" sum="6/3" />
+    </result>
+    <result num="2" name="Anders Heiberg Jakobsen" club="Bodø Østre " class="3" category="" totsum="17/7">
+      <series  id="1" sum="3/2" />
+      <series  id="2" sum="1/0" />
+      <series  id="3" sum="5/0" />
+      <series  id="4" sum="6/3" />
+      <series  id="5" sum="2/2" />
+    </result>
+    <result num="3" name="Per Ove Røkke" club="Bodø Østre " class="4" category="" totsum="29/17">
+      <series  id="1" sum="6/5" />
+      <series  id="2" sum="6/5" />
+      <series  id="3" sum="5/1" />
+      <series  id="4" sum="6/3" />
+      <series  id="5" sum="6/3" />
+    </result>
+    <result num="4" name="Ole Christian Lorentsen" club="Bodø Østre " class="2" category="" totsum="27/8">
+      <series  id="1" sum="6/2" />
+      <series  id="2" sum="5/2" />
+      <series  id="3" sum="6/2" />
+      <series  id="4" sum="5/2" />
+      <series  id="5" sum="5/0" />
+    </result>
+  </data>
+</report>

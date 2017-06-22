@@ -238,9 +238,9 @@
     <xsl:copy>
       <xsl:choose>
         <xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='false'">
-          <xsl:if test="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref != ''">
+          <xsl:if test="msxsl:node-set($FoundSkyttere)/Hits/Hit/StartingListSkive/BackUpBitMapFileName != ''">
             <xsl:attribute name="ref">
-              <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
+              <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/StartingListSkive/BackUpBitMapFileName"/>
             </xsl:attribute>
           </xsl:if>
           <xsl:if test="string($MinneSkytingRapport)='true' and msxsl:node-set($FoundSkyttere)/Hits/Hit/StartingListSkive/BackUpBitMapFileNameMinne != ''">
@@ -250,9 +250,9 @@
           </xsl:if>
         </xsl:when>
         <xsl:when test="string($FoundSkytter) !='' and string($LagskytingRapport)='true'">
-          <xsl:if test="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref != ''">
+          <xsl:if test="msxsl:node-set($FoundSkyttere)/Hits/Hit/StartingListSkive/BackUpBitMapFileName != ''">
             <xsl:attribute name="ref">
-              <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/Skytter/@ref"/>
+              <xsl:value-of select="msxsl:node-set($FoundSkyttere)/Hits/Hit/StartingListSkive/BackUpBitMapFileName"/>
             </xsl:attribute>
           </xsl:if>
         </xsl:when>

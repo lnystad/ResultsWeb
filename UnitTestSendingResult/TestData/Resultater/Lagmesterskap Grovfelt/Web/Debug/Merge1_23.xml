@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Merged>
+  <ArrayOfStartingListSkive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartingListSkive>
+      <AllSerier>
+        <Serie>
+          <SerieNr>1</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-1.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>2</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-2.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>3</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-3.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>4</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-4.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+        <Serie>
+          <SerieNr>5</SerieNr>
+          <BackUpBitMapFileName>Grovfelt/TR-6-2-5.png</BackUpBitMapFileName>
+          <Updated>false</Updated>
+          <Checked>false</Checked>
+        </Serie>
+      </AllSerier>
+      <LagSkiveNr>6</LagSkiveNr>
+      <SkiveNr>2</SkiveNr>
+      <SkytterNavn>Julie Simonette Lian</SkytterNavn>
+      <SkytterLag>Bodø Østre </SkytterLag>
+      <Klasse>1</Klasse>
+      <Updated>false</Updated>
+      <Checked>false</Checked>
+      <BackUpBitMapFileNameMinne>TR-6-2-0.png</BackUpBitMapFileNameMinne>
+    </StartingListSkive>
+  </ArrayOfStartingListSkive>
+  <report>
+    <header name="Klasse 1" group_name="30 skudd" />
+    <resultnum name="Nr" />
+    <resultname name="Navn" />
+    <resultclub name="Skytterlag" />
+    <resulttotsum name="30-skudd" />
+    <column>
+      <series id="1" name="Hold 1" type="series_sum" />
+      <series id="2" name="Hold 2" type="series_sum" />
+      <series id="3" name="Hold 3" type="series_sum" />
+      <series id="4" name="Hold 4" type="series_sum" />
+      <series id="5" name="Hold 5" type="series_sum" />
+    </column>
+    <data>
+      <result num="1" name="Julie Simonette Lian" club="Bodø Østre " totsum="19/08">
+        <series id="1" sum="4/1" />
+        <series id="2" sum="4/2" />
+        <series id="3" sum="5/2" />
+        <series id="4" sum="4/2" />
+        <series id="5" sum="2/1" />
+      </result>
+    </data>
+  </report>
+</Merged>
