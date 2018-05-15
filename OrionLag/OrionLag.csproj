@@ -68,6 +68,7 @@
     <Compile Include="Input\Data\InputDataComparerLinksFelt.cs" />
     <Compile Include="Input\Data\InputDataComparer.cs" />
     <Compile Include="Input\Data\InputData.cs" />
+    <Compile Include="Input\Data\StevneInfo.cs" />
     <Compile Include="Input\ViewModel\KlasseSort.cs" />
     <Compile Include="Input\ViewModel\LagOppsettViewModel.cs" />
     <Compile Include="Input\ViewModel\LagViewModel.cs" />
@@ -92,6 +93,7 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Utils\InputFileParser.cs" />
+    <Compile Include="Utils\InputXmlFileParser.cs" />
     <Compile Include="Utils\Lag.cs" />
     <Compile Include="Utils\LagGenerator.cs" />
     <Compile Include="Utils\OutputFileParser.cs" />

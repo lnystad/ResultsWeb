@@ -159,6 +159,30 @@ namespace OrionLag.ViewModel
             }
         }
 
+        public StevneInfo stevneinfo { get; set; }
+
+        
+
+
+
+        
+        public void OnReadInputXmlbutton_OnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var result = openFileDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                string FileName = Path.GetFileName(openFileDialog.FileName);
+                string FilePath = Path.GetDirectoryName(openFileDialog.FileName);
+                stevneinfo = InputXmlFileParser.ParseStevneInfoFile(FilePath, FileName);
+
+                var input = InputXmlFileParser.ParseXmlFile(FilePath, FileName);
+                InputRows = new ObservableCollection<InputData>(input);
+            }
+            return;
+        }
         public void OnReadInputbutton_OnClick(object sender, RoutedEventArgs routedEventArgs)
         {
 
@@ -226,7 +250,7 @@ namespace OrionLag.ViewModel
             }
             
 
-            LagOppsettViewModel viewmodel  = new LagOppsettViewModel(inputGenererteLag,new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            LagOppsettViewModel viewmodel  = new LagOppsettViewModel(stevneinfo,inputGenererteLag, new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             var view = new LagOppsettView(viewmodel);
 
             OpenWindow(view, "Data input");

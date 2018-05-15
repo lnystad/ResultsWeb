@@ -44,6 +44,19 @@ namespace OrionLag.Input.Views
             viewModel.OnReadInputbutton_OnClick(sender, e);
         }
 
+        private void ReadInputXml_OnClick(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as UserInputControlViewModel;
+            if (viewModel == null)
+            {
+                return;
+            }
+
+            viewModel.OnReadInputXmlbutton_OnClick(sender, e);
+        }
+
+        
+
         private void GenerateLag_OnClick(object sender, RoutedEventArgs e)
         {
             var viewModel = DataContext as UserInputControlViewModel;

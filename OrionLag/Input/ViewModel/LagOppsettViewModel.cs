@@ -22,8 +22,12 @@ namespace OrionLag.Input.ViewModel
     public class LagOppsettViewModel : INotifyPropertyChanged
     {
         private List<Lag> lagOppsett;
-        public LagOppsettViewModel(List<Lag> lagOppsett,DateTime startTime)
+
+        private StevneInfo m_stevneinfo;
+
+        public LagOppsettViewModel(StevneInfo stevneinfo,List<Lag> lagOppsett,DateTime startTime)
         {
+            m_stevneinfo = stevneinfo;
             lagOppsett = lagOppsett;
             m_inputRows = new ObservableCollection<Lag>(lagOppsett);
             m_skiver = new ObservableCollection<SkiverViewModel>();
@@ -436,13 +440,13 @@ namespace OrionLag.Input.ViewModel
 
 
 
-            root.Add(new XAttribute("stevnenavn", "NNM 2016"));
+            root.Add(new XAttribute("stevnenavn", m_stevneinfo.stevnenavn));
 
-            root.Add(new XAttribute("stevnenummer", ""));
-            root.Add(new XAttribute("arrangor", "10584"));
+            root.Add(new XAttribute("stevnenummer", m_stevneinfo.stevnenummer));
+            root.Add(new XAttribute("arrangor", m_stevneinfo.arrangor));
 
-            root.Add(new XAttribute("stevnestart", "29.06.2016"));
-            root.Add(new XAttribute("stevneslutt", "2.07.2016"));
+            root.Add(new XAttribute("stevnestart", m_stevneinfo.stevnestart));
+            root.Add(new XAttribute("stevneslutt", m_stevneinfo.stevneslutt));
 
             var ovelse= new XElement("ovelse");
             ovelse.Add(new XAttribute("id", "FE"));

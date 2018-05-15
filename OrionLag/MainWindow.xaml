@@ -9,10 +9,7 @@
         DataContext="">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Options">
-                <MenuItem Header="_Open"/>
-            </MenuItem>
-            <MenuItem Header="GenererLag">
+           <MenuItem Header="GenererLag">
                 <MenuItem Header="_Open" Click="InputMenuItemOpen_Click"/>
             </MenuItem>
             <MenuItem Header="KjørLag">
