@@ -41,7 +41,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="220"/>
+                    <RowDefinition Height="250"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -51,15 +51,25 @@
                 <Button Grid.Row="0" Grid.Column="0" Content="Sort" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" 	Width="75" Click="SortButton_OnClick"/>
                 <Button Grid.Row="1" Grid.Column="0" Margin="5,5,0,0"  Content="SetTimes" HorizontalAlignment="Left" VerticalAlignment="Top" 	Width="75" Click="SetTimesButton_OnClick"/>
                 <Grid Grid.Row="1" Grid.Column="0">
-                    <Label Content="Duration" Margin="5,30,0,0" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
-                    <TextBox                  Margin="5,50,0,0" Height="23" Width="50" Text="{Binding LagDuration}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Content="Start" Margin="60,30,0,5" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
-                    <TextBox    Margin="60,50,0,5" Height="23" Width="50"  Text="{Binding LagStart}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Content="OppropsTid i min" Margin="0,100,0,5" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
-                    <TextBox    Margin="0,125,0,5" Height="23" Width="50"  Text="{Binding OppropsTid}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Content="Lag FellesOpprop" Margin="0,140,0,5" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
-                    <TextBox    Margin="0,165,0,5" Height="23" Width="50"  Text="{Binding LagFellesOpprop}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <CheckBox   Margin="0,195,0,5" Content="AddTimeAfterKlasse"  IsChecked="{Binding GenerateTimeAfterLagIsChecked}" />
+                    <Label Content="StartNr1" Margin="5,30,0,0" Height="28" Width="55" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+                    <TextBox                  Margin="5,50,0,0" Height="23" Width="50" Text="{Binding LagStartNr1}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Content="StartDate1" Margin="60,30,0,0" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+                    <TextBox                  Margin="60,50,0,0" Height="23" Width="150" Text="{Binding LagStartDate1}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                    <Label Content="StartNr2" Margin="5,70,0,0" Height="28" Width="55" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+                    <TextBox                  Margin="5,90,0,0" Height="23" Width="50" Text="{Binding LagStartNr2}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Content="StartDate2" Margin="60,70,0,0" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+                    <TextBox                  Margin="60,90,0,0" Height="23" Width="150" Text="{Binding LagStartDate2}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+
+
+                    <Label Content="Duration" Margin="230,30,0,0" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+                    <TextBox                  Margin="230,50,0,0" Height="23" Width="50" Text="{Binding LagDuration}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Content="OppropsTid i min" Margin="0,120,0,5" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+                    <TextBox    Margin="0,145,0,5" Height="23" Width="50"  Text="{Binding OppropsTid}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Content="Lag FellesOpprop" Margin="0,160,0,5" Height="28" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+                    <TextBox    Margin="0,185,0,5" Height="23" Width="50"  Text="{Binding LagFellesOpprop}"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <CheckBox   Margin="0,215,0,5" Content="AddTimeAfterKlasse"  IsChecked="{Binding GenerateTimeAfterLagIsChecked}" />
                 </Grid>
                 <Button Grid.Row="1" Grid.Column="1" Margin="5,5,0,0" Height="23" Content="GenerateFiles" HorizontalAlignment="Left" VerticalAlignment="Top" 	Width="80" Click="GenerateFilesButtonBase_OnClick"/>
                 <Grid Grid.Row="1" Grid.Column="1">

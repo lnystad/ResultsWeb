@@ -11,7 +11,7 @@ namespace OrionLag.Utils
 
     public class LagGenerator
     {
-        public List<Lag> GenererSimpelLag(List<List<InputData>> alleSkytterePrKlasse, List<KlasseSort> configklasse, int startLag, int antallskiver, int? GenerateSpaceEach,bool GenerateEmptyLagIsChecked,bool spaceafterKlasse)
+        public List<Lag> GenererSimpelLag(string ownLagId, int numberEmptyLag,List<List<InputData>> alleSkytterePrKlasse, List<KlasseSort> configklasse, int startLag, int antallskiver, int? GenerateSpaceEach,bool GenerateEmptyLagIsChecked,bool spaceafterKlasse)
         {
             List<Lag> retValue = new List<Lag>();
             bool space = spaceafterKlasse;
@@ -161,6 +161,7 @@ namespace OrionLag.Utils
                         CurrentLag.SkiverILaget.Add(SKivel);
                         CurrentSkivenr++;
                     }
+
                 }
 
                 if (!alredyadded)
@@ -197,16 +198,36 @@ namespace OrionLag.Utils
                     CurrentLag.MaxSkiveNummer = antallskiver;
                 }
 
-               
-                
-               
+                if (Lagvis.Count > 0 && Lagvis[0].Skytterlag == ownLagId)
+                {
+                    if (numberEmptyLag > 0)
+                    {
+                        for (int i = 0; i < numberEmptyLag; i++)
+                        {
+                            CurrentLag = new Lag();
+                            CurrentLag.LagNummer = CurrentLagNo;
+                            CurrentLag.MaxSkiveNummer = antallskiver;
+                            alredyadded = false;
+                            CurrentSkivenr = 1;
+                            retValue.Add(CurrentLag);
+                            CurrentLagNo++;
+                        }
+
+                        CurrentLag = new Lag();
+                        CurrentLag.LagNummer = CurrentLagNo;
+                        CurrentLag.MaxSkiveNummer = antallskiver;
+                    }
+
+                }
+
+
 
             }
 
             return retValue;
         }
 
-        public List<Lag> GenererSimpelLagFinfelt(List<List<InputData>> alleSkytterePrKlasse, List<KlasseSort> configklasse, int startLag, int antallskiver)
+        public List<Lag> GenererSimpelLagFinfelt(string ownLagId, int numberEmptyLag, List<List<InputData>> alleSkytterePrKlasse, List<KlasseSort> configklasse, int startLag, int antallskiver)
         {
             List<Lag> retValue = new List<Lag>();
 
@@ -316,12 +337,36 @@ namespace OrionLag.Utils
                         CurrentSkivenr = 1;
                     }
                 }
+
+                if (Lagvis.Count > 0 && Lagvis[0].Skytterlag == ownLagId)
+                {
+                    if(numberEmptyLag> 0)
+                    {
+                        for(int i=0;i< numberEmptyLag;i++)
+                        {
+                            CurrentLag = new Lag();
+                            CurrentLag.LagNummer = CurrentLagNo;
+                            CurrentLag.MaxSkiveNummer = antallskiver;
+                            alredyadded = false;
+                            CurrentSkivenr = 1;
+                            retValue.Add(CurrentLag);
+                            CurrentLagNo++;
+                        }
+
+                        CurrentLag = new Lag();
+                        CurrentLag.LagNummer = CurrentLagNo;
+                        CurrentLag.MaxSkiveNummer = antallskiver;
+                    }
+
+                }
             }
 
             if (!alredyadded)
             {
                 retValue.Add(CurrentLag);
             }
+
+          
 
             return retValue;
         }

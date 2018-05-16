@@ -12,7 +12,7 @@
      <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="300"/>
+                <RowDefinition Height="500"/>
             </Grid.RowDefinitions>
 
         <DataGrid Grid.Row="0" ItemsSource="{Binding InputRows}" x:Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -36,6 +36,10 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="StartLag"/>
                     <TextBox Grid.Row="1"  Text="{Binding LagNummer}"/>
@@ -47,6 +51,10 @@
                     <TextBox Grid.Row="7"  Text="{Binding KlasseSort}"/>
                     <CheckBox  Grid.Row="8"  Content="AddSpaceAfterKlasse"  IsChecked="{Binding SpaceAfterKlasse}" />
                     <CheckBox  Grid.Row="9"  Content="FinFelt"  IsChecked="{Binding FinfeltLinks}" />
+                    <Label Grid.Row="10" Content="EgetLagId"/>
+                    <TextBox Grid.Row="11"  Text="{Binding OwnLagId}"/>
+                    <Label Grid.Row="12" Content="Antall tomme Lag etter egne "/>
+                    <TextBox Grid.Row="13"  Text="{Binding NumberEmptyLag}"/>
                 </Grid>
                 <Button Grid.Column="2" Content="GenerateLag" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" 	Width="75" Click="GenerateLag_OnClick"/>
             </Grid>

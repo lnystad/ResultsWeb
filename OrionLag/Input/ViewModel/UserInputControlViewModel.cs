@@ -58,6 +58,19 @@ namespace OrionLag.ViewModel
             {
                 this.m_KlasseSort = KlasseSort;
             }
+
+            var OwnLagId = ConfigurationManager.AppSettings["EgetLagId"];
+            if (!string.IsNullOrEmpty(OwnLagId))
+            {
+                this.m_OwnLagId = OwnLagId;
+            }
+
+            var numberEmptyLag = ConfigurationManager.AppSettings["TommeLagEtterEgetLag"];
+            if (!string.IsNullOrEmpty(numberEmptyLag))
+            {
+               int.TryParse(numberEmptyLag,out this.m_NumberEmptyLag);
+            }
+
             m_SpaceAfterKlasse = true;
         }
 
@@ -115,6 +128,32 @@ namespace OrionLag.ViewModel
                 NotifyPropertyChanged("KlasseSort");
             }
         }
+
+        private string m_OwnLagId;
+        public string OwnLagId
+        {
+            get { return m_OwnLagId; }
+            set
+            {
+                m_OwnLagId = value;
+                NotifyPropertyChanged("OwnLagId");
+            }
+        }
+
+        private int m_NumberEmptyLag;
+        public int NumberEmptyLag
+        {
+            get { return m_NumberEmptyLag; }
+            set
+            {
+                m_NumberEmptyLag = value;
+                NotifyPropertyChanged("NumberEmptyLag");
+            }
+        }
+
+
+        
+
 
         private bool m_GenerateEmptyLagIsChecked;
         public bool GenerateEmptyLagIsChecked
@@ -229,8 +268,36 @@ namespace OrionLag.ViewModel
                
             }
 
-            List<InputData> AlleSkyttere = new List<InputData>();
+            ObservableCollection<InputData> AlleSkyttere = new ObservableCollection<InputData>();
+            List<InputData> SkytterEgetLag = null;
+            if (!string.IsNullOrEmpty(OwnLagId))
+            {
+                var retVal = SorterUtEgetLag(OwnLagId, KlasseListe, InputRows);
+                AlleSkyttere = retVal.Item1;
+                SkytterEgetLag = retVal.Item2;
+                m_inputRows = AlleSkyttere;
+            }
+
             var ListerAvKlasser = SorterLagPaaKlasse(KlasseListe, InputRows);
+
+            if(SkytterEgetLag!=null)
+            {
+                if(ListerAvKlasser.Count>0)
+                {
+                    int counter = ListerAvKlasser.Count;
+                    ListerAvKlasser.Add(new List<InputData>());
+                    while (counter>0)
+                    {
+                       
+                        ListerAvKlasser[counter] = ListerAvKlasser[counter - 1];
+                        counter = counter - 1;
+                    }
+
+                    ListerAvKlasser[0] = SkytterEgetLag;
+                }
+                
+            }
+
             foreach (var KlasseVis in ListerAvKlasser)
             {
                 InputDataComparer computer = new InputDataComparer();
@@ -240,13 +307,14 @@ namespace OrionLag.ViewModel
             }
 
             List<Lag> inputGenererteLag=null;
+
             if (FinfeltLinks)
             {
-                inputGenererteLag = Generator.GenererSimpelLagFinfelt(ListerAvKlasser, KlasseListe, LagNummer, SkiverILaget);
+                inputGenererteLag = Generator.GenererSimpelLagFinfelt(OwnLagId, NumberEmptyLag, ListerAvKlasser, KlasseListe, LagNummer, SkiverILaget);
             }
             else
             {
-                inputGenererteLag = Generator.GenererSimpelLag(ListerAvKlasser, KlasseListe, LagNummer, SkiverILaget, GenerateSpaceEach, GenerateEmptyLagIsChecked, SpaceAfterKlasse);
+                inputGenererteLag = Generator.GenererSimpelLag(OwnLagId, NumberEmptyLag, ListerAvKlasser, KlasseListe, LagNummer, SkiverILaget, GenerateSpaceEach, GenerateEmptyLagIsChecked, SpaceAfterKlasse);
             }
             
 
@@ -303,12 +371,36 @@ namespace OrionLag.ViewModel
                 List<InputData> klasseliste= new List<InputData>();
 
                 klasseliste = inputRows.Where(o => o.Klasse == klasseel.Klasse).ToList();
-
-                retVal.Add(klasseliste);
+                if(klasseliste.Count > 0)
+                {
+                    retVal.Add(klasseliste);
+                }
+                
             }
 
             return retVal;
         }
+
+
+        private Tuple<ObservableCollection<InputData>, List<InputData>> SorterUtEgetLag(string OwnLagId, List<KlasseSort> klasseListe,ObservableCollection<InputData>  InputRows)
+        {
+            List<InputData> retListe = new List<InputData>();
+
+            retListe = InputRows.Where(o => o.Skytterlag == OwnLagId && klasseListe.Any(x => x.Klasse == o.Klasse)).ToList();
+
+            ObservableCollection<InputData> rowsOfRemaining = new ObservableCollection<InputData>();
+            foreach(var element in InputRows)
+            {
+                if(element.Skytterlag != OwnLagId)
+                {
+                        rowsOfRemaining.Add(element);
+                }
+            }
+
+            return new Tuple<ObservableCollection<InputData>, List<InputData>>(rowsOfRemaining, retListe);
+        }
+
+
 
         private void OpenWindow(object windowContent, string title = null)
         {

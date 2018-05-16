@@ -18,6 +18,7 @@ namespace OrionLag.Input.ViewModel
 
     using OrionLag.Input.Data;
     using OrionLag.Utils;
+    using SendingResults.Diagnosis;
 
     public class LagOppsettViewModel : INotifyPropertyChanged
     {
@@ -32,14 +33,35 @@ namespace OrionLag.Input.ViewModel
             m_inputRows = new ObservableCollection<Lag>(lagOppsett);
             m_skiver = new ObservableCollection<SkiverViewModel>();
             this.LagKilde = new ObservableCollection<Lag>();
-            LagStart = startTime.ToString("HH:mm");
+            
             LagDuration = string.Empty;
+            var LagStart = ConfigurationManager.AppSettings["LagNummer1"];
+            if (!string.IsNullOrEmpty(LagStart))
+            {
+                LagStartNr1 = int.Parse(LagStart);
+            }
+            LagStart = ConfigurationManager.AppSettings["LagNummer2"];
+            if (!string.IsNullOrEmpty(LagStart))
+            {
+                LagStartNr2 = int.Parse(LagStart); ;
+            }
+            else
+            {
+                LagStartNr2 = 999;
+            }
 
-            var LagStartString = ConfigurationManager.AppSettings["LagStart"];
+            var LagStartString = ConfigurationManager.AppSettings["LagStart1"];
             if (!string.IsNullOrEmpty(LagStartString))
             {
-                LagStart = LagStartString;
+                LagStartDate1 = LagStartString;
             }
+
+            var LagStartString2 = ConfigurationManager.AppSettings["LagStart2"];
+            if (!string.IsNullOrEmpty(LagStartString2))
+            {
+                LagStartDate2 = LagStartString2;
+            }
+
 
             var LagDurationString = ConfigurationManager.AppSettings["LagDuration"];
             if (!string.IsNullOrEmpty(LagStartString))
@@ -121,16 +143,16 @@ namespace OrionLag.Input.ViewModel
             }
         }
 
-        private string m_lagStart;
-        public string LagStart
-        {
-            get { return m_lagStart; }
-            set
-            {
-                m_lagStart = value;
-                NotifyPropertyChanged("LagStart");
-            }
-        }
+        //private string m_lagStart;
+        //public string LagStart
+        //{
+        //    get { return m_lagStart; }
+        //    set
+        //    {
+        //        m_lagStart = value;
+        //        NotifyPropertyChanged("LagStart");
+        //    }
+        //}
 
         
         private int m_OppropsTid;
@@ -167,17 +189,50 @@ namespace OrionLag.Input.ViewModel
         }
         
 
-        private int m_lagStartNumber;
-        public int LagStartNumber
+        private int m_lagStartNumber1;
+        public int LagStartNr1
         {
-            get { return m_lagStartNumber; }
+            get { return m_lagStartNumber1; }
             set
             {
-                m_lagStartNumber = value;
-                NotifyPropertyChanged("LagStartNumber");
+                m_lagStartNumber1 = value;
+                NotifyPropertyChanged("LagStartNr1");
             }
         }
-        
+
+        private string m_lagStartDate1;
+        public string LagStartDate1
+        {
+            get { return m_lagStartDate1; }
+            set
+            {
+                m_lagStartDate1 = value;
+                NotifyPropertyChanged("LagStartDate1");
+            }
+        }
+
+        private int m_lagStartNumber2;
+        public int LagStartNr2
+        {
+            get { return m_lagStartNumber2; }
+            set
+            {
+                m_lagStartNumber2 = value;
+                NotifyPropertyChanged("LagStartNr2");
+            }
+        }
+
+        private string m_lagStartDate2;
+        public string LagStartDate2
+        {
+            get { return m_lagStartDate2; }
+            set
+            {
+                m_lagStartDate2 = value;
+                NotifyPropertyChanged("LagStartDate2");
+            }
+        }
+
 
         private string m_filePath;
         public string  FilePath
@@ -274,7 +329,7 @@ namespace OrionLag.Input.ViewModel
             {
                 return;
             }
-            if (string.IsNullOrEmpty(m_lagStart))
+            if (string.IsNullOrEmpty(m_lagStartDate1))
             {
                 return;
             }
@@ -301,23 +356,27 @@ namespace OrionLag.Input.ViewModel
                 return;
             }
 
-            var splits = m_lagStart.Split(new char[] { ':' });
-            if (splits.Length != 2)
+            m_lagStartDate1 = m_lagStartDate1.Replace(" ", "");
+
+
+            //08:00-15.05.2018
+
+            DateTime timeStart1;
+            if ( !DateTime.TryParse(m_lagStartDate1, out timeStart1))
             {
-                return;
+                Log.Error("Could not parse datetime {0}", m_lagStartDate1);
             }
-            int hour = 0;
-            int min = 0;
-            if (!int.TryParse(splits[0], out hour))
+            DateTime timeStart2= timeStart1;
+
+            if (!string.IsNullOrEmpty(m_lagStartDate2))
             {
-                return;
-            }
-            if (!int.TryParse(splits[1], out min))
-            {
-                return;
+                if (!DateTime.TryParse(m_lagStartDate2, out timeStart2))
+                {
+                    Log.Error("Could not parse datetime 2 {0}", m_lagStartDate2);
+                }
             }
 
-            DateTime startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, min, 0);
+            DateTime startTime = timeStart1;
             TimeSpan span = new TimeSpan(0, minutes, 0);
 
             int oppropfortid = 20;
@@ -334,6 +393,7 @@ namespace OrionLag.Input.ViewModel
             int LagCount = 1;
             int LagCountmedFelles = 0;
             string currentKlasse = string.Empty;
+            bool timeChange = false;
             foreach (var lag in LagKilde)
             {
                 string klasseILaget = string.Empty;
@@ -394,6 +454,11 @@ namespace OrionLag.Input.ViewModel
                
 
                 LagCount++;
+                if(LagCount >= m_lagStartNumber2 && !timeChange)
+                {
+                    timeChange = true;
+                    startTime = timeStart2;
+                }
             }
 
             var test = LagKilde;
@@ -458,7 +523,7 @@ namespace OrionLag.Input.ViewModel
             root.Add(ovelse);
 
 
-
+            
             foreach (var inputlag in LagKilde)
             {
                 var lag = new XElement("lag");
