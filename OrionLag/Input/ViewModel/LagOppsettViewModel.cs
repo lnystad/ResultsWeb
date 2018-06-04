@@ -26,6 +26,13 @@ namespace OrionLag.Input.ViewModel
 
         private StevneInfo m_stevneinfo;
 
+        public class skytterCount
+            {
+            public string klasse { get; set; }
+            public int antall { get; set; }
+            }
+        List<skytterCount> m_antallSkyttere;
+
         public LagOppsettViewModel(StevneInfo stevneinfo,List<Lag> lagOppsett,DateTime startTime)
         {
             m_stevneinfo = stevneinfo;
@@ -104,12 +111,63 @@ namespace OrionLag.Input.ViewModel
                 var sortedSkiver = lag.SkiverILaget.OrderBy(x => x.SkiveNummer);
                 foreach (var skive in sortedSkiver)
                 {
-                    totalantSkyttere++;
+                    if (skive.Skytter != null)
+                    {
+                        totalantSkyttere++;
+                    }
+
                     m_skiver.Add(item: new SkiverViewModel(lag.LagNummer, skive));
                 }
             }
 
             m_TotalAntallSkytter = totalantSkyttere.ToString();
+
+            m_antallSkyttere = new List<skytterCount>();
+
+            foreach(var lag in LagKilde)
+            {
+                foreach(var sk in lag.SkiverILaget)
+                {
+                    if( sk.Skytter!=null)
+                    {
+                        if (sk.Skytter.SkytterNr > 0)
+                        {
+                            skytterCount el = null;
+                            foreach (skytterCount ct in m_antallSkyttere)
+                            {
+                                if(ct.klasse == sk.Skytter.Klasse)
+                                {
+                                    el = ct;
+                                    break;
+                                }
+                            }
+                            if(el != null)
+                            {
+                                el.antall=el.antall + 1;
+                            }
+                            else
+                            {
+                                skytterCount ele = new skytterCount();
+                                ele.klasse = sk.Skytter.Klasse;
+                                ele.antall = 1;
+                                m_antallSkyttere.Add(ele);
+                            }
+                           
+                        }
+                    }
+                }
+
+            }
+
+            string text=string.Empty;
+            foreach(var cnt in m_antallSkyttere)
+            {
+
+                text = text + "kl" + cnt.klasse + "-" + cnt.antall.ToString() + " ";
+            }
+
+            m_AntallSkytterprKlasse = text;
+
         }
 
         private void SortGrid()
@@ -130,6 +188,13 @@ namespace OrionLag.Input.ViewModel
         {
             get { return m_TotalAntallSkytter; }
             
+        }
+
+        private string m_AntallSkytterprKlasse;
+        public string AntallSkytterprKlasse
+        {
+            get { return m_AntallSkytterprKlasse; }
+
         }
 
         private string m_lagDuration;
@@ -549,21 +614,24 @@ namespace OrionLag.Input.ViewModel
             {
                 foreach (var skive in inputlag.SkiverILaget)
                 {
-                    var skytter = new XElement("paamelding-skytter");
-                    ovelse.Add(skytter);
-                    skytter.Add(new XAttribute("lag", inputlag.LagNummer));
-                    skytter.Add(new XAttribute("skive", skive.SkiveNummer));
-                    foreach (var data in skive.Skytter.InputXmlData)
+                    if (skive.Skytter != null)
                     {
-                        if (data.Name == "lag" || data.Name == "skive")
+                        var skytter = new XElement("paamelding-skytter");
+                        ovelse.Add(skytter);
+                        skytter.Add(new XAttribute("lag", inputlag.LagNummer));
+                        skytter.Add(new XAttribute("skive", skive.SkiveNummer));
+                        foreach (var data in skive.Skytter.InputXmlData)
                         {
-                            
-                        }
-                        else
-                        {
-                            skytter.Add(new XAttribute(data.Name, data.Value));
-                        }
+                            if (data.Name == "lag" || data.Name == "skive")
+                            {
 
+                            }
+                            else
+                            {
+                                skytter.Add(new XAttribute(data.Name, data.Value));
+                            }
+
+                        }
                     }
                 }
             }

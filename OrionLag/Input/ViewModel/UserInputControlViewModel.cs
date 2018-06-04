@@ -21,6 +21,11 @@ namespace OrionLag.ViewModel
     public class UserInputControlViewModel : INotifyPropertyChanged
 
     {
+        public class RawskytterCount
+        {
+            public string klasse { get; set; }
+            public int antall { get; set; }
+        }
 
         public UserInputControlViewModel()
         {
@@ -43,7 +48,7 @@ namespace OrionLag.ViewModel
                     this.m_SkiverILaget = num;
                 }
             }
-            var LagNummer = ConfigurationManager.AppSettings["LagNummer"];
+            var LagNummer = ConfigurationManager.AppSettings["LagNummer1"];
             if (!string.IsNullOrEmpty(LagNummer))
             {
                 int num = 0;
@@ -51,6 +56,10 @@ namespace OrionLag.ViewModel
                 {
                     this.m_lagNummer = num;
                 }
+            }
+            else
+            {
+                this.m_lagNummer = 1;
             }
 
             var KlasseSort = ConfigurationManager.AppSettings["KlasseSort"];
@@ -73,6 +82,8 @@ namespace OrionLag.ViewModel
 
             m_SpaceAfterKlasse = true;
         }
+
+        
 
         private ObservableCollection<InputData> m_inputRows;
 
@@ -186,8 +197,19 @@ namespace OrionLag.ViewModel
                 NotifyPropertyChanged("FinfeltLinks");
             }
         }
-        
 
+        private string m_Summary;
+        public string Summary
+        {
+            get { return m_Summary; }
+            set
+            {
+                m_Summary = value;
+                NotifyPropertyChanged("Summary");
+            }
+        }
+
+       
         public ObservableCollection<InputData> InputRows
         {
             get { return m_inputRows; }
@@ -220,6 +242,7 @@ namespace OrionLag.ViewModel
                 var input = InputXmlFileParser.ParseXmlFile(FilePath, FileName);
                 InputRows = new ObservableCollection<InputData>(input);
             }
+
             return;
         }
         public void OnReadInputbutton_OnClick(object sender, RoutedEventArgs routedEventArgs)
@@ -300,8 +323,14 @@ namespace OrionLag.ViewModel
 
             foreach (var KlasseVis in ListerAvKlasser)
             {
-                InputDataComparer computer = new InputDataComparer();
-                KlasseVis.Sort(computer);
+                if (!string.IsNullOrEmpty(OwnLagId) && KlasseVis.Count > 0 && KlasseVis[0].Skytterlag == OwnLagId)
+                {
+                }
+                else
+                { 
+                    InputDataComparer computer = new InputDataComparer();
+                    KlasseVis.Sort(computer);
+                }
                 //InputDataComparerLinksFelt links = new InputDataComparerLinksFelt();
                 //KlasseVis.Sort(links);
             }
@@ -324,6 +353,42 @@ namespace OrionLag.ViewModel
             OpenWindow(view, "Data input");
 
         }
+
+        internal void SummaryLag_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (InputRows.Count == 0)
+            {
+                Summary = "";
+            }
+            List<RawskytterCount> listOfCounts = new List<RawskytterCount>();
+
+            foreach (var row in InputRows)
+            {
+                var klCount=listOfCounts.FirstOrDefault(x => x.klasse == row.Klasse);
+                if(klCount==null)
+                {
+                    klCount = new RawskytterCount()
+                    {
+                        klasse = row.Klasse,
+                        antall = 0
+                    };
+                    listOfCounts.Add(klCount);
+                }
+
+                klCount.antall++;
+            }
+            string tmpStr = string.Empty;
+            int total = 0;
+            foreach(var elCo in listOfCounts)
+            {
+                tmpStr = tmpStr + "Klasse "+elCo.klasse + " - " + elCo.antall + "\r\n";
+                total = total + elCo.antall;
+            }
+
+            tmpStr = tmpStr + "Total antal Skyttere =" + total;
+            Summary = tmpStr;
+        }
+
 
         private List<KlasseSort> GetklasseListe(string klasseSort)
         {
@@ -397,7 +462,25 @@ namespace OrionLag.ViewModel
                 }
             }
 
-            return new Tuple<ObservableCollection<InputData>, List<InputData>>(rowsOfRemaining, retListe);
+            List<InputData> sortedretListe = new List<InputData>();
+            foreach (var klasseel in klasseListe)
+            {
+                List<InputData> klasseliste = new List<InputData>();
+
+                klasseliste = retListe.Where(o => o.Klasse == klasseel.Klasse).ToList();
+                if (klasseliste.Count > 0)
+                {
+                    foreach(var ownInput in klasseliste)
+                    {
+                        sortedretListe.Add(ownInput);
+                    }
+                }
+
+            }
+
+
+
+            return new Tuple<ObservableCollection<InputData>, List<InputData>>(rowsOfRemaining, sortedretListe);
         }
 
 

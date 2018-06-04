@@ -12,19 +12,19 @@
     <add key="OppropsTid" value="21"/>
     <add key="KlasseSort" value="5-0,4-0,V55-0,3-0,2-0,1-0"/>-->
 
-    <add key="SkiverILaget" value="20"/>
+    <add key="SkiverILaget" value="4"/>
     <add key="LagNummer1" value="1"/>
-    <!--<add key="LagNummer2" value="15"/>-->
-    <add key="LagStart1" value="2018-06-29T08:00:00"/>
-    <!--<add key="LagStart2" value="2018-06-30T08:00:00"/>-->
+    <add key="LagNummer2" value="13"/>
+    <add key="LagStart1" value="2018-06-28T16:00:00"/>
+    <add key="LagStart2" value="2018-06-30T08:00:00"/>
 
-    <add key="LagDuration" value="30"/>
-    <add key="LagFellesOpprop" value="1"/>
-    <add key="OppropsTid" value="20"/>
-    <!--<add key="KlasseSort" value="1-0,2-0,EJ-0,V55-0,3-10,4-10,5-0"/>-->
-    <!--<add key="KlasseSort" value="V73-10,R-10,J-10,V65-10,ER-10,NV-0"/>-->
+    <add key="LagDuration" value="6"/>
+    <add key="LagFellesOpprop" value="3"/>
+    <add key="OppropsTid" value="18"/>
+    <add key="KlasseSort" value="1-0,2-0,EJ-0,V55-0,3-10,4-10,5-0"/>
+    <!-- <add key="KlasseSort" value="V73-10,R-10,J-10,V65-10,ER-10,NV-0"/> -->
     <!--<add key="KlasseSort" value="V65-0,R-0,J-0,ER-0,V73-0,EJ-0,NV-0"/>-->
-    <add key="KlasseSort" value="2-0,1-0,V55-0,3-0,4-0,5-0"/>
+    <!-- <add key="KlasseSort" value="2-0,1-0,V55-0,3-0,4-0,5-0"/> -->
 
 
 

@@ -67,5 +67,16 @@ namespace OrionLag.Input.Views
 
             viewModel.OnWriteInputbutton_OnClickOn(sender, e);
         }
+
+        private void SummaryLag_OnClick(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as UserInputControlViewModel;
+            if (viewModel == null)
+            {
+                return;
+            }
+
+            viewModel.SummaryLag_OnClick(sender, e);
+        }
     }
 }

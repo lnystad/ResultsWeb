@@ -251,21 +251,59 @@ namespace OrionLag.Utils
                 totalLag++;
                 bool firstLinksFinfelt = false;
                 int skytteriklassen = 0;
+                List<Skytter> flyttes = new List<Skytter>();
                 //Tuple<int,Skytter> prevSkytter = null;
+                int generateSpace = 0;
+                if (Lagvis.Count > 0 && Lagvis[0].Skytterlag == ownLagId)
+                {
+
+                }
+                else
+                {
+                    if(Lagvis.Count > 0)
+                    {
+                        var conf = configklasse.FirstOrDefault(x => x.Klasse == Lagvis[0].Klasse);
+                        generateSpace = conf.SpaceInLag;
+                    }
+                }
+                    
+                
                 foreach (var skytterIn in Lagvis)
                 {
                     skytteriklassen++;
-                    Skytter prevSKive1 = null;
-                    if (!skytterIn.Links)
+                    
+                    if(generateSpace > 0 && skytteriklassen % generateSpace == 0)
                     {
                         if (CurrentSkivenr == 1)
                         {
-                            prevSKive1 = this.FindPrevSKytterSkive1(retValue, CurrentLagNo);
-                            
-                            if (prevSKive1!=null && prevSKive1.Links)
-                            {
-                                var nySKive = new Skiver(CurrentSkivenr);
-                                nySKive.Skytter = new Skytter()
+                            var SKive = new Skiver(CurrentSkivenr);
+                            SKive.Free = true;
+                            CurrentLag.SkiverILaget.Add(SKive);
+                            CurrentSkivenr++;
+                        }
+                        else
+                        {
+                            var SKive = new Skiver(CurrentSkivenr);
+                            SKive.Free = true;
+                            CurrentLag.SkiverILaget.Add(SKive);
+                            CurrentSkivenr=1;
+                            retValue.Add(CurrentLag);
+                            CurrentLagNo++;
+                            CurrentLag = new Lag();
+                            CurrentLag.LagNummer = CurrentLagNo;
+                            CurrentLag.MaxSkiveNummer = antallskiver;
+                            alredyadded = false;
+                        }
+                    }
+
+
+                    Skytter prevSKive1 = null;
+                    if (skytterIn.Links)
+                    {
+                        if (CurrentSkivenr == 1)
+                        {
+                                var SKive = new Skiver(CurrentSkivenr);
+                                SKive.Skytter = new Skytter()
                                 {
                                     Klasse = skytterIn.Klasse,
                                     Name = skytterIn.Name,
@@ -274,69 +312,184 @@ namespace OrionLag.Utils
                                     SkytterNr = skytterIn.SkytterNr,
                                     InputXmlData = skytterIn.InputXmlData
                                 };
-                                CurrentLag.SkiverILaget.Add(nySKive);
-                                retValue.Add(CurrentLag);
-                                CurrentLagNo++;
-                                CurrentLag = new Lag();
-                                CurrentLag.LagNummer = CurrentLagNo;
-                                CurrentLag.MaxSkiveNummer = antallskiver;
-                                alredyadded = false;
-                                CurrentSkivenr = 1;
-                                continue;
-                            }
+                                CurrentLag.SkiverILaget.Add(SKive);
+                                CurrentSkivenr++;
+
                         }
                         else if (CurrentSkivenr == 2)
                         {
-                            prevSKive1 = this.FindPrevSKytterSkive1(retValue, CurrentLagNo);
-                            if (prevSKive1 != null && prevSKive1.Links)
+                            Skytter sk = FindPrevSKytterSkive1(retValue, CurrentLagNo);
+
+                            if (sk == null)
                             {
-                                CurrentSkivenr = 1;
+                                var SKive = new Skiver(CurrentSkivenr);
+                                SKive.Skytter = new Skytter()
+                                {
+                                    Klasse = skytterIn.Klasse,
+                                    Name = skytterIn.Name,
+                                    Skytterlag = skytterIn.Skytterlag,
+                                    Links = skytterIn.Links,
+                                    SkytterNr = skytterIn.SkytterNr,
+                                    InputXmlData = skytterIn.InputXmlData
+                                };
+                                CurrentLag.SkiverILaget.Add(SKive);
                                 retValue.Add(CurrentLag);
                                 CurrentLagNo++;
                                 CurrentLag = new Lag();
                                 CurrentLag.LagNummer = CurrentLagNo;
                                 CurrentLag.MaxSkiveNummer = antallskiver;
-                                alredyadded = false;
+                                CurrentSkivenr = 1;
                             }
+                            else if (sk.Links)
+                            {
+                                var SKive = new Skiver(CurrentSkivenr);
+                                SKive.Skytter = new Skytter()
+                                {
+                                    Klasse = skytterIn.Klasse,
+                                    Name = skytterIn.Name,
+                                    Skytterlag = skytterIn.Skytterlag,
+                                    Links = skytterIn.Links,
+                                    SkytterNr = skytterIn.SkytterNr,
+                                    InputXmlData = skytterIn.InputXmlData
+                                };
+                                CurrentLag.SkiverILaget.Add(SKive);
+                                retValue.Add(CurrentLag);
+                                CurrentLagNo++;
+                                CurrentLag = new Lag();
+                                CurrentLag.LagNummer = CurrentLagNo;
+                                CurrentLag.MaxSkiveNummer = antallskiver;
+                                CurrentSkivenr = 1;
+                            }
+                            else
+                            {
+                                        // sett inn tom skive
+                                        var SKive = new Skiver(CurrentSkivenr);
+                                        CurrentLag.SkiverILaget.Add(SKive);
+                                        retValue.Add(CurrentLag);
+                                        CurrentLagNo++;
+                                        CurrentLag = new Lag();
+                                        CurrentLag.LagNummer = CurrentLagNo;
+                                        CurrentLag.MaxSkiveNummer = antallskiver;
+                                        CurrentSkivenr = 1;
+                                        var NySKive = new Skiver(CurrentSkivenr);
+                                        NySKive.Skytter = new Skytter()
+                                        {
+                                            Klasse = skytterIn.Klasse,
+                                            Name = skytterIn.Name,
+                                            Skytterlag = skytterIn.Skytterlag,
+                                            Links = skytterIn.Links,
+                                            SkytterNr = skytterIn.SkytterNr,
+                                            InputXmlData = skytterIn.InputXmlData
+                                        };
+                                        CurrentLag.SkiverILaget.Add(NySKive);
+                                        CurrentSkivenr++;
+                            }
+                            
                         }
                     }
-                         
-                    var SKive = new Skiver(CurrentSkivenr);
-                    SKive.Skytter = new Skytter()
+                    else
                     {
-                        Klasse = skytterIn.Klasse,
-                        Name = skytterIn.Name,
-                        Skytterlag = skytterIn.Skytterlag,
-                        Links = skytterIn.Links,
-                        SkytterNr = skytterIn.SkytterNr,
-                        InputXmlData = skytterIn.InputXmlData
-                    };
+                        if(CurrentSkivenr==2)
+                        {
+                            // have to check that skive 1 is not links
+                            Skiver sk = CurrentLag.SkiverILaget.FirstOrDefault(x => x.SkiveNummer == 1);
+                            if(sk.Skytter!=null && sk.Skytter.Links)
+                            {
+                                var Empty = new Skiver(CurrentSkivenr);
+                                CurrentLag.SkiverILaget.Add(Empty);
+                                retValue.Add(CurrentLag);
+                                CurrentLagNo++;
+                                CurrentLag = new Lag();
+                                CurrentLag.LagNummer = CurrentLagNo;
+                                CurrentLag.MaxSkiveNummer = antallskiver;
+                                CurrentSkivenr = 1;
 
-                    if (CurrentLag.SkiverILaget.Count == CurrentLag.MaxSkiveNummer)
-                    {
-                        retValue.Add(CurrentLag);
-                        CurrentLagNo++;
-                        CurrentLag = new Lag();
-                        CurrentLag.LagNummer = CurrentLagNo;
-                        CurrentLag.MaxSkiveNummer = antallskiver;
-                        alredyadded = false;
-                        CurrentSkivenr = 1;
-                        SKive.SkiveNummer = CurrentSkivenr;
-                    }
+                            }
+                        }
 
-                    CurrentLag.SkiverILaget.Add(SKive);
-                    CurrentSkivenr++;
-                    if (CurrentSkivenr > CurrentLag.MaxSkiveNummer)
-                    {
-                        retValue.Add(CurrentLag);
-                        CurrentLagNo++;
-                        CurrentLag = new Lag();
-                        CurrentLag.LagNummer = CurrentLagNo;
-                        CurrentLag.MaxSkiveNummer = antallskiver;
-                        alredyadded = false;
-                        CurrentSkivenr = 1;
+                        var SKive = new Skiver(CurrentSkivenr);
+                        SKive.Skytter = new Skytter()
+                        {
+                            Klasse = skytterIn.Klasse,
+                            Name = skytterIn.Name,
+                            Skytterlag = skytterIn.Skytterlag,
+                            Links = skytterIn.Links,
+                            SkytterNr = skytterIn.SkytterNr,
+                            InputXmlData = skytterIn.InputXmlData
+                        };
+
+                        if (CurrentLag.SkiverILaget.Count == CurrentLag.MaxSkiveNummer)
+                        {
+                            retValue.Add(CurrentLag);
+                            CurrentLagNo++;
+                            CurrentLag = new Lag();
+                            CurrentLag.LagNummer = CurrentLagNo;
+                            CurrentLag.MaxSkiveNummer = antallskiver;
+                            alredyadded = false;
+                            CurrentSkivenr = 1;
+                            SKive.SkiveNummer = CurrentSkivenr;
+                        }
+
+                        CurrentLag.SkiverILaget.Add(SKive);
+                        CurrentSkivenr++;
+                        if (CurrentSkivenr > CurrentLag.MaxSkiveNummer)
+                        {
+                            retValue.Add(CurrentLag);
+                            CurrentLagNo++;
+                            CurrentLag = new Lag();
+                            CurrentLag.LagNummer = CurrentLagNo;
+                            CurrentLag.MaxSkiveNummer = antallskiver;
+                            alredyadded = false;
+                            CurrentSkivenr = 1;
+                        }
                     }
                 }
+
+                //if(numberEmptyLag>0)
+                //{
+                //    for(int i=0; i< numberEmptyLag;i++)
+                //    {
+                //        CurrentLag = new Lag();
+                //        CurrentLag.LagNummer = CurrentLagNo;
+                //        CurrentLag.MaxSkiveNummer = antallskiver;
+                //        CurrentLagNo++;
+                //        CurrentLag.SkiverILaget.Add(new Skiver() { Free = true, SkiveNummer = 1 });
+                //        CurrentLag.SkiverILaget.Add(new Skiver() { Free = true, SkiveNummer = 2 });
+                //    }
+
+                //}
+
+                //if(flyttes.Count > 0)
+                //{
+                //    foreach(var sk in flyttes)
+                //    {
+                //        var SKive = new Skiver(CurrentSkivenr);
+                //        if (CurrentLag.SkiverILaget.Count == CurrentLag.MaxSkiveNummer)
+                //        {
+                //            retValue.Add(CurrentLag);
+                //            CurrentLagNo++;
+                //            CurrentLag = new Lag();
+                //            CurrentLag.LagNummer = CurrentLagNo;
+                //            CurrentLag.MaxSkiveNummer = antallskiver;
+                //            alredyadded = false;
+                //            CurrentSkivenr = 1;
+                //            SKive.SkiveNummer = CurrentSkivenr;
+                //        }
+
+                //        CurrentLag.SkiverILaget.Add(SKive);
+                //        CurrentSkivenr++;
+                //        if (CurrentSkivenr > CurrentLag.MaxSkiveNummer)
+                //        {
+                //            retValue.Add(CurrentLag);
+                //            CurrentLagNo++;
+                //            CurrentLag = new Lag();
+                //            CurrentLag.LagNummer = CurrentLagNo;
+                //            CurrentLag.MaxSkiveNummer = antallskiver;
+                //            alredyadded = false;
+                //            CurrentSkivenr = 1;
+                //        }
+                //    }
+                //}
 
                 if (Lagvis.Count > 0 && Lagvis[0].Skytterlag == ownLagId)
                 {
