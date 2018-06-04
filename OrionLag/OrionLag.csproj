@@ -69,11 +69,15 @@
     <Compile Include="Input\Data\InputDataComparer.cs" />
     <Compile Include="Input\Data\InputData.cs" />
     <Compile Include="Input\Data\StevneInfo.cs" />
+    <Compile Include="Input\ViewModel\EditViewControlViewModel.cs" />
     <Compile Include="Input\ViewModel\KlasseSort.cs" />
     <Compile Include="Input\ViewModel\LagOppsettViewModel.cs" />
     <Compile Include="Input\ViewModel\LagViewModel.cs" />
     <Compile Include="Input\ViewModel\SkiverViewModel.cs" />
     <Compile Include="Input\ViewModel\UserInputControlViewModel.cs" />
+    <Compile Include="Input\Views\EditViewControl.xaml.cs">
+      <DependentUpon>EditViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Input\Views\LagOppsettView.xaml.cs">
       <DependentUpon>LagOppsettView.xaml</DependentUpon>
     </Compile>
@@ -104,6 +108,10 @@
     <Compile Include="WPF\FileSelector.xaml.cs">
       <DependentUpon>FileSelector.xaml</DependentUpon>
     </Compile>
+    <Page Include="Input\Views\EditViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Input\Views\LagOppsettView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace OrionLag
 {
+    using OrionLag.Input.ViewModel;
     using OrionLag.Input.Views;
     using OrionLag.Output.ViewModels;
     using OrionLag.Output.Views;
@@ -53,6 +54,12 @@ namespace OrionLag
             OpenWindow(new UserInputControlView(viewModel), "Data input");
         }
 
+        private void InputMenuItemView_Click(object sender, RoutedEventArgs e)
+        {
+            EditViewControlViewModel viewModel = new EditViewControlViewModel();
+            OpenWindow(new EditViewControl(viewModel), "Edit input");
+        }
+        
 
         private void InputMenuItemFinFeltOpen_Click(object sender, RoutedEventArgs e)
         {

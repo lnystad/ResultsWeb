@@ -10,12 +10,13 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
            <MenuItem Header="GenererLag">
-                <MenuItem Header="_Open" Click="InputMenuItemOpen_Click"/>
+                <MenuItem Header="_OpenNew" Click="InputMenuItemOpen_Click"/>
+                <MenuItem Header="_View" Click="InputMenuItemView_Click"/>
             </MenuItem>
-            <MenuItem Header="KjørLag">
+            <!--<MenuItem Header="KjørLag">
                 <MenuItem Header="_FinFelt" Click="InputMenuItemFinFeltOpen_Click"/>
                 <MenuItem Header="_GrovFeltFelt" Click="InputMenuItemGrovFeltOpen_Click"/>
-            </MenuItem>
+            </MenuItem>-->
         </Menu>
         <StackPanel>
 
