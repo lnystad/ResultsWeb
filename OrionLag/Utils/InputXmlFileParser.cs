@@ -88,6 +88,26 @@ namespace OrionLag.Utils
                         }
                     }
 
+                    string lag = data.InputXmlData.FirstOrDefault(x => x.Name == "lag").Value;
+                    if (!string.IsNullOrEmpty(lag))
+                    {
+                        int lagno = 0;
+                        if (int.TryParse(lag, out lagno))
+                        {
+                            data.Lagnr = lagno;
+                        }
+                    }
+
+                    string skive = data.InputXmlData.FirstOrDefault(x => x.Name == "skive").Value;
+                    if (!string.IsNullOrEmpty(skive))
+                    {
+                        int skiveno = 0;
+                        if (int.TryParse(skive, out skiveno))
+                        {
+                            data.Skive = skiveno;
+                        }
+                    }
+
                     string Links = data.InputXmlData.FirstOrDefault(x => x.Name == "kat-l").Value;
                     if (!string.IsNullOrEmpty(Links))
                     {

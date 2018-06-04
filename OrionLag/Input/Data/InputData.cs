@@ -15,7 +15,7 @@ namespace OrionLag.Input.Data
             this.InputXmlData = new Collection<XmlTags>();
         }
         public int SkytterNr { get; set; }
-        public string Skive { get; set; }
+        public int Skive { get; set; }
         public string Name { get; set; }
 
         public int Lagnr { get; set; }
