@@ -123,5 +123,55 @@ namespace OrionLag.Utils
             }
             return restunVal;
         }
+
+        public static List<Lag> ParseXmlFileLagData(string path, string fileName)
+        {
+            var restunVal = new List<Lag>();
+            string fullPath = Path.Combine(path, fileName);
+            XDocument xmlDoc = XDocument.Load(fullPath);
+            int elementno = 0;
+            foreach (XElement desc in xmlDoc.Descendants())
+            {
+                elementno++;
+                if (desc.Name.LocalName == "lag")
+                {
+                    Lag data = new Lag();
+
+                    var InputXmlData = new List<XmlTags>();
+                    foreach (var attr in desc.Attributes())
+                    {
+                        var xmlTags = new XmlTags();
+                        xmlTags.Name = attr.Name.LocalName;
+                        xmlTags.Value = attr.Value;
+                        InputXmlData.Add(xmlTags);
+                    }
+
+
+                    var lagno = InputXmlData.FirstOrDefault(x => x.Name == "lagnr")?.Value;
+                    if(!string.IsNullOrEmpty(lagno))
+                    {
+                        data.LagNummer = int.Parse(lagno);
+                    }
+
+                    var dato = InputXmlData.FirstOrDefault(x => x.Name == "dato")?.Value;
+
+                    var opproptid = InputXmlData.FirstOrDefault(x => x.Name == "kl-opprop")?.Value;
+
+                    var skytetid = InputXmlData.FirstOrDefault(x => x.Name == "kl-skytetid")?.Value;
+
+                    if (!string.IsNullOrEmpty(dato)&& !string.IsNullOrEmpty(opproptid))
+                    {
+                        data.OppropsTid = DateTime.ParseExact(dato + "T" + opproptid, "dd.MM.yyyyTHH:mm", null);
+                    }
+                    if (!string.IsNullOrEmpty(dato) && !string.IsNullOrEmpty(skytetid))
+                    {
+                        data.LagTid = DateTime.ParseExact(dato + "T" + skytetid, "dd.MM.yyyyTHH:mm", null);
+                    }
+
+                    restunVal.Add(data);
+                }
+            }
+            return restunVal;
+        }
     }
 }

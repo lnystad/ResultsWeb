@@ -239,6 +239,7 @@ namespace OrionLag.Input.ViewModel
             string path = Path.GetDirectoryName(GrovfeltFile);
             string filename = Path.GetFileName(GrovfeltFile);
             var input = InputXmlFileParser.ParseXmlFile(path, filename);
+            var inputLagData = InputXmlFileParser.ParseXmlFileLagData(path, filename);
 
             m_grovfeltRows = new ObservableCollection<InputData>();
             m_skiver.Clear();
