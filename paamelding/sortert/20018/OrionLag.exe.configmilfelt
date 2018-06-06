@@ -12,7 +12,7 @@
     <add key="OppropsTid" value="21"/>
     <add key="KlasseSort" value="5-0,4-0,V55-0,3-0,2-0,1-0"/>-->
 
-    <add key="SkiverILaget" value="6"/>
+    <add key="SkiverILaget" value="12"/>
     <add key="LagNummer1" value="1"/>
     <!-- <add key="LagNummer2" value="13"/> -->
     <add key="LagStart1" value="2018-06-27T08:30:00"/>
