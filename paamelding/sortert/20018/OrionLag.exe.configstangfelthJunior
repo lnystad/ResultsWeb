@@ -13,8 +13,8 @@
     <add key="KlasseSort" value="5-0,4-0,V55-0,3-0,2-0,1-0"/>-->
 
     <add key="SkiverILaget" value="4"/>
-    <add key="LagNummer1" value="80"/>
-    <add key="LagStart1" value="2018-06-30T14:36:00"/>
+    <add key="LagNummer1" value="85"/>
+    <add key="LagStart1" value="2018-06-28T14:12:00"/>
     <!-- <add key="LagStart2" value="2018-06-30T08:00:00"/> -->
 
     <add key="LagDuration" value="6"/>
