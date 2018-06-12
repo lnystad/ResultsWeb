@@ -15,3 +15,4 @@ C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResult
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.csproj.GenerateResource.Cache
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.exe
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.pdb
+C:\Users\lan\source\repos\ResultsWeb\SendingResultClient\obj\Debug\SendingResultClient.csproj.CoreCompileInputs.cache

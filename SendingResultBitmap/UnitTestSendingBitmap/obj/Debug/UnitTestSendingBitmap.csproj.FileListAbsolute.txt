@@ -3,3 +3,4 @@ C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\UnitTestSendingBitmap.pdb
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\UnitTestSendingBitmap\obj\Debug\UnitTestSendingBitmap.csprojResolveAssemblyReference.cache
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\UnitTestSendingBitmap\obj\Debug\UnitTestSendingBitmap.dll
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\UnitTestSendingBitmap\obj\Debug\UnitTestSendingBitmap.pdb
+C:\Users\lan\source\repos\ResultsWeb\SendingResultBitmap\UnitTestSendingBitmap\obj\Debug\UnitTestSendingBitmap.csproj.CoreCompileInputs.cache

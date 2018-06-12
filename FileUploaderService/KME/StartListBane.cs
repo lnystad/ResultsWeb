@@ -196,7 +196,12 @@ namespace FileUploaderService.KME
                     return BaneType.MinneFin;
                 }
 
-               return BaneType.MinneGrov;
+                if (klasseText.CompareTo("NV") == 0)
+                {
+                    return BaneType.MinneFin;
+                }
+
+                return BaneType.MinneGrov;
             }
 
             return BaneType.Undefined;

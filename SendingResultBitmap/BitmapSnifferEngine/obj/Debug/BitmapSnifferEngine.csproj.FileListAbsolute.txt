@@ -3,3 +3,4 @@ C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\BitmapSnifferEngine.pdb
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\BitmapSnifferEngine\obj\Debug\BitmapSnifferEngine.dll
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\BitmapSnifferEngine\obj\Debug\BitmapSnifferEngine.pdb
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\BitmapSnifferEngine\obj\Debug\BitmapSnifferEngine.csprojResolveAssemblyReference.cache
+C:\Users\lan\source\repos\ResultsWeb\SendingResultBitmap\BitmapSnifferEngine\obj\Debug\BitmapSnifferEngine.csproj.CoreCompileInputs.cache

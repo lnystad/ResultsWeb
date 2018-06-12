@@ -3,37 +3,38 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Converters="clr-namespace:SendingResultClient.Converters;assembly=SendingResultClient"
         xmlns:local="clr-namespace:SendingResultClient"
         mc:Ignorable="d"
         Title="SendingResults" Height="350" Width="525">
-    <Grid>
-        <DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_ViewBitmaps">
-                    <MenuItem Header="_Open" Click="MenuItem_Click" />
-                    <Separator />
-                    <MenuItem Header="_Exit" />
-                </MenuItem>
-            </Menu>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="36*"/>
-                    <ColumnDefinition Width="481*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0"
-	            Content="{Binding DirectoryName}"
-	            HorizontalAlignment="Stretch"
-	            VerticalAlignment="Center"
-	            Background="Beige"
-	            Grid.ColumnSpan="2" Margin="0,5" />
-                <TextBox Grid.Row="1" AcceptsReturn="True" Grid.ColumnSpan="2" />
-            </Grid>
+    <Window.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Converters:OppositeBoolToVisibilityConverter x:Key="OppositeBoolToVisibilityConverter"/>
+        <Converters:ObjectNotNullToVisibilityConverter x:Key="ObjectNotNullToVisibilityConverter"/>
+        <DataTemplate x:Key="ChooseStevne" DataType="Viewmodels:ChooseStevneViewModel">
+            <StackPanel DataContext="{Binding}"  Orientation="Horizontal" VerticalAlignment="Top">
+                <Label Grid.Column="0">Valgt Stevne:</Label>
+                <TextBox Grid.Column="1" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}" Width="400"/>
+                <Button Grid.Column="2" Command="{Binding OpenFileDialogCommand}" Content="..."/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid DataContext="{Binding}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <ContentPresenter Grid.Row="0" Content="{Binding SelectedOrion.CommunicationSetup}" ContentTemplate="{StaticResource ChooseStevne}"/>
+            
+        <TabControl Grid.Row="1" x:Name="tabControl">
+            <TabItem Header="Stevne" Content="{Binding DatabaseSetup}" ContentTemplate="{StaticResource DatabaseTemplate}" Visibility="{Binding InitDatabaseMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </TabControl>
+        <!--<StackPanel VerticalAlignment="Bottom" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding InitDatabaseMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}">
 
-
-        </DockPanel>
+            <Button Command="{Binding SaveSettingsAsTemplateCommand}" Margin="5" HorizontalAlignment="Left" Content="Lagre Template" IsEnabled="{Binding SetupMode}" Visibility="{Binding InitTemplateMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}"/>
+            <Button Command="{Binding ExitSettingsCommand}" Margin="5" HorizontalAlignment="Left" Content="Avslutt" IsEnabled="{Binding SetupMode}" Visibility="{Binding InitTemplateMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}"/>
+            <Button Command="{Binding StartProductionCommand}" Margin="5" HorizontalAlignment="Left" Content="Start" IsEnabled="{Binding SetupMode}" Visibility="{Binding InitProductionMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}" />
+          
+        </StackPanel>-->
     </Grid>
 </Window>

@@ -297,10 +297,10 @@ namespace UnitTestSendingBitmap
                     File.Delete(filename);
                 }
             }
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-1.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-1-1.PNG"));
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-2.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-1-2.PNG"));
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-3.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-1-3.PNG"));
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-4.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-1-4.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-1.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-7-1.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-2.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-7-2.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-3.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-7-3.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag7\TR-1-4.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-7-4.PNG"));
 
             var success = orion.CheckForNewBitmapFiles(false);
             Assert.AreEqual(true, success);
@@ -414,19 +414,19 @@ namespace UnitTestSendingBitmap
                     File.Delete(filename);
                 }
             }
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-1.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-3-1.PNG"));
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-2.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-3-2.PNG"));
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-3.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-3-3.PNG"));
-            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-4.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-3-4.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-1.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-11-1.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-2.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-11-2.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-3.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-11-3.PNG"));
+            File.Copy(Path.Combine(setupConfig.BitMapDir, @"200m\Lag11\TR-3-4.PNG"), Path.Combine(setupConfig.BitMapDir, @"TR-11-4.PNG"));
 
             var success = orion.CheckForNewBitmapFiles(false);
             Assert.AreEqual(true, success);
             var filesInDir = Directory.GetFiles(setupConfig.BitMapDir).ToList();
 
-            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-3-1-4.png")));
-            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-3-2-4.png")));
-            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-3-3-4.png")));
-            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-3-4-4.png")));
+            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-1-1-5.png")));
+            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-1-2-5.png")));
+            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-1-3-5.png")));
+            Assert.IsTrue(filesInDir.Contains(Path.Combine(setupConfig.BitMapDir, "TR-1-4-5.png")));
 
         }
 
@@ -488,9 +488,9 @@ namespace UnitTestSendingBitmap
             setupConfig.BitMapDir = @"C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\UnitTestSendingBitmap\TestData";
             setupConfig.BitMapBackupDir = @"C:\Orion2\Test200m";
             setupConfig.BaneType = BaneType.GrovFelt;
-            setupConfig.PausedBetweenHold = false;
+            setupConfig.PausedBetweenHold = true;
             setupConfig.HoldConfig.Add(
-                new HoldTypeConfiguration() { VenteBenk = 0, FixLagnr = false, HoldNr = 3, HoldType = HoldType.Felt, SluttSkive = 4, StartSkive = 1 });
+                new HoldTypeConfiguration() { VenteBenk = 3, FixLagnr = true, HoldNr = 3, HoldType = HoldType.Felt, SluttSkive = 4, StartSkive = 1 });
         }
 
         private static void InitConfig200PC3(SetupConfiguration setupConfig)
@@ -498,9 +498,9 @@ namespace UnitTestSendingBitmap
             setupConfig.BitMapDir = @"C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\UnitTestSendingBitmap\TestData";
             setupConfig.BitMapBackupDir = @"C:\Orion2\Test200m";
             setupConfig.BaneType = BaneType.GrovFelt;
-            setupConfig.PausedBetweenHold = false;
+            setupConfig.PausedBetweenHold = true;
             setupConfig.HoldConfig.Add(
-                new HoldTypeConfiguration() { VenteBenk = 0, FixLagnr = false, HoldNr = 4, HoldType = HoldType.Felt, SluttSkive = 4, StartSkive = 1 });
+                new HoldTypeConfiguration() { VenteBenk = 5, FixLagnr = true, HoldNr = 5, HoldType = HoldType.Felt, SluttSkive = 4, StartSkive = 1 });
         }
 
         private static void InitConfig200PC4(SetupConfiguration setupConfig)

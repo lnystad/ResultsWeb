@@ -4,3 +4,4 @@ C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResults.pdb
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.csprojResolveAssemblyReference.cache
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.exe
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.pdb
+C:\Users\lan\source\repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.csproj.CoreCompileInputs.cache

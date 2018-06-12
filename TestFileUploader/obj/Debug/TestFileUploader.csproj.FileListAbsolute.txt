@@ -4,3 +4,4 @@ C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\TestFileUploader.pdb
 C:\Users\lan\Source\Repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.csprojResolveAssemblyReference.cache
 C:\Users\lan\Source\Repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.exe
 C:\Users\lan\Source\Repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.pdb
+C:\Users\lan\source\repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.csproj.CoreCompileInputs.cache

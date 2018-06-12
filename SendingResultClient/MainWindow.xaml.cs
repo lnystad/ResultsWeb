@@ -20,6 +20,9 @@ namespace SendingResultClient
     using System.Windows.Forms.Integration;
 
     using SendingResultClient.Common;
+    using FileUploaderService.Diagnosis;
+    using SendingResultClient.Viewmodels;
+    using FileUploaderService.Configuration;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -30,45 +33,49 @@ namespace SendingResultClient
         public MainWindow()
         {
             InitializeComponent();
-        }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog 
-            //Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            var model = this.InitViewModels();
+            this.DataContext = model;
+            this.InitializeComponent();
 
+            var logfile = ConfigurationLoader.GetAppSettingsValue("LogFile");
 
+            var Skytterlag = ConfigurationLoader.GetAppSettingsValue("Skytterlag");
+            var Lisens = ConfigurationLoader.GetAppSettingsValue("Lisens");
 
-            //// Set filter for file extension and default file extension 
-            //dlg.DefaultExt = ".png";
-            //dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            //Nullable<bool> result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (result == System.Windows.Forms.DialogResult.OK)
+            var LoggingLevelsString = ConfigurationLoader.GetAppSettingsValue("LoggingLevels");
+            LoggingLevels enumLowestTrace = LoggingLevels.Info;
+            if (!string.IsNullOrEmpty(LoggingLevelsString))
             {
-                // Open document 
-                string filename = dialog.SelectedPath;
-                this.DirectoryName = filename;
+                if (!Enum.TryParse(LoggingLevelsString, true, out enumLowestTrace))
+                {
+                    enumLowestTrace = LoggingLevels.Info;
+                }
             }
 
+            var fileAppsender = new FileAppender(logfile, enumLowestTrace, LoggingLevels.Trace);
+            Log.AddAppender(fileAppsender);
+            //if (!LisensChecker.Validate(Skytterlag, DateTime.Now, Lisens))
+            //{
+            //    Log.Error("Lisens not valid for {0}", Skytterlag);
+            //    System.Windows.Application.Current.Shutdown();
+            //}
+
+            Log.Info("Sending Result Client started");
+
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += CurrentDomainUnhandledException;
         }
 
-        private void ShowMbChildWindow(UIElement child, int width, int heigh, string name)
+        private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var window = new MbWindow();
-            window.Content = child;
-            window.Title = name;
-            window.Width = width;
-            window.Height = heigh;
-            ElementHost.EnableModelessKeyboardInterop(window);
-            window.Show();
+            Log.Error(e.ExceptionObject as Exception, "Unhandled exception");
+        }
+
+        private MainViewModel InitViewModels()
+        {
+            var model = new MainViewModel();
+            return model;
         }
     }
 }
