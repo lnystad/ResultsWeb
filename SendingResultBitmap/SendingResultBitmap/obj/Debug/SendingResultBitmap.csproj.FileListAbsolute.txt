@@ -4,3 +4,4 @@ C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResultBitmap.pdb
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\SendingResultBitmap\obj\Debug\SendingResultBitmap.exe
 C:\Users\lan\Source\Repos\ResultsWeb\SendingResultBitmap\SendingResultBitmap\obj\Debug\SendingResultBitmap.pdb
 C:\Users\lan\Source\Repos\ResultsWeb\bin\Debug\SendingResultBitmap.exe.config
+C:\Users\lan\source\repos\ResultsWeb\SendingResultBitmap\SendingResultBitmap\obj\Debug\SendingResultBitmap.csproj.CoreCompileInputs.cache

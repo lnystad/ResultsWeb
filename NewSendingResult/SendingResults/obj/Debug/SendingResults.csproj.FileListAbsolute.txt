@@ -1,0 +1,7 @@
+C:\Users\lan\source\repos\ResultsWeb\bin\Debug\SendingResults.exe.config
+C:\Users\lan\source\repos\ResultsWeb\bin\Debug\SendingResults.exe
+C:\Users\lan\source\repos\ResultsWeb\bin\Debug\SendingResults.pdb
+C:\Users\lan\source\repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.csprojResolveAssemblyReference.cache
+C:\Users\lan\source\repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.csproj.CoreCompileInputs.cache
+C:\Users\lan\source\repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.exe
+C:\Users\lan\source\repos\ResultsWeb\SendingResults\obj\Debug\SendingResults.pdb

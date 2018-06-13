@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderService", "FileUploaderService\FileUploaderService.csproj", "{D8186E58-706E-42BE-8C41-A5A36C2EC05B}"
 EndProject
@@ -12,6 +12,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendingResultClient", "SendingResultClient\SendingResultClient.csproj", "{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestSendingResult", "UnitTestSendingResult\UnitTestSendingResult.csproj", "{D61F69B5-64B3-4E1F-8EF9-F80BCFA1E555}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{C3DCFD05-364F-4C1C-8C52-B004C3E6EF03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{FF4CC752-49DA-4E71-A567-B8659F5357AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{89F37CEE-A595-475E-8BFC-B5200C90DCD0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F37C20A6-4E36-42C0-8A12-86C8A8B37517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +50,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D8186E58-706E-42BE-8C41-A5A36C2EC05B} = {89F37CEE-A595-475E-8BFC-B5200C90DCD0}
+		{E367ACCE-D5E5-4408-812B-7D74DC93FFEE} = {F37C20A6-4E36-42C0-8A12-86C8A8B37517}
+		{4B8FBA4B-9729-4275-843F-BBD33F0AF8F8} = {FF4CC752-49DA-4E71-A567-B8659F5357AA}
+		{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA} = {C3DCFD05-364F-4C1C-8C52-B004C3E6EF03}
+		{D61F69B5-64B3-4E1F-8EF9-F80BCFA1E555} = {F37C20A6-4E36-42C0-8A12-86C8A8B37517}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7223B42-5067-42F5-867B-941654959A50}
 	EndGlobalSection
 EndGlobal

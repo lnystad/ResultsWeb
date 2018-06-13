@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Converters="clr-namespace:SendingResultClient.Converters;assembly=SendingResultClient"
+        xmlns:Converters="clr-namespace:SendingResultClient.Converters"
         xmlns:local="clr-namespace:SendingResultClient"
         mc:Ignorable="d"
         Title="SendingResults" Height="350" Width="525">
@@ -18,16 +18,22 @@
                 <Button Grid.Column="2" Command="{Binding OpenFileDialogCommand}" Content="..."/>
             </StackPanel>
         </DataTemplate>
+        <DataTemplate x:Key="UpLoadStevne" DataType="Viewmodels:UpLoadStevneViewModel">
+            <StackPanel DataContext="{Binding}"  Orientation="Horizontal" VerticalAlignment="Top">
+                       <Button  Command="{Binding UploadStevne}" Content="Upload"/>
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
     <Grid DataContext="{Binding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <ContentPresenter Grid.Row="0" Content="{Binding SelectedOrion.CommunicationSetup}" ContentTemplate="{StaticResource ChooseStevne}"/>
-            
+         </Grid.RowDefinitions>
+        <ContentPresenter Grid.Row="0" Content="{Binding ChooseStevneViewModel}" ContentTemplate="{StaticResource ChooseStevne}"/>
+
         <TabControl Grid.Row="1" x:Name="tabControl">
-            <TabItem Header="Stevne" Content="{Binding DatabaseSetup}" ContentTemplate="{StaticResource DatabaseTemplate}" Visibility="{Binding InitDatabaseMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <TabItem Header="Stevne" Content="{Binding DatabaseSetup}" ContentTemplate="{StaticResource UpLoadStevne}" Visibility="{Binding UploadStevneMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </TabControl>
         <!--<StackPanel VerticalAlignment="Bottom" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding InitDatabaseMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}">
 
