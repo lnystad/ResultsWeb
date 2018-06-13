@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D8186E58-706E-42BE-8C41-A5A36C2EC05B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileUploaderService</RootNamespace>
+    <AssemblyName>FileUploaderService</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="edtFTPnet">
+      <HintPath>..\..\..\Extern\edtFTPnet.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\..\..\Extern\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\ConfigurationFileReader.cs" />
+    <Compile Include="Configuration\ConfigurationFileReaderProvider.cs" />
+    <Compile Include="Configuration\ConfigurationLoader.cs" />
+    <Compile Include="Configuration\IConfigurationFileReader.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="KME\BitmapDirInfo.cs" />
+    <Compile Include="KME\LagTimeInfo.cs" />
+    <Compile Include="KME\RapportXmlClass.cs" />
+    <Compile Include="KME\StartingListLag.cs" />
+    <Compile Include="KME\StartingListSerie.cs" />
+    <Compile Include="KME\StartingListSkive.cs" />
+    <Compile Include="KME\StartingListStevne.cs" />
+    <Compile Include="KME\StartListBane.cs" />
+    <Compile Include="KME\TopListElement.cs" />
+    <Compile Include="Leon\Report.cs" />
+    <Compile Include="Lisens\Lisens.cs" />
+    <Compile Include="ListeSort\ParseXmlOpp.cs" />
+    <Compile Include="ListeSort\SortOvelse.cs" />
+    <Compile Include="Orion\OrionProgramInfo.cs" />
+    <Compile Include="Orion\OrionStevneInfo.cs" />
+    <Compile Include="ProcessMemoryReader.cs" />
+    <Compile Include="BaneType.cs" />
+    <Compile Include="ProgramType.cs" />
+    <Compile Include="StevneType.cs" />
+    <Compile Include="Orion\Lag.cs" />
+    <Compile Include="Orion\Skive.cs" />
+    <Compile Include="UploadCommand.cs" />
+    <Compile Include="Diagnosis\FileAppender.cs" />
+    <Compile Include="Diagnosis\ILogAppender.cs" />
+    <Compile Include="Diagnosis\Log.cs" />
+    <Compile Include="Diagnosis\LogAppender.cs" />
+    <Compile Include="Diagnosis\LoggingEvent.cs" />
+    <Compile Include="Diagnosis\LoggingLevels.cs" />
+    <Compile Include="Diagnosis\PathUtils.cs" />
+    <Compile Include="Diagnosis\TraceAppender.cs" />
+    <Compile Include="FileSnifferEngine.cs" />
+    <Compile Include="Ftp\FtpUtility.cs" />
+    <Compile Include="KME\LeonDirInfo.cs" />
+    <Compile Include="KME\LeonFileLoader.cs" />
+    <Compile Include="Orion\OrionFileInfo.cs" />
+    <Compile Include="Orion\OrionFileLoader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\FileAccessHelper.cs" />
+    <Compile Include="Utils\ParseHelper.cs" />
+    <Compile Include="Utils\XmlFileReaderHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="KME\GravKorttransform.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="KME\opproplistemal.html" />
+    <Content Include="Leon\LagskytingReport.xslt" />
+    <Content Include="Leon\MergeBitmapLagMinne.xml" />
+    <Content Include="Leon\MergeBitmapLag.xml" />
+    <Content Include="Leon\mergefeltER.xml" />
+    <Content Include="Leon\MergeKlasse1.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\MergeKlasse35ref.xml" />
+    <Content Include="Leon\MergeKlasse35.xml" />
+    <Content Include="Leon\MergeklasseFelt.xml" />
+    <Content Include="Leon\MergeKlassemedref.xml" />
+    <Content Include="Leon\MergeLagskytingUngdom.xml" />
+    <Content Include="Leon\MERGEopprop100mFinale.xml" />
+    <Content Include="Leon\MERGEopprop100mFinalemedref.xml" />
+    <Content Include="Leon\rapportFelt.xml" />
+    <Content Include="Leon\rapportmedref.xml" />
+    <Content Include="Leon\rapport.xml" />
+    <Content Include="Leon\RapportXslt.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\readxml.js" />
+    <Content Include="Leon\SkytteriLagskyting.xml" />
+    <Content Include="Leon\SkytteriLagskyting.xslt" />
+    <Content Include="Leon\SkytteriLag.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\TopListeXslt.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\TopRapport.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\MERGEOPPROPOmgang.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Leon\MergerapportFinFelt.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y $(ProjectDir)Leon\readxml.js $(TargetDir)readxml.js</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

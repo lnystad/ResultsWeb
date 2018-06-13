@@ -1,7 +1,0 @@
-C:\Users\lan\source\repos\ResultsWeb\bin\Debug\TestFileUploader.exe.config
-C:\Users\lan\source\repos\ResultsWeb\bin\Debug\TestFileUploader.exe
-C:\Users\lan\source\repos\ResultsWeb\bin\Debug\TestFileUploader.pdb
-C:\Users\lan\source\repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.csprojResolveAssemblyReference.cache
-C:\Users\lan\source\repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.csproj.CoreCompileInputs.cache
-C:\Users\lan\source\repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.exe
-C:\Users\lan\source\repos\ResultsWeb\TestFileUploader\obj\Debug\TestFileUploader.pdb
