@@ -16,7 +16,7 @@
     <series id="7" name="Omgang" type="series_shot_sum" />
   </column>
   <data>
-    <result num="1" name="Julian Brunes Ellingsen" club="Bodø Østre " innerten="4" totsum="347">
+    <result ref="100m/TR-4-5.PNG" num="1" name="Julian Brunes Ellingsen" club="Bodø Østre " innerten="4" totsum="347">
       <series id="1" sum="50">
         <shot val="X" />
         <shot val="*" />
@@ -65,7 +65,7 @@
         <shot val="*" />
       </series>
     </result>
-    <result num="2" name="Irmelin Kristoffersen" club="Beiarn " innerten="7" totsum="346">
+    <result ref="100m/TR-3-2.PNG" num="2" name="Irmelin Kristoffersen" club="Beiarn " innerten="7" totsum="346">
       <series id="1" sum="48">
         <shot val="*" />
         <shot val="X" />
@@ -114,7 +114,7 @@
         <shot val="*" />
       </series>
     </result>
-    <result num="3" name="Runar Tobiassen" club="Bodø Østre " innerten="5" totsum="346">
+    <result ref="100m/TR-3-8.PNG" num="3" name="Runar Tobiassen" club="Bodø Østre " innerten="5" totsum="346">
       <series id="1" sum="50">
         <shot val="*" />
         <shot val="X" />
@@ -163,7 +163,7 @@
         <shot val="*" />
       </series>
     </result>
-    <result num="4" name="Andreas Strømsvik" club="Bodø Østre " innerten="3" totsum="343">
+    <result ref="100m/TR-4-8.PNG" num="4" name="Andreas Strømsvik" club="Bodø Østre " innerten="3" totsum="343">
       <series id="1" sum="49">
         <shot val="9" />
         <shot val="X" />
@@ -212,7 +212,7 @@
         <shot val="9" />
       </series>
     </result>
-    <result num="5" name="Lisa Iren Husnes Larsen" club="Røvassdalen " innerten="4" totsum="342">
+    <result ref="100m/TR-4-6.PNG" num="5" name="Lisa Iren Husnes Larsen" club="Røvassdalen " innerten="4" totsum="342">
       <series id="1" sum="50">
         <shot val="X" />
         <shot val="*" />

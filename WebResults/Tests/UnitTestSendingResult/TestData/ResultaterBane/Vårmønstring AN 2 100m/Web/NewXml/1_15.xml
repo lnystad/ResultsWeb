@@ -16,7 +16,7 @@
     <series id="7" name="Omgang" type="series_shot_sum" />
   </column>
   <data>
-    <result num="1" name="Aksel Skoglund" club="Beiarn " innerten="3" totsum="335">
+    <result ref="100m/TR-4-4.PNG" num="1" name="Aksel Skoglund" club="Beiarn " innerten="3" totsum="335">
       <series id="1" sum="50">
         <shot val="*" />
         <shot val="*" />
@@ -65,7 +65,7 @@
         <shot val="0" />
       </series>
     </result>
-    <result num="2" name="Jan Erik Sørdal" club="Saltdal " innerten="0" totsum="332">
+    <result ref="100m/TR-3-3.PNG" num="2" name="Jan Erik Sørdal" club="Saltdal " innerten="0" totsum="332">
       <series id="1" sum="50">
         <shot val="*" />
         <shot val="*" />

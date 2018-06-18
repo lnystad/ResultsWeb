@@ -577,7 +577,7 @@ namespace FileUploaderService.KME
         }
 
 
-        internal void InitToppListLagSkytingTransform(string filename)
+        public void InitToppListLagSkytingTransform(string filename)
         {
             if (File.Exists(filename))
             {
@@ -1229,7 +1229,7 @@ namespace FileUploaderService.KME
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private bool GenerateNewReports(LeonDirInfo element,bool forceWebParse)
+        public bool GenerateNewReports(LeonDirInfo element,bool forceWebParse)
         {
             if (this.m_xsltRapport == null)
             {

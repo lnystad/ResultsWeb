@@ -56,6 +56,8 @@
     <Compile Include="Configuration\ConfigurationLoader.cs" />
     <Compile Include="Configuration\IConfigurationFileReader.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Ftp\FtpDirectory.cs" />
+    <Compile Include="Ftp\FtpFile.cs" />
     <Compile Include="KME\BitmapDirInfo.cs" />
     <Compile Include="KME\LagTimeInfo.cs" />
     <Compile Include="KME\RapportXmlClass.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="ProcessMemoryReader.cs" />
     <Compile Include="BaneType.cs" />
     <Compile Include="ProgramType.cs" />
+    <Compile Include="Settings\LastSettings.cs" />
     <Compile Include="StevneType.cs" />
     <Compile Include="Orion\Lag.cs" />
     <Compile Include="Orion\Skive.cs" />

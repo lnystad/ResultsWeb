@@ -6,35 +6,156 @@
         xmlns:Converters="clr-namespace:SendingResultClient.Converters"
         xmlns:local="clr-namespace:SendingResultClient"
         mc:Ignorable="d"
-        Title="WebResults" Height="350" Width="525">
+        Title="WebResults" Height="850" Width="825">
     <Window.Resources>
         <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Converters:OppositeBoolToVisibilityConverter x:Key="OppositeBoolToVisibilityConverter"/>
         <Converters:ObjectNotNullToVisibilityConverter x:Key="ObjectNotNullToVisibilityConverter"/>
+        <Converters:HeaderToImageConverter x:Key="HeaderToImageConverter"/>
         <DataTemplate x:Key="ChooseStevne" DataType="Viewmodels:ChooseStevneViewModel">
             <StackPanel DataContext="{Binding}"  Orientation="Horizontal" VerticalAlignment="Top">
-                <Label Grid.Column="0">Valgt Stevne:</Label>
-                <TextBox Grid.Column="1" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}" Width="400"/>
-                <Button Grid.Column="2" Command="{Binding OpenFileDialogCommand}" Content="..."/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Label  Grid.Row="0" Grid.Column="0">Leon:</Label>
+                    <TextBox Grid.Row="0"  Grid.Column="1" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}" Width="400"/>
+                    <Button Grid.Row="0" Grid.Column="2" Command="{Binding OpenFileDialogCommand}" Content="..."/>
+                    <Label  Grid.Row="1" Grid.Column="0">Stevne:</Label>
+                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Competitions}" SelectedItem="{Binding SelectedCompetition}" Text="Select Option"/>
+                    <Button Grid.Row="1" Grid.Column="2" Command="{Binding RefreshCompetitionsCommand}" Content=".."/>
+                </Grid>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="UpLoadStevne" DataType="Viewmodels:UpLoadStevneViewModel">
-            <StackPanel DataContext="{Binding}"  Orientation="Horizontal" VerticalAlignment="Top">
-                       <Button  Command="{Binding UploadStevne}" Content="Upload"/>
+            <StackPanel DataContext="{Binding}"   >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Label   >Remote Upload:</Label>
+                        <TextBox  Text="{Binding SelectedRemoteSubDir, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Right"/>
+                        <Button   Command="{Binding OpenRemoteDirCommand}" Content="..."/>
+                        <ProgressBar Name="progressBar" Margin="35,5,5,5" Width="200" Height="30" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ProgrssbarVisibility}"/>
+                    </StackPanel>
+                    <ScrollViewer Grid.Row="1" Height="650" VerticalScrollBarVisibility="Auto">
+                        <TextBox Margin="10,10,10,10"   Text="{Binding TextOutput}" TextWrapping="Wrap" AcceptsReturn="True"/>
+                    </ScrollViewer>
+                    <Button Grid.Row="2" Margin="250,5,5,5" Height="30" Width="70" Command="{Binding UploadStevneCommand}" Content="Upload" />
+                </Grid>
+
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Logging" DataType="Viewmodels:LogViewModel">
+            <StackPanel DataContext="{Binding}"   >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="0" Height="650" VerticalScrollBarVisibility="Auto">
+                        <TextBox Margin="10,10,10,10"   Text="{Binding LogText}" TextWrapping="Wrap" AcceptsReturn="True"/>
+                    </ScrollViewer>
+                    <Button Grid.Row="1" Margin="250,5,5,5" Height="30" Width="70" Command="{Binding RefreshCommand}" Content="Refresh" />
+                </Grid>
+
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="BitMapSelection" DataType="Viewmodels:BitMapSelectionViewModel">
+            <StackPanel DataContext="{Binding}"   >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"  Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" MinWidth="216"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <Label>Orion Bitmap Dir:</Label>
+                                <ComboBox  Width="250" Margin="7" Height="30" ItemsSource="{Binding OrionDirs}" SelectedItem="{Binding SelectedOrionDir}" Text="Select Option"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Vertical" >
+                                <RadioButton IsChecked="{Binding Is15Checked}">15m</RadioButton>
+                                <RadioButton IsChecked="{Binding Is100Checked}">100m</RadioButton>
+                                <RadioButton IsChecked="{Binding IsFinFeltChecked}">FinFelt</RadioButton>
+                                <RadioButton IsChecked="{Binding Is200Checked}">200m</RadioButton>
+                                <RadioButton IsChecked="{Binding IsGrovfeltChecked}">Grovfelt</RadioButton>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1"  Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" MinWidth="500"/>
+                            </Grid.ColumnDefinitions>
+                            <TreeView x:Name="MyTree" Grid.Column="0"  ItemsSource="{Binding FoldersItems, UpdateSourceTrigger=PropertyChanged}" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF">
+                                <TreeView.Resources>
+                                    <Style TargetType="{x:Type TreeViewItem}">
+                                        <Setter Property="HeaderTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Name="img"  Width="20" Height="20" Stretch="Fill" 
+                                       Source="{Binding 
+                                       RelativeSource={RelativeSource 
+                                       Mode=FindAncestor, 
+                                       AncestorType={x:Type TreeViewItem}}, 
+                                       Path=Header, 
+                                       Converter={StaticResource HeaderToImageConverter}}"       
+                                       />
+                                                        <TextBlock Text="{Binding}" Margin="5,0" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TreeView.Resources>
+                            </TreeView>
+                            <StackPanel Grid.Column="1">
+                                <ScrollViewer  Height="500" Width="500" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                    <Image  Source="{Binding Image}"  Stretch="None"/>
+                                </ScrollViewer>
+                                <TextBlock Text="{Binding DisplayedImagePath}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="2"   BorderBrush="LightGray" BorderThickness="3" VerticalAlignment="Stretch">
+                        <Button  Margin="50,5,5,5" Height="30" Width="80" Command="{Binding MoveBitmapCommand}" Content="Move Bitmap" />
+                    </Border>
+                </Grid>
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
     <Grid DataContext="{Binding}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-         </Grid.RowDefinitions>
+        </Grid.RowDefinitions>
         <ContentPresenter Grid.Row="0" Content="{Binding ChooseStevneViewModel}" ContentTemplate="{StaticResource ChooseStevne}"/>
 
-        <TabControl Grid.Row="1" x:Name="tabControl">
-            <TabItem Header="Stevne" Content="{Binding DatabaseSetup}" ContentTemplate="{StaticResource UpLoadStevne}" Visibility="{Binding UploadStevneMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <TabControl Grid.Row="1" x:Name="Update">
+            <TabItem Header="Stevne" Content="{Binding UpLoadStevneViewModel}" ContentTemplate="{StaticResource UpLoadStevne}" Visibility="{Binding UploadStevneMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <TabItem Header="Log" Content="{Binding LogViewModel}" ContentTemplate="{StaticResource Logging}" Visibility="{Binding LogMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <TabItem Header="BitMap" Content="{Binding BitMapSelectionViewModel}" ContentTemplate="{StaticResource BitMapSelection}" Visibility="{Binding BitMapSelectionMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </TabControl>
+
         <!--<StackPanel VerticalAlignment="Bottom" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding InitDatabaseMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}">
 
             <Button Command="{Binding SaveSettingsAsTemplateCommand}" Margin="5" HorizontalAlignment="Left" Content="Lagre Template" IsEnabled="{Binding SetupMode}" Visibility="{Binding InitTemplateMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}"/>

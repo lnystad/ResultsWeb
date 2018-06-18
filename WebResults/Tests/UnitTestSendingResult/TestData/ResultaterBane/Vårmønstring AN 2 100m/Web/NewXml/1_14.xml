@@ -65,7 +65,7 @@
         <shot val="X" />
       </series>
     </result>
-    <result num="2" name="Kjell Arne Mulstrand Aune" club="Beiarn " innerten="1" totsum="335">
+    <result ref="100m/TR-4-1.PNG" num="2" name="Kjell Arne Mulstrand Aune" club="Beiarn " innerten="1" totsum="335">
       <series id="1" sum="50">
         <shot val="*" />
         <shot val="X" />
@@ -114,7 +114,7 @@
         <shot val="8" />
       </series>
     </result>
-    <result num="3" name="Tina Mari Husnes Larsen" club="Røvassdalen " innerten="0" totsum="320">
+    <result ref="100m/TR-4-7.PNG" num="3" name="Tina Mari Husnes Larsen" club="Røvassdalen " innerten="0" totsum="320">
       <series id="1" sum="48">
         <shot val="X" />
         <shot val="9" />
@@ -163,7 +163,7 @@
         <shot val="9" />
       </series>
     </result>
-    <result num="4" name="Edvart K. B. Bakkemo" club="Bodø Østre " innerten="1" totsum="308">
+    <result ref="100m/TR-4-12.PNG" num="4" name="Edvart K. B. Bakkemo" club="Bodø Østre " innerten="1" totsum="308">
       <series id="1" sum="45">
         <shot val="9" />
         <shot val="X" />
@@ -212,7 +212,7 @@
         <shot val="0" />
       </series>
     </result>
-    <result num="5" name="Nikolai Fagerbakk  Larsen" club="Valnesfjord " innerten="0" totsum="306">
+    <result ref="100m/TR-3-11.PNG" num="5" name="Nikolai Fagerbakk  Larsen" club="Valnesfjord " innerten="0" totsum="306">
       <series id="1" sum="46">
         <shot val="9" />
         <shot val="9" />
@@ -261,7 +261,7 @@
         <shot val="0" />
       </series>
     </result>
-    <result num="6" name="Henning Olai Hansen Skaldehaug" club="Bodø Østre " innerten="0" totsum="202">
+    <result ref="100m/TR-1-6.PNG" num="6" name="Henning Olai Hansen Skaldehaug" club="Bodø Østre " innerten="0" totsum="202">
       <series id="1" sum="33">
         <shot val="6" />
         <shot val="6" />

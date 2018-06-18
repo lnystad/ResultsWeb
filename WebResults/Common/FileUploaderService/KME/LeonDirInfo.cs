@@ -381,7 +381,7 @@
         /// <returns>
         ///     The <see cref="bool" />.
         /// </returns>
-        internal bool CheckBitMap()
+        public bool CheckBitMap()
         {
             bool update = false;
             if (this.Info == null)
@@ -1006,7 +1006,7 @@
         /// <returns>
         ///     The <see cref="bool" />.
         /// </returns>
-        internal bool CheckWebFiles(bool forceWebParse = false)
+        public bool CheckWebFiles(bool forceWebParse = false)
         {
             if (this.Info == null)
             {

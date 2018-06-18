@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SendingResultClient.Viewmodels
+namespace FileUploaderService.Settings
 {
-
-    public class UpLoadStevneViewModel : ViewModelBase
+    public class LastSettings
     {
+        public LastSettings()
+        {
+        }
     }
 }

@@ -385,7 +385,7 @@
     </Bitmaps>
     <BaneType>Hundremeter</BaneType>
     <BitmapSubDir>100m</BitmapSubDir>
-    <Updated>true</Updated>
-    <Initial>false</Initial>
+    <Updated>false</Updated>
+    <Initial>true</Initial>
   </BitmapDirInfo>
 </Merged>

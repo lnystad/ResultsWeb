@@ -38,9 +38,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>packages\Prism.4.0.2.0\lib\net40-client\Microsoft.Practices.Prism.dll</HintPath>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Extern\Prism.4.0.2.0\lib\net40-client\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -56,7 +58,6 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -65,9 +66,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\HeaderToImageConverter.cs" />
+    <Compile Include="Viewmodels\BitMapSelectionViewModel.cs" />
+    <Compile Include="Viewmodels\BitMap\DirTreeViewItem.cs" />
+    <Compile Include="Viewmodels\BitMap\FileTreeViewItem.cs" />
     <Compile Include="Viewmodels\ChooseStevneViewModel.cs" />
-    <Compile Include="Viewmodels\Class1.cs" />
+    <Compile Include="Viewmodels\LogViewModel.cs" />
     <Compile Include="Viewmodels\MainViewModel.cs" />
+    <Compile Include="Viewmodels\UpLoadStevneViewModel.cs" />
     <Compile Include="Viewmodels\ViewModelBase.cs" />
     <Page Include="Bitmap\ViewModel\BitMapWindow.xaml">
       <SubType>Designer</SubType>
@@ -135,6 +141,18 @@
       <Project>{d8186e58-706e-42be-8c41-a5a36c2ec05b}</Project>
       <Name>FileUploaderService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Async\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\diskdrive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\target.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

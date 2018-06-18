@@ -163,7 +163,7 @@
         <shot val="*" />
       </series>
     </result>
-    <result num="4" name="Jesper Mohaug" club="Røsvik " innerten="5" totsum="337">
+    <result ref="100m/TR-3-7.PNG" num="4" name="Jesper Mohaug" club="Røsvik " innerten="5" totsum="337">
       <series id="1" sum="50">
         <shot val="X" />
         <shot val="*" />
@@ -212,7 +212,7 @@
         <shot val="*" />
       </series>
     </result>
-    <result num="5" name="Natalie Forshaw" club="Bodø Østre " innerten="3" totsum="337">
+    <result ref="100m/TR-1-7.PNG" num="5" name="Natalie Forshaw" club="Bodø Østre " innerten="3" totsum="337">
       <series id="1" sum="49">
         <shot val="X" />
         <shot val="X" />

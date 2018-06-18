@@ -29,13 +29,12 @@ namespace SendingResultClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel m_model;
         public string DirectoryName { get; set; }
         public MainWindow()
         {
-            InitializeComponent();
-
-            var model = this.InitViewModels();
-            this.DataContext = model;
+            m_model = this.InitViewModels();
+            this.DataContext = m_model;
             this.InitializeComponent();
 
             var logfile = ConfigurationLoader.GetAppSettingsValue("LogFile");
@@ -75,7 +74,14 @@ namespace SendingResultClient
         private MainViewModel InitViewModels()
         {
             var model = new MainViewModel();
-            return model;
+             return model;
+            
+        }
+
+        private void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
+        {
+            m_model.BitMapSelectionViewModel.TreeViewItem_OnItemSelected(sender, e);
+           
         }
     }
 }

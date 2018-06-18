@@ -14,7 +14,7 @@
     <series id="5" name="10 skudd" type="series_shot_sum" />
   </column>
   <data>
-    <result num="1" name="Alf Tobiassen" club="Bodø Østre " innerten="13" totsum="248">
+    <result ref="100m/TR-1-2.PNG" num="1" name="Alf Tobiassen" club="Bodø Østre " innerten="13" totsum="248">
       <series id="1" sum="50">
         <shot val="X" />
         <shot val="*" />
@@ -86,7 +86,7 @@
         <shot val="*" />
       </series>
     </result>
-    <result num="3" name="Alf Storjord" club="Saltdal " innerten="13" totsum="247">
+    <result ref="100m/TR-3-5.PNG" num="3" name="Alf Storjord" club="Saltdal " innerten="13" totsum="247">
       <series id="1" sum="50">
         <shot val="X" />
         <shot val="*" />
@@ -122,7 +122,7 @@
         <shot val="X" />
       </series>
     </result>
-    <result num="4" name="Per Ernstsen" club="Saltdal " innerten="7" totsum="247">
+    <result ref="100m/TR-3-4.PNG" num="4" name="Per Ernstsen" club="Saltdal " innerten="7" totsum="247">
       <series id="1" sum="50">
         <shot val="*" />
         <shot val="*" />
@@ -194,7 +194,7 @@
         <shot val="*" />
       </series>
     </result>
-    <result num="6" name="Terje Håkonsen" club="Beiarn " innerten="8" totsum="245">
+    <result ref="100m/TR-4-2.PNG" num="6" name="Terje Håkonsen" club="Beiarn " innerten="8" totsum="245">
       <series id="1" sum="50">
         <shot val="*" />
         <shot val="*" />
@@ -266,7 +266,7 @@
         <shot val="X" />
       </series>
     </result>
-    <result num="8" name="Lars Håkon Nystad" club="Bodø Østre " innerten="2" totsum="238">
+    <result ref="100m/TR-1-1.PNG" num="8" name="Lars Håkon Nystad" club="Bodø Østre " innerten="2" totsum="238">
       <series id="1" sum="46">
         <shot val="9" />
         <shot val="8" />
@@ -302,7 +302,7 @@
         <shot val="9" />
       </series>
     </result>
-    <result num="9" name="Ingvald Storjord" club="Saltdal " innerten="9" totsum="235">
+    <result ref="100m/TR-3-6.PNG" num="9" name="Ingvald Storjord" club="Saltdal " innerten="9" totsum="235">
       <series id="1" sum="43">
         <shot val="5" />
         <shot val="9" />
