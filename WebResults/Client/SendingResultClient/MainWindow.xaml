@@ -106,7 +106,16 @@
                             </Grid.ColumnDefinitions>
                             <TreeView x:Name="MyTree" Grid.Column="0"  ItemsSource="{Binding FoldersItems, UpdateSourceTrigger=PropertyChanged}" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF">
                                 <TreeView.Resources>
+                                    <ContextMenu x:Key="contextMenu">
+                                        <ContextMenu.Items>
+                                            <MenuItem Header="Export Folder" Click="ExportFolder_Click"/>
+                                            <MenuItem Header="Delete Folder" Click="DeleteFolder_Click"/>
+                                        </ContextMenu.Items>
+                                    </ContextMenu>
+                                    
                                     <Style TargetType="{x:Type TreeViewItem}">
+                                        <Setter  Property="ContextMenu" Value="{StaticResource contextMenu}"/>
+                                               
                                         <Setter Property="HeaderTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -106,6 +107,112 @@ namespace SendingResultClient.Viewmodels
             InitCommands();
             Init(m_SelectedOrionDir);
         }
+        internal TreeViewItem FindDirTreeView(RoutedEventArgs e)
+        {
+            var item = e.OriginalSource as TreeViewItem;
+            if (item == null)
+            {
+                return null;
+            }
+            if (item.Tag.GetType() == typeof(DirectoryInfo))
+            {
+                return item;
+            }
+            if (item.Tag.GetType() == typeof(FileInfo))
+            {
+                var parent = FindAncestor<TreeViewItem>(item);
+                return parent;
+            }
+
+            return null;
+        }
+        internal void ExportFolder_Click(object sender, RoutedEventArgs e)
+        {
+            var item = m_DirectoryItem;
+            if(item == null)
+            {
+                return;
+            }
+            string prefix = string.Empty;
+            if (m_Is15Checked)
+            {
+                prefix = Constants.Prefix15m;
+            }
+            if (m_Is100Checked)
+            {
+                prefix = Constants.Prefix100m;
+            }
+            if (m_IsFinFeltChecked)
+            {
+                prefix = Constants.PrefixFinFelt;
+            }
+            if (m_Is200Checked)
+            {
+                prefix = Constants.Prefix200m;
+            }
+            if (m_IsGrovFeltChecked)
+            {
+                prefix = Constants.PrefixGrovFelt;
+            }
+            if (string.IsNullOrEmpty(m_StevneDir) ||
+               string.IsNullOrEmpty(m_StevneNavn))
+            {
+                return;
+            }
+            string ToDir = Path.Combine(m_StevneDir, m_StevneNavn);
+            ToDir = Path.Combine(ToDir, "BitMap");
+            ToDir = Path.Combine(ToDir, prefix);
+            if (!Directory.Exists(ToDir))
+            {
+                Directory.CreateDirectory(ToDir);
+            }
+            if (m_DirectoryItem == null)
+            {
+                return;
+            }
+
+            string startDir = ((DirectoryInfo)m_DirectoryItem.Tag).FullName;
+
+            List<FileInfo> fileList = GetFiles(startDir);
+            FileAccessHelper.MoveFiles(fileList, ToDir);
+            m_DirectoryItem.Items.Clear();
+            FoldersItems.Clear();
+            Init(m_SelectedOrionDir);
+            this.OnPropertyChanged("FoldersItems");
+        }
+
+        internal void DeleteFolder_Click(object sender, RoutedEventArgs e)
+        {
+            var item = m_DirectoryItem;
+            if (item == null)
+            {
+                return;
+            }
+
+            string startDir = ((DirectoryInfo)m_DirectoryItem.Tag).FullName;
+
+            
+                if (Directory.Exists(startDir))
+                {
+                    try
+                    {
+                        if(System.Windows.Forms.MessageBox.Show(startDir, "Slett Katalog", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)== DialogResult.OK);
+                        {
+                            Directory.Delete(startDir);
+                           FoldersItems.Clear();
+                        Init(m_SelectedOrionDir);
+                            this.OnPropertyChanged("FoldersItems");
+                    }
+                    }
+                    catch(Exception ee)
+                    {
+                        string medd = ee.Message;
+                        System.Windows.Forms.MessageBox.Show(medd, "Feil", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                }
+            
+        }
 
         internal void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
         {
@@ -125,12 +232,14 @@ namespace SendingResultClient.Viewmodels
                 m_DirectoryItem = parent;
 
                 DisplayedImagePath = ((FileInfo)item.Tag).FullName;
-
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(DisplayedImagePath, UriKind.Absolute);
-                bitmap.EndInit();
-                Image = bitmap;
+                if (File.Exists(DisplayedImagePath))
+                {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(DisplayedImagePath, UriKind.Absolute);
+                    bitmap.EndInit();
+                    Image = bitmap;
+                }
             }
         }
         public static T FindAncestor<T>(DependencyObject current)
@@ -248,20 +357,7 @@ namespace SendingResultClient.Viewmodels
             
             List<FileInfo> fileList=GetFiles(startDir);
             FileAccessHelper.MoveFiles(fileList, ToDir);
-            //List<TreeViewItem> fileNodes = new List<TreeViewItem>();
-
-            //if (m_DirectoryItem.Items.Count > 0)
-            //{
-            //    foreach (TreeViewItem item in m_DirectoryItem.Items)
-            //    {
-            //        var list = FindList(item);
-            //        if (list != null)
-            //        {
-            //            fileNodes.AddRange(list);
-            //        }
-            //    }
-            //}
-
+           
         }
 
         private List<FileInfo> GetFiles(string startDir)
@@ -658,7 +754,7 @@ namespace SendingResultClient.Viewmodels
 
         public void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            TreeView tree = (TreeView)sender;
+            System.Windows.Controls.TreeView tree = (System.Windows.Controls.TreeView)sender;
             TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
 
             if (temp == null)
@@ -674,7 +770,7 @@ namespace SendingResultClient.Viewmodels
                     temp2 = "";
                 }
                 SelectedImagePath = temp1 + temp2 + SelectedImagePath;
-                if (temp.Parent.GetType().Equals(typeof(TreeView)))
+                if (temp.Parent.GetType().Equals(typeof(System.Windows.Controls.TreeView)))
                 {
                     break;
                 }
@@ -682,7 +778,7 @@ namespace SendingResultClient.Viewmodels
                 temp2 = @"\";
             }
             //show user selected path
-            MessageBox.Show(SelectedImagePath);
+            System.Windows.Forms.MessageBox.Show(SelectedImagePath);
         }
 
     }

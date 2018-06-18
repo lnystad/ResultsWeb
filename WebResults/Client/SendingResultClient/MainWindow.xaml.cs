@@ -33,9 +33,10 @@ namespace SendingResultClient
         public string DirectoryName { get; set; }
         public MainWindow()
         {
+            this.InitializeComponent();
             m_model = this.InitViewModels();
             this.DataContext = m_model;
-            this.InitializeComponent();
+            
 
             var logfile = ConfigurationLoader.GetAppSettingsValue("LogFile");
 
@@ -82,6 +83,21 @@ namespace SendingResultClient
         {
             m_model.BitMapSelectionViewModel.TreeViewItem_OnItemSelected(sender, e);
            
+        }
+
+        private void ExportFolder_Click(object sender, RoutedEventArgs e)
+        {
+            m_model.BitMapSelectionViewModel.ExportFolder_Click(sender, e);
+        }
+
+        private void DeleteFolder_Click(object sender, RoutedEventArgs e)
+        {
+            m_model.BitMapSelectionViewModel.DeleteFolder_Click(sender, e);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
