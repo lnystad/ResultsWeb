@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SendingResultClient.Viewmodels
+namespace WebResultsClient.Viewmodels
 {
 
     public class LogViewModel : ViewModelBase

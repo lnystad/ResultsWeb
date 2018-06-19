@@ -10,7 +10,7 @@ namespace UnitTestSendingResult
     using FileUploaderService.Diagnosis;
     using FileUploaderService.KME;
     using FileUploaderService.ListeSort;
-    using SendingResultClient.Viewmodels;
+    using WebResultsClient.Viewmodels;
 
     [TestClass]
     public class UpLoadStevneViewModelUnitTest

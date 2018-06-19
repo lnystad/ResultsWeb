@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace SendingResultClient.Converters
+namespace WebResultsClient.Converters
 {
 
     [ValueConversion(typeof(string), typeof(bool))]

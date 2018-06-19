@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SendingResultClient.Viewmodels
+namespace WebResultsClient.Viewmodels
 {
     public class MainViewModel : ViewModelBase
     {

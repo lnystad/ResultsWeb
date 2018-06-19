@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SendingResultClient.Common
+namespace WebResultsClient.Common
 {
     using System.ComponentModel;
     using System.Windows;

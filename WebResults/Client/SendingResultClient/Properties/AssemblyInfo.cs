@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SendingResultClient")]
+[assembly: AssemblyTitle("WebResultsClient")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DIPS ASA")]
-[assembly: AssemblyProduct("SendingResultClient")]
-[assembly: AssemblyCopyright("Copyright © DIPS ASA 2016")]
+[assembly: AssemblyCompany("ROPLAN")]
+[assembly: AssemblyProduct("WebResultsClient")]
+[assembly: AssemblyCopyright("Copyright © ROPLAN 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

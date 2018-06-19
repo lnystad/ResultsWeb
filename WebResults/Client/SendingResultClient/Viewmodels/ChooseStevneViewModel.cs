@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace SendingResultClient.Viewmodels
+namespace WebResultsClient.Viewmodels
 {
     public class ChooseStevneViewModel : ViewModelBase
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace SendingResultClient.Viewmodels.BitMap
+namespace WebResultsClient.Viewmodels.BitMap
 {
     public class DirTreeViewItem : TreeViewItem
     {

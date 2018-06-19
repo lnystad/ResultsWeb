@@ -2,7 +2,7 @@
 using FileUploaderService.Configuration;
 using FileUploaderService.Utils;
 using Microsoft.Practices.Prism.Commands;
-using SendingResultClient.Viewmodels.BitMap;
+using WebResultsClient.Viewmodels.BitMap;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace SendingResultClient.Viewmodels
+namespace WebResultsClient.Viewmodels
 {
 
     public class BitMapSelectionViewModel : ViewModelBase

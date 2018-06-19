@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-namespace SendingResultClient.Viewmodels
+namespace WebResultsClient.Viewmodels
 {
 
     public class UpLoadStevneViewModel : ViewModelBase

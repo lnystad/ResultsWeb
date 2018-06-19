@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace SendingResultClient.Converters
+namespace WebResultsClient.Converters
 {
     public class OppositeBoolToVisibilityConverter : IValueConverter
     {

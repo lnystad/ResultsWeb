@@ -7,8 +7,8 @@
     <ProjectGuid>{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SendingResultClient</RootNamespace>
-    <AssemblyName>SendingResultClient</AssemblyName>
+    <RootNamespace>WebResultsClient</RootNamespace>
+    <AssemblyName>WebResultsClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -75,10 +75,6 @@
     <Compile Include="Viewmodels\MainViewModel.cs" />
     <Compile Include="Viewmodels\UpLoadStevneViewModel.cs" />
     <Compile Include="Viewmodels\ViewModelBase.cs" />
-    <Page Include="Bitmap\ViewModel\BitMapWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,10 +83,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bitmap\ViewModel\BitMapWindow.xaml.cs">
-      <DependentUpon>BitMapWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Bitmap\View\BitMapViewModel.cs" />
     <Compile Include="Common\ChangeTracker.cs" />
     <Compile Include="Common\MbWindow.cs" />
     <Compile Include="Common\ImageConversion.cs" />
@@ -134,7 +126,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon1.ico" />
+    <EmbeddedResource Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\FileUploaderService\FileUploaderService.csproj">

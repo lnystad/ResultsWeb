@@ -15,13 +15,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SendingResultClient
+namespace WebResultsClient
 {
     using System.Windows.Forms.Integration;
 
-    using SendingResultClient.Common;
+    using WebResultsClient.Common;
     using FileUploaderService.Diagnosis;
-    using SendingResultClient.Viewmodels;
+    using WebResultsClient.Viewmodels;
     using FileUploaderService.Configuration;
 
     /// <summary>
