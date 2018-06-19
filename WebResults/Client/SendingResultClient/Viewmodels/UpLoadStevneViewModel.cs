@@ -23,7 +23,7 @@ namespace SendingResultClient.Viewmodels
             m_FtpServer = ConfigurationLoader.GetAppSettingsValue("FtpServer");
             m_FtpUserName = ConfigurationLoader.GetAppSettingsValue("FtpUserName");
             m_FtpPassWord = ConfigurationLoader.GetAppSettingsValue("FtpPassWord");
-            m_SelectedRemoteSubDir = ConfigurationLoader.GetAppSettingsValue("RemoteSubDir");
+            
             m_ProgrssbarVisibility = Visibility.Hidden;
             m_canExecute = false;
             InitCommands();
@@ -57,6 +57,11 @@ namespace SendingResultClient.Viewmodels
            
 
 
+        }
+
+        internal void HandleRemoteDirChange(string remoteDir)
+        {
+            SelectedRemoteDir = remoteDir;
         }
 
         public string RapportXsltFilFileName { get; set; }
@@ -109,18 +114,18 @@ namespace SendingResultClient.Viewmodels
             }
         }
 
-        private string m_SelectedRemoteSubDir;
-        public string SelectedRemoteSubDir
+        private string m_SelectedRemoteDir;
+        public string SelectedRemoteDir
         {
             get
             {
-                return this.m_SelectedRemoteSubDir;
+                return this.m_SelectedRemoteDir;
             }
             set
             {
-                this.m_SelectedRemoteSubDir = value;
+                this.m_SelectedRemoteDir = value;
 
-                this.OnPropertyChanged("SelectedRemoteSubDir");
+                this.OnPropertyChanged("SelectedRemoteDir");
             }
         }
 
@@ -192,19 +197,19 @@ namespace SendingResultClient.Viewmodels
                 this.OnPropertyChanged("FtpServer");
             }
         }
-        private string m_SelectedRemotePath;
-        public string SelectedRemotePath
-        {
-            get
-            {
-                return this.m_SelectedRemotePath;
-            }
-            set
-            {
-                this.m_SelectedRemotePath = value;
-                this.OnPropertyChanged("SelectedRemotePath");
-            }
-        }
+        //private string m_SelectedRemotePath;
+        //public string SelectedRemotePath
+        //{
+        //    get
+        //    {
+        //        return this.m_SelectedRemotePath;
+        //    }
+        //    set
+        //    {
+        //        this.m_SelectedRemotePath = value;
+        //        this.OnPropertyChanged("SelectedRemotePath");
+        //    }
+        //}
 
         private string m_TextOutput;
         public string TextOutput
@@ -300,7 +305,7 @@ namespace SendingResultClient.Viewmodels
         private async void send(string[] list, FtpUtility util)
         {
             ProgrssbarVisibility = Visibility.Visible;
-            var t = await Task.Run(() => util.UploadFiles(true, this.m_SelectedRemoteSubDir, m_StevneNavn, list));
+            var t = await Task.Run(() => util.UploadFiles(true, this.m_SelectedRemoteDir, m_StevneNavn, list));
             ProgrssbarVisibility = Visibility.Hidden;
             Percent = 0;
         }
@@ -339,7 +344,7 @@ namespace SendingResultClient.Viewmodels
         }
 
         private DelegateCommand m_OpenRemoteDirCommand;
-
+      
         public ICommand OpenRemoteDirCommand
         {
             get

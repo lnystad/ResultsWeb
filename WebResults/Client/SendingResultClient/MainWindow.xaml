@@ -6,7 +6,7 @@
         xmlns:Converters="clr-namespace:SendingResultClient.Converters"
         xmlns:local="clr-namespace:SendingResultClient"
         mc:Ignorable="d"
-        Title="WebResults" Height="850" Width="825">
+        Title="WebResults" Height="920" Width="825">
     <Window.Resources>
         <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Converters:OppositeBoolToVisibilityConverter x:Key="OppositeBoolToVisibilityConverter"/>
@@ -16,7 +16,8 @@
             <StackPanel DataContext="{Binding}"  Orientation="Horizontal" VerticalAlignment="Top">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -24,12 +25,16 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="30"/>
                     </Grid.ColumnDefinitions>
-                    <Label  Grid.Row="0" Grid.Column="0">Leon:</Label>
-                    <TextBox Grid.Row="0"  Grid.Column="1" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}" Width="400"/>
-                    <Button Grid.Row="0" Grid.Column="2" Command="{Binding OpenFileDialogCommand}" Content="..."/>
+                    <Label  Grid.Row="0" Grid.Column="0" >Leon:</Label>
+                    <TextBox Grid.Row="0"  Grid.Column="1" Margin="5" Background="LightGray" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}" Width="400"/>
+                    <Button Grid.Row="0" Grid.Column="2" Margin="5" Command="{Binding OpenFileDialogCommand}" Content="..."/>
                     <Label  Grid.Row="1" Grid.Column="0">Stevne:</Label>
-                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Competitions}" SelectedItem="{Binding SelectedCompetition}" Text="Select Option"/>
-                    <Button Grid.Row="1" Grid.Column="2" Command="{Binding RefreshCompetitionsCommand}" Content=".."/>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" Background="LightGray" ItemsSource="{Binding Competitions}" SelectedItem="{Binding SelectedCompetition}" Text="Select Option"/>
+                    <Button Grid.Row="1" Grid.Column="2" Margin="5" Command="{Binding RefreshCompetitionsCommand}" Content=".."/>
+                    <Label  Grid.Row="2" Grid.Column="0">Remote:</Label>
+                    <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" Background="LightGray" ItemsSource="{Binding RemoteDirs}" SelectedItem="{Binding SelectedRemoteDir}" Text="Select Option"/>
+                    <Button Grid.Row="2" Grid.Column="2" Margin="5" Command="{Binding RemoteDirsCommand}" Content=".."/>
+
                 </Grid>
             </StackPanel>
         </DataTemplate>
@@ -42,12 +47,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <Label   >Remote Upload:</Label>
-                        <TextBox  Text="{Binding SelectedRemoteSubDir, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Right"/>
-                        <Button   Command="{Binding OpenRemoteDirCommand}" Content="..."/>
-                        <ProgressBar Name="progressBar" Margin="35,5,5,5" Width="200" Height="30" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ProgrssbarVisibility}"/>
+                         <ProgressBar Name="progressBar" Margin="35,5,5,5" Width="200" Height="30" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ProgrssbarVisibility}"/>
                     </StackPanel>
-                    <ScrollViewer Grid.Row="1" Height="650" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer Grid.Row="1" Height="600" VerticalScrollBarVisibility="Auto">
                         <TextBox Margin="10,10,10,10"   Text="{Binding TextOutput}" TextWrapping="Wrap" AcceptsReturn="True"/>
                     </ScrollViewer>
                     <Button Grid.Row="2" Margin="250,5,5,5" Height="30" Width="70" Command="{Binding UploadStevneCommand}" Content="Upload" />
@@ -90,11 +92,11 @@
                                 <ComboBox  Width="250" Margin="7" Height="30" ItemsSource="{Binding OrionDirs}" SelectedItem="{Binding SelectedOrionDir}" Text="Select Option"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Vertical" >
-                                <RadioButton IsChecked="{Binding Is15Checked}">15m</RadioButton>
-                                <RadioButton IsChecked="{Binding Is100Checked}">100m</RadioButton>
-                                <RadioButton IsChecked="{Binding IsFinFeltChecked}">FinFelt</RadioButton>
-                                <RadioButton IsChecked="{Binding Is200Checked}">200m</RadioButton>
-                                <RadioButton IsChecked="{Binding IsGrovfeltChecked}">Grovfelt</RadioButton>
+                                <RadioButton IsChecked="{Binding Is15Checked}" GroupName="Range">15m</RadioButton>
+                                <RadioButton IsChecked="{Binding Is100Checked}" GroupName="Range">100m</RadioButton>
+                                <RadioButton IsChecked="{Binding IsFinFeltChecked}" GroupName="Range">FinFelt</RadioButton>
+                                <RadioButton IsChecked="{Binding Is200Checked}" GroupName="Range">200m</RadioButton>
+                                <RadioButton IsChecked="{Binding IsGrovfeltChecked}" GroupName="Range">Grovfelt</RadioButton>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -159,7 +161,7 @@
         </Grid.RowDefinitions>
         <ContentPresenter Grid.Row="0" Content="{Binding ChooseStevneViewModel}" ContentTemplate="{StaticResource ChooseStevne}"/>
 
-        <TabControl Grid.Row="1" x:Name="Update">
+        <TabControl Grid.Row="1" x:Name="Update" Margin="15,15,15,15">
             <TabItem Header="Stevne" Content="{Binding UpLoadStevneViewModel}" ContentTemplate="{StaticResource UpLoadStevne}" Visibility="{Binding UploadStevneMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <TabItem Header="Log" Content="{Binding LogViewModel}" ContentTemplate="{StaticResource Logging}" Visibility="{Binding LogMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <TabItem Header="BitMap" Content="{Binding BitMapSelectionViewModel}" ContentTemplate="{StaticResource BitMapSelection}" Visibility="{Binding BitMapSelectionMode, Converter={StaticResource BoolToVisibilityConverter}}"/>

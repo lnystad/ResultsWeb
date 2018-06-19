@@ -15,22 +15,37 @@ namespace SendingResultClient.Viewmodels
     public class ChooseStevneViewModel : ViewModelBase
     {
 
-            public ChooseStevneViewModel()
+        public ChooseStevneViewModel()
+        {
+            m_Competitions = new ObservableCollection<string>();
+            var leonDir = ConfigurationLoader.GetAppSettingsValue("LeonInstallDir");
+            if (!string.IsNullOrEmpty(leonDir))
             {
-               m_Competitions = new ObservableCollection<string>();
-               var leonDir = ConfigurationLoader.GetAppSettingsValue("LeonInstallDir");
-               if(!string.IsNullOrEmpty(leonDir))
-                {
-                    m_selectedPath = leonDir;
-                   FillCompetitions(m_selectedPath);
-                }
+                m_selectedPath = leonDir;
+                FillCompetitions(m_selectedPath);
             }
-        public delegate void StevneChange(string stevneNavn,string path);
+
+            var RemoteSubDir = ConfigurationLoader.GetAppSettingsValue("RemoteDir");
+            m_RemoteDirs = new ObservableCollection<string>();
+            if (!string.IsNullOrEmpty(RemoteSubDir))
+            {
+                var remoteDirsTemp = RemoteSubDir.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+                m_RemoteDirs.Clear();
+                foreach (var el in remoteDirsTemp)
+                {
+                    m_RemoteDirs.Add(el.Trim());
+                }
+                m_SelectedRemoteDir = m_RemoteDirs[0];
+            }
+        }
+        public delegate void StevneChange(string stevneNavn, string path);
         public event StevneChange OnStevneChange;
+
+       
 
         public void OnHandleStevneChange()
         {
-           
+
             if (OnStevneChange == null)
             {
                 return;
@@ -39,13 +54,23 @@ namespace SendingResultClient.Viewmodels
             OnStevneChange(m_SelectedCompetition, m_selectedPath);
         }
 
+        public delegate void RemoteDirChange(string remoteDir);
+        public event RemoteDirChange OnRemoteDirChange;
+        public void OnHandleRemoteDirChange()
+        {
+            if (OnRemoteDirChange == null)
+            {
+                return;
+            }
+            OnRemoteDirChange(m_SelectedRemoteDir);
+        }
         private void FillCompetitions(string path)
         {
             m_Competitions.Clear();
-           if (Directory.Exists(path))
+            if (Directory.Exists(path))
             {
                 var listofDirs = Directory.GetDirectories(path);
-                foreach(var stevne in listofDirs )
+                foreach (var stevne in listofDirs)
                 {
                     var navn = Path.GetFileName(stevne);
                     m_Competitions.Add(navn);
@@ -55,24 +80,24 @@ namespace SendingResultClient.Viewmodels
 
         private string m_selectedPath;
 
-            private DelegateCommand m_openFileDialogCommand;
+        private DelegateCommand m_openFileDialogCommand;
 
-            public ICommand OpenFileDialogCommand
+        public ICommand OpenFileDialogCommand
+        {
+            get
             {
-                get
+                if (m_openFileDialogCommand == null)
                 {
-                    if (m_openFileDialogCommand == null)
-                    {
-                        m_openFileDialogCommand = new DelegateCommand(this.OpenFileDialogExecute);
-                    }
-
-                    return m_openFileDialogCommand;
+                    m_openFileDialogCommand = new DelegateCommand(this.OpenFileDialogExecute);
                 }
-            }
 
-            private string m_SelectedCompetition;
-            public string SelectedCompetition
-            {
+                return m_openFileDialogCommand;
+            }
+        }
+
+        private string m_SelectedCompetition;
+        public string SelectedCompetition
+        {
             get
             {
                 return m_SelectedCompetition;
@@ -83,51 +108,82 @@ namespace SendingResultClient.Viewmodels
                 OnHandleStevneChange();
                 this.OnPropertyChanged("SelectedCompetition");
             }
-            }
-           private ObservableCollection<string> m_Competitions;
+        }
+        private ObservableCollection<string> m_Competitions;
 
-            public ObservableCollection<String> Competitions
+        public ObservableCollection<String> Competitions
+        {
+            get
             {
-                get
-                {
-                    return m_Competitions;
-                }
-                set
-                {
+                return m_Competitions;
+            }
+            set
+            {
                 m_Competitions = value;
                 this.OnPropertyChanged("Competitions");
-                }
             }
+        }
 
-            public string SelectedPath
+
+        private ObservableCollection<string> m_RemoteDirs;
+        public ObservableCollection<String> RemoteDirs
+        {
+            get
             {
-                get
-                {
-                    return this.m_selectedPath;
-                }
-                set
-                {
-                    this.m_selectedPath = value;
-                    this.OnPropertyChanged("SelectedPath");
-                }
+                return m_RemoteDirs;
             }
-
-            public void OpenFileDialogExecute()
+            set
             {
-                using (var dlg = new System.Windows.Forms.FolderBrowserDialog())
-                {
-                    if (!string.IsNullOrWhiteSpace(SelectedPath) && Directory.Exists(SelectedPath))
-                    {
-                        dlg.SelectedPath = SelectedPath;
-                    }
+                m_RemoteDirs = value;
+                this.OnPropertyChanged("RemoteDirs");
+            }
+        }
 
-                    var result = dlg.ShowDialog();
-                    if (result == DialogResult.OK)
-                    {
-                        SelectedPath = dlg.SelectedPath;
-                    }
+        private string m_SelectedRemoteDir;
+        public string SelectedRemoteDir
+        {
+            get
+            {
+                return this.m_SelectedRemoteDir;
+            }
+            set
+            {
+                this.m_SelectedRemoteDir = value;
+                OnHandleRemoteDirChange();
+                this.OnPropertyChanged("SelectedRemoteDir");
+            }
+        }
+
+
+        public string SelectedPath
+        {
+            get
+            {
+                return this.m_selectedPath;
+            }
+            set
+            {
+                this.m_selectedPath = value;
+                this.OnPropertyChanged("SelectedPath");
+            }
+        }
+
+        public void OpenFileDialogExecute()
+        {
+            using (var dlg = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                if (!string.IsNullOrWhiteSpace(SelectedPath) && Directory.Exists(SelectedPath))
+                {
+                    dlg.SelectedPath = SelectedPath;
+                }
+
+                var result = dlg.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    SelectedPath = dlg.SelectedPath;
                 }
             }
+        }
 
         private DelegateCommand m_RefreshCompetitionsCommand;
 
@@ -150,5 +206,5 @@ namespace SendingResultClient.Viewmodels
             this.OnPropertyChanged("Competitions");
         }
     }
-    
+
 }

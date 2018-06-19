@@ -28,9 +28,9 @@ namespace SendingResultClient.Viewmodels
             m_remote100m = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDir100m");
             m_remoteFinFelt = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDirFinFelt");
             string RemoteBitMapDir200m = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDir200m");
-            string RemoteBitMapDirGrovFelt = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDir200m");
+            string RemoteBitMapDirGrovFelt = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDirGrovFelt");
             m_OrionDirs = new ObservableCollection<string>();
-            if(!string.IsNullOrEmpty(m_remote15m))
+            if (!string.IsNullOrEmpty(m_remote15m))
             {
                 m_OrionDirs.Add(m_remote15m);
                 m_SelectedOrionDir = m_remote15m;
@@ -86,10 +86,10 @@ namespace SendingResultClient.Viewmodels
                 m_IsGrovFeltChecked = false;
                 m_Is200Checked = true;
             }
-            
 
 
-            
+
+
 
 
             m_UploadBitmap = false;
@@ -103,7 +103,7 @@ namespace SendingResultClient.Viewmodels
                 }
             }
             FoldersItems = new ObservableCollection<TreeViewItem>();
-            string path=string.Empty;
+            string path = string.Empty;
             InitCommands();
             Init(m_SelectedOrionDir);
         }
@@ -129,7 +129,7 @@ namespace SendingResultClient.Viewmodels
         internal void ExportFolder_Click(object sender, RoutedEventArgs e)
         {
             var item = m_DirectoryItem;
-            if(item == null)
+            if (item == null)
             {
                 return;
             }
@@ -191,34 +191,43 @@ namespace SendingResultClient.Viewmodels
 
             string startDir = ((DirectoryInfo)m_DirectoryItem.Tag).FullName;
 
-            
-                if (Directory.Exists(startDir))
-                {
-                    try
-                    {
-                        if(System.Windows.Forms.MessageBox.Show(startDir, "Slett Katalog", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)== DialogResult.OK);
-                        {
-                            Directory.Delete(startDir);
-                           FoldersItems.Clear();
-                        Init(m_SelectedOrionDir);
-                            this.OnPropertyChanged("FoldersItems");
-                    }
-                    }
-                    catch(Exception ee)
-                    {
-                        string medd = ee.Message;
-                        System.Windows.Forms.MessageBox.Show(medd, "Feil", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+            if (Directory.Exists(startDir))
+            {
+                try
+                {
+                    if (System.Windows.Forms.MessageBox.Show(startDir, "Slett Katalog", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) ;
+                    {
+
+                        var listofSubDirs = Directory.GetDirectories(startDir);
+                        if (listofSubDirs != null)
+                        {
+                            foreach (var onesub in listofSubDirs)
+                            {
+                                Directory.Delete(onesub);
+                            }
+                        }
+                        Directory.Delete(startDir);
+                        FoldersItems.Clear();
+                        Init(m_SelectedOrionDir);
+                        this.OnPropertyChanged("FoldersItems");
                     }
                 }
-            
+                catch (Exception ee)
+                {
+                    string medd = ee.Message;
+                    System.Windows.Forms.MessageBox.Show(medd, "Feil", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+
         }
 
         internal void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
         {
             var item = e.OriginalSource as TreeViewItem;
             m_DirectoryItem = null;
-            if (item==null)
+            if (item == null)
             {
 
             }
@@ -290,7 +299,7 @@ namespace SendingResultClient.Viewmodels
         {
             m_StevneDir = path;
             m_StevneNavn = stevneNavn;
-            
+
         }
 
         private DelegateCommand m_MoveBitmapCommand;
@@ -316,7 +325,7 @@ namespace SendingResultClient.Viewmodels
         private void UploadSelectedBitmap()
         {
             string prefix = string.Empty;
-            if(m_Is15Checked)
+            if (m_Is15Checked)
             {
                 prefix = Constants.Prefix15m;
             }
@@ -336,28 +345,30 @@ namespace SendingResultClient.Viewmodels
             {
                 prefix = Constants.PrefixGrovFelt;
             }
-            if(string.IsNullOrEmpty(m_StevneDir)||
+            if (string.IsNullOrEmpty(m_StevneDir) ||
                string.IsNullOrEmpty(m_StevneNavn))
             {
                 return;
             }
             string ToDir = Path.Combine(m_StevneDir, m_StevneNavn);
-             ToDir = Path.Combine(ToDir, "BitMap");
+            ToDir = Path.Combine(ToDir, "BitMap");
             ToDir = Path.Combine(ToDir, prefix);
-            if(!Directory.Exists(ToDir))
+            if (!Directory.Exists(ToDir))
             {
                 Directory.CreateDirectory(ToDir);
             }
-            if(m_DirectoryItem == null)
+            if (m_DirectoryItem == null)
             {
                 return;
             }
 
             string startDir = ((DirectoryInfo)m_DirectoryItem.Tag).FullName;
-            
-            List<FileInfo> fileList=GetFiles(startDir);
+
+            List<FileInfo> fileList = GetFiles(startDir);
             FileAccessHelper.MoveFiles(fileList, ToDir);
-           
+            FoldersItems.Clear();
+            Init(m_SelectedOrionDir);
+            this.OnPropertyChanged("FoldersItems");
         }
 
         private List<FileInfo> GetFiles(string startDir)
@@ -365,10 +376,10 @@ namespace SendingResultClient.Viewmodels
             List<FileInfo> list = new List<FileInfo>();
             DirectoryInfo inf = new DirectoryInfo(startDir);
             var dirName = Path.GetFileName(inf.FullName);
-            if(dirName.StartsWith("Lag"))
+            if (dirName.StartsWith("Lag"))
             {
                 var fileList = Directory.GetFiles(inf.FullName, "*.png", SearchOption.TopDirectoryOnly).ToList();
-                foreach(var filename in fileList)
+                foreach (var filename in fileList)
                 {
                     list.Add(new FileInfo(filename));
                 }
@@ -376,7 +387,7 @@ namespace SendingResultClient.Viewmodels
             else
             {
                 var dirlist = inf.GetDirectories();
-                foreach(var direl in dirlist)
+                foreach (var direl in dirlist)
                 {
                     var listofFiles = GetFiles(direl.FullName);
                     list.AddRange(listofFiles);
@@ -426,24 +437,44 @@ namespace SendingResultClient.Viewmodels
             }
             set
             {
+                if (m_Is15Checked == value)
+                {
+                    return;
+                }
+
                 m_Is15Checked = value;
-                m_Is200Checked = !m_Is15Checked;
-                m_IsGrovFeltChecked = !m_Is15Checked;
-                m_Is100Checked = !m_Is15Checked;
-                m_IsFinFeltChecked = !m_Is15Checked;
+                OnPropertyChanged("Is15Checked");
+
+                //if (m_Is200Checked != !m_Is15Checked)
+                //{
+                //    m_Is200Checked = !m_Is15Checked;
+                //    OnPropertyChanged("Is200Checked");
+                //}
+
+                //if (m_IsGrovFeltChecked != !m_Is15Checked)
+                //{
+                //    m_IsGrovFeltChecked = !m_Is15Checked;
+                //    OnPropertyChanged("IsGrovFeltChecked");
+                //}
+                //if (m_Is100Checked != !m_Is15Checked)
+                //{
+                //    m_Is100Checked = !m_Is15Checked;
+                //    OnPropertyChanged("Is100Checked");
+                //}
+                //if (m_IsFinFeltChecked != !m_Is15Checked)
+                //{
+                //    m_Is100Checked = !m_Is15Checked;
+                //    OnPropertyChanged("IsFinFeltChecked");
+                //}
+               
                 m_OrionDirs.Clear();
                 m_SelectedOrionDir = null;
-                if (string.IsNullOrEmpty(m_remote15m))
+                if (!string.IsNullOrEmpty(m_remote15m))
                 {
                     m_OrionDirs.Add(m_remote15m);
                     m_SelectedOrionDir = m_OrionDirs[0];
                 }
-
-                OnPropertyChanged("Is15Checked");
-                OnPropertyChanged("Is100Checked");
-                OnPropertyChanged("IsFinFeltChecked");
-                OnPropertyChanged("Is200Checked");
-                OnPropertyChanged("IsGrovFeltChecked");
+               
                 OnPropertyChanged("OrionDirs");
                 OnPropertyChanged("SelectedOrionDir");
             }
@@ -457,15 +488,40 @@ namespace SendingResultClient.Viewmodels
             }
             set
             {
+                if (m_Is200Checked == value)
+                {
+                    return;
+                }
                 m_Is200Checked = value;
-                m_Is15Checked = !m_Is200Checked;
-                m_Is100Checked = !m_Is200Checked;
-                m_IsGrovFeltChecked = !m_Is200Checked;
-                m_IsFinFeltChecked = !m_Is200Checked;
+                OnPropertyChanged("Is200Checked");
 
+                //if (m_Is15Checked != !m_Is200Checked)
+                //{
+                //    m_Is15Checked = !m_Is200Checked;
+                //    OnPropertyChanged("Is15Checked");
+                //}
+
+                //if (m_Is100Checked != !m_Is200Checked)
+                //{
+                //    m_Is100Checked = !m_Is200Checked;
+                //    OnPropertyChanged("Is100Checked");
+                //}
+
+                //if (m_IsGrovFeltChecked != !m_Is200Checked)
+                //{
+                //    m_IsGrovFeltChecked = !m_Is200Checked;
+                //    OnPropertyChanged("IsGrovFeltChecked");
+                //}
+
+                //if (m_IsFinFeltChecked != !m_Is200Checked)
+                //{
+                //    m_IsFinFeltChecked = !m_Is200Checked;
+                //    OnPropertyChanged("IsFinFeltChecked");
+                //}
+              
                 m_OrionDirs.Clear();
                 m_SelectedOrionDir = null;
-                if (m_remote200m.Count>0)
+                if (m_remote200m.Count > 0)
                 {
                     foreach (var ewl in m_remote200m)
                     {
@@ -473,11 +529,11 @@ namespace SendingResultClient.Viewmodels
                     }
                     m_SelectedOrionDir = m_OrionDirs[0];
                 }
-                OnPropertyChanged("Is15Checked");
-                OnPropertyChanged("Is100Checked");
-                OnPropertyChanged("IsFinFeltChecked");
-                OnPropertyChanged("Is200Checked");
-                OnPropertyChanged("IsGrovFeltChecked");
+                
+               
+               
+               
+                
                 OnPropertyChanged("OrionDirs");
                 OnPropertyChanged("SelectedOrionDir");
             }
@@ -491,11 +547,36 @@ namespace SendingResultClient.Viewmodels
             }
             set
             {
+                if (m_IsGrovFeltChecked == value)
+                {
+                    return;
+                }
                 m_IsGrovFeltChecked = value;
-                m_Is15Checked = !m_IsGrovFeltChecked;
-                m_Is100Checked = !m_IsGrovFeltChecked;
-                m_Is200Checked = !m_IsGrovFeltChecked;
-                m_IsFinFeltChecked = !m_IsGrovFeltChecked;
+                OnPropertyChanged("IsGrovFeltChecked");
+
+                //if (m_Is15Checked != !m_IsGrovFeltChecked)
+                //{
+                //    m_Is15Checked = !m_IsGrovFeltChecked;
+                //    OnPropertyChanged("Is15Checked");
+                //}
+
+                //if (m_Is100Checked != !m_IsGrovFeltChecked)
+                //{
+                //    m_Is100Checked = !m_IsGrovFeltChecked;
+                //    OnPropertyChanged("Is100Checked");
+                //}
+
+                //if (m_Is200Checked != !m_IsGrovFeltChecked)
+                //{
+                //    m_Is200Checked = !m_IsGrovFeltChecked;
+                //    OnPropertyChanged("Is200Checked");
+                //}
+
+                //if (m_IsFinFeltChecked != !m_IsGrovFeltChecked)
+                //{
+                //    m_IsFinFeltChecked = !m_IsGrovFeltChecked;
+                //    OnPropertyChanged("IsFinFeltChecked");
+                //}
 
                 m_OrionDirs.Clear();
                 m_SelectedOrionDir = null;
@@ -507,11 +588,11 @@ namespace SendingResultClient.Viewmodels
                     }
                     m_SelectedOrionDir = m_OrionDirs[0];
                 }
-                OnPropertyChanged("Is15Checked");
-                OnPropertyChanged("Is100Checked");
-                OnPropertyChanged("IsFinFeltChecked");
-                OnPropertyChanged("Is200Checked");
-                OnPropertyChanged("IsGrovFeltChecked");
+               
+                
+                
+              
+               
                 OnPropertyChanged("OrionDirs");
                 OnPropertyChanged("SelectedOrionDir");
             }
@@ -525,26 +606,42 @@ namespace SendingResultClient.Viewmodels
             }
             set
             {
+                if (m_Is100Checked == value)
+                {
+                    return;
+                }
                 m_Is100Checked = value;
-                m_Is15Checked = !m_Is100Checked;
-                m_Is200Checked = !m_Is100Checked;
-                m_IsGrovFeltChecked = !m_Is100Checked;
-                m_IsFinFeltChecked = !m_Is100Checked;
+                OnPropertyChanged("Is100Checked");
+                //if (m_Is15Checked != !m_Is100Checked)
+                //{
+                //    m_Is15Checked = !m_Is100Checked;
+                //    OnPropertyChanged("Is15Checked");
+                //}
 
-
-
+                //if (m_Is200Checked != !m_Is100Checked)
+                //{
+                //    m_Is200Checked = !m_Is100Checked;
+                //    OnPropertyChanged("Is200Checked");
+                //}
+                //if (m_IsGrovFeltChecked != !m_Is100Checked)
+                //{
+                //    m_IsGrovFeltChecked = !m_Is100Checked;
+                //    OnPropertyChanged("IsGrovFeltChecked");
+                //}
+                //if (m_IsFinFeltChecked != !m_Is100Checked)
+                //{
+                //    m_IsFinFeltChecked = !m_Is100Checked;
+                //    OnPropertyChanged("IsFinFeltChecked");
+                //}
+              
                 m_OrionDirs.Clear();
                 m_SelectedOrionDir = null;
-                if (string.IsNullOrEmpty(m_remote100m))
+                if (!string.IsNullOrEmpty(m_remote100m))
                 {
                     m_OrionDirs.Add(m_remote100m);
                     m_SelectedOrionDir = m_OrionDirs[0];
                 }
-                OnPropertyChanged("Is15Checked");
-                OnPropertyChanged("Is100Checked");
-                OnPropertyChanged("IsFinFeltChecked");
-                OnPropertyChanged("Is200Checked");
-                OnPropertyChanged("IsGrovFeltChecked");
+               
                 OnPropertyChanged("OrionDirs");
                 OnPropertyChanged("SelectedOrionDir");
             }
@@ -558,23 +655,44 @@ namespace SendingResultClient.Viewmodels
             }
             set
             {
+                if (m_IsFinFeltChecked == value)
+                {
+                    return;
+                }
                 m_IsFinFeltChecked = value;
-                m_Is15Checked = !m_IsFinFeltChecked;
-                m_Is200Checked = !m_IsFinFeltChecked;
-                m_IsGrovFeltChecked = !m_IsFinFeltChecked;
-                m_Is100Checked = !m_IsFinFeltChecked;
+                OnPropertyChanged("IsFinFeltChecked");
+                //if (m_Is15Checked != !m_IsFinFeltChecked)
+                //{
+                //    m_Is15Checked = !m_IsFinFeltChecked;
+                //    OnPropertyChanged("Is15Checked");
+                //}
+
+                //if (m_Is200Checked != !m_IsFinFeltChecked)
+                //{
+                //    m_Is200Checked = !m_IsFinFeltChecked;
+                //    OnPropertyChanged("Is200Checked");
+                //}
+
+                //if (m_IsGrovFeltChecked != !m_IsFinFeltChecked)
+                //{
+                //    m_IsGrovFeltChecked = !m_IsFinFeltChecked;
+                //    OnPropertyChanged("IsGrovFeltChecked");
+                //}
+                
+                //if (m_Is100Checked != !m_IsFinFeltChecked)
+                //{
+                //    m_Is100Checked = !m_IsFinFeltChecked;
+                //    OnPropertyChanged("Is100Checked");
+                //}
+                
+
                 m_OrionDirs.Clear();
                 m_SelectedOrionDir = null;
-                if (string.IsNullOrEmpty(m_remoteFinFelt))
+                if (!string.IsNullOrEmpty(m_remoteFinFelt))
                 {
                     m_OrionDirs.Add(m_remoteFinFelt);
                     m_SelectedOrionDir = m_OrionDirs[0];
                 }
-                OnPropertyChanged("Is15Checked");
-                OnPropertyChanged("Is100Checked");
-                OnPropertyChanged("IsFinFeltChecked");
-                OnPropertyChanged("Is200Checked");
-                OnPropertyChanged("IsGrovFeltChecked");
                 OnPropertyChanged("OrionDirs");
                 OnPropertyChanged("SelectedOrionDir");
             }
@@ -673,31 +791,31 @@ namespace SendingResultClient.Viewmodels
 
         private void Init(string startPath)
         {
-            if(string.IsNullOrEmpty(startPath))
+            if (string.IsNullOrEmpty(startPath))
             {
                 return;
             }
 
             if (!Directory.Exists(startPath))
-                {
+            {
                 return;
-                }
+            }
             m_DirectoryItem = null;
             FoldersItems.Clear();
             //foreach (string s in Directory.GetLogicalDrives())
             //{
-                TreeViewItem item = new TreeViewItem();
-                item.Header = startPath;
-                item.Tag = new DirectoryInfo(startPath);
-                item.FontWeight = FontWeights.Normal;
-                item.Items.Add(dummyNode);
-                item.Expanded += new RoutedEventHandler(folder_Expanded);
-                //item.Selected += new RoutedEventHandler(Dir_Selected);
+            TreeViewItem item = new TreeViewItem();
+            item.Header = startPath;
+            item.Tag = new DirectoryInfo(startPath);
+            item.FontWeight = FontWeights.Normal;
+            item.Items.Add(dummyNode);
+            item.Expanded += new RoutedEventHandler(folder_Expanded);
+            //item.Selected += new RoutedEventHandler(Dir_Selected);
             FoldersItems.Add(item);
             //}
         }
 
-       
+
 
         void folder_Expanded(object sender, RoutedEventArgs e)
         {
@@ -729,7 +847,7 @@ namespace SendingResultClient.Viewmodels
                         {
                             string path = item.Tag.ToString();
                             var fileList = Directory.GetFiles(path, "*.png", SearchOption.TopDirectoryOnly).ToList();
-                            if (fileList.Count > 0 )
+                            if (fileList.Count > 0)
                             {
                                 foreach (string s in fileList)
                                 {
@@ -744,13 +862,13 @@ namespace SendingResultClient.Viewmodels
                             }
                         }
                     }
-                    
+
                 }
                 catch (Exception) { }
             }
         }
 
-       
+
 
         public void foldersItem_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -783,4 +901,4 @@ namespace SendingResultClient.Viewmodels
 
     }
 }
-   
+
