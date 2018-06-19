@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{89F37C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F37C20A6-4E36-42C0-8A12-86C8A8B37517}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebResultsClient", "Client\SendingResultClient\WebResultsClient.csproj", "{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebResultsClient", "Client\WebResultsClient\WebResultsClient.csproj", "{7170AFB6-2FEF-4C86-A36C-360DE04CFFFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderService", "Common\FileUploaderService\FileUploaderService.csproj", "{D8186E58-706E-42BE-8C41-A5A36C2EC05B}"
 EndProject

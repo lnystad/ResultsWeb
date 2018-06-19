@@ -1050,7 +1050,7 @@
     <Content Include="TestData\XML\Mesterskap\Merge1_2.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\SendingResultClient\WebResultsClient.csproj">
+    <ProjectReference Include="..\..\Client\WebResultsClient\WebResultsClient.csproj">
       <Project>{7170afb6-2fef-4c86-a36c-360de04cfffa}</Project>
       <Name>WebResultsClient</Name>
     </ProjectReference>
