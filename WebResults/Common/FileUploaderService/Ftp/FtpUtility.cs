@@ -85,9 +85,9 @@ namespace FileUploaderService.Ftp
             OnLogEvent(message);
         }
 
-        public delegate bool HandleFileFinished(string message, int count, int total);
+        public delegate bool HandleFileFinished(string filetype,string message, int count, int total);
         public event HandleFileFinished OnHandleFileFinishedEvent;
-        public void OnHandleFileFinished(string message, int count, int total)
+        public void OnHandleFileFinished(string filetype, string message, int count, int total)
         {
            
             if (OnHandleFileFinishedEvent == null)
@@ -95,7 +95,7 @@ namespace FileUploaderService.Ftp
                 return;
             }
 
-            OnHandleFileFinishedEvent(message, count, total);
+            OnHandleFileFinishedEvent(filetype,message, count, total);
         }
 
         public List<FtpDirectory> ListDirectories()
@@ -236,7 +236,7 @@ namespace FileUploaderService.Ftp
             return retList;
         }
 
-        public bool UploadFiles(bool fullUpload, string remoteDir, string remoteSubDir, string[] files, string subsubdir = null)
+        public bool UploadFiles(bool fullUpload,string filetype, string remoteDir, string remoteSubDir, string[] files, string subsubdir = null)
         {
             if (!m_enableFtp)
             {
@@ -298,7 +298,8 @@ namespace FileUploaderService.Ftp
                                     var size = ftp.Size(remoteFille.OriginalFilname);
                                     if (size == filelen)
                                     {
-                                        Log.Trace("file of same size not sent {0} {1}", filesToAdd[countFiles].Filname, filelen);
+                                        OnHandleFtpLog(string.Format("file of same size not sent {0} {1}", filesToAdd[countFiles].Filname, filelen));
+                                        OnHandleFileFinished(filetype, filesToAdd[countFiles].Filname, countFiles, filesToAdd.Count);
                                         countFiles++;
                                         continue;
                                     }
@@ -307,7 +308,7 @@ namespace FileUploaderService.Ftp
 
                             OnHandleFtpLog(string.Format("Putting file {0}", remotefileName));
                             ftp.Put(filesToAdd[countFiles].Filname, remotefileName, false);
-                            OnHandleFileFinished(filesToAdd[countFiles].Filname, countFiles, filesToAdd.Count);
+                            OnHandleFileFinished(filetype,filesToAdd[countFiles].Filname, countFiles, filesToAdd.Count);
                         }
                         countFiles++;
                     }

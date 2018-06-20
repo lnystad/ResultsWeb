@@ -47,12 +47,22 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                         <ProgressBar Name="progressBar" Margin="35,5,5,5" Width="200" Height="30" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ProgrssbarVisibility}"/>
+                        <Label  Visibility="{Binding ProgrssbarVisibility}">Xml:</Label>
+                        <ProgressBar Name="progressBar" Margin="35,5,5,5" Width="200" Height="30" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ProgrssbarVisibility}"/>
+                        <Label  Visibility="{Binding ProgrssbarBitMapVisibility}">Bitmap:</Label>
+                        <ProgressBar Name="progressBarBitmap" Margin="35,5,5,5" Width="200" Height="30" Value="{Binding PercentBitMap, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ProgrssbarBitMapVisibility}"/>
+                        <CheckBox
+            Content="LastOpp Bitmap"
+            HorizontalAlignment="Left"
+            Margin="10,10,0,0"
+            VerticalAlignment="Top"
+                            IsChecked="{Binding UploadBitmap}"/>
                     </StackPanel>
                     <ScrollViewer Grid.Row="1" Height="600" VerticalScrollBarVisibility="Auto">
                         <TextBox Margin="10,10,10,10"   Text="{Binding TextOutput}" TextWrapping="Wrap" AcceptsReturn="True"/>
                     </ScrollViewer>
-                    <Button Grid.Row="2" Margin="250,5,5,5" Height="30" Width="70" Command="{Binding UploadStevneCommand}" Content="Upload" />
+                    <Button Grid.Row="2" Margin="0,5,5,5" Height="30" Width="70" Command="{Binding UploadStevneDeltaCommand}" Content="Delta" />
+                    <Button Grid.Row="2" Margin="250,5,5,5" Height="30" Width="70" Command="{Binding UploadStevneCommand}" Content="Full" />
                 </Grid>
 
             </StackPanel>

@@ -25,7 +25,9 @@ namespace WebResultsClient.Viewmodels
             m_FtpPassWord = ConfigurationLoader.GetAppSettingsValue("FtpPassWord");
             
             m_ProgrssbarVisibility = Visibility.Hidden;
+            m_ProgrssbarBitMapVisibility = Visibility.Hidden;
             m_canExecute = false;
+            m_canDeltaExecute = false;
             InitCommands();
 
             RapportXsltFilFileName = ConfigurationLoader.GetAppSettingsValue("RapportXsltFil");
@@ -103,14 +105,17 @@ namespace WebResultsClient.Viewmodels
             {
                 InitLeonFileLoader(DebugMerge, RapportXsltFilFileName, TopListSkyttereXsltFileName, TopListXsltFileName, TopListLagSkyttereXsltFilFileName);
                 m_canExecute = true;
+                m_canDeltaExecute = true;
                 UploadStevneCommand.RaiseCanExecuteChanged();
-
+                UploadStevneDeltaCommand.RaiseCanExecuteChanged();
             }
             else
             {
                 m_fileLoader = null;
                 m_canExecute = false;
+                m_canDeltaExecute = false;
                 UploadStevneCommand.RaiseCanExecuteChanged();
+                UploadStevneDeltaCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -229,11 +234,16 @@ namespace WebResultsClient.Viewmodels
 
         private DelegateCommand m_UploadStevneCommand;
         public DelegateCommand UploadStevneCommand { get; private set; }
+
+        private DelegateCommand m_UploadStevneDeltaCommand;
+        public DelegateCommand UploadStevneDeltaCommand { get; private set; }
         private void InitCommands()
         {
             UploadStevneCommand = new DelegateCommand(OkExecute, OkCanExecute);
-
+            UploadStevneDeltaCommand = new DelegateCommand(OkDeltaExecute, OkDeltaCanExecute);
         }
+        private bool m_finBitmap;
+        private bool m_finXml;
 
         private bool m_canExecute;
 
@@ -242,9 +252,20 @@ namespace WebResultsClient.Viewmodels
             return m_canExecute;
         }
 
+        private bool m_canDeltaExecute;
+
+        private bool OkDeltaCanExecute()
+        {
+            return m_canDeltaExecute;
+        }
+
         private void OkExecute()
         {
-            UpLoadStevne();
+            UpLoadStevne(true);
+        }
+        private void OkDeltaExecute()
+        {
+            UpLoadStevne(false);
         }
         //public ICommand UploadStevneCommand
         //{
@@ -264,20 +285,35 @@ namespace WebResultsClient.Viewmodels
         //    return m_canExecute;
         //}
 
-        private void UpLoadStevne()
+        private void UpLoadStevne(bool fullUpload)
         {
+            
             if (string.IsNullOrEmpty(m_StevneDir))
             {
                 System.Windows.Forms.MessageBox.Show("Stevne ikke valgt", "Feil", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            m_canExecute = false;
+            m_canDeltaExecute = false;
+            UploadStevneCommand.RaiseCanExecuteChanged();
+            UploadStevneDeltaCommand.RaiseCanExecuteChanged();
+            m_finBitmap =false;
+            m_finXml = false;
 
-
-            TextOutput = "";
+        TextOutput = "";
 
             FtpUtility test = new FtpUtility(true, m_FtpServer, "", "", m_FtpUserName, m_FtpPassWord);
             test.OnLogEvent += LogEvent;
             test.OnHandleFileFinishedEvent += HandleFileFinishedEvent;
+
+            var dir = Path.Combine(m_StevneDir, m_StevneNavn);
+            DirectoryInfo info = new DirectoryInfo(dir);
+            LeonDirInfo dirInfo = new LeonDirInfo(info);
+            var BitMaps=dirInfo.ListBitMapByRange(dir);
+            if(BitMaps!=null && UploadBitmap)
+            {
+                sendBitMapsAsync(fullUpload,BitMaps, test);
+            }
 
             string webDir = Path.Combine(m_StevneDir, m_StevneNavn);
             webDir = Path.Combine(webDir, "Web");
@@ -289,8 +325,8 @@ namespace WebResultsClient.Viewmodels
                     TextOutput = "No File to send ";
                     return;
                 }
-                SetBitmapLinksReferenceAsyc();
-                send(files, test);
+                SetBitmapLinks();
+                send(fullUpload,files, test);
                 //test.UploadFiles(true, this.m_SelectedRemoteSubDir, m_StevneNavn, files);
             }
             else
@@ -300,14 +336,68 @@ namespace WebResultsClient.Viewmodels
 
         }
 
+        private async void sendBitMapsAsync(bool full,List<BitmapDirInfo>  bitMaps, FtpUtility util)
+        {
+           
+            
+            foreach (var bitmapofRane in bitMaps)
+            {
+                if (bitmapofRane.BitmapFiles.Count > 0)
+                {
+                    List<string> bitlist = new List<string>();
+                    foreach(var fili in bitmapofRane.BitmapFiles)
+                    {
+                        bitlist.Add(fili.FullName);
+                    }
+                    string[] list = bitlist.ToArray();
+                    PercentBitMap = 0;
+                    ProgrssbarBitMapVisibility = Visibility.Visible;
+                    var t = await Task.Run(() => util.UploadFiles(full, "BITMAP",this.m_SelectedRemoteDir, m_StevneNavn, list, bitmapofRane.BitmapSubDir));
+                    ProgrssbarBitMapVisibility = Visibility.Hidden;
+                    PercentBitMap = 0;
+                }
+            }
 
+            FinishedLoading("BITMAP");
+        }
 
-        private async void send(string[] list, FtpUtility util)
+        private void FinishedLoading(string v)
+        {
+            if(UploadBitmap )
+            {
+                if(string.Compare(v,"BITMAP")==0)
+                {
+                    m_finBitmap = true;
+                   
+                }
+                else
+                {
+                    m_finXml = true;
+                }
+            }
+            else
+            {
+                m_finBitmap = true;
+                m_finXml = true;
+            }
+
+            if(m_finBitmap && m_finXml)
+            {
+                m_canExecute = true;
+                m_canDeltaExecute = true;
+                UploadStevneCommand.RaiseCanExecuteChanged();
+                UploadStevneDeltaCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private async void send(bool full,string[] list, FtpUtility util)
         {
             ProgrssbarVisibility = Visibility.Visible;
-            var t = await Task.Run(() => util.UploadFiles(true, this.m_SelectedRemoteDir, m_StevneNavn, list));
+            var t = await Task.Run(() => util.UploadFiles(full, "XML", this.m_SelectedRemoteDir, m_StevneNavn, list));
             ProgrssbarVisibility = Visibility.Hidden;
             Percent = 0;
+
+            FinishedLoading("XML");
         }
         private async void SetBitmapLinksReferenceAsyc()
         {
@@ -336,9 +426,39 @@ namespace WebResultsClient.Viewmodels
             }
         }
 
-        private bool HandleFileFinishedEvent(string message, int count, int total)
+        private Visibility m_ProgrssbarBitMapVisibility;
+        public Visibility ProgrssbarBitMapVisibility
         {
-            Percent = (int)Math.Round((double)(100 * count) / total);
+            get { return m_ProgrssbarBitMapVisibility; }
+            set
+            {
+                this.m_ProgrssbarBitMapVisibility = value;
+                this.OnPropertyChanged("ProgrssbarBitMapVisibility");
+            }
+        }
+
+        private int percentBitMap = 0;
+        public int PercentBitMap
+        {
+            get { return this.percentBitMap; }
+            set
+            {
+                this.percentBitMap = value;
+                this.OnPropertyChanged("PercentBitMap");
+            }
+        }
+
+        private bool HandleFileFinishedEvent(string type,string message, int count, int total)
+        {
+            if(string.Compare(type,"BITMAP")==0)
+            {
+                PercentBitMap = (int)Math.Round((double)(100 * count) / total);
+            }
+            else
+            {
+                Percent = (int)Math.Round((double)(100 * count) / total);
+            }
+            
 
             return true;
         }
@@ -433,8 +553,11 @@ namespace WebResultsClient.Viewmodels
             if (m_fileLoader.GenerateNewReports(dirInfo, true))
             {
                 Log.Info("Updated Reports Detected name");
+                LogEvent("pdated Reports Detected name");
+               
 
             }
+            Log.Info("Finished setting Bitmap reference");
             LogEvent("Finished setting Bitmap reference");
             return true;
         }

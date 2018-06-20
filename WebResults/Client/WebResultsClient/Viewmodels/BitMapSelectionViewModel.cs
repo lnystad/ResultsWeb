@@ -174,10 +174,12 @@ namespace WebResultsClient.Viewmodels
             string startDir = ((DirectoryInfo)m_DirectoryItem.Tag).FullName;
 
             List<FileInfo> fileList = GetFiles(startDir);
+            Image = null;
             FileAccessHelper.MoveFiles(fileList, ToDir);
             m_DirectoryItem.Items.Clear();
             FoldersItems.Clear();
             Init(m_SelectedOrionDir);
+           
             this.OnPropertyChanged("FoldersItems");
         }
 
@@ -207,6 +209,7 @@ namespace WebResultsClient.Viewmodels
                                 Directory.Delete(onesub);
                             }
                         }
+                        Image = null;
                         Directory.Delete(startDir);
                         FoldersItems.Clear();
                         Init(m_SelectedOrionDir);
@@ -241,15 +244,36 @@ namespace WebResultsClient.Viewmodels
                 m_DirectoryItem = parent;
 
                 DisplayedImagePath = ((FileInfo)item.Tag).FullName;
-                if (File.Exists(DisplayedImagePath))
-                {
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(DisplayedImagePath, UriKind.Absolute);
-                    bitmap.EndInit();
-                    Image = bitmap;
-                }
+                Image = LoadBitMap(DisplayedImagePath);
+                //if (File.Exists(DisplayedImagePath))
+                //{
+                //    BitmapImage bitmap = new BitmapImage();
+                //    bitmap.BeginInit();
+                //    bitmap.UriSource = new Uri(DisplayedImagePath, UriKind.Absolute);
+                //    bitmap.EndInit();
+                //    Image = bitmap;
+                //}
             }
+        }
+
+        public BitmapImage LoadBitMap(string path)
+        {
+            if (File.Exists(DisplayedImagePath))
+            {
+                var bi = new BitmapImage();
+
+                using (var fs = new FileStream(path, FileMode.Open))
+                {
+                    bi.BeginInit();
+                    bi.StreamSource = fs;
+                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                    bi.EndInit();
+                }
+
+                bi.Freeze();
+                return bi;
+            }
+            return null;
         }
         public static T FindAncestor<T>(DependencyObject current)
     where T : DependencyObject

@@ -692,6 +692,39 @@
             return update;
         }
 
+        public List<BitmapDirInfo> ListBitMapByRange(string stevnePath)
+        {
+            bool update = false;
+            if (this.Info == null)
+            {
+                return null;
+            }
+
+            this.InitTimeStamps(false);
+            List<BitmapDirInfo> bitmapScan = new List<BitmapDirInfo>();
+            var bitMapDir = Path.Combine(stevnePath, BitMapDirName);
+            var stevneNavn = Path.GetFileName(stevnePath);
+            if (Directory.Exists(bitMapDir))
+            {
+
+                bitmapScan.Add( new BitmapDirInfo() { BaneType = BaneType.Femtenmeter,BitmapSubDir= Constants.Prefix15m });
+                bitmapScan.Add(new BitmapDirInfo() { BaneType = BaneType.Hundremeter, BitmapSubDir = Constants.Prefix100m });
+                bitmapScan.Add(new BitmapDirInfo() { BaneType = BaneType.Tohundremeter, BitmapSubDir = Constants.Prefix200m });
+                bitmapScan.Add(new BitmapDirInfo() { BaneType = BaneType.FinFelt, BitmapSubDir = Constants.PrefixFinFelt });
+                bitmapScan.Add(new BitmapDirInfo() { BaneType = BaneType.GrovFelt, BitmapSubDir = Constants.PrefixGrovFelt });
+
+                bitmapScan[0].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix15m);
+                bitmapScan[1].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix100m);
+                bitmapScan[2].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.Prefix200m);
+                bitmapScan[3].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.PrefixFinFelt);
+                bitmapScan[4].BitmapFiles = GetBitMapFiles(this.Info.FullName, Constants.PrefixGrovFelt);
+
+               
+            }
+
+            return bitmapScan;
+        }
+
         /// <summary>
         ///     The check pdf files.
         /// </summary>

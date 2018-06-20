@@ -591,7 +591,7 @@ namespace FileUploaderService
                         continue;
                     }
 
-                    this.m_myFtpUtil.UploadFiles(m_FullFtpUpload,this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
+                    this.m_myFtpUtil.UploadFiles(m_FullFtpUpload, "BITMAP", this.m_remoteDir, webDir.TargetName, bitmap.ToArray(), prefix);
                 }
             }
         }
@@ -667,7 +667,7 @@ namespace FileUploaderService
                 }
 
                 this.m_fileLoader.UpdateWebTimeStamp(webDir);
-                this.m_myFtpUtil.UploadFiles(m_FullFtpUpload, this.m_remoteDir, webDir.TargetName, files);
+                this.m_myFtpUtil.UploadFiles(m_FullFtpUpload, "XML",this.m_remoteDir, webDir.TargetName, files);
             }
         }
 
@@ -700,7 +700,7 @@ namespace FileUploaderService
                 }
 
                 this.m_fileLoader.UpdateWebTimeStamp(webDir);
-                this.m_myFtpUtil.UploadFiles(m_FullFtpUpload, this.m_remoteDir, webDir.TargetName, files);
+                this.m_myFtpUtil.UploadFiles(m_FullFtpUpload,"XML", this.m_remoteDir, webDir.TargetName, files);
             }
         }
 
