@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Converters="clr-namespace:WebResultsClient.Converters"
         xmlns:local="clr-namespace:WebResultsClient"
+        xmlns:Viewmodels="clr-namespace:WebResultsClient.Viewmodels"
         mc:Ignorable="d"
         Title="WebResultsClient" Height="920" Width="825" >
     <Window.Resources>
@@ -106,7 +107,7 @@
                                 <RadioButton IsChecked="{Binding Is100Checked}" GroupName="Range">100m</RadioButton>
                                 <RadioButton IsChecked="{Binding IsFinFeltChecked}" GroupName="Range">FinFelt</RadioButton>
                                 <RadioButton IsChecked="{Binding Is200Checked}" GroupName="Range">200m</RadioButton>
-                                <RadioButton IsChecked="{Binding IsGrovfeltChecked}" GroupName="Range">Grovfelt</RadioButton>
+                                <RadioButton IsChecked="{Binding IsGrovFeltChecked}" GroupName="Range">Grovfelt</RadioButton>
                             </StackPanel>
                         </Grid>
                     </Border>
