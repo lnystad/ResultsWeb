@@ -490,17 +490,19 @@ namespace WebResultsClient.Viewmodels
                 //    m_Is100Checked = !m_Is15Checked;
                 //    OnPropertyChanged("IsFinFeltChecked");
                 //}
-               
-                m_OrionDirs.Clear();
-                m_SelectedOrionDir = null;
-                if (!string.IsNullOrEmpty(m_remote15m))
+                if (m_Is15Checked == true)
                 {
-                    m_OrionDirs.Add(m_remote15m);
-                    m_SelectedOrionDir = m_OrionDirs[0];
+                    m_OrionDirs.Clear();
+                    m_SelectedOrionDir = null;
+                    if (!string.IsNullOrEmpty(m_remote15m))
+                    {
+                        m_OrionDirs.Add(m_remote15m);
+                        m_SelectedOrionDir = m_OrionDirs[0];
+                    }
+
+                    OnPropertyChanged("OrionDirs");
+                    OnPropertyChanged("SelectedOrionDir");
                 }
-               
-                OnPropertyChanged("OrionDirs");
-                OnPropertyChanged("SelectedOrionDir");
             }
         }
         private bool m_Is200Checked { get; set; }
@@ -542,22 +544,25 @@ namespace WebResultsClient.Viewmodels
                 //    m_IsFinFeltChecked = !m_Is200Checked;
                 //    OnPropertyChanged("IsFinFeltChecked");
                 //}
-              
-                m_OrionDirs.Clear();
-                m_SelectedOrionDir = null;
-                if (m_remote200m.Count > 0)
+
+                if (m_Is200Checked == true)
                 {
-                    foreach (var ewl in m_remote200m)
+                    m_OrionDirs.Clear();
+                    m_SelectedOrionDir = null;
+                    if (m_remote200m.Count > 0)
                     {
-                        m_OrionDirs.Add(ewl);
+                        foreach (var ewl in m_remote200m)
+                        {
+                            m_OrionDirs.Add(ewl);
+                        }
+
+                        m_SelectedOrionDir = m_OrionDirs[0];
                     }
-                    m_SelectedOrionDir = m_OrionDirs[0];
                 }
-                
-               
-               
-               
-                
+
+
+
+
                 OnPropertyChanged("OrionDirs");
                 OnPropertyChanged("SelectedOrionDir");
             }
@@ -602,21 +607,24 @@ namespace WebResultsClient.Viewmodels
                 //    OnPropertyChanged("IsFinFeltChecked");
                 //}
 
-                m_OrionDirs.Clear();
-                m_SelectedOrionDir = null;
-                if (m_remoteGrovFelt.Count > 0)
+                if (m_IsGrovFeltChecked == true)
                 {
-                    foreach (var ewl in m_remoteGrovFelt)
+                    m_OrionDirs.Clear();
+                    m_SelectedOrionDir = null;
+                    if (m_remoteGrovFelt.Count > 0)
                     {
-                        m_OrionDirs.Add(ewl);
+                        foreach (var ewl in m_remoteGrovFelt)
+                        {
+                            m_OrionDirs.Add(ewl);
+                        }
+
+                        m_SelectedOrionDir = m_OrionDirs[0];
                     }
-                    m_SelectedOrionDir = m_OrionDirs[0];
                 }
-               
-                
-                
-              
-               
+
+
+
+
                 OnPropertyChanged("OrionDirs");
                 OnPropertyChanged("SelectedOrionDir");
             }
@@ -657,17 +665,20 @@ namespace WebResultsClient.Viewmodels
                 //    m_IsFinFeltChecked = !m_Is100Checked;
                 //    OnPropertyChanged("IsFinFeltChecked");
                 //}
-              
-                m_OrionDirs.Clear();
-                m_SelectedOrionDir = null;
-                if (!string.IsNullOrEmpty(m_remote100m))
+
+                if (m_Is100Checked == true)
                 {
-                    m_OrionDirs.Add(m_remote100m);
-                    m_SelectedOrionDir = m_OrionDirs[0];
+                    m_OrionDirs.Clear();
+                    m_SelectedOrionDir = null;
+                    if (!string.IsNullOrEmpty(m_remote100m))
+                    {
+                        m_OrionDirs.Add(m_remote100m);
+                        m_SelectedOrionDir = m_OrionDirs[0];
+                    }
+
+                    OnPropertyChanged("OrionDirs");
+                    OnPropertyChanged("SelectedOrionDir");
                 }
-               
-                OnPropertyChanged("OrionDirs");
-                OnPropertyChanged("SelectedOrionDir");
             }
         }
         private bool m_IsFinFeltChecked { get; set; }
@@ -708,17 +719,20 @@ namespace WebResultsClient.Viewmodels
                 //    m_Is100Checked = !m_IsFinFeltChecked;
                 //    OnPropertyChanged("Is100Checked");
                 //}
-                
 
-                m_OrionDirs.Clear();
-                m_SelectedOrionDir = null;
-                if (!string.IsNullOrEmpty(m_remoteFinFelt))
+                if (m_IsFinFeltChecked == true)
                 {
-                    m_OrionDirs.Add(m_remoteFinFelt);
-                    m_SelectedOrionDir = m_OrionDirs[0];
+                    m_OrionDirs.Clear();
+                    m_SelectedOrionDir = null;
+                    if (!string.IsNullOrEmpty(m_remoteFinFelt))
+                    {
+                        m_OrionDirs.Add(m_remoteFinFelt);
+                        m_SelectedOrionDir = m_OrionDirs[0];
+                    }
+
+                    OnPropertyChanged("OrionDirs");
+                    OnPropertyChanged("SelectedOrionDir");
                 }
-                OnPropertyChanged("OrionDirs");
-                OnPropertyChanged("SelectedOrionDir");
             }
         }
 
