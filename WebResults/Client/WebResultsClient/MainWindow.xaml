@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:WebResultsClient"
         xmlns:Viewmodels="clr-namespace:WebResultsClient.Viewmodels"
         mc:Ignorable="d"
-        Title="WebResultsClient" Height="920" Width="825" >
+        Title="WebResultsClient" Height="906" Width="825" >
     <Window.Resources>
         <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Converters:OppositeBoolToVisibilityConverter x:Key="OppositeBoolToVisibilityConverter"/>
@@ -59,11 +59,13 @@
             VerticalAlignment="Top"
                             IsChecked="{Binding UploadBitmap}"/>
                     </StackPanel>
-                    <ScrollViewer Grid.Row="1" Height="600" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer Grid.Row="1" Height="400">
                         <TextBox Margin="10,10,10,10"   Text="{Binding TextOutput}" TextWrapping="Wrap" AcceptsReturn="True"/>
                     </ScrollViewer>
-                    <Button Grid.Row="2" Margin="0,5,5,5" Height="30" Width="70" Command="{Binding UploadStevneDeltaCommand}" Content="Delta" />
-                    <Button Grid.Row="2" Margin="250,5,5,5" Height="30" Width="70" Command="{Binding UploadStevneCommand}" Content="Full" />
+                    <StackPanel Grid.Row="2" VerticalAlignment="Bottom" Orientation="Horizontal">
+                    <Button Margin="5" Command="{Binding UploadStevneDeltaCommand}" Content="Delta" />
+                    <Button Margin="5" Command="{Binding UploadStevneCommand}" Content="Full" />
+                    </StackPanel>
                 </Grid>
 
             </StackPanel>

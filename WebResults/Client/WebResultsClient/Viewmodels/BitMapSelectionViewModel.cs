@@ -556,15 +556,11 @@ namespace WebResultsClient.Viewmodels
                             m_OrionDirs.Add(ewl);
                         }
 
-                        m_SelectedOrionDir = m_OrionDirs[0];
+                        SelectedOrionDir = m_OrionDirs[0];
                     }
                 }
 
-
-
-
                 OnPropertyChanged("OrionDirs");
-                OnPropertyChanged("SelectedOrionDir");
             }
         }
         private bool m_IsGrovFeltChecked { get; set; }
@@ -618,7 +614,7 @@ namespace WebResultsClient.Viewmodels
                             m_OrionDirs.Add(ewl);
                         }
 
-                        m_SelectedOrionDir = m_OrionDirs[0];
+                        SelectedOrionDir = m_OrionDirs[0];
                     }
                 }
 
@@ -626,7 +622,6 @@ namespace WebResultsClient.Viewmodels
 
 
                 OnPropertyChanged("OrionDirs");
-                OnPropertyChanged("SelectedOrionDir");
             }
         }
         private bool m_Is100Checked { get; set; }
@@ -673,11 +668,10 @@ namespace WebResultsClient.Viewmodels
                     if (!string.IsNullOrEmpty(m_remote100m))
                     {
                         m_OrionDirs.Add(m_remote100m);
-                        m_SelectedOrionDir = m_OrionDirs[0];
+                        SelectedOrionDir = m_OrionDirs[0];
                     }
 
                     OnPropertyChanged("OrionDirs");
-                    OnPropertyChanged("SelectedOrionDir");
                 }
             }
         }
@@ -727,11 +721,10 @@ namespace WebResultsClient.Viewmodels
                     if (!string.IsNullOrEmpty(m_remoteFinFelt))
                     {
                         m_OrionDirs.Add(m_remoteFinFelt);
-                        m_SelectedOrionDir = m_OrionDirs[0];
+                        SelectedOrionDir = m_OrionDirs[0];
                     }
 
                     OnPropertyChanged("OrionDirs");
-                    OnPropertyChanged("SelectedOrionDir");
                 }
             }
         }
@@ -791,6 +784,7 @@ namespace WebResultsClient.Viewmodels
             {
                 m_SelectedOrionDir = value;
                 this.OnPropertyChanged("SelectedOrionDir");
+                Init(m_SelectedOrionDir);
             }
         }
         private ObservableCollection<string> m_OrionDirs;
