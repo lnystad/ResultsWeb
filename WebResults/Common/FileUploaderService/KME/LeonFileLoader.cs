@@ -1229,7 +1229,7 @@ namespace FileUploaderService.KME
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool GenerateNewReports(LeonDirInfo element,bool forceWebParse)
+        public bool GenerateNewReports(LeonDirInfo element,bool forceWebParse,bool forceReportFix=false)
         {
             if (this.m_xsltRapport == null)
             {
@@ -1246,6 +1246,11 @@ namespace FileUploaderService.KME
                 Log.Warning("StevneForAlleBaner in GenerateNewReports is null");
                 return false;
             }
+            if(forceReportFix)
+            {
+                RemoveAllPreviousReport(element);
+            }
+            
 
             bool update = false;
             foreach (var bane in element.StevneForAlleBaner.DynamiskeBaner)
@@ -1292,6 +1297,68 @@ namespace FileUploaderService.KME
                                 
                             
                            
+                            }
+
+                            readerOut.Dispose();
+                            reader.Dispose();
+                        }
+                        catch (XmlException xmlex)
+                        {
+                            Log.Error(xmlex, string.Empty);
+                        }
+                        catch (XsltException exp)
+                        {
+                            Log.Error(exp, string.Empty);
+
+                            return false;
+                        }
+                        catch (Exception exp)
+                        {
+                            Log.Error(exp, string.Empty);
+                        }
+                    }
+                    else if(forceReportFix && rapport.Rapport != null)
+                    {
+                        try
+                        {
+                            XPathDocument xpathDoc;
+
+                            var outputXmlStream = new MemoryStream { Position = 0 };
+                           // var readerStream = MergeDocumentsInput(rapport.Rapport, rapport.BitMapInfo);
+                            var readerStream = new MemoryStream();
+
+                            rapport.Rapport.Save(readerStream);
+                            readerStream.Position = 0;
+                            this.CopyReader(readerStream, rapport.Filnavn);
+
+                            var enc = new UTF8Encoding(false);
+                            var reader = new StreamReader(readerStream, enc, true);
+
+                            // XmlTextReader xmlReader = new XmlTextReader(reader);
+                            xpathDoc = new XPathDocument(reader);
+
+                            this.m_xsltRapport.Transform(xpathDoc, null, outputXmlStream);
+                            update = true;
+                            outputXmlStream.Position = 0;
+                            XmlDocument docSaver = new XmlDocument();
+                            StreamReader readerOut = new StreamReader(outputXmlStream, enc, true);
+                            XmlTextReader xmlReaderOut = new XmlTextReader(readerOut);
+                            docSaver.Load(xmlReaderOut);
+                            if (!string.IsNullOrEmpty(rapport.Filnavn))
+                            {
+                                Log.Info("Generating new Start List {0}", rapport.Filnavn);
+                                var encServer = Encoding.GetEncoding(rapportEnCoding);
+                                var newFileName = FindNewFileName(rapport.Filnavn, forceWebParse);
+                                using (XmlTextWriter writer = new XmlTextWriter(newFileName, encServer))
+                                {
+                                    writer.Formatting = Formatting.Indented;
+                                    docSaver.Save(writer);
+                                    writer.Flush();
+                                    writer.Close();
+                                }
+
+
+
                             }
 
                             readerOut.Dispose();
@@ -1715,8 +1782,69 @@ namespace FileUploaderService.KME
 
                 
             }
+            if (forceReportFix)
+            {
+                CopyAllNewReport(element);
+            }
 
             return update;
+        }
+
+        private void RemoveAllPreviousReport(LeonDirInfo element)
+        {
+            if(element==null)
+            {
+                return;
+            }
+
+            var newDir = Path.Combine(element.WebName, "NewXml");
+
+            if(Directory.Exists(newDir))
+            {
+                var sllfiles=Directory.GetFiles(newDir);
+                foreach(var file in sllfiles)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Error("Error", e);
+                    }
+                }
+            }
+        }
+
+        private void CopyAllNewReport(LeonDirInfo element)
+        {
+            if (element == null)
+            {
+                return;
+            }
+
+            var newDir = Path.Combine(element.WebName, "NewXml");
+
+            if (Directory.Exists(newDir))
+            {
+                var sllfiles = Directory.GetFiles(newDir);
+                foreach (var file in sllfiles)
+                {
+                    try
+                    {
+                        var oldFile= Path.Combine(element.WebName, Path.GetFileName(file));
+                        if (File.Exists(oldFile))
+                        {
+                            File.Delete(oldFile);
+                        }
+                        File.Copy(file, oldFile);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error("Error", e);
+                    }
+                }
+            }
         }
 
         private string FindNewFileName(string filnavn, bool forceWebParse)

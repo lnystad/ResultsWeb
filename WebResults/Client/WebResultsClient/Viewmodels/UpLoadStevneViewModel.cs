@@ -56,7 +56,17 @@ namespace WebResultsClient.Viewmodels
                 }
             }
 
-           
+            m_UploadXml = true;
+            string UploadXmlXslt = ConfigurationLoader.GetAppSettingsValue("UploadXml");
+            if (!string.IsNullOrEmpty(UploadXmlXslt))
+            {
+                bool val;
+                if (bool.TryParse(UploadXmlXslt, out val))
+                {
+                    m_UploadXml = val;
+                }
+            }
+            
 
 
         }
@@ -71,6 +81,22 @@ namespace WebResultsClient.Viewmodels
         public string TopListXsltFileName { get; set; }
         public string TopListLagSkyttereXsltFilFileName { get; set; }
         public bool DebugMerge { get; set; }
+        
+
+        private bool m_UploadXml { get; set; }
+        public bool UploadXml
+        {
+            get
+            {
+                return this.m_UploadXml;
+            }
+            set
+            {
+                this.m_UploadXml = value;
+
+                this.OnPropertyChanged("UploadXml");
+            }
+        }
 
         private bool m_UploadBitmap { get; set; }
         public bool UploadBitmap
@@ -326,7 +352,16 @@ namespace WebResultsClient.Viewmodels
                     return;
                 }
                 SetBitmapLinks();
-                send(fullUpload,files, test);
+                if(UploadXml)
+                { 
+                        send(fullUpload,files, test);
+                }
+                else
+                {
+                    TextOutput = "UploadXml False No Xml Uploaded Just generated new version";
+                    Log.Info("UploadXml False No Xml Uploaded generated new version");
+                    FinishedLoading("XML");
+                }
                 //test.UploadFiles(true, this.m_SelectedRemoteSubDir, m_StevneNavn, files);
             }
             else
@@ -533,32 +568,33 @@ namespace WebResultsClient.Viewmodels
 
         public bool SetBitmapLinks()
         {
-            if(!m_UploadBitmap)
+            var dir = Path.Combine(m_StevneDir, m_StevneNavn);
+            DirectoryInfo info = new DirectoryInfo(dir);
+            LeonDirInfo dirInfo = new LeonDirInfo(info);
+            dirInfo.UpdateWebFiles(true);
+
+            if (!m_UploadBitmap)
             {
                 Log.Info("UploadBitmap false no bitmap reference generation");
-                return false;
+                
             }
             else
             {
                 Log.Info("UploadBitmap true Start setting Bitmap reference");
+                dirInfo.CheckBitMap();
+                LogEvent("Start setting Bitmap reference");
             }
-
-            var dir = Path.Combine(m_StevneDir, m_StevneNavn);
-            DirectoryInfo info = new DirectoryInfo(dir);
-            LeonDirInfo dirInfo = new LeonDirInfo(info);
-            dirInfo.CheckWebFiles(true);
-
-            dirInfo.CheckBitMap();
-            LogEvent("Start setting Bitmap reference");
-            if (m_fileLoader.GenerateNewReports(dirInfo, true))
+            
+            if (m_fileLoader.GenerateNewReports(dirInfo, true, true))
             {
                 Log.Info("Updated Reports Detected name");
                 LogEvent("pdated Reports Detected name");
-               
-
             }
-            Log.Info("Finished setting Bitmap reference");
-            LogEvent("Finished setting Bitmap reference");
+            if (m_UploadBitmap)
+            {
+                Log.Info("Finished setting Bitmap reference");
+                LogEvent("Finished setting Bitmap reference");
+            }
             return true;
         }
     }
