@@ -589,8 +589,6 @@ namespace WebResultsClient.Viewmodels
             {
                 Log.Info("Updated Reports Detected name");
                 LogEvent("pdated Reports Detected name");
-               
-
             }
             if (m_UploadBitmap)
             {

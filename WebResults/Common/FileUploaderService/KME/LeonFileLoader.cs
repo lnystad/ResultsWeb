@@ -1246,6 +1246,11 @@ namespace FileUploaderService.KME
                 Log.Warning("StevneForAlleBaner in GenerateNewReports is null");
                 return false;
             }
+            if(forceReportFix)
+            {
+                RemoveAllPreviousReport(element);
+            }
+            
 
             bool update = false;
             foreach (var bane in element.StevneForAlleBaner.DynamiskeBaner)
@@ -1777,8 +1782,69 @@ namespace FileUploaderService.KME
 
                 
             }
+            if (forceReportFix)
+            {
+                CopyAllNewReport(element);
+            }
 
             return update;
+        }
+
+        private void RemoveAllPreviousReport(LeonDirInfo element)
+        {
+            if(element==null)
+            {
+                return;
+            }
+
+            var newDir = Path.Combine(element.WebName, "NewXml");
+
+            if(Directory.Exists(newDir))
+            {
+                var sllfiles=Directory.GetFiles(newDir);
+                foreach(var file in sllfiles)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Error("Error", e);
+                    }
+                }
+            }
+        }
+
+        private void CopyAllNewReport(LeonDirInfo element)
+        {
+            if (element == null)
+            {
+                return;
+            }
+
+            var newDir = Path.Combine(element.WebName, "NewXml");
+
+            if (Directory.Exists(newDir))
+            {
+                var sllfiles = Directory.GetFiles(newDir);
+                foreach (var file in sllfiles)
+                {
+                    try
+                    {
+                        var oldFile= Path.Combine(element.WebName, Path.GetFileName(file));
+                        if (File.Exists(oldFile))
+                        {
+                            File.Delete(oldFile);
+                        }
+                        File.Copy(file, oldFile);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error("Error", e);
+                    }
+                }
+            }
         }
 
         private string FindNewFileName(string filnavn, bool forceWebParse)
