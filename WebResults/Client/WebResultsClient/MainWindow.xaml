@@ -53,11 +53,17 @@
                         <Label  Visibility="{Binding ProgrssbarBitMapVisibility}">Bitmap:</Label>
                         <ProgressBar Name="progressBarBitmap" Margin="35,5,5,5" Width="200" Height="30" Value="{Binding PercentBitMap, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ProgrssbarBitMapVisibility}"/>
                         <CheckBox
-            Content="LastOpp Bitmap"
+            Content="Last Bitmap"
             HorizontalAlignment="Left"
             Margin="10,10,0,0"
             VerticalAlignment="Top"
                             IsChecked="{Binding UploadBitmap}"/>
+                        <CheckBox
+            Content="Last Xml"
+            HorizontalAlignment="Left"
+            Margin="10,10,0,0"
+            VerticalAlignment="Top"
+                            IsChecked="{Binding UploadXml}"/>
                     </StackPanel>
                     <ScrollViewer Grid.Row="1" Height="600" VerticalScrollBarVisibility="Auto">
                         <TextBox Margin="10,10,10,10"   Text="{Binding TextOutput}" TextWrapping="Wrap" AcceptsReturn="True"/>

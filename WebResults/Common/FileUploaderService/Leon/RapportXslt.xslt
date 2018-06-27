@@ -12,8 +12,9 @@
 
   <xsl:template match="/">
     <xsl:apply-templates select="/Merged/report" />
+    <xsl:apply-templates select="/report" />
   </xsl:template>
-
+  
   <xsl:template match="result">
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>

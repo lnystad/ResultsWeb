@@ -1033,6 +1033,54 @@
             return false;
         }
 
+        public bool UpdateWebFiles(bool forceWebParse = false)
+        {
+            if (this.Info == null)
+            {
+                return false;
+            }
+
+            if (this.LastWrittenWebFile == null)
+            {
+                this.LastWrittenWebFile = DateTime.MinValue;
+                Log.Trace("Setting LastWrittenWebFile to Min Val");
+            }
+
+            var web = Path.Combine(this.Info.FullName, WebDirName);
+            var stevneNavn = Path.GetDirectoryName(this.Info.FullName);
+            if (Directory.Exists(web))
+            {
+                this.WebName = web;
+                var webInfo = new DirectoryInfo(web);
+
+                var listInfo = webInfo.GetFiles("*.*");
+
+                if (listInfo.Length > 0)
+                {
+                    bool update = false;
+                    var list = listInfo.OrderByDescending(x => x.LastWriteTime);
+                    var fileelement = list.FirstOrDefault();
+                    if (fileelement != null)
+                    {
+                        
+                        Log.Info("Update detected for stevne {0}", webInfo.FullName);
+                        update = true;
+                        if (!forceWebParse)
+                        {
+                            Thread.Sleep(5000);
+                        }
+
+                        Log.Info("Start parsing index file for stevne {0}", webInfo.FullName);
+                        this.ParseIndexHtmlFile(webInfo);
+                        
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
         /// <summary>
         ///     The check web files.
         /// </summary>
