@@ -108,7 +108,7 @@ namespace UnitTestSendingResult
         public void TestMethodBane()
         {
            
-            UpLoadStevneViewModel mod = new UpLoadStevneViewModel();
+            UpLoadStevneViewModel mod = new UpLoadStevneViewModel("","","");
             mod.StevneDir = @"C:\Users\lan\source\repos\ResultsWeb\WebResults\Tests\UnitTestSendingResult\TestData\ResultaterBane";
             mod.StevneNavn = "Vårmønstring AN 2 100m";
             string rapportXsltFile = @"C:\Users\lan\Source\repos\ResultsWeb\WebResults\Common\FileUploaderService\Leon\RapportXslt.xslt";

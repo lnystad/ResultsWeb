@@ -25,13 +25,18 @@
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="1000"/>
                     </Grid.ColumnDefinitions>
                     <Label  Grid.Row="0" Grid.Column="0" >Leon:</Label>
                     <TextBox Grid.Row="0"  Grid.Column="1" Margin="5" Background="LightGray" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}" Width="400"/>
                     <Button Grid.Row="0" Grid.Column="2" Margin="5" Command="{Binding OpenFileDialogCommand}" Content="..."/>
                     <Label  Grid.Row="1" Grid.Column="0">Stevne:</Label>
-                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" Background="LightGray" ItemsSource="{Binding Competitions}" SelectedItem="{Binding SelectedCompetition}" Text="Select Option"/>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" Background="LightGray" ItemsSource="{Binding Competitions}" SelectedItem="{Binding SelectedCompetition, Mode=TwoWay}" Text="Select Option"/>
                     <Button Grid.Row="1" Grid.Column="2" Margin="5" Command="{Binding RefreshCompetitionsCommand}" Content=".."/>
+                    <StackPanel Grid.Row="1" Grid.Column="3" Margin="10" Orientation="Horizontal" >
+                        <RadioButton IsChecked="{Binding IsSortByNameChecked}" >Navn</RadioButton>
+                        <RadioButton IsChecked="{Binding IsSortByTimeChecked}" >Tid</RadioButton>
+                    </StackPanel>
                     <Label  Grid.Row="2" Grid.Column="0">Remote:</Label>
                     <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" Background="LightGray" ItemsSource="{Binding RemoteDirs}" SelectedItem="{Binding SelectedRemoteDir}" Text="Select Option"/>
                     <Button Grid.Row="2" Grid.Column="2" Margin="5" Command="{Binding RemoteDirsCommand}" Content=".."/>

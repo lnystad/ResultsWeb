@@ -12,9 +12,13 @@ namespace WebResultsClient.Viewmodels
         public MainViewModel()
         {
             m_chooseStevneViewModel = new ChooseStevneViewModel();
-            m_UpLoadStevneViewModel = new UpLoadStevneViewModel();
+            m_UpLoadStevneViewModel = new UpLoadStevneViewModel(m_chooseStevneViewModel.SelectedCompetition,
+                                                                m_chooseStevneViewModel.SelectedPath,
+                                                                m_chooseStevneViewModel.SelectedRemoteDir);
+           
             m_LogViewModel = new LogViewModel();
-            m_BitMapSelectionViewModel = new BitMapSelectionViewModel();
+            m_BitMapSelectionViewModel = new BitMapSelectionViewModel(m_chooseStevneViewModel.SelectedCompetition,
+                                                                      m_chooseStevneViewModel.SelectedPath);
             m_UploadStevneMode = true;
             m_chooseStevneViewModel.OnStevneChange += m_UpLoadStevneViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnStevneChange += m_BitMapSelectionViewModel.HandleStevneChange;

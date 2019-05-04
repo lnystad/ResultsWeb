@@ -17,13 +17,12 @@ namespace WebResultsClient.Viewmodels
 
     public class UpLoadStevneViewModel : ViewModelBase
     {
-
-        public UpLoadStevneViewModel()
+        public UpLoadStevneViewModel(string selectedcompetition, string selectedPath, string selectedRemoteDir)
         {
             m_FtpServer = ConfigurationLoader.GetAppSettingsValue("FtpServer");
             m_FtpUserName = ConfigurationLoader.GetAppSettingsValue("FtpUserName");
             m_FtpPassWord = ConfigurationLoader.GetAppSettingsValue("FtpPassWord");
-            
+
             m_ProgrssbarVisibility = Visibility.Hidden;
             m_ProgrssbarBitMapVisibility = Visibility.Hidden;
             m_canExecute = false;
@@ -66,8 +65,10 @@ namespace WebResultsClient.Viewmodels
                     m_UploadXml = val;
                 }
             }
-            
 
+            m_SelectedRemoteDir = selectedRemoteDir;
+            m_StevneDir = selectedPath;
+            m_StevneNavn = selectedcompetition;
 
         }
 
@@ -81,7 +82,7 @@ namespace WebResultsClient.Viewmodels
         public string TopListXsltFileName { get; set; }
         public string TopListLagSkyttereXsltFilFileName { get; set; }
         public bool DebugMerge { get; set; }
-        
+
 
         private bool m_UploadXml { get; set; }
         public bool UploadXml
@@ -313,7 +314,7 @@ namespace WebResultsClient.Viewmodels
 
         private void UpLoadStevne(bool fullUpload)
         {
-            
+
             if (string.IsNullOrEmpty(m_StevneDir))
             {
                 System.Windows.Forms.MessageBox.Show("Stevne ikke valgt", "Feil", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -323,10 +324,10 @@ namespace WebResultsClient.Viewmodels
             m_canDeltaExecute = false;
             UploadStevneCommand.RaiseCanExecuteChanged();
             UploadStevneDeltaCommand.RaiseCanExecuteChanged();
-            m_finBitmap =false;
+            m_finBitmap = false;
             m_finXml = false;
 
-        TextOutput = "";
+            TextOutput = "";
 
             FtpUtility test = new FtpUtility(true, m_FtpServer, "", "", m_FtpUserName, m_FtpPassWord);
             test.OnLogEvent += LogEvent;
@@ -335,10 +336,10 @@ namespace WebResultsClient.Viewmodels
             var dir = Path.Combine(m_StevneDir, m_StevneNavn);
             DirectoryInfo info = new DirectoryInfo(dir);
             LeonDirInfo dirInfo = new LeonDirInfo(info);
-            var BitMaps=dirInfo.ListBitMapByRange(dir);
-            if(BitMaps!=null && UploadBitmap)
+            var BitMaps = dirInfo.ListBitMapByRange(dir);
+            if (BitMaps != null && UploadBitmap)
             {
-                sendBitMapsAsync(fullUpload,BitMaps, test);
+                sendBitMapsAsync(fullUpload, BitMaps, test);
             }
 
             string webDir = Path.Combine(m_StevneDir, m_StevneNavn);
@@ -352,9 +353,9 @@ namespace WebResultsClient.Viewmodels
                     return;
                 }
                 SetBitmapLinks();
-                if(UploadXml)
-                { 
-                        send(fullUpload,files, test);
+                if (UploadXml)
+                {
+                    send(fullUpload, files, test);
                 }
                 else
                 {
@@ -371,23 +372,23 @@ namespace WebResultsClient.Viewmodels
 
         }
 
-        private async void sendBitMapsAsync(bool full,List<BitmapDirInfo>  bitMaps, FtpUtility util)
+        private async void sendBitMapsAsync(bool full, List<BitmapDirInfo> bitMaps, FtpUtility util)
         {
-           
-            
+
+
             foreach (var bitmapofRane in bitMaps)
             {
                 if (bitmapofRane.BitmapFiles.Count > 0)
                 {
                     List<string> bitlist = new List<string>();
-                    foreach(var fili in bitmapofRane.BitmapFiles)
+                    foreach (var fili in bitmapofRane.BitmapFiles)
                     {
                         bitlist.Add(fili.FullName);
                     }
                     string[] list = bitlist.ToArray();
                     PercentBitMap = 0;
                     ProgrssbarBitMapVisibility = Visibility.Visible;
-                    var t = await Task.Run(() => util.UploadFiles(full, "BITMAP",this.m_SelectedRemoteDir, m_StevneNavn, list, bitmapofRane.BitmapSubDir));
+                    var t = await Task.Run(() => util.UploadFiles(full, "BITMAP", this.m_SelectedRemoteDir, m_StevneNavn, list, bitmapofRane.BitmapSubDir));
                     ProgrssbarBitMapVisibility = Visibility.Hidden;
                     PercentBitMap = 0;
                 }
@@ -398,12 +399,12 @@ namespace WebResultsClient.Viewmodels
 
         private void FinishedLoading(string v)
         {
-            if(UploadBitmap )
+            if (UploadBitmap)
             {
-                if(string.Compare(v,"BITMAP")==0)
+                if (string.Compare(v, "BITMAP") == 0)
                 {
                     m_finBitmap = true;
-                   
+
                 }
                 else
                 {
@@ -416,7 +417,7 @@ namespace WebResultsClient.Viewmodels
                 m_finXml = true;
             }
 
-            if(m_finBitmap && m_finXml)
+            if (m_finBitmap && m_finXml)
             {
                 m_canExecute = true;
                 m_canDeltaExecute = true;
@@ -425,7 +426,7 @@ namespace WebResultsClient.Viewmodels
             }
         }
 
-        private async void send(bool full,string[] list, FtpUtility util)
+        private async void send(bool full, string[] list, FtpUtility util)
         {
             ProgrssbarVisibility = Visibility.Visible;
             var t = await Task.Run(() => util.UploadFiles(full, "XML", this.m_SelectedRemoteDir, m_StevneNavn, list));
@@ -436,7 +437,7 @@ namespace WebResultsClient.Viewmodels
         }
         private async void SetBitmapLinksReferenceAsyc()
         {
-           var t = await Task.Run(() => SetBitmapLinks());
+            var t = await Task.Run(() => SetBitmapLinks());
         }
 
         private Visibility m_ProgrssbarVisibility;
@@ -483,9 +484,9 @@ namespace WebResultsClient.Viewmodels
             }
         }
 
-        private bool HandleFileFinishedEvent(string type,string message, int count, int total)
+        private bool HandleFileFinishedEvent(string type, string message, int count, int total)
         {
-            if(string.Compare(type,"BITMAP")==0)
+            if (string.Compare(type, "BITMAP") == 0)
             {
                 PercentBitMap = (int)Math.Round((double)(100 * count) / total);
             }
@@ -493,13 +494,13 @@ namespace WebResultsClient.Viewmodels
             {
                 Percent = (int)Math.Round((double)(100 * count) / total);
             }
-            
+
 
             return true;
         }
 
         private DelegateCommand m_OpenRemoteDirCommand;
-      
+
         public ICommand OpenRemoteDirCommand
         {
             get
@@ -576,7 +577,7 @@ namespace WebResultsClient.Viewmodels
             if (!m_UploadBitmap)
             {
                 Log.Info("UploadBitmap false no bitmap reference generation");
-                
+
             }
             else
             {
@@ -584,7 +585,7 @@ namespace WebResultsClient.Viewmodels
                 dirInfo.CheckBitMap();
                 LogEvent("Start setting Bitmap reference");
             }
-            
+
             if (m_fileLoader.GenerateNewReports(dirInfo, true, true))
             {
                 Log.Info("Updated Reports Detected name");

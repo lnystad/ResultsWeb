@@ -17,6 +17,7 @@ namespace WebResultsClient.Viewmodels
 
         public ChooseStevneViewModel()
         {
+            m_IsSortByNameChecked = true;
             m_Competitions = new ObservableCollection<string>();
             var leonDir = ConfigurationLoader.GetAppSettingsValue("LeonInstallDir");
             if (!string.IsNullOrEmpty(leonDir))
@@ -37,6 +38,9 @@ namespace WebResultsClient.Viewmodels
                 }
                 m_SelectedRemoteDir = m_RemoteDirs[0];
             }
+
+            
+            //m_SelectedCompetition=ConfigurationLoader.GetAppSettingsValue("LastStevne");
         }
         public delegate void StevneChange(string stevneNavn, string path);
         public event StevneChange OnStevneChange;
@@ -45,7 +49,7 @@ namespace WebResultsClient.Viewmodels
 
         public void OnHandleStevneChange()
         {
-
+            ConfigurationLoader.SetAppSettingsValue("LastStevne", m_SelectedCompetition);
             if (OnStevneChange == null)
             {
                 return;
@@ -69,12 +73,50 @@ namespace WebResultsClient.Viewmodels
             m_Competitions.Clear();
             if (Directory.Exists(path))
             {
-                var listofDirs = Directory.GetDirectories(path);
-                foreach (var stevne in listofDirs)
+               // var listofDirs = Directory.GetDirectories(path);
+
+                var di = new DirectoryInfo(path);
+                List<string> directories;
+                if (m_IsSortByNameChecked)
+                {
+                    directories = di.EnumerateDirectories()
+                        .OrderBy(d => d.Name)
+                        .Select(d => d.Name)
+                        .ToList();
+                }
+                else
+                {
+                    directories = di.EnumerateDirectories()
+                        .OrderBy(d => d.CreationTime)
+                        .Select(d => d.Name)
+                        .ToList();
+                }
+               
+                foreach (var stevne in directories)
                 {
                     var navn = Path.GetFileName(stevne);
                     m_Competitions.Add(navn);
                 }
+
+                var stevneConfig=ConfigurationLoader.GetAppSettingsValue("LastStevne");
+                if (m_Competitions.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(stevneConfig))
+                    {
+                        if (m_Competitions.Contains(stevneConfig))
+                        {
+                            m_SelectedCompetition = m_Competitions[m_Competitions.IndexOf(stevneConfig)];
+                            ConfigurationLoader.SetAppSettingsValue("LastStevne", m_SelectedCompetition);
+                        }
+                    }
+                    else
+                    {
+                        m_SelectedCompetition = m_Competitions[0];
+                        ConfigurationLoader.SetAppSettingsValue("LastStevne", m_SelectedCompetition);
+                    } 
+                   
+                }
+                
             }
         }
 
@@ -104,8 +146,11 @@ namespace WebResultsClient.Viewmodels
             }
             set
             {
-                m_SelectedCompetition = value;
-                OnHandleStevneChange();
+                if(value!=null)
+                { 
+                 m_SelectedCompetition = value;
+                 OnHandleStevneChange();
+                }
                 this.OnPropertyChanged("SelectedCompetition");
             }
         }
@@ -151,6 +196,38 @@ namespace WebResultsClient.Viewmodels
                 this.m_SelectedRemoteDir = value;
                 OnHandleRemoteDirChange();
                 this.OnPropertyChanged("SelectedRemoteDir");
+            }
+        }
+
+        
+        private bool m_IsSortByNameChecked;
+        public bool IsSortByNameChecked
+        {
+            get
+            {
+                return this.m_IsSortByNameChecked;
+            }
+            set
+            {
+                m_IsSortByNameChecked = value;
+                OnPropertyChanged("IsSortByNameChecked");
+                RefreshCompetitions();
+                
+            }
+        }
+        private bool m_IsSortByTimeChecked; 
+        public bool IsSortByTimeChecked
+        {
+            get
+            {
+                return this.m_IsSortByTimeChecked;
+            }
+            set
+            {
+                m_IsSortByTimeChecked = value;
+                OnPropertyChanged("IsSortByTimeChecked");
+                RefreshCompetitions();
+
             }
         }
 
@@ -203,7 +280,11 @@ namespace WebResultsClient.Viewmodels
         private void RefreshCompetitions()
         {
             FillCompetitions(m_selectedPath);
+            OnHandleStevneChange();
             this.OnPropertyChanged("Competitions");
+            this.OnPropertyChanged("SelectedCompetition");
+            OnPropertyChanged("IsSortByNameChecked");
+            OnPropertyChanged("IsSortByTimeChecked");
         }
     }
 
