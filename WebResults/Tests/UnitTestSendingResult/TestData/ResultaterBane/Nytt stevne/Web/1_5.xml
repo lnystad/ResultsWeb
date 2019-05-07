@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="NU, 11-15 år" group_name="25 skudd"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resulttotsum name="25 skudd"/>
+  <column>
+    <series id="1" name="1. serie" type="series_shot_sum"/>
+    <series id="2" name="2. serie" type="series_shot_sum"/>
+    <series id="3" name="3. serie" type="series_shot_sum"/>
+    <series id="4" name="15 skudd" type="subtot"/>
+    <series id="5" name="10 skudd" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Heika B Horndal" club="Sørfjord og Omegn " totsum="225  ">
+      <series id="1" sum="45">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+      <series id="2" sum="45">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+      <series id="3" sum="45">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+      <series id="4" sum="135"/>
+      <series id="5" sum="90">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="1" name="Marcus Johan Jakobsen" club="Bodø Østre " totsum="150  ">
+      <series id="1" sum="30">
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+      </series>
+      <series id="2" sum="30">
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+      </series>
+      <series id="3" sum="30">
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+      </series>
+      <series id="4" sum="90"/>
+      <series id="5" sum="60">
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+      </series>
+    </result>
+    <result num="1" name="Tobias Sørfjord" club="Sørfjord og Omegn " totsum="214  ">
+      <series id="1" sum="40">
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+      </series>
+      <series id="2" sum="40">
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+      </series>
+      <series id="3" sum="44">
+        <shot val="8"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+      <series id="4" sum="124"/>
+      <series id="5" sum="90">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+  </data>
+</report>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="V65" group_name="Mesterskap"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultinnerten name="*"/>
+  <resulttotsum name="35 skudd"/>
+  <column>
+    <series id="1" name="1. serie" type="series_shot_sum"/>
+    <series id="2" name="2. serie" type="series_shot_sum"/>
+    <series id="3" name="3. serie" type="series_shot_sum"/>
+    <series id="4" name="15 skudd" type="subtot"/>
+    <series id="5" name="10 skudd" type="series_shot_sum"/>
+    <series id="6" name="25 skudd" type="subtot"/>
+    <series id="7" name="Omgang" type="series_shot_sum"/>
+  </column>
+  <data/>
+</report>

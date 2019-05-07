@@ -1,0 +1,133 @@
+<html>
+<head>
+  <title>Leon</title>
+  <link type="text/css" href="jquery.css" rel="stylesheet" media="print, projection, screen">
+  <link type="text/css" href="leon.css" rel="stylesheet">
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="jquery-ui.js"></script>
+  <script type="text/javascript" src="readxml.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $("#accordion").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false });
+    $("#accordionsub1").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false});
+    $("#accordionsub2").accordion({ icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }, autoHeight: false});
+    $('div.accordion_link').click(function(){
+      elementId = this.id;
+      $("#ContentArea").empty();
+      $("#ContentArea").append('<img src="loading.gif" width="64" height="64" style="position: absolute; top: 20%; left: 50%;"/>');
+      $.ParseLeonXML(elementId);
+      return true;
+    });
+    $('table.accordion_link td').click(function(){
+      elementId = this.id;
+      $("#ContentArea").empty();
+      $("#ContentArea").append('<img src="loading.gif" width="64" height="64" style="position: absolute; top: 20%; left: 50%;"/>');
+      $.ParseLeonXML(elementId);
+      return true;
+    });
+  });
+  </script>
+</head>
+<body>
+<div id="header">
+<h1>Nytt stevne</h1>
+</div>
+<div id="container">
+  <div id="navigation">
+    <div id="accordion" class="accordion_menu ">
+      <h3><a href="#ContentArea1">100m</a></h3>
+      <div class ="accordion_button">
+        <h3>25 skudd</h3>
+        <div id ="1_4" class ="accordion_link"> 
+          <a href="#">J, 16-17 år</a>
+        </div>
+        <div id ="1_5" class ="accordion_link"> 
+          <a href="#">NU, 11-15 år</a>
+        </div>
+        <div id ="1_6" class ="accordion_link"> 
+          <a href="#">NV, 16+ år</a>
+        </div>
+        <div id ="1_7" class ="accordion_link"> 
+          <a href="#">R, 11-13 år</a>
+        </div>
+        <div id ="1_9" class ="accordion_link"> 
+          <a href="#">V73</a>
+        </div>
+        <h3>Lagskyting</h3>
+        <h3>Mesterskap</h3>
+        <div id ="1_16" class ="accordion_link"> 
+          <a href="#">J, 16-17 år</a>
+        </div>
+        <div id ="1_17" class ="accordion_link"> 
+          <a href="#">R, 11-13 år</a>
+        </div>
+        <div id ="1_19" class ="accordion_link"> 
+          <a href="#">V73</a>
+        </div>
+      </div>
+      <h3><a href="#ContentArea2">100m lagvis</a></h3>
+      <div class ="accordion_button">
+	  <div id="accordionsub1" class="accordion_menu_sub" >
+		<h4><a href="#">Lør. 11.05</a></h4>
+		<div>
+		  <table class="accordion_link">
+		  <tr>
+			<td id ="1_20_1"><a href="#">Lag 1</a></td>
+			<td>11:00</td>
+		  </tr>
+		  <tr>
+			<td id ="1_20_2"><a href="#">Lag 2</a></td>
+			<td>11:40</td>
+		  </tr>
+		  <tr>
+			<td id ="1_20_3"><a href="#">Lag 3</a></td>
+			<td>12:20</td>
+		  </tr>
+		  </table>
+		</div>   </div>	 
+      </div>
+      <h3><a href="#ContentArea3">200m</a></h3>
+      <div class ="accordion_button">
+        <h3>25 skudd</h3>
+        <h3>Lagskyting</h3>
+        <h3>Mesterskap</h3>
+        <h3>Samlagsskyting</h3>
+      </div>
+      <h3><a href="#ContentArea4">200m lagvis</a></h3>
+      <div class ="accordion_button">
+	  <div id="accordionsub2" class="accordion_menu_sub" >
+		<h4><a href="#">Lør. 11.05</a></h4>
+		<div>
+		  <table class="accordion_link">
+		  <tr>
+			<td id ="1_38_1"><a href="#">Lag 1</a></td>
+			<td>11:00</td>
+		  </tr>
+		  <tr>
+			<td id ="1_38_2"><a href="#">Lag 2</a></td>
+			<td>11:40</td>
+		  </tr>
+		  <tr>
+			<td id ="1_38_3"><a href="#">Lag 3</a></td>
+			<td>12:20</td>
+		  </tr>
+		  <tr>
+			<td id ="1_38_4"><a href="#">Lag 4</a></td>
+			<td>13:00</td>
+		  </tr>
+		  </table>
+		</div>   </div>	 
+      </div>
+    </div>
+  </div>
+  <div id="wrapper">
+    <div id="content" class="accordion_content">
+      <div id="ContentArea"></div>
+    </div>
+  </div>
+<div id="extra">
+  <p>Leon Resultatprogram - Kongsberg Target Systems AS  -   Sist oppdatert: 07.05.2019 21:39:38</p>
+</div>
+</div>
+</body>
+</html>

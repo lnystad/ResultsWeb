@@ -74,8 +74,9 @@
                         <TextBox Margin="10,10,10,10"   Text="{Binding TextOutput}" TextWrapping="Wrap" AcceptsReturn="True"/>
                     </ScrollViewer>
                     <StackPanel Grid.Row="2" VerticalAlignment="Bottom" Orientation="Horizontal">
-                    <Button Margin="5" Command="{Binding UploadStevneDeltaCommand}" Content="Delta" />
-                    <Button Margin="5" Command="{Binding UploadStevneCommand}" Content="Full" />
+                    <Button Margin="5" Command="{Binding UploadStevneDeltaCommand}" Content="Delta bare nye filer" />
+                    <Button Margin="5" Command="{Binding UploadStevneCommand}" Content="Full alle filer" />
+                    <Button Margin="5" Command="{Binding GenerateStevneCommand}" Content="Generer nye Lister" />
                     </StackPanel>
                 </Grid>
 
@@ -134,7 +135,8 @@
                                 <TreeView.Resources>
                                     <ContextMenu x:Key="contextMenu">
                                         <ContextMenu.Items>
-                                            <MenuItem Header="Export Folder" Click="ExportFolder_Click"/>
+                                            <MenuItem Header="Move Bitmap" Click="ExportFile_Click" Visibility="{Binding IsElementFileVisibility}"/>
+                                            <MenuItem Header="Move all in Folder" Click="ExportFolder_Click" Visibility="{Binding IsElementFolderVisibility}"/>
                                             <MenuItem Header="Delete Folder" Click="DeleteFolder_Click"/>
                                         </ContextMenu.Items>
                                     </ContextMenu>

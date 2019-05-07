@@ -130,5 +130,16 @@ namespace FileUploaderService
 
 
         }
+
+        [TestMethod]
+        public void TestMethodIndexNewBane()
+        {
+            LeonDirInfo info = new LeonDirInfo();
+            DirectoryInfo infoDir = new DirectoryInfo(@"C:\Users\lan\source\repos\ResultsWeb\WebResults\Tests\UnitTestSendingResult\TestData\ResultaterBane\Nytt stevne\Web");
+
+            info.ParseIndexHtmlFile(infoDir);
+
+
+        }
     }
 }

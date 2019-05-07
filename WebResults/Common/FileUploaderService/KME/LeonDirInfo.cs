@@ -1792,7 +1792,12 @@
                     if (klasse.StartsWith("ELDRE JUNIOR"))
                     {
                         retVal.Add("EJ");
-                    }else if (klasse.StartsWith("EJ"))
+                    }
+                    else if (klasse.StartsWith("JEG"))
+                    {
+                        retVal.Add("J");
+                    }
+                    else if (klasse.StartsWith("EJ"))
                     {
                         retVal.Add("EJ");
                     }
@@ -1824,8 +1829,15 @@
                     {
                         retVal.Add("NU");
                     }
-                    
+                    else if (klasse.StartsWith("NU"))
+                    {
+                        retVal.Add("NU");
+                    }
                     else if (klasse.StartsWith("NYBEGYNNER VOKSEN"))
+                    {
+                        retVal.Add("NV");
+                    }
+                    else if (klasse.StartsWith("NV"))
                     {
                         retVal.Add("NV");
                     }

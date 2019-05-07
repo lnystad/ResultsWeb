@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="V73" group_name="25 skudd"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultinnerten name="*"/>
+  <resulttotsum name="25 skudd"/>
+  <column>
+    <series id="1" name="1. serie" type="series_shot_sum"/>
+    <series id="2" name="2. serie" type="series_shot_sum"/>
+    <series id="3" name="3. serie" type="series_shot_sum"/>
+    <series id="4" name="15 skudd" type="subtot"/>
+    <series id="5" name="10 skudd" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Alf Tobiassen" club="Bodø Østre " innerten="0" totsum="210  ">
+      <series id="1" sum="40">
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+      </series>
+      <series id="2" sum="40">
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+      </series>
+      <series id="3" sum="40">
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+        <shot val="8"/>
+      </series>
+      <series id="4" sum="120"/>
+      <series id="5" sum="90">
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+        <shot val="9"/>
+      </series>
+    </result>
+    <result num="2" name="Hans Kristian Øvermark" club="Bodø Østre " innerten="0" totsum="170  ">
+      <series id="1" sum="30">
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+        <shot val="6"/>
+      </series>
+      <series id="2" sum="35">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+      </series>
+      <series id="3" sum="35">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+      </series>
+      <series id="4" sum="100"/>
+      <series id="5" sum="70">
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+        <shot val="7"/>
+      </series>
+    </result>
+  </data>
+</report>

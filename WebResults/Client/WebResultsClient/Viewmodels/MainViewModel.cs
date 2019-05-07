@@ -24,6 +24,7 @@ namespace WebResultsClient.Viewmodels
             m_chooseStevneViewModel.OnStevneChange += m_BitMapSelectionViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnRemoteDirChange += m_UpLoadStevneViewModel.HandleRemoteDirChange;
             m_UpLoadStevneViewModel.SelectedRemoteDir = m_chooseStevneViewModel.SelectedRemoteDir;
+            m_chooseStevneViewModel.OnHandleStevneChange();
         }
         private BitMapSelectionViewModel m_BitMapSelectionViewModel;
 

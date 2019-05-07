@@ -79,10 +79,17 @@ namespace WebResultsClient
             
         }
 
+        
+       
         private void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
         {
             m_model.BitMapSelectionViewModel.TreeViewItem_OnItemSelected(sender, e);
            
+        }
+
+        private void ExportFile_Click(object sender, RoutedEventArgs e)
+        {
+            m_model.BitMapSelectionViewModel.ExportFile_Click(sender, e);
         }
 
         private void ExportFolder_Click(object sender, RoutedEventArgs e)

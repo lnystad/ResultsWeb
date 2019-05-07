@@ -201,6 +201,8 @@ namespace FileUploaderService.KME
                     return BaneType.MinneFin;
                 }
 
+               
+
                 return BaneType.MinneGrov;
             }
 

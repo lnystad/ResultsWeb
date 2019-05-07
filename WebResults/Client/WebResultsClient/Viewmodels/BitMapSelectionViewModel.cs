@@ -130,6 +130,114 @@ namespace WebResultsClient.Viewmodels
 
             return null;
         }
+
+        public Visibility IsElementFolderVisibility {
+            get
+            {
+                var item = m_SelectedItem;
+                if (item == null)
+                {
+                    return Visibility.Collapsed;
+                }
+
+                if (item.Tag.GetType() == typeof(DirectoryInfo))
+                {
+                    var dirinfo=item.Tag as DirectoryInfo;
+                    if (dirinfo!=null && !string.IsNullOrEmpty(dirinfo.Name) 
+                                      && dirinfo.Name.ToUpper().StartsWith("LAG"))
+                    {
+                        return Visibility.Visible;
+                    }
+                }
+                
+
+                return Visibility.Collapsed;
+            }
+        }
+        public Visibility IsElementFileVisibility
+        {
+            get
+            {
+                var item = m_SelectedItem;
+                if (item == null)
+                {
+                    return Visibility.Collapsed;
+                }
+
+                if (item.Tag.GetType() == typeof(FileInfo))
+                {
+                        return Visibility.Visible;
+                }
+
+
+                return Visibility.Collapsed;
+            }
+        }
+
+        public void ExportFile_Click(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var item = m_SelectedItem;
+            if (item == null)
+            {
+                return;
+            }
+            string prefix = string.Empty;
+            if (m_Is15Checked)
+            {
+                prefix = Constants.Prefix15m;
+            }
+            if (m_Is100Checked)
+            {
+                prefix = Constants.Prefix100m;
+            }
+            if (m_IsFinFeltChecked)
+            {
+                prefix = Constants.PrefixFinFelt;
+            }
+            if (m_Is200Checked)
+            {
+                prefix = Constants.Prefix200m;
+            }
+            if (m_IsGrovFeltChecked)
+            {
+                prefix = Constants.PrefixGrovFelt;
+            }
+            if (string.IsNullOrEmpty(m_StevneDir) ||
+                string.IsNullOrEmpty(m_StevneNavn))
+            {
+                return;
+            }
+            string ToDir = Path.Combine(m_StevneDir, m_StevneNavn);
+            ToDir = Path.Combine(ToDir, "BitMap");
+            ToDir = Path.Combine(ToDir, prefix);
+            if (!Directory.Exists(ToDir))
+            {
+                Directory.CreateDirectory(ToDir);
+            }
+            
+
+            if (item.Tag.GetType() != typeof(FileInfo))
+            {
+                return;
+               
+            }
+            var parent = FindAncestor<TreeViewItem>(item);
+            if (parent == null)
+            {
+                return;
+            }
+
+
+            string startDir = ((FileInfo)item.Tag).FullName;
+
+            List<FileInfo> fileList = new List<FileInfo>();
+            fileList.Add((FileInfo)item.Tag);
+            Image = null;
+            FileAccessHelper.MoveFiles(fileList, ToDir);
+            parent.Items.Remove(item);
+            this.OnPropertyChanged("FoldersItems");
+        }
+
         internal void ExportFolder_Click(object sender, RoutedEventArgs e)
         {
             var item = m_DirectoryItem;
@@ -233,25 +341,33 @@ namespace WebResultsClient.Viewmodels
         internal void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
         {
             var item = e.OriginalSource as TreeViewItem;
-            m_DirectoryItem = null;
+            
+            
+            m_DirectoryItem = null; 
+            m_SelectedItem = null;
             if (item == null)
             {
+                this.OnPropertyChanged("IsElementFolderVisibility");
+                this.OnPropertyChanged("IsElementFileVisibility");
                 return;
             }
             if (item.Tag == null)
             {
+                this.OnPropertyChanged("IsElementFolderVisibility");
+                this.OnPropertyChanged("IsElementFileVisibility");
                 return;
             }
 
             if (item.Tag.GetType() == typeof(DirectoryInfo))
             {
                 m_DirectoryItem = item;
+                m_SelectedItem = item;
             }
             if (item.Tag.GetType() == typeof(FileInfo))
             {
                 var parent = FindAncestor<TreeViewItem>(item);
                 m_DirectoryItem = parent;
-
+                m_SelectedItem = item;
                 DisplayedImagePath = ((FileInfo)item.Tag).FullName;
                 Image = LoadBitMap(DisplayedImagePath);
                 //if (File.Exists(DisplayedImagePath))
@@ -263,6 +379,8 @@ namespace WebResultsClient.Viewmodels
                 //    Image = bitmap;
                 //}
             }
+            this.OnPropertyChanged("IsElementFolderVisibility");
+            this.OnPropertyChanged("IsElementFileVisibility");
         }
 
         public BitmapImage LoadBitMap(string path)
@@ -731,6 +849,7 @@ namespace WebResultsClient.Viewmodels
         }
 
         private TreeViewItem m_DirectoryItem;
+        private TreeViewItem m_SelectedItem;
 
         private void Init(string startPath)
         {
@@ -745,6 +864,7 @@ namespace WebResultsClient.Viewmodels
                 return;
             }
             m_DirectoryItem = null;
+            m_SelectedItem = null;
             FoldersItems.Clear();
             //foreach (string s in Directory.GetLogicalDrives())
             //{
@@ -852,6 +972,7 @@ namespace WebResultsClient.Viewmodels
             System.Windows.Forms.MessageBox.Show(SelectedImagePath);
         }
 
+        
     }
 }
 

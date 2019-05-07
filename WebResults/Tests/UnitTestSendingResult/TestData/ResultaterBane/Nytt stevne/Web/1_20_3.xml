@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Lag 3" group_name="100m lagvis"/>
+  <resultnum name="Sk"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resulttotsum name="35 skudd"/>
+  <column>
+    <series id="1" name="1. serie" type="series_shot_sum"/>
+    <series id="2" name="2. serie" type="series_shot_sum"/>
+    <series id="3" name="3. serie" type="series_shot_sum"/>
+    <series id="4" name="15 skudd" type="subtot"/>
+    <series id="5" name="10 skudd" type="series_shot_sum"/>
+    <series id="6" name="25 skudd" type="subtot"/>
+    <series id="7" name="Omgang" type="series_shot_sum"/>
+  </column>
+  <data>
+    <result num="1" name="Noah Rommetveit" club="Ørnes " class="R" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="2" name="Trym Rommetveit" club="Ørnes " class="J" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="3" name="Tuva Hugås" club="Sulitjelma " class="J" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="4" name="Benedikte A. Brandtzæg " club="Ørnes " class="R" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="5" name="Kristin Haldorsen" club="Sulitjelma " class="NV" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="6" name="Vilde Berntsen" club="Sulitjelma " class="R" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="7" name="Ørjan Solberg Hansen" club="Lakså " class="J" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="8" name="Kristian Hansen" club="Lakså " class="V65" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="9" name=" " club="" class="" totsum="">
+      <series id="1" sum=""/>
+      <series id="2" sum=""/>
+      <series id="3" sum=""/>
+      <series id="4" sum=""/>
+      <series id="5" sum=""/>
+      <series id="6" sum=""/>
+      <series id="7" sum=""/>
+    </result>
+    <result num="10" name="Maria Hasselberg" club="Saltstraumen " class="J" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+    <result num="11" name=" " club="" class="" totsum="">
+      <series id="1" sum=""/>
+      <series id="2" sum=""/>
+      <series id="3" sum=""/>
+      <series id="4" sum=""/>
+      <series id="5" sum=""/>
+      <series id="6" sum=""/>
+      <series id="7" sum=""/>
+    </result>
+    <result num="12" name="Nikolai Fagerbakk Larsen" club="Saltdal " class="J" totsum="">
+      <series id="1" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="2" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="3" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="4" sum=""/>
+      <series id="5" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+      <series id="6" sum=""/>
+      <series id="7" sum="">
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+        <shot val=""/>
+      </series>
+    </result>
+  </data>
+</report>

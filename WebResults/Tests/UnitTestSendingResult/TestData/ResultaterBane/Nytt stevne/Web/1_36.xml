@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Senior 25-skudd" group_name="Samlagsskyting"/>
+  <teamnum name="Nr"/>
+  <teamname name="Navn"/>
+  <teamtotsum name="Tot"/>
+  <teaminnerten name="*"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultinnerten name="*"/>
+  <resulttotsum name="25 skudd"/>
+  <data/>
+</report>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <header name="Ungdom 35-skudd" group_name="Lagskyting"/>
+  <teamnum name="Nr"/>
+  <teamname name="Navn"/>
+  <teamtotsum name="Tot"/>
+  <teaminnerten name="*"/>
+  <resultnum name="Nr"/>
+  <resultname name="Navn"/>
+  <resultclub name="Skytterlag"/>
+  <resultclass name="Kl."/>
+  <resultinnerten name="*"/>
+  <resulttotsum name="35 skudd"/>
+  <data/>
+</report>

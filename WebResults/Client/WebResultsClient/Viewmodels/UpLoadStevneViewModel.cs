@@ -25,6 +25,7 @@ namespace WebResultsClient.Viewmodels
 
             m_ProgrssbarVisibility = Visibility.Hidden;
             m_ProgrssbarBitMapVisibility = Visibility.Hidden;
+            m_OkGenXmlCanExecute = true;
             m_canExecute = false;
             m_canDeltaExecute = false;
             InitCommands();
@@ -131,6 +132,7 @@ namespace WebResultsClient.Viewmodels
             if (!string.IsNullOrEmpty(m_StevneNavn))
             {
                 InitLeonFileLoader(DebugMerge, RapportXsltFilFileName, TopListSkyttereXsltFileName, TopListXsltFileName, TopListLagSkyttereXsltFilFileName);
+                m_OkGenXmlCanExecute = true;
                 m_canExecute = true;
                 m_canDeltaExecute = true;
                 UploadStevneCommand.RaiseCanExecuteChanged();
@@ -139,6 +141,7 @@ namespace WebResultsClient.Viewmodels
             else
             {
                 m_fileLoader = null;
+                m_OkGenXmlCanExecute = false;
                 m_canExecute = false;
                 m_canDeltaExecute = false;
                 UploadStevneCommand.RaiseCanExecuteChanged();
@@ -264,10 +267,14 @@ namespace WebResultsClient.Viewmodels
 
         private DelegateCommand m_UploadStevneDeltaCommand;
         public DelegateCommand UploadStevneDeltaCommand { get; private set; }
+
+        private DelegateCommand m_GenerateStevneCommand;
+        public DelegateCommand GenerateStevneCommand { get; private set; }
         private void InitCommands()
         {
             UploadStevneCommand = new DelegateCommand(OkExecute, OkCanExecute);
             UploadStevneDeltaCommand = new DelegateCommand(OkDeltaExecute, OkDeltaCanExecute);
+            GenerateStevneCommand = new DelegateCommand(OkExecuteGenXml, OkGenXmlCanExecute);
         }
         private bool m_finBitmap;
         private bool m_finXml;
@@ -286,32 +293,72 @@ namespace WebResultsClient.Viewmodels
             return m_canDeltaExecute;
         }
 
+        private bool m_OkGenXmlCanExecute;
+
+        private bool OkGenXmlCanExecute()
+        {
+            return m_OkGenXmlCanExecute;
+        }
+
+        private void OkExecuteGenXml()
+        {
+            GenerateStevneXML();
+        }
+
         private void OkExecute()
         {
             UpLoadStevne(true);
         }
+
         private void OkDeltaExecute()
         {
             UpLoadStevne(false);
         }
-        //public ICommand UploadStevneCommand
-        //{
-        //    get
-        //    {
-        //        if (m_UploadStevneCommand == null)
-        //        {
-        //            m_UploadStevneCommand = new DelegateCommand(this.UpLoadStevne,CanExecuteUpload);
-        //        }
 
-        //        return m_UploadStevneCommand;
-        //    }
-        //}
-        //
-        //private bool CanExecuteUpload()
-        //{
-        //    return m_canExecute;
-        //}
+        private void GenerateStevneXML()
+        {
+            if (string.IsNullOrEmpty(m_StevneDir))
+            {
+                System.Windows.Forms.MessageBox.Show("Stevne ikke valgt", "Feil", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            m_OkGenXmlCanExecute = false;
+            m_canExecute = false;
+            m_canDeltaExecute = false;
+            UploadStevneCommand.RaiseCanExecuteChanged();
+            UploadStevneDeltaCommand.RaiseCanExecuteChanged();
+            GenerateStevneCommand.RaiseCanExecuteChanged();
+            m_finBitmap = false;
+            m_finXml = false;
+
+            TextOutput = "";
+
+            var dir = Path.Combine(m_StevneDir, m_StevneNavn);
+            DirectoryInfo info = new DirectoryInfo(dir);
+            LeonDirInfo dirInfo = new LeonDirInfo(info);
+            var BitMaps = dirInfo.ListBitMapByRange(dir);
+            string webDir = Path.Combine(m_StevneDir, m_StevneNavn);
+            webDir = Path.Combine(webDir, "Web");
+            if (Directory.Exists(webDir))
+            {
+                var files = Directory.GetFiles(webDir);
+                if (files.Length <= 0)
+                {
+                    TextOutput = "No File to send ";
+                    return;
+                }
+                SetBitmapLinks();
+                TextOutput = "Just generated new version";
+                Log.Info("Generated new version");
+                FinishedLoading("XML", true);
+            }
+            else
+            {
+                TextOutput = "No File to send ";
+            }
+
+        }
         private void UpLoadStevne(bool fullUpload)
         {
 
@@ -363,11 +410,13 @@ namespace WebResultsClient.Viewmodels
                     Log.Info("UploadXml False No Xml Uploaded generated new version");
                     FinishedLoading("XML");
                 }
+
+
                 //test.UploadFiles(true, this.m_SelectedRemoteSubDir, m_StevneNavn, files);
             }
             else
             {
-                TextOutput = "No File to send ";
+                TextOutput = "No File to Generate ";
             }
 
         }
@@ -397,7 +446,7 @@ namespace WebResultsClient.Viewmodels
             FinishedLoading("BITMAP");
         }
 
-        private void FinishedLoading(string v)
+        private void FinishedLoading(string v, bool onlyGenerate = false)
         {
             if (UploadBitmap)
             {
@@ -419,11 +468,25 @@ namespace WebResultsClient.Viewmodels
 
             if (m_finBitmap && m_finXml)
             {
+
                 m_canExecute = true;
                 m_canDeltaExecute = true;
                 UploadStevneCommand.RaiseCanExecuteChanged();
                 UploadStevneDeltaCommand.RaiseCanExecuteChanged();
+
             }
+            if (onlyGenerate)
+            {
+
+                m_canExecute = true;
+                m_canDeltaExecute = true;
+                UploadStevneCommand.RaiseCanExecuteChanged();
+                UploadStevneDeltaCommand.RaiseCanExecuteChanged();
+
+            }
+
+            m_OkGenXmlCanExecute = true;
+            GenerateStevneCommand.RaiseCanExecuteChanged();
         }
 
         private async void send(bool full, string[] list, FtpUtility util)

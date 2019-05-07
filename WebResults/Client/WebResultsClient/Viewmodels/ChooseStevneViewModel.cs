@@ -24,6 +24,7 @@ namespace WebResultsClient.Viewmodels
             {
                 m_selectedPath = leonDir;
                 FillCompetitions(m_selectedPath);
+               
             }
 
             var RemoteSubDir = ConfigurationLoader.GetAppSettingsValue("RemoteDir");
