@@ -33,8 +33,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="edtFTPnet">
-      <HintPath>..\..\..\Extern\edtFTPnet.dll</HintPath>
+    <Reference Include="FluentFTP, Version=37.0.1.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentFTP.37.0.1\lib\net45\FluentFTP.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\..\..\Extern\HtmlAgilityPack.dll</HintPath>
@@ -141,6 +141,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Leon\MergerapportFinFelt.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
