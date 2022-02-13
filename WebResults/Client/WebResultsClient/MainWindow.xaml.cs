@@ -101,6 +101,12 @@ namespace WebResultsClient
         {
             m_model.BitMapSelectionViewModel.DeleteFolder_Click(sender, e);
         }
+        private void RefreshFolder_Click(object sender, RoutedEventArgs e)
+        {
+            m_model.BitMapSelectionViewModel.RefreshFolder_Click(sender, e);
+        }
+
+        
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {

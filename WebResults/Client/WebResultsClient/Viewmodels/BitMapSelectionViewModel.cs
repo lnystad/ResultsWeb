@@ -238,6 +238,15 @@ namespace WebResultsClient.Viewmodels
             this.OnPropertyChanged("FoldersItems");
         }
 
+        public void RefreshFolder_Click(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var item = m_DirectoryItem;
+            if (item == null)
+            {
+                return;
+            }
+        }
+
         internal void ExportFolder_Click(object sender, RoutedEventArgs e)
         {
             var item = m_DirectoryItem;

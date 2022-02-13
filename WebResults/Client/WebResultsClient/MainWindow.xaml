@@ -138,6 +138,7 @@
                                             <MenuItem Header="Move Bitmap" Click="ExportFile_Click" Visibility="{Binding IsElementFileVisibility}"/>
                                             <MenuItem Header="Move all in Folder" Click="ExportFolder_Click" Visibility="{Binding IsElementFolderVisibility}"/>
                                             <MenuItem Header="Delete Folder" Click="DeleteFolder_Click"/>
+                                            <MenuItem Header="Refresh Folder" Click="RefreshFolder_Click"/>
                                         </ContextMenu.Items>
                                     </ContextMenu>
                                     
