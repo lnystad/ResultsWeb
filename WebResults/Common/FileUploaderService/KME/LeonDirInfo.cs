@@ -1786,7 +1786,10 @@
                     retVal.Add("Å");
                     break;
                 case "JEGER":
-                    retVal.Add("J");
+                    retVal.Add("KIK");
+                    break;
+                case "KIK":
+                    retVal.Add("KIK");
                     break;
                 default:
                     if (klasse.StartsWith("ELDRE JUNIOR"))
