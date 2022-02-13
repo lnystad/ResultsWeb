@@ -1,22 +1,4 @@
-﻿using FileUploaderService;
-using FileUploaderService.Configuration;
-using FileUploaderService.Utils;
-using Microsoft.Practices.Prism.Commands;
-using WebResultsClient.Viewmodels.BitMap;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using MessageBox = System.Windows.MessageBox;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WebResultsClient.Commands;
 
@@ -27,7 +9,8 @@ namespace WebResultsClient.Viewmodels
     {
         public StevneoppgjorSelectionViewModel()
         {
-            SeniorKlasser = new ObservableCollection<string> { "1", "2", "3", "4", "5", "V55", "V65", "V73", "KIK" };
+            // Klasse "NU", "NV", "Åpen" har ikke premieavgift???
+            SeniorKlasser = new ObservableCollection<string> { "1", "2", "3", "4", "5", "V55", "V65", "V73", "KIK", "HK416" };
             UngdomsKlasser = new ObservableCollection<string> { "R", "ER", "J", "EJ" };
 
             SeniorPremieavgift = "70";

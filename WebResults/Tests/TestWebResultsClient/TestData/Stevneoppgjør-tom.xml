@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resultat-stevne stevnenavn="Heli Team 21-22 Runde 6" stevnenummer="22222">
+  <resultat medlemsid="1142694" fornavn="Roy Jøran" etternavn="Fredriksen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="roy.fredriksen@outlook.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="V55" premie="0">
+      <serie id="IN_1" sum="49" it="4"/>
+      <serie id="IN_2" sum="49" it="2"/>
+      <serie id="IN_3" sum="50" it="3"/>
+      <serie id="IN_1To3" sum="148" it="9" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_4" sum="98" it="1" premie="0" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_1To4" sum="246" it="10" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_5" sum="100" it="3"/>
+      <serie id="IN_1To5" sum="346" it="13" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_tot" sum="346" it="13" rank-klasse="1" rank-total="1"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1610799" fornavn="Terje" etternavn="Thorstad" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="terjeti100@gmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="V73" premie="0">
+      <serie id="IN_1" sum="49" it="1"/>
+      <serie id="IN_2" sum="49" it="3"/>
+      <serie id="IN_3" sum="48" it="2"/>
+      <serie id="IN_1To3" sum="146" it="6" premie="0" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_4" sum="98" it="5" premie="0" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_1To4" sum="244" it="11" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_5" sum="99" it="4"/>
+      <serie id="IN_1To5" sum="343" it="15" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_tot" sum="343" it="15" rank-klasse="2" rank-total="2"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1612712" fornavn="Will-Arne" etternavn="Jakobsen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="will.arne.jakobsen@vkbb.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="V73" premie="0">
+      <serie id="IN_1" sum="0" it="0"/>
+      <serie id="IN_2" sum="0" it="0"/>
+      <serie id="IN_3" sum="0" it="0"/>
+      <serie id="IN_1To3" sum="0" it="0" premie="0" rank-klasse="4" rank-total="4"/>
+      <serie id="IN_4" sum="0" it="0" premie="0" rank-klasse="4" rank-total="4"/>
+      <serie id="IN_1To4" sum="0" it="0" rank-klasse="4" rank-total="4"/>
+      <serie id="IN_5" sum="0" it="0"/>
+      <serie id="IN_1To5" sum="0" it="0" rank-klasse="4" rank-total="4"/>
+      <serie id="IN_tot" sum="0" it="0" rank-klasse="4" rank-total="4"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1651777" fornavn="Jan Erik" etternavn="Aasheim" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="jan.erik.aasheim@tryg.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="5" premie="0">
+      <serie id="IN_1" sum="50" it="0"/>
+      <serie id="IN_2" sum="50" it="1"/>
+      <serie id="IN_3" sum="50" it="2"/>
+      <serie id="IN_1To3" sum="150" it="3" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_4" sum="95" it="4" premie="0" rank-klasse="3" rank-total="7"/>
+      <serie id="IN_1To4" sum="245" it="7" rank-klasse="3" rank-total="4"/>
+      <serie id="IN_5" sum="99" it="6"/>
+      <serie id="IN_1To5" sum="344" it="13" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_tot" sum="344" it="13" rank-klasse="3" rank-total="3"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1651785" fornavn="Bård Johan" etternavn="Furnes" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="1" kat-ft="0" kat-22="0" kat-luft="0" epost="bardfurnes@gmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="49" it="2"/>
+      <serie id="IN_2" sum="43" it="0"/>
+      <serie id="IN_3" sum="48" it="2"/>
+      <serie id="IN_1To3" sum="140" it="4" premie="0" rank-klasse="7" rank-total="11"/>
+      <serie id="IN_4" sum="93" it="1" premie="0" rank-klasse="6" rank-total="9"/>
+      <serie id="IN_1To4" sum="233" it="5" rank-klasse="6" rank-total="9"/>
+      <serie id="IN_5" sum="98" it="2"/>
+      <serie id="IN_1To5" sum="331" it="7" rank-klasse="6" rank-total="9"/>
+      <serie id="IN_tot" sum="331" it="7" rank-klasse="6" rank-total="9"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1651801" fornavn="Lars Andreas" etternavn="Nystad" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="1" kat-ft="0" kat-22="0" kat-luft="0" epost="lan@dips.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="48" it="1"/>
+      <serie id="IN_2" sum="46" it="1"/>
+      <serie id="IN_3" sum="50" it="0"/>
+      <serie id="IN_1To3" sum="144" it="2" premie="0" rank-klasse="4" rank-total="8"/>
+      <serie id="IN_4" sum="99" it="1" premie="0" rank-klasse="1" rank-total="2"/>
+      <serie id="IN_1To4" sum="243" it="3" rank-klasse="2" rank-total="5"/>
+      <serie id="IN_5" sum="99" it="4"/>
+      <serie id="IN_1To5" sum="342" it="7" rank-klasse="2" rank-total="5"/>
+      <serie id="IN_tot" sum="342" it="7" rank-klasse="2" rank-total="5"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1651843" fornavn="Svein" etternavn="Andreassen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="s-johaan@online.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="V73" premie="0">
+      <serie id="IN_1" sum="50" it="2"/>
+      <serie id="IN_2" sum="49" it="2"/>
+      <serie id="IN_3" sum="48" it="2"/>
+      <serie id="IN_1To3" sum="147" it="6" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_4" sum="99" it="7" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_1To4" sum="246" it="13" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_5" sum="100" it="4"/>
+      <serie id="IN_1To5" sum="346" it="17" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_tot" sum="346" it="17" rank-klasse="1" rank-total="1"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1651850" fornavn="Inger Johanne" etternavn="Haabet" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="1" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="ijhaabet@hotmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="V55" premie="0">
+      <serie id="IN_1" sum="50" it="2"/>
+      <serie id="IN_2" sum="47" it="0"/>
+      <serie id="IN_3" sum="49" it="2"/>
+      <serie id="IN_1To3" sum="146" it="4" premie="0" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_4" sum="98" it="5" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_1To4" sum="244" it="9" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_5" sum="100" it="3"/>
+      <serie id="IN_1To5" sum="344" it="12" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_tot" sum="344" it="12" rank-klasse="2" rank-total="2"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1651934" fornavn="Geir" etternavn="Torkildsen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="1" kat-ft="0" kat-22="0" kat-luft="0" epost="geirtorkildsen@icloud.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="49" it="0"/>
+      <serie id="IN_2" sum="44" it="1"/>
+      <serie id="IN_3" sum="44" it="0"/>
+      <serie id="IN_1To3" sum="137" it="1" premie="0" rank-klasse="8" rank-total="12"/>
+      <serie id="IN_4" sum="96" it="2" premie="0" rank-klasse="4" rank-total="6"/>
+      <serie id="IN_1To4" sum="233" it="3" rank-klasse="7" rank-total="10"/>
+      <serie id="IN_5" sum="97" it="2"/>
+      <serie id="IN_1To5" sum="330" it="5" rank-klasse="7" rank-total="10"/>
+      <serie id="IN_tot" sum="330" it="5" rank-klasse="7" rank-total="10"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1652031" fornavn="Magnus" etternavn="Lund" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="lundmagnus89@gmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="V55" premie="0">
+      <serie id="IN_1" sum="46" it="0"/>
+      <serie id="IN_2" sum="49" it="2"/>
+      <serie id="IN_3" sum="50" it="3"/>
+      <serie id="IN_1To3" sum="145" it="5" premie="0" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_4" sum="96" it="0" premie="0" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_1To4" sum="241" it="5" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_5" sum="99" it="2"/>
+      <serie id="IN_1To5" sum="340" it="7" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_tot" sum="340" it="7" rank-klasse="3" rank-total="3"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1652437" fornavn="Martin" etternavn="Mikalsen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="mikmarno@yahoo.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="KIK" premie="0">
+      <serie id="IN_1" sum="49" it="3"/>
+      <serie id="IN_2" sum="49" it="0"/>
+      <serie id="IN_3" sum="46" it="0"/>
+      <serie id="IN_1To3" sum="144" it="3" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_4" sum="94" it="4" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_1To4" sum="238" it="7" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_5" sum="" it=""/>
+      <serie id="IN_1To5" sum="" it=""/>
+      <serie id="IN_tot" sum="238" it="7" rank-klasse="1" rank-total="1"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1652882" fornavn="Lars-Håkon Nohr" etternavn="Nystad" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="Lars-haakon@hotmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="48" it="2"/>
+      <serie id="IN_2" sum="47" it="1"/>
+      <serie id="IN_3" sum="50" it="2"/>
+      <serie id="IN_1To3" sum="145" it="5" premie="0" rank-klasse="3" rank-total="7"/>
+      <serie id="IN_4" sum="96" it="4" premie="0" rank-klasse="3" rank-total="5"/>
+      <serie id="IN_1To4" sum="241" it="9" rank-klasse="3" rank-total="6"/>
+      <serie id="IN_5" sum="99" it="4"/>
+      <serie id="IN_1To5" sum="340" it="13" rank-klasse="3" rank-total="6"/>
+      <serie id="IN_tot" sum="340" it="13" rank-klasse="3" rank-total="6"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1653989" fornavn="Miklas Ellingsen" etternavn="Brunes" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="mikbru@online.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="5" premie="0">
+      <serie id="IN_1" sum="50" it="4"/>
+      <serie id="IN_2" sum="49" it="1"/>
+      <serie id="IN_3" sum="49" it="1"/>
+      <serie id="IN_1To3" sum="148" it="6" premie="0" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_4" sum="99" it="4" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_1To4" sum="247" it="10" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_5" sum="100" it="6"/>
+      <serie id="IN_1To5" sum="347" it="16" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_tot" sum="347" it="16" rank-klasse="1" rank-total="1"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1689850" fornavn="Arnt Erik" etternavn="Aune" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="arnt.erik.aune@wideroe.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="5" premie="0">
+      <serie id="IN_1" sum="50" it="3"/>
+      <serie id="IN_2" sum="50" it="0"/>
+      <serie id="IN_3" sum="48" it="1"/>
+      <serie id="IN_1To3" sum="148" it="4" premie="0" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_4" sum="98" it="3" premie="0" rank-klasse="2" rank-total="4"/>
+      <serie id="IN_1To4" sum="246" it="7" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_5" sum="99" it="6"/>
+      <serie id="IN_1To5" sum="345" it="13" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_tot" sum="345" it="13" rank-klasse="2" rank-total="2"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="1728443" fornavn="Øystein" etternavn="Nyhagen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="1" kat-ft="0" kat-22="0" kat-luft="0" epost="oystein.nyhagen@wideroe.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="50" it="3"/>
+      <serie id="IN_2" sum="43" it="0"/>
+      <serie id="IN_3" sum="49" it="0"/>
+      <serie id="IN_1To3" sum="142" it="3" premie="0" rank-klasse="5" rank-total="9"/>
+      <serie id="IN_4" sum="94" it="2" premie="0" rank-klasse="5" rank-total="8"/>
+      <serie id="IN_1To4" sum="236" it="5" rank-klasse="5" rank-total="8"/>
+      <serie id="IN_5" sum="100" it="7"/>
+      <serie id="IN_1To5" sum="336" it="12" rank-klasse="5" rank-total="8"/>
+      <serie id="IN_tot" sum="336" it="12" rank-klasse="5" rank-total="8"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="2316412" fornavn="Lene Mari" etternavn="Sæthre" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="1" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="lene.saethre@gmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="5" premie="0">
+      <serie id="IN_1" sum="50" it="3"/>
+      <serie id="IN_2" sum="48" it="3"/>
+      <serie id="IN_3" sum="48" it="1"/>
+      <serie id="IN_1To3" sum="146" it="7" premie="0" rank-klasse="4" rank-total="5"/>
+      <serie id="IN_4" sum="0" it="0" premie="0" rank-klasse="4" rank-total="11"/>
+      <serie id="IN_1To4" sum="146" it="7" rank-klasse="4" rank-total="11"/>
+      <serie id="IN_5" sum="0" it="0"/>
+      <serie id="IN_1To5" sum="146" it="7" rank-klasse="4" rank-total="11"/>
+      <serie id="IN_tot" sum="146" it="7" rank-klasse="4" rank-total="11"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="2425304" fornavn="Knut Øystein" etternavn="Freng" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="knut.freng@gmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="50" it="3"/>
+      <serie id="IN_2" sum="46" it="1"/>
+      <serie id="IN_3" sum="49" it="2"/>
+      <serie id="IN_1To3" sum="145" it="6" premie="0" rank-klasse="2" rank-total="6"/>
+      <serie id="IN_4" sum="93" it="0" premie="0" rank-klasse="7" rank-total="10"/>
+      <serie id="IN_1To4" sum="238" it="6" rank-klasse="4" rank-total="7"/>
+      <serie id="IN_5" sum="99" it="5"/>
+      <serie id="IN_1To5" sum="337" it="11" rank-klasse="4" rank-total="7"/>
+      <serie id="IN_tot" sum="337" it="11" rank-klasse="4" rank-total="7"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="2612463" fornavn="Marcus Johan" etternavn="Jakobsen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="bjlia31@outlook.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="ER" premie="0">
+      <serie id="IN_1" sum="50" it="3"/>
+      <serie id="IN_2" sum="50" it="2"/>
+      <serie id="IN_3" sum="50" it="4"/>
+      <serie id="IN_1To3" sum="150" it="9" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_4" sum="100" it="4" premie="0" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_1To4" sum="250" it="13" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_5" sum="99" it="3"/>
+      <serie id="IN_1To5" sum="349" it="16" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_tot" sum="349" it="16" rank-klasse="1" rank-total="1"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="2633659" fornavn="Einar" etternavn="Spillum" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="einardomaas@hotmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="50" it="2"/>
+      <serie id="IN_2" sum="45" it="0"/>
+      <serie id="IN_3" sum="47" it="1"/>
+      <serie id="IN_1To3" sum="142" it="3" premie="0" rank-klasse="6" rank-total="10"/>
+      <serie id="IN_4" sum="0" it="0" premie="0" rank-klasse="8" rank-total="11"/>
+      <serie id="IN_1To4" sum="142" it="3" rank-klasse="8" rank-total="12"/>
+      <serie id="IN_5" sum="0" it="0"/>
+      <serie id="IN_1To5" sum="142" it="3" rank-klasse="8" rank-total="12"/>
+      <serie id="IN_tot" sum="142" it="3" rank-klasse="8" rank-total="12"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="2641447" fornavn="Kurt Harald" etternavn="Jakobsen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="bjlia31@outlook.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="KIK" premie="0">
+      <serie id="IN_1" sum="48" it="0"/>
+      <serie id="IN_2" sum="47" it="0"/>
+      <serie id="IN_3" sum="48" it="1"/>
+      <serie id="IN_1To3" sum="143" it="1" premie="0" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_4" sum="91" it="1" premie="0" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_1To4" sum="234" it="2" rank-klasse="2" rank-total="2"/>
+      <serie id="IN_5" sum="" it=""/>
+      <serie id="IN_1To5" sum="" it=""/>
+      <serie id="IN_tot" sum="234" it="2" rank-klasse="2" rank-total="2"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="2907426" fornavn="William" etternavn="Pedersen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="1" kat-luft="0" epost="christianpedersen58@gmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="NU" premie="0">
+      <serie id="IN_1" sum="49" it="3"/>
+      <serie id="IN_2" sum="44" it="0"/>
+      <serie id="IN_3" sum="49" it="1"/>
+      <serie id="IN_1To3" sum="142" it="4"/>
+      <serie id="IN_4" sum="93" it="0"/>
+      <serie id="IN_1To4" sum="235" it="4" premie="0" gave="Gave" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_5" sum="" it=""/>
+      <serie id="IN_1To5" sum="" it=""/>
+      <serie id="IN_tot" sum="235" it="4" rank-klasse="1" rank-total="1"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="2907459" fornavn="William" etternavn="Nyhagen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="1" kat-luft="0" epost="marianyhagen@hotmail.com" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="NU" premie="0">
+      <serie id="IN_1" sum="48" it="0"/>
+      <serie id="IN_2" sum="47" it="0"/>
+      <serie id="IN_3" sum="45" it="0"/>
+      <serie id="IN_1To3" sum="140" it="0"/>
+      <serie id="IN_4" sum="92" it="0"/>
+      <serie id="IN_1To4" sum="232" it="0" premie="0" gave="Gave" rank-klasse="1" rank-total="1"/>
+      <serie id="IN_5" sum="" it=""/>
+      <serie id="IN_1To5" sum="" it=""/>
+      <serie id="IN_tot" sum="232" it="0" rank-klasse="1" rank-total="1"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="303099" fornavn="Runar" etternavn="Finvåg" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="rfi@pobo.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="4" premie="0">
+      <serie id="IN_1" sum="50" it="2"/>
+      <serie id="IN_2" sum="48" it="1"/>
+      <serie id="IN_3" sum="49" it="1"/>
+      <serie id="IN_1To3" sum="147" it="4" premie="0" rank-klasse="1" rank-total="4"/>
+      <serie id="IN_4" sum="98" it="4" premie="0" rank-klasse="2" rank-total="3"/>
+      <serie id="IN_1To4" sum="245" it="8" rank-klasse="1" rank-total="3"/>
+      <serie id="IN_5" sum="98" it="3"/>
+      <serie id="IN_1To5" sum="343" it="11" rank-klasse="1" rank-total="4"/>
+      <serie id="IN_tot" sum="343" it="11" rank-klasse="1" rank-total="4"/>
+    </ovelse>
+  </resultat>
+  <resultat medlemsid="837427" fornavn="Tor Robert" etternavn="Johansen" sklagnr="10584" kat-mf="0" kat-mb="0" kat-k="0" kat-l="0" kat-a="0" kat-n="0" kat-ft="0" kat-22="0" kat-luft="0" epost="tor-j4@online.no" postnr-hvis-ikke-ID="">
+    <ovelse id="IN" klasse="V73" premie="0">
+      <serie id="IN_1" sum="48" it="0"/>
+      <serie id="IN_2" sum="47" it="1"/>
+      <serie id="IN_3" sum="49" it="0"/>
+      <serie id="IN_1To3" sum="144" it="1" premie="0" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_4" sum="96" it="5" premie="0" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_1To4" sum="240" it="6" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_5" sum="94" it="1"/>
+      <serie id="IN_1To5" sum="334" it="7" rank-klasse="3" rank-total="3"/>
+      <serie id="IN_tot" sum="334" it="7" rank-klasse="3" rank-total="3"/>
+    </ovelse>
+  </resultat>
+</resultat-stevne>

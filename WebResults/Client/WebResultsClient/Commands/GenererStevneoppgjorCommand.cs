@@ -30,7 +30,10 @@ namespace WebResultsClient.Commands
 
         public void Execute(object parameter)
         {
-            var filename = Path.Combine(m_stevneoppgjorViewModel.StevneDir, m_stevneoppgjorViewModel.StevneNavn, "Stevneoppgjør", "Stevneoppgjør-" + m_stevneoppgjorViewModel.StevneNavn + ".xml");
+            string stevneoppgjorDir = Path.Combine(m_stevneoppgjorViewModel.StevneDir, m_stevneoppgjorViewModel.StevneNavn);
+            stevneoppgjorDir = Path.Combine(stevneoppgjorDir, "Stevneoppgjør");
+
+            var filename = Path.Combine(stevneoppgjorDir, "Stevneoppgjør-" + m_stevneoppgjorViewModel.StevneNavn + ".xml");
 
             if(File.Exists(filename))
             {
@@ -40,10 +43,10 @@ namespace WebResultsClient.Commands
                 pengepremier.BeregnPengepremier(int.Parse(m_stevneoppgjorViewModel.SeniorPremieavgift), m_stevneoppgjorViewModel.SeniorKlasser.ToList());
                 pengepremier.BeregnPengepremier(int.Parse(m_stevneoppgjorViewModel.UngdomPremieavgift), m_stevneoppgjorViewModel.UngdomsKlasser.ToList());
 
-                var nyttStevneoppgjorFilename = Path.Combine(m_stevneoppgjorViewModel.StevneDir, m_stevneoppgjorViewModel.StevneNavn, "Stevneoppgjør", "LAST OPP DENNE " + m_stevneoppgjorViewModel.StevneNavn + ".xml"); ;
+                var nyttStevneoppgjorFilename = Path.Combine(stevneoppgjorDir, "LAST OPP DENNE TIL DFS " + m_stevneoppgjorViewModel.StevneNavn + ".xml"); ;
                 SerializeXml(stevneoppgjor, nyttStevneoppgjorFilename);
 
-                Process.Start(Path.Combine(m_stevneoppgjorViewModel.StevneDir, m_stevneoppgjorViewModel.StevneNavn, "Stevneoppgjør"));
+                Process.Start(stevneoppgjorDir);
             }
             else
             {

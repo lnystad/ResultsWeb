@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebResultsClient.Viewmodels
+﻿namespace WebResultsClient.Viewmodels
 {
     public class MainViewModel : ViewModelBase
     {
@@ -20,7 +14,6 @@ namespace WebResultsClient.Viewmodels
             m_BitMapSelectionViewModel = new BitMapSelectionViewModel(m_chooseStevneViewModel.SelectedCompetition,
                                                                       m_chooseStevneViewModel.SelectedPath);
             m_StevneoppgjorSelectionViewModel = new StevneoppgjorSelectionViewModel();
-            m_UploadStevneMode = true;
             m_chooseStevneViewModel.OnStevneChange += m_UpLoadStevneViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnStevneChange += m_BitMapSelectionViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnStevneChange += m_StevneoppgjorSelectionViewModel.HandleStevneChange;
@@ -99,20 +92,6 @@ namespace WebResultsClient.Viewmodels
             {
                 this.m_UpLoadStevneViewModel = value;
                 this.OnPropertyChanged("UpLoadStevneViewModel");
-            }
-        }
-        private bool m_UploadStevneMode;
-
-        public bool UploadStevneMode
-        {
-            get
-            {
-                return this.m_UploadStevneMode;
-            }
-            set
-            {
-                this.m_UploadStevneMode = value;
-                this.OnPropertyChanged("UploadStevneMode");
             }
         }
     }
