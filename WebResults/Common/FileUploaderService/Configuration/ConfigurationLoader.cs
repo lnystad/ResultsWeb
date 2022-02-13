@@ -160,7 +160,7 @@ namespace FileUploaderService.Configuration
                     document.Root.Add(appSettings);
                 }
                 XElement appSetting = appSettings.Elements("add").FirstOrDefault(x => x.Attribute("key").Value == key);
-                if (appSetting == null)
+                if (appSetting == null || appSetting.Attribute("value") == null)
                 {
                     //Create the new appSetting
                     appSettings.Add(new XElement("add", new XAttribute("key", key), new XAttribute("value", val)));
