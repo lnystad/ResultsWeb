@@ -19,9 +19,11 @@ namespace WebResultsClient.Viewmodels
             m_LogViewModel = new LogViewModel();
             m_BitMapSelectionViewModel = new BitMapSelectionViewModel(m_chooseStevneViewModel.SelectedCompetition,
                                                                       m_chooseStevneViewModel.SelectedPath);
+            m_StevneoppgjorSelectionViewModel = new StevneoppgjorSelectionViewModel();
             m_UploadStevneMode = true;
             m_chooseStevneViewModel.OnStevneChange += m_UpLoadStevneViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnStevneChange += m_BitMapSelectionViewModel.HandleStevneChange;
+            m_chooseStevneViewModel.OnStevneChange += m_StevneoppgjorSelectionViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnRemoteDirChange += m_UpLoadStevneViewModel.HandleRemoteDirChange;
             m_UpLoadStevneViewModel.SelectedRemoteDir = m_chooseStevneViewModel.SelectedRemoteDir;
             m_chooseStevneViewModel.OnHandleStevneChange();
@@ -38,6 +40,20 @@ namespace WebResultsClient.Viewmodels
             {
                 this.m_BitMapSelectionViewModel = value;
                 this.OnPropertyChanged("BitMapSelectionViewModel");
+            }
+        }
+
+        private StevneoppgjorSelectionViewModel m_StevneoppgjorSelectionViewModel;
+        public StevneoppgjorSelectionViewModel StevneoppgjorSelectionViewModel
+        {
+            get
+            {
+                return this.m_StevneoppgjorSelectionViewModel;
+            }
+            set
+            {
+                this.m_StevneoppgjorSelectionViewModel = value;
+                this.OnPropertyChanged(nameof(StevneoppgjorSelectionViewModel));
             }
         }
 

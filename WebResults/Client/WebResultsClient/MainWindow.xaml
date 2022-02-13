@@ -141,10 +141,10 @@
                                             <MenuItem Header="Refresh Folder" Click="RefreshFolder_Click"/>
                                         </ContextMenu.Items>
                                     </ContextMenu>
-                                    
+
                                     <Style TargetType="{x:Type TreeViewItem}">
                                         <Setter  Property="ContextMenu" Value="{StaticResource contextMenu}"/>
-                                               
+
                                         <Setter Property="HeaderTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
@@ -179,6 +179,44 @@
                 </Grid>
             </StackPanel>
         </DataTemplate>
+        <DataTemplate x:Key="StevneoppgjorSelection" DataType="Viewmodels:StevneoppgjorSelectionViewModel">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Premieavgift senior:" />
+                    <TextBox Text="{Binding SeniorPremieavgift, Mode=TwoWay}" Margin="0, 5, 0, 0"></TextBox>
+                    <Label Content="kroner" />
+                </StackPanel>
+
+
+                <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SeniorKlasser, Mode=TwoWay}" SelectionMode="Single">
+
+                </ListView>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <Label Content="Premieavgift ungdom:" />
+                    <TextBox Text="{Binding UngdomPremieavgift, Mode=TwoWay}" Margin="0, 5, 0, 0"></TextBox>
+                    <Label Content="kroner" />
+                </StackPanel>
+                
+                <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding UngdomsKlasser, Mode=TwoWay}" SelectionMode="Single">
+
+                </ListView>
+
+                <Button Command="{Binding GenererStevneoppgjorCommand}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Generer stevneoppgjør">
+                    
+                </Button>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <Grid DataContext="{Binding}">
         <Grid.RowDefinitions>
@@ -192,6 +230,7 @@
             <TabItem Header="Stevne" Content="{Binding UpLoadStevneViewModel}" ContentTemplate="{StaticResource UpLoadStevne}" Visibility="{Binding UploadStevneMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <TabItem Header="Log" Content="{Binding LogViewModel}" ContentTemplate="{StaticResource Logging}" Visibility="{Binding LogMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <TabItem Header="BitMap" Content="{Binding BitMapSelectionViewModel}" ContentTemplate="{StaticResource BitMapSelection}" Visibility="{Binding BitMapSelectionMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <TabItem Header="Stevneoppgjør" Content="{Binding StevneoppgjorSelectionViewModel}" ContentTemplate="{StaticResource StevneoppgjorSelection}" Visibility="{Binding StevneoppgjorSelectionMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </TabControl>
 
         <!--<StackPanel VerticalAlignment="Bottom" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding InitDatabaseMode, Converter={StaticResource OppositeBoolToVisibilityConverter}}">

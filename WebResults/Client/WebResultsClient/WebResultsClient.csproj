@@ -69,13 +69,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\GenererStevneoppgjorCommand.cs" />
     <Compile Include="Converters\HeaderToImageConverter.cs" />
+    <Compile Include="Definisjoner\Ovelse.cs" />
+    <Compile Include="Definisjoner\Resultat.cs" />
+    <Compile Include="Definisjoner\Serie.cs" />
+    <Compile Include="Definisjoner\Stevneoppgjor.cs" />
     <Compile Include="Viewmodels\BitMapSelectionViewModel.cs" />
     <Compile Include="Viewmodels\BitMap\DirTreeViewItem.cs" />
     <Compile Include="Viewmodels\BitMap\FileTreeViewItem.cs" />
     <Compile Include="Viewmodels\ChooseStevneViewModel.cs" />
     <Compile Include="Viewmodels\LogViewModel.cs" />
     <Compile Include="Viewmodels\MainViewModel.cs" />
+    <Compile Include="Viewmodels\StevneoppgjorSelectionViewModel.cs" />
     <Compile Include="Viewmodels\UpLoadStevneViewModel.cs" />
     <Compile Include="Viewmodels\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
