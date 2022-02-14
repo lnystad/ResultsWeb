@@ -1,11 +1,7 @@
-﻿using FileUploaderService.Configuration;
-using FileUploaderService.Utils;
-using Microsoft.Practices.Prism.Commands;
-using System;
-using System.Collections.Generic;
+﻿using FileUploaderService.Utils;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.PlatformUI;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,9 +10,9 @@ namespace WebResultsClient.Viewmodels
 
     public class LogViewModel : ViewModelBase
     {
-        public LogViewModel()
+        public LogViewModel(IConfiguration configuration)
         {
-            m_LogFile = ConfigurationLoader.GetAppSettingsValue("LogFile");
+            m_LogFile = configuration["LogFile"];
             if (!File.Exists(m_LogFile))
             {
                 var dir = Path.GetDirectoryName(m_LogFile);

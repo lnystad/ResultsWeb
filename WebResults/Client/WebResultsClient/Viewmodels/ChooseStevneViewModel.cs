@@ -1,12 +1,10 @@
-﻿using FileUploaderService.Configuration;
-using Microsoft.Practices.Prism.Commands;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.PlatformUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -14,12 +12,15 @@ namespace WebResultsClient.Viewmodels
 {
     public class ChooseStevneViewModel : ViewModelBase
     {
+        private readonly IConfiguration m_configuration;
 
-        public ChooseStevneViewModel()
+        public ChooseStevneViewModel(IConfiguration configuration)
         {
+            m_configuration = configuration;
+
             m_IsSortByNameChecked = true;
             m_Competitions = new ObservableCollection<string>();
-            var leonDir = ConfigurationLoader.GetAppSettingsValue("LeonInstallDir");
+            var leonDir = configuration["LeonInstallDir"];
             if (!string.IsNullOrEmpty(leonDir))
             {
                 m_selectedPath = leonDir;
@@ -27,7 +28,7 @@ namespace WebResultsClient.Viewmodels
                
             }
 
-            var RemoteSubDir = ConfigurationLoader.GetAppSettingsValue("RemoteDir");
+            var RemoteSubDir = configuration["RemoteDir"];
             m_RemoteDirs = new ObservableCollection<string>();
             if (!string.IsNullOrEmpty(RemoteSubDir))
             {
@@ -50,7 +51,7 @@ namespace WebResultsClient.Viewmodels
 
         public void OnHandleStevneChange()
         {
-            ConfigurationLoader.SetAppSettingsValue("LastStevne", m_SelectedCompetition);
+            m_configuration["LastStevne"] = m_SelectedCompetition;
             if (OnStevneChange == null)
             {
                 return;
@@ -99,7 +100,7 @@ namespace WebResultsClient.Viewmodels
                     m_Competitions.Add(navn);
                 }
 
-                var stevneConfig=ConfigurationLoader.GetAppSettingsValue("LastStevne");
+                var stevneConfig = m_configuration["LastStevne"];
                 if (m_Competitions.Count > 0)
                 {
                     if (!string.IsNullOrEmpty(stevneConfig))
@@ -107,13 +108,13 @@ namespace WebResultsClient.Viewmodels
                         if (m_Competitions.Contains(stevneConfig))
                         {
                             m_SelectedCompetition = m_Competitions[m_Competitions.IndexOf(stevneConfig)];
-                            ConfigurationLoader.SetAppSettingsValue("LastStevne", m_SelectedCompetition);
+                            m_configuration["LastStevne"] = m_SelectedCompetition;
                         }
                     }
                     else
                     {
                         m_SelectedCompetition = m_Competitions[0];
-                        ConfigurationLoader.SetAppSettingsValue("LastStevne", m_SelectedCompetition);
+                        m_configuration["LastStevne"] = m_SelectedCompetition;
                     } 
                    
                 }

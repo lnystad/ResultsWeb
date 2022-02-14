@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FileUploaderService
+namespace UnitTestSendingResult
 {
     using System.Collections.Generic;
     using System.Configuration;
@@ -10,6 +10,7 @@ namespace FileUploaderService
     using FileUploaderService.Diagnosis;
     using FileUploaderService.KME;
     using FileUploaderService.ListeSort;
+    using Microsoft.Extensions.Configuration;
 
     //using FileUploaderService.KME;
 
@@ -18,12 +19,17 @@ namespace FileUploaderService
     [TestClass]
     public class UnitTest1
     {
-        [TestInitialize]
-        void init()
-        {
-            var logfile = ConfigurationManager.AppSettings["LogFile"];
+        private IConfiguration _configuration;
 
-            var LoggingLevelsString = ConfigurationManager.AppSettings["LoggingLevels"];
+        [TestInitialize]
+        public void init()
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true);
+            _configuration = builder.Build();
+
+            var logfile = _configuration["LogFile"];
+
+            var LoggingLevelsString = _configuration["LoggingLevels"];
             LoggingLevels enumLowestTrace = LoggingLevels.Info;
             if (!string.IsNullOrEmpty(LoggingLevelsString))
             {

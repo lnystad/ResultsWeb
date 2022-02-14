@@ -1,13 +1,11 @@
-﻿using FileUploaderService.Configuration;
-using FileUploaderService.Diagnosis;
+﻿using FileUploaderService.Diagnosis;
 using FileUploaderService.Ftp;
 using FileUploaderService.KME;
-using Microsoft.Practices.Prism.Commands;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.PlatformUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -17,11 +15,11 @@ namespace WebResultsClient.Viewmodels
 
     public class UpLoadStevneViewModel : ViewModelBase
     {
-        public UpLoadStevneViewModel(string selectedcompetition, string selectedPath, string selectedRemoteDir)
+        public UpLoadStevneViewModel(IConfiguration configuration, string selectedcompetition, string selectedPath, string selectedRemoteDir)
         {
-            m_FtpServer = ConfigurationLoader.GetAppSettingsValue("FtpServer");
-            m_FtpUserName = ConfigurationLoader.GetAppSettingsValue("FtpUserName");
-            m_FtpPassWord = ConfigurationLoader.GetAppSettingsValue("FtpPassWord");
+            m_FtpServer = configuration["FtpServer"]; 
+            m_FtpUserName = configuration["FtpUserName"];
+            m_FtpPassWord = configuration["FtpPassWord"];
 
             m_ProgrssbarVisibility = Visibility.Hidden;
             m_ProgrssbarBitMapVisibility = Visibility.Hidden;
@@ -30,12 +28,12 @@ namespace WebResultsClient.Viewmodels
             m_canDeltaExecute = false;
             InitCommands();
 
-            RapportXsltFilFileName = ConfigurationLoader.GetAppSettingsValue("RapportXsltFil");
-            TopListSkyttereXsltFileName = ConfigurationLoader.GetAppSettingsValue("TopListSkyttereXsltFil");
-            TopListXsltFileName = ConfigurationLoader.GetAppSettingsValue("TopListXsltFil");
+            RapportXsltFilFileName = configuration["RapportXsltFil"];
+            TopListSkyttereXsltFileName = configuration["TopListSkyttereXsltFil"];
+            TopListXsltFileName = configuration["TopListXsltFil"];
 
-            TopListLagSkyttereXsltFilFileName = ConfigurationLoader.GetAppSettingsValue("TopListLagSkyttereXsltFil");
-            string debugXslt = ConfigurationLoader.GetAppSettingsValue("DebugXslt");
+            TopListLagSkyttereXsltFilFileName = configuration["TopListLagSkyttereXsltFil"];
+            string debugXslt = configuration["DebugXslt"];
             if (!string.IsNullOrEmpty(debugXslt))
             {
                 bool val;
@@ -46,7 +44,7 @@ namespace WebResultsClient.Viewmodels
             }
 
             m_UploadBitmap = false;
-            string UploadBitmapXslt = ConfigurationLoader.GetAppSettingsValue("UploadBitmap");
+            string UploadBitmapXslt = configuration["UploadBitmap"];
             if (!string.IsNullOrEmpty(UploadBitmapXslt))
             {
                 bool val;
@@ -57,7 +55,7 @@ namespace WebResultsClient.Viewmodels
             }
 
             m_UploadXml = true;
-            string UploadXmlXslt = ConfigurationLoader.GetAppSettingsValue("UploadXml");
+            string UploadXmlXslt = configuration["UploadXml"];
             if (!string.IsNullOrEmpty(UploadXmlXslt))
             {
                 bool val;

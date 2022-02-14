@@ -51,10 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationFileReader.cs" />
-    <Compile Include="Configuration\ConfigurationFileReaderProvider.cs" />
-    <Compile Include="Configuration\ConfigurationLoader.cs" />
-    <Compile Include="Configuration\IConfigurationFileReader.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Ftp\FtpDirectory.cs" />
     <Compile Include="Ftp\FtpFile.cs" />

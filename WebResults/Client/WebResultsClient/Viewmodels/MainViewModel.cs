@@ -1,17 +1,20 @@
-﻿namespace WebResultsClient.Viewmodels
+﻿using Microsoft.Extensions.Configuration;
+using System;
+
+namespace WebResultsClient.Viewmodels
 {
     public class MainViewModel : ViewModelBase
     {
 
-        public MainViewModel()
+        public MainViewModel(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            m_chooseStevneViewModel = new ChooseStevneViewModel();
-            m_UpLoadStevneViewModel = new UpLoadStevneViewModel(m_chooseStevneViewModel.SelectedCompetition,
+            m_chooseStevneViewModel = new ChooseStevneViewModel(configuration);
+            m_UpLoadStevneViewModel = new UpLoadStevneViewModel(configuration, m_chooseStevneViewModel.SelectedCompetition,
                                                                 m_chooseStevneViewModel.SelectedPath,
                                                                 m_chooseStevneViewModel.SelectedRemoteDir);
            
-            m_LogViewModel = new LogViewModel();
-            m_BitMapSelectionViewModel = new BitMapSelectionViewModel(m_chooseStevneViewModel.SelectedCompetition,
+            m_LogViewModel = new LogViewModel(configuration);
+            m_BitMapSelectionViewModel = new BitMapSelectionViewModel(configuration, m_chooseStevneViewModel.SelectedCompetition,
                                                                       m_chooseStevneViewModel.SelectedPath);
             m_StevneoppgjorSelectionViewModel = new StevneoppgjorSelectionViewModel();
             m_chooseStevneViewModel.OnStevneChange += m_UpLoadStevneViewModel.HandleStevneChange;

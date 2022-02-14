@@ -10,17 +10,23 @@ namespace UnitTestSendingResult
     using FileUploaderService.Diagnosis;
     using FileUploaderService.KME;
     using FileUploaderService.ListeSort;
+    using Microsoft.Extensions.Configuration;
     using WebResultsClient.Viewmodels;
 
     [TestClass]
     public class UpLoadStevneViewModelUnitTest
     {
-        [TestInitialize]
-        void init()
-        {
-            var logfile = ConfigurationManager.AppSettings["LogFile"];
+        private IConfiguration _configuration;
 
-            var LoggingLevelsString = ConfigurationManager.AppSettings["LoggingLevels"];
+        [TestInitialize]
+        public void init()
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true);
+            _configuration = builder.Build();
+
+            var logfile = _configuration["LogFile"];
+
+            var LoggingLevelsString = _configuration["LoggingLevels"];
             LoggingLevels enumLowestTrace = LoggingLevels.Info;
             if (!string.IsNullOrEmpty(LoggingLevelsString))
             {
@@ -108,7 +114,7 @@ namespace UnitTestSendingResult
         public void TestMethodBane()
         {
            
-            UpLoadStevneViewModel mod = new UpLoadStevneViewModel("","","");
+            UpLoadStevneViewModel mod = new UpLoadStevneViewModel(_configuration, "","","");
             mod.StevneDir = @"C:\Users\lan\source\repos\ResultsWeb\WebResults\Tests\UnitTestSendingResult\TestData\ResultaterBane";
             mod.StevneNavn = "Vårmønstring AN 2 100m";
             string rapportXsltFile = @"C:\Users\lan\Source\repos\ResultsWeb\WebResults\Common\FileUploaderService\Leon\RapportXslt.xslt";

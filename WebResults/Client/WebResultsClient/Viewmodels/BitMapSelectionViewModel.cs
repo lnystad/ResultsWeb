@@ -1,19 +1,14 @@
 ﻿using FileUploaderService;
-using FileUploaderService.Configuration;
 using FileUploaderService.Utils;
-using Microsoft.Practices.Prism.Commands;
-using WebResultsClient.Viewmodels.BitMap;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.PlatformUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MessageBox = System.Windows.MessageBox;
@@ -23,14 +18,18 @@ namespace WebResultsClient.Viewmodels
 
     public class BitMapSelectionViewModel : ViewModelBase
     {
+        private readonly IConfiguration m_configuration;
+
         private object dummyNode = null;
-        public BitMapSelectionViewModel(string selectedcompetition, string selectedPath)
+        public BitMapSelectionViewModel(IConfiguration configuration, string selectedcompetition, string selectedPath)
         {
-            m_remote15m = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDir15m");
-            m_remote100m = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDir100m");
-            m_remoteFinFelt = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDirFinFelt");
-            string RemoteBitMapDir200m = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDir200m");
-            string RemoteBitMapDirGrovFelt = ConfigurationLoader.GetAppSettingsValue("RemoteBitMapDirGrovFelt");
+            m_configuration = configuration;
+
+            m_remote15m = m_configuration["RemoteBitMapDir15m"];
+            m_remote100m = m_configuration["RemoteBitMapDir100m"];
+            m_remoteFinFelt = m_configuration["RemoteBitMapDirFinFelt"];
+            string RemoteBitMapDir200m = m_configuration["RemoteBitMapDir200m"];
+            string RemoteBitMapDirGrovFelt = m_configuration["RemoteBitMapDirGrovFelt"];
 
             
 
@@ -50,7 +49,7 @@ namespace WebResultsClient.Viewmodels
             }
 
             m_UploadBitmap = false;
-            string UploadBitmapXslt = ConfigurationLoader.GetAppSettingsValue("UploadBitmap");
+            string UploadBitmapXslt = m_configuration["UploadBitmap"];
             if (!string.IsNullOrEmpty(UploadBitmapXslt))
             {
                 bool val;
@@ -67,7 +66,7 @@ namespace WebResultsClient.Viewmodels
             m_IsGrovFeltChecked = false;
             m_Is200Checked = false;
             m_Is15Checked = false;
-            string LastStevne = ConfigurationLoader.GetAppSettingsValue("LastStevneType");
+            string LastStevne = m_configuration["LastStevneType"];
             if (!string.IsNullOrEmpty(LastStevne))
             {
                 
@@ -319,7 +318,7 @@ namespace WebResultsClient.Viewmodels
             {
                 try
                 {
-                    if (System.Windows.Forms.MessageBox.Show(startDir, "Slett Katalog", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) ;
+                    if (MessageBox.Show(startDir, "Slett Katalog", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK);
                     {
 
                         var listofSubDirs = Directory.GetDirectories(startDir);
@@ -340,7 +339,7 @@ namespace WebResultsClient.Viewmodels
                 catch (Exception ee)
                 {
                     string medd = ee.Message;
-                    System.Windows.Forms.MessageBox.Show(medd, "Feil", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(medd, "Feil", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
             }
@@ -459,7 +458,7 @@ namespace WebResultsClient.Viewmodels
         {
             m_StevneDir = path;
             m_StevneNavn = stevneNavn;
-            ConfigurationLoader.SetAppSettingsValue("LastStevne", stevneNavn);
+            m_configuration["LastStevne"] = stevneNavn;
         }
 
         private DelegateCommand m_MoveBitmapCommand;
@@ -624,7 +623,7 @@ namespace WebResultsClient.Viewmodels
                         m_OrionDirs.Add(m_remote15m);
                         SelectedOrionDir = m_OrionDirs[0];
                     }
-                    ConfigurationLoader.SetAppSettingsValue("LastStevneType", Constants.Prefix15m);
+                    m_configuration["LastStevneType"] = Constants.Prefix15m;
                     OnPropertyChanged("OrionDirs");
                     OnPropertyChanged("SelectedOrionDir");
                 }
@@ -648,7 +647,7 @@ namespace WebResultsClient.Viewmodels
 
                 if (m_Is200Checked == true)
                 {
-                    ConfigurationLoader.SetAppSettingsValue("LastStevneType", Constants.Prefix200m);
+                    m_configuration["LastStevneType"] = Constants.Prefix200m;
                     m_OrionDirs.Clear();
                     m_SelectedOrionDir = null;
                     if (m_remote200m.Count > 0)
@@ -684,7 +683,7 @@ namespace WebResultsClient.Viewmodels
 
                 if (m_IsGrovFeltChecked == true)
                 {
-                    ConfigurationLoader.SetAppSettingsValue("LastStevneType", Constants.PrefixGrovFelt);
+                    m_configuration["LastStevneType"] = Constants.PrefixGrovFelt;
                     m_OrionDirs.Clear();
                     m_SelectedOrionDir = null;
                     if (m_remoteGrovFelt.Count > 0)
@@ -722,7 +721,7 @@ namespace WebResultsClient.Viewmodels
 
                 if (m_Is100Checked == true)
                 {
-                    ConfigurationLoader.SetAppSettingsValue("LastStevneType", Constants.Prefix100m);
+                    m_configuration["LastStevneType"] = Constants.Prefix100m;
                     m_OrionDirs.Clear();
                     m_SelectedOrionDir = null;
                     if (!string.IsNullOrEmpty(m_remote100m))
@@ -753,7 +752,7 @@ namespace WebResultsClient.Viewmodels
 
                 if (m_IsFinFeltChecked == true)
                 {
-                    ConfigurationLoader.SetAppSettingsValue("LastStevneType", Constants.PrefixFinFelt);
+                    m_configuration["LastStevneType"] = Constants.PrefixFinFelt;
                     m_OrionDirs.Clear();
                     m_SelectedOrionDir = null;
                     if (!string.IsNullOrEmpty(m_remoteFinFelt))

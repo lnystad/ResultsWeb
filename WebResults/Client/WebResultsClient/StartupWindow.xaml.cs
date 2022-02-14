@@ -1,49 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-namespace WebResultsClient
+namespace WebResultsClient 
 {
-    using System.Windows.Forms.Integration;
-
-    using WebResultsClient.Common;
     using FileUploaderService.Diagnosis;
+    using Microsoft.Extensions.Configuration;
     using WebResultsClient.Viewmodels;
-    using FileUploaderService.Configuration;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class StartupWindow : Window
     {
         private MainViewModel m_model;
         public string DirectoryName { get; set; }
-        public MainWindow()
+        private readonly IServiceProvider m_serviceProvider;
+        private readonly IConfiguration m_configuration;
+
+        public StartupWindow(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            this.InitializeComponent();
+            m_serviceProvider = serviceProvider;
+            m_configuration = configuration;
+
+            InitializeComponent();
             m_model = this.InitViewModels();
             this.DataContext = m_model;
-            
 
-            var logfile = ConfigurationLoader.GetAppSettingsValue("LogFile");
+            var logfile = configuration["LogFile"];
 
-            var Skytterlag = ConfigurationLoader.GetAppSettingsValue("Skytterlag");
-            var Lisens = ConfigurationLoader.GetAppSettingsValue("Lisens");
+            var Skytterlag = configuration["Skytterlag"];
+            var Lisens = configuration["Lisens"];
 
-            var LoggingLevelsString = ConfigurationLoader.GetAppSettingsValue("LoggingLevels");
+            var LoggingLevelsString = configuration["LoggingLevels"];
             LoggingLevels enumLowestTrace = LoggingLevels.Info;
             if (!string.IsNullOrEmpty(LoggingLevelsString))
             {
@@ -74,7 +62,7 @@ namespace WebResultsClient
 
         private MainViewModel InitViewModels()
         {
-            var model = new MainViewModel();
+            var model = new MainViewModel(m_serviceProvider, m_configuration);
              return model;
             
         }
