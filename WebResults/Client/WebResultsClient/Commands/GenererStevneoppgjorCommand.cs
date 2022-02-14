@@ -46,7 +46,7 @@ namespace WebResultsClient.Commands
                 var nyttStevneoppgjorFilename = Path.Combine(stevneoppgjorDir, "LAST OPP DENNE TIL DFS " + m_stevneoppgjorViewModel.StevneNavn + ".xml"); ;
                 SerializeXml(stevneoppgjor, nyttStevneoppgjorFilename);
 
-                Process.Start(stevneoppgjorDir);
+                Process.Start("explorer.exe", stevneoppgjorDir);
             }
             else
             {
