@@ -9,9 +9,9 @@ namespace WebResultsClient.Viewmodels
     {
         public StevneoppgjorSelectionViewModel()
         {
-            // Klasse "NU", "NV", "Åpen" har ikke premieavgift???
-            SeniorKlasser = new ObservableCollection<string> { "1", "2", "3", "4", "5", "V55", "V65", "V73", "KIK", "HK416" };
-            UngdomsKlasser = new ObservableCollection<string> { "R", "ER", "J", "EJ" };
+            // Klasse "NU", "Åpen" har ikke premieavgift???
+            SeniorKlasser = new ObservableCollection<string> { "1", "2", "3", "4", "5", "V55", "V65", "V73", "KIK", "AG3", "HK416" };
+            UngdomsKlasser = new ObservableCollection<string> { "R", "ER", "J", "EJ", "NV" };
 
             SeniorPremieavgift = "70";
             UngdomPremieavgift = "50";
