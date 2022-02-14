@@ -29,8 +29,8 @@ namespace WebResultsClient.Viewmodels
                 UngdomsKlasser.Add(klasse.Value);
             }
 
-            SeniorPremieavgift = configuration["LastSeniorPremieavgift"];
-            UngdomPremieavgift = configuration["LastUngdomPremieavgift"]; ;
+            SeniorPremieavgift = configuration["LastPremieavgiftSenior"];
+            UngdomPremieavgift = configuration["LastPremieavgiftUngdom"]; ;
             GenererStevneoppgjorCommand = new GenererStevneoppgjorCommand(this);
         }
 
@@ -62,7 +62,7 @@ namespace WebResultsClient.Viewmodels
                 if(int.TryParse(value, out int resultat))
                 {
                     m_seniorPremieavgift = resultat;
-                    m_configuration["LastSeniorPremieavgift"] = SeniorPremieavgift;
+                    m_configuration["LastPremieavgiftSenior"] = SeniorPremieavgift;
 
                     OnPropertyChanged(nameof(SeniorPremieavgift));
                 }
@@ -79,7 +79,7 @@ namespace WebResultsClient.Viewmodels
                 if (int.TryParse(value, out int resultat))
                 {
                     m_ungdomPremieavgift = resultat;
-                    m_configuration["LastUngdomPremieavgift"] = UngdomPremieavgift;
+                    m_configuration["LastPremieavgiftUngdom"] = UngdomPremieavgift;
 
                     OnPropertyChanged(nameof(UngdomPremieavgift));
                 }
