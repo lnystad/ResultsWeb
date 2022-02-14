@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Extensions.Configuration;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WebResultsClient.Commands;
 
@@ -7,14 +8,29 @@ namespace WebResultsClient.Viewmodels
 
     public class StevneoppgjorSelectionViewModel : ViewModelBase
     {
-        public StevneoppgjorSelectionViewModel()
-        {
-            // Klasse "NU", "Åpen" har ikke premieavgift???
-            SeniorKlasser = new ObservableCollection<string> { "1", "2", "3", "4", "5", "V55", "V65", "V73", "KIK", "AG3", "HK416" };
-            UngdomsKlasser = new ObservableCollection<string> { "R", "ER", "J", "EJ", "NV" };
+        private IConfiguration m_configuration;
 
-            SeniorPremieavgift = "70";
-            UngdomPremieavgift = "50";
+        public StevneoppgjorSelectionViewModel(IConfiguration configuration)
+        {
+            m_configuration = configuration;
+
+            // Klasse "NU", "Åpen" har ikke premieavgift???
+            var seniorKlasser = configuration.GetSection("SeniorKlasser");
+            SeniorKlasser = new ObservableCollection<string>();
+            foreach (var klasse in seniorKlasser.GetChildren())
+            {
+                SeniorKlasser.Add(klasse.Value);
+            }
+
+            var ungdomsKlasser = configuration.GetSection("UngdomsKlasser");
+            UngdomsKlasser = new ObservableCollection<string>();
+            foreach (var klasse in ungdomsKlasser.GetChildren())
+            {
+                UngdomsKlasser.Add(klasse.Value);
+            }
+
+            SeniorPremieavgift = configuration["LastSeniorPremieavgift"];
+            UngdomPremieavgift = configuration["LastUngdomPremieavgift"]; ;
             GenererStevneoppgjorCommand = new GenererStevneoppgjorCommand(this);
         }
 
@@ -46,6 +62,8 @@ namespace WebResultsClient.Viewmodels
                 if(int.TryParse(value, out int resultat))
                 {
                     m_seniorPremieavgift = resultat;
+                    m_configuration["LastSeniorPremieavgift"] = SeniorPremieavgift;
+
                     OnPropertyChanged(nameof(SeniorPremieavgift));
                 }
             }
@@ -61,6 +79,8 @@ namespace WebResultsClient.Viewmodels
                 if (int.TryParse(value, out int resultat))
                 {
                     m_ungdomPremieavgift = resultat;
+                    m_configuration["LastUngdomPremieavgift"] = UngdomPremieavgift;
+
                     OnPropertyChanged(nameof(UngdomPremieavgift));
                 }
             }

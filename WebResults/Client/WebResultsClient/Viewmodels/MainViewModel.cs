@@ -16,7 +16,7 @@ namespace WebResultsClient.Viewmodels
             m_LogViewModel = new LogViewModel(configuration);
             m_BitMapSelectionViewModel = new BitMapSelectionViewModel(configuration, m_chooseStevneViewModel.SelectedCompetition,
                                                                       m_chooseStevneViewModel.SelectedPath);
-            m_StevneoppgjorSelectionViewModel = new StevneoppgjorSelectionViewModel();
+            m_StevneoppgjorSelectionViewModel = new StevneoppgjorSelectionViewModel(configuration);
             m_chooseStevneViewModel.OnStevneChange += m_UpLoadStevneViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnStevneChange += m_BitMapSelectionViewModel.HandleStevneChange;
             m_chooseStevneViewModel.OnStevneChange += m_StevneoppgjorSelectionViewModel.HandleStevneChange;
