@@ -9,6 +9,7 @@ using System.Text.Unicode;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebResultsClient.Configuration;
 
 namespace WebResultsClient
 {
@@ -54,87 +55,14 @@ namespace WebResultsClient
             };
             jsonWriteOptions.Converters.Add(new JsonStringEnumConverter());
 
-            var root = Configuration.GetChildren().ToList();
-            var dictionary = new Dictionary<string, object>();
-            RecursiveDictConfig(root, dictionary);
+            var config = ConfigurationConverter.GetSerializableConfigurationFrom(Configuration);
 
-            var newJson = JsonSerializer.Serialize(dictionary, jsonWriteOptions);
+            var newJson = JsonSerializer.Serialize(config, jsonWriteOptions);
 
             var appSettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
             File.WriteAllText(appSettingsPath, newJson);
 
             base.OnExit(e);
-        }
-
-        public void RecursiveListConfig(List<IConfigurationSection> children, List<object> list)
-        {
-            foreach (var child in children)
-            {
-                if (child.Value != null)
-                {
-                    list.Add(child.Value);
-                }
-                else
-                {
-                    var subChildren = child.GetChildren().ToList();
-                    var isList = true;
-                    for (int i = 0; i < subChildren.Count; i++)
-                    {
-                        if (subChildren[i].Key != i.ToString())
-                        {
-                            isList = false;
-                        }
-                    }
-
-                    if (isList)
-                    {
-                        List<object> listValues = new List<object>();
-                        RecursiveListConfig(subChildren, listValues);
-                        list.Add(listValues);
-                    }
-                    else
-                    {
-                        Dictionary<string, object> dictValues = new Dictionary<string, object>();
-                        RecursiveDictConfig(subChildren, dictValues);
-                        list.Add(dictValues);
-                    }
-                }
-            }
-        }
-
-        public void RecursiveDictConfig(List<IConfigurationSection> children, Dictionary<string, object> dict)
-        {
-            foreach(var child in children)
-            {
-                if (child.Value != null)
-                {
-                    dict[child.Key] = child.Value;
-                }
-                else
-                {
-                    var subChildren = child.GetChildren().ToList();
-                    var isList = true;
-                    for(int i = 0; i < subChildren.Count; i++)
-                    {
-                        if(subChildren[i].Key != i.ToString())
-                        {
-                            isList = false;
-                        }
-                    }
-
-                    if(isList)
-                    {
-                        List<object> listValues = new List<object>();
-                        RecursiveListConfig(subChildren, listValues);
-                        dict[child.Key] = listValues;
-                    }else
-                    {
-                        Dictionary<string, object> dictValues = new Dictionary<string, object>();
-                        RecursiveDictConfig(subChildren, dictValues);
-                        dict[child.Key] = dictValues;
-                    }
-                }
-            }
         }
 
         private void ConfigureServices(IServiceCollection services)
