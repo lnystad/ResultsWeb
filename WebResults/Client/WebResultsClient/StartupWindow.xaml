@@ -90,7 +90,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <ScrollViewer Grid.Row="0" Height="650" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer Grid.Row="0" Height="400" VerticalScrollBarVisibility="Auto">
                         <TextBox Margin="10,10,10,10"   Text="{Binding LogText}" TextWrapping="Wrap" AcceptsReturn="True"/>
                     </ScrollViewer>
                     <Button Grid.Row="1" Margin="250,5,5,5" Height="30" Width="70" Command="{Binding RefreshCommand}" Content="Refresh" />
