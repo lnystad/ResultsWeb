@@ -8,6 +8,8 @@
 		<UseWPF>true</UseWPF>
 
 		<IsPackable>false</IsPackable>
+
+		<ApplicationIcon>Images\targeticon.ico</ApplicationIcon>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -23,6 +25,7 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\targeticon.ico" />
   </ItemGroup>
 
     <ItemGroup>
