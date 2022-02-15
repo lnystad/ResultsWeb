@@ -8,9 +8,10 @@ namespace FileUploaderService.Ftp
     using System.IO;
     using System.Threading;
 
+    using EnterpriseDT.Net.Ftp;
+
     using FileUploaderService.Diagnosis;
     using FileUploaderService.Orion;
-    using FluentFTP;
 
     public class FtpUtility
     {
@@ -35,12 +36,12 @@ namespace FileUploaderService.Ftp
             {
 
             }
-            public listedFile(FtpListItem fileinfo)
+            public listedFile(FTPFile fileinfo)
             {
                 OriginalFilname = fileinfo.Name;
                 Filname = fileinfo.Name.ToUpper().Trim();
                 Size = fileinfo.Size;
-                LastUpdated = fileinfo.Modified;
+                LastUpdated = fileinfo.LastModified;
             }
 
             public string OriginalFilname { get; set; }
@@ -68,7 +69,7 @@ namespace FileUploaderService.Ftp
         public delegate bool HandleFtpLog(string message);
         public event HandleFtpLog OnLogEvent;
 
-        
+
 
         public void OnHandleFtpLog(string message)
         {
@@ -81,49 +82,47 @@ namespace FileUploaderService.Ftp
             OnLogEvent(message);
         }
 
-        public delegate bool HandleFileFinished(string filetype,string message, int count, int total);
+        public delegate bool HandleFileFinished(string filetype, string message, int count, int total);
         public event HandleFileFinished OnHandleFileFinishedEvent;
         public void OnHandleFileFinished(string filetype, string message, int count, int total)
         {
-           
+
             if (OnHandleFileFinishedEvent == null)
             {
                 return;
             }
 
-            OnHandleFileFinishedEvent(filetype,message, count, total);
+            OnHandleFileFinishedEvent(filetype, message, count, total);
         }
 
         public List<FtpDirectory> ListDirectories()
         {
             List<FtpDirectory> retList = new List<FtpDirectory>();
-            FtpClient ftp = null;
+            FTPClient ftp = null;
             try
             {
 
-                ftp = new FtpClient(m_hostName, m_userName, m_passWord);
-                ftp.DataConnectionType = FtpDataConnectionType.PASV;
-                ftp.Encoding = Encoding.GetEncoding("ISO8859-1");
-                ftp.UploadDataType = FtpDataType.Binary;
-
+                ftp = new FTPClient();
+                ftp.RemoteHost = m_hostName;
+                ftp.Connect();
                 // login
                 OnHandleFtpLog("Logging in");
-                ftp.Connect();
+                ftp.Login(m_userName, m_passWord);
 
                 // set up passive ASCII transfers
                 OnHandleFtpLog("Setting up passive, BINARY transfers");
-                /*ftp.ConnectMode = FTPConnectMode.PASV;
+                ftp.ConnectMode = FTPConnectMode.PASV;
                 ftp.TransferType = FTPTransferType.BINARY;
-                ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
+                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 //ftp.DataEncoding = new UTF8Encoding(false);
                 ftp.Timeout = 5000;
                 ftp.TransferBufferSize = 4096;
-                ftp.TransferNotifyInterval = ((long)(4096));*/
+                ftp.TransferNotifyInterval = ((long)(4096));
 
-                var details = ftp.GetListing();
+                var details = ftp.DirDetails();
                 foreach (var item in details)
                 {
-                    if (item.Type == FtpFileSystemObjectType.Directory)
+                    if (item.Dir)
                     {
                         if (item.Name == "." ||
                            item.Name == "..")
@@ -139,12 +138,9 @@ namespace FileUploaderService.Ftp
             catch (Exception e)
             {
                 Log.Error(e, "Error");
-                
-            } finally
-            {
                 if (ftp != null)
                 {
-                    ftp.Dispose();
+                    ftp.Quit();
                 }
             }
             return retList;
@@ -153,64 +149,65 @@ namespace FileUploaderService.Ftp
         public List<FtpDirectory> SubDirectories(string path)
         {
             List<FtpDirectory> retList = new List<FtpDirectory>();
-            if(string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
             {
                 return retList;
             }
-            FtpClient ftp = null;
+            FTPClient ftp = null;
             try
             {
                 List<string> SubDirs = path.Split(new char[] { '/', '\\' }).ToList();
 
-                ftp = new FtpClient(m_hostName, m_userName, m_passWord);
-                ftp.DataConnectionType = FtpDataConnectionType.PASV;
-                ftp.Encoding = Encoding.GetEncoding("ISO8859-1");
-                ftp.UploadDataType = FtpDataType.Binary;
+                ftp = new FTPClient();
+                ftp.RemoteHost = m_hostName;
+                ftp.Connect();
                 // login
                 OnHandleFtpLog("Logging in");
-                ftp.Connect();
+                ftp.Login(m_userName, m_passWord);
 
                 // set up passive ASCII transfers
                 OnHandleFtpLog("Setting up passive, BINARY transfers");
-
+                ftp.ConnectMode = FTPConnectMode.PASV;
+                ftp.TransferType = FTPTransferType.BINARY;
+                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 //ftp.DataEncoding = new UTF8Encoding(false);
-               /* ftp.Timeout = 5000;
+                ftp.Timeout = 5000;
                 ftp.TransferBufferSize = 4096;
-                ftp.TransferNotifyInterval = ((long)(4096));*/
-                bool foundDir = false;
-                foreach(var dir in SubDirs)
+                ftp.TransferNotifyInterval = ((long)(4096));
+                bool foudDir = false;
+                foreach (var dir in SubDirs)
                 {
-                    var details = ftp.GetListing();
+                    var details = ftp.DirDetails();
                     bool found = false;
                     foreach (var item in details)
                     {
-                        if (item.Type == FtpFileSystemObjectType.Directory)
+                        if (item.Dir)
                         {
                             if (item.Name == dir)
                             {
-                                ftp.SetWorkingDirectory(item.Name);
+                                ftp.ChDir(item.Name);
                                 found = true;
                                 break;
                             }
-                            
+
                         }
                     }
 
-                    if(!found)
+                    if (!found)
                     {
                         break;
                     }
                     else
                     {
-                        foundDir = true;
+                        foudDir = true;
                     }
                 }
-                if(foundDir)
+                if (foudDir)
                 {
-                    var details = ftp.GetListing();
+                    var details = ftp.DirDetails();
                     foreach (var item in details)
                     {
-                        if (item.Type == FtpFileSystemObjectType.Directory)
+                        if (item.Dir)
                         {
                             if (item.Name == "." ||
                                item.Name == "..")
@@ -223,22 +220,20 @@ namespace FileUploaderService.Ftp
                         }
                     }
                 }
+
             }
             catch (Exception e)
             {
                 Log.Error(e, "Error");
-            }
-            finally
-            {
                 if (ftp != null)
                 {
-                    ftp.Dispose();
+                    ftp.Quit();
                 }
             }
             return retList;
         }
 
-        public bool UploadFiles(bool fullUpload,string filetype, string remoteDir, string remoteSubDir, string[] files, string subsubdir = null)
+        public bool UploadFiles(bool fullUpload, string filetype, string remoteDir, string remoteSubDir, string[] files, string subsubdir = null)
         {
             if (!m_enableFtp)
             {
@@ -263,20 +258,18 @@ namespace FileUploaderService.Ftp
                 filesToAdd.Add(new UploadedFiles() { Filname = file, Order = OrderCount++ });
             }
 
-            FtpClient ftp = null;
+            FTPClient ftp = null;
+
             try
             {
                 ftp = this.Connect(false, remoteDir, remoteSubDir, subsubdir);
 
 
-                var ftpDetails = ftp.GetListing();
+                var ftpDetails = ftp.DirDetails();
                 List<listedFile> foundFiles = new List<listedFile>();
                 foreach (var element in ftpDetails)
                 {
-                    if (element.Type == FtpFileSystemObjectType.File)
-                    {
-                        foundFiles.Add(new listedFile(element));
-                    }
+                    foundFiles.Add(new listedFile(element));
                 }
 
 
@@ -295,12 +288,11 @@ namespace FileUploaderService.Ftp
                             {
                                 FileInfo info = new FileInfo(filesToAdd[countFiles].Filname);
                                 long filelen = info.Length;
-                                var remoteFile =
+                                var remoteFille =
                                 foundFiles.FirstOrDefault(x => x.Filname == Path.GetFileName(filesToAdd[countFiles].Filname).Trim().ToUpper());
-                                if (remoteFile != null)
+                                if (remoteFille != null)
                                 {
-                                    
-                                    var size = ftp.GetFileSize(remoteFile.OriginalFilname);
+                                    var size = ftp.Size(remoteFille.OriginalFilname);
                                     if (size == filelen)
                                     {
                                         OnHandleFtpLog(string.Format("file of same size not sent {0} {1}", filesToAdd[countFiles].Filname, filelen));
@@ -312,8 +304,8 @@ namespace FileUploaderService.Ftp
                             }
 
                             OnHandleFtpLog(string.Format("Putting file {0}", remotefileName));
-                            ftp.UploadFile(filesToAdd[countFiles].Filname, remotefileName);
-                            OnHandleFileFinished(filetype,filesToAdd[countFiles].Filname, countFiles, filesToAdd.Count);
+                            ftp.Put(filesToAdd[countFiles].Filname, remotefileName, false);
+                            OnHandleFileFinished(filetype, filesToAdd[countFiles].Filname, countFiles, filesToAdd.Count);
                         }
                         countFiles++;
                     }
@@ -335,43 +327,44 @@ namespace FileUploaderService.Ftp
                 }
                 while (errorCount < 10 && countFiles < filesToAdd.Count);
 
+
+                OnHandleFtpLog("Quitting client");
+                ftp.Quit();
                 return true;
             }
             catch (Exception e)
             {
-                Log.Error(e, "Error");
-                return false;
-            }
-            finally
-            {
-                OnHandleFtpLog("Quitting client");
                 if (ftp != null)
                 {
-                    ftp.Dispose();
+                    ftp.Quit();
                 }
+
+                Log.Error(e, "Error");
+                return false;
             }
 
         }
 
-        FtpClient Connect(bool remoteDirExsist, string remoteDir, string remoteSubDir, string subsubdir = null)
+        FTPClient Connect(bool remoteDirExsist, string remoteDir, string remoteSubDir, string subsubdir = null)
         {
+
             remoteSubDir = remoteSubDir.Replace('/', ' ');
-
-            FtpClient ftp = new FtpClient(m_hostName, m_userName, m_passWord);
-            ftp.DataConnectionType = FtpDataConnectionType.PASV;
-            ftp.Encoding = Encoding.GetEncoding("ISO8859-1");
-            ftp.UploadDataType = FtpDataType.Binary;
-
+            var ftp = new FTPClient();
+            ftp.RemoteHost = m_hostName;
+            ftp.Connect();
             // login
             OnHandleFtpLog("Logging in");
-            ftp.Connect();
+            ftp.Login(m_userName, m_passWord);
 
             // set up passive ASCII transfers
             OnHandleFtpLog("Setting up passive, BINARY transfers");
+            ftp.ConnectMode = FTPConnectMode.PASV;
+            ftp.TransferType = FTPTransferType.BINARY;
+            //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
             //ftp.DataEncoding = new UTF8Encoding(false);
-            /*ftp.Timeout = 5000;
+            ftp.Timeout = 5000;
             ftp.TransferBufferSize = 4096;
-            ftp.TransferNotifyInterval = ((long)(4096));*/
+            ftp.TransferNotifyInterval = ((long)(4096));
 
             OnHandleFtpLog(string.Format("Changing remote Dir to {0}", remoteDir));
             List<string> remoteParts = null;
@@ -386,7 +379,7 @@ namespace FileUploaderService.Ftp
             {
                 foreach (var remdir in remoteParts)
                 {
-                    ftp.SetWorkingDirectory(remdir);
+                    ftp.ChDir(remdir);
                 }
             }
             else
@@ -394,11 +387,11 @@ namespace FileUploaderService.Ftp
                 remoteParts = new List<string>();
                 foreach (var remotePaty in remoteDirParts)
                 {
-                    var details = ftp.GetListing();
+                    var details = ftp.DirDetails();
                     bool found = false;
                     foreach (var detailsRemoteDir in details)
                     {
-                        if (detailsRemoteDir.Type == FtpFileSystemObjectType.Directory)
+                        if (detailsRemoteDir.Dir)
                         {
                             Log.Info("RemoteDir ={0}", detailsRemoteDir.Name);
                             if (detailsRemoteDir.Name == remotePaty)
@@ -413,25 +406,25 @@ namespace FileUploaderService.Ftp
                     if (!found)
                     {
                         OnHandleFtpLog(string.Format("Creating RemoteDir ={0}", remotePaty));
-                        ftp.CreateDirectory(remotePaty);
+                        ftp.MkDir(remotePaty);
                         OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remotePaty));
-                        ftp.SetWorkingDirectory(remotePaty);
+                        ftp.ChDir(remotePaty);
                         remoteParts.Add(remotePaty);
                     }
                     else
                     {
                         OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remotePaty));
-                        ftp.SetWorkingDirectory(remotePaty);
+                        ftp.ChDir(remotePaty);
                     }
 
                 }
 
 
-                var detailsStevner = ftp.GetListing();
+                var detailsStevner = ftp.DirDetails();
                 bool foundStevne = false;
                 foreach (var detailsRemoteDir in detailsStevner)
                 {
-                    if (detailsRemoteDir.Type == FtpFileSystemObjectType.Directory)
+                    if (detailsRemoteDir.Dir)
                     {
                         OnHandleFtpLog(string.Format("RemoteDir ={0}", detailsRemoteDir.Name));
                         if (detailsRemoteDir.Name == remoteSubDir)
@@ -446,15 +439,15 @@ namespace FileUploaderService.Ftp
                 if (!foundStevne)
                 {
                     OnHandleFtpLog(string.Format("Creating RemoteDir ={0}", remoteSubDir));
-                    ftp.CreateDirectory(remoteSubDir);
+                    ftp.MkDir(remoteSubDir);
                     OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remoteSubDir));
-                    ftp.SetWorkingDirectory(remoteSubDir);
+                    ftp.ChDir(remoteSubDir);
                     remoteParts.Add(remoteSubDir);
                 }
                 else
                 {
                     OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remoteSubDir));
-                    ftp.SetWorkingDirectory(remoteSubDir);
+                    ftp.ChDir(remoteSubDir);
                 }
 
 
@@ -462,11 +455,11 @@ namespace FileUploaderService.Ftp
 
                 if (!string.IsNullOrEmpty(subsubdir))
                 {
-                    var detailssubsub = ftp.GetListing();
+                    var detailssubsub = ftp.DirDetails();
                     bool foundsubsub = false;
                     foreach (var detailsRemoteDir in detailssubsub)
                     {
-                        if (detailsRemoteDir.Type == FtpFileSystemObjectType.Directory)
+                        if (detailsRemoteDir.Dir)
                         {
                             OnHandleFtpLog(string.Format("RemoteDir ={0}", detailsRemoteDir.Name));
                             if (detailsRemoteDir.Name == subsubdir)
@@ -481,15 +474,15 @@ namespace FileUploaderService.Ftp
                     if (!foundsubsub)
                     {
                         OnHandleFtpLog(string.Format("Creating RemoteDir ={0}", subsubdir));
-                        ftp.CreateDirectory(subsubdir);
+                        ftp.MkDir(subsubdir);
                         OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", subsubdir));
-                        ftp.SetWorkingDirectory(subsubdir);
+                        ftp.ChDir(subsubdir);
                         remoteParts.Add(subsubdir);
                     }
                     else
                     {
                         OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", subsubdir));
-                        ftp.SetWorkingDirectory(subsubdir);
+                        ftp.ChDir(subsubdir);
                     }
                 }
 
@@ -501,21 +494,22 @@ namespace FileUploaderService.Ftp
 
         internal bool UploadFile(string remoteDir, string remoteSubDir, string localFile, string m_remotePdfFileName)
         {
-            FtpClient ftp = null;
+            FTPClient ftp = null;
             try
             {
                 remoteSubDir = remoteSubDir.Replace('/', ' ');
-
-                ftp = new FtpClient(m_hostName, m_userName, m_passWord);
-                ftp.DataConnectionType = FtpDataConnectionType.PASV;
-                ftp.Encoding = Encoding.GetEncoding("ISO8859-1");
-                ftp.UploadDataType = FtpDataType.Binary;
+                ftp = new FTPClient(m_hostName);
 
                 // login
                 OnHandleFtpLog("Logging in");
-                ftp.Connect();
+                ftp.Login(m_userName, m_passWord);
+
+                // set up passive ASCII transfers
 
                 OnHandleFtpLog("Setting up passive, BINARY transfers");
+                ftp.ConnectMode = FTPConnectMode.PASV;
+                ftp.TransferType = FTPTransferType.BINARY;
+                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 OnHandleFtpLog(string.Format("Changing remote Dir to {0}", remoteDir));
 
                 var remoteDirParts = remoteDir.Split(new char[] { '/', '\\' });
@@ -523,11 +517,11 @@ namespace FileUploaderService.Ftp
 
                 foreach (var remotePaty in remoteDirParts)
                 {
-                    var details = ftp.GetListing();
+                    var details = ftp.DirDetails();
                     bool found = false;
                     foreach (var detailsRemoteDir in details)
                     {
-                        if (detailsRemoteDir.Type == FtpFileSystemObjectType.Directory)
+                        if (detailsRemoteDir.Dir)
                         {
                             OnHandleFtpLog(string.Format("RemoteDir ={0}", detailsRemoteDir.Name));
                             if (detailsRemoteDir.Name == remotePaty)
@@ -541,24 +535,24 @@ namespace FileUploaderService.Ftp
                     if (!found)
                     {
                         OnHandleFtpLog(string.Format("Creating RemoteDir ={0}", remotePaty));
-                        ftp.CreateDirectory(remotePaty);
+                        ftp.MkDir(remotePaty);
                         OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remotePaty));
-                        ftp.SetWorkingDirectory(remotePaty);
+                        ftp.ChDir(remotePaty);
                     }
                     else
                     {
                         OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remotePaty));
-                        ftp.SetWorkingDirectory(remotePaty);
+                        ftp.ChDir(remotePaty);
                     }
 
                 }
 
 
-                var detailsStevner = ftp.GetListing();
+                var detailsStevner = ftp.DirDetails();
                 bool foundStevne = false;
                 foreach (var detailsRemoteDir in detailsStevner)
                 {
-                    if (detailsRemoteDir.Type == FtpFileSystemObjectType.Directory)
+                    if (detailsRemoteDir.Dir)
                     {
                         OnHandleFtpLog(string.Format("RemoteDir ={0}", detailsRemoteDir.Name));
                         if (detailsRemoteDir.Name == remoteSubDir)
@@ -572,64 +566,65 @@ namespace FileUploaderService.Ftp
                 if (!foundStevne)
                 {
                     OnHandleFtpLog(string.Format("Creating RemoteDir ={0}", remoteSubDir));
-                    ftp.CreateDirectory(remoteSubDir);
+                    ftp.MkDir(remoteSubDir);
                     OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remoteSubDir));
-                    ftp.SetWorkingDirectory(remoteSubDir);
+                    ftp.ChDir(remoteSubDir);
                 }
                 else
                 {
                     OnHandleFtpLog(string.Format("Changing RemoteDir ={0}", remoteSubDir));
-                    ftp.SetWorkingDirectory(remoteSubDir);
+                    ftp.ChDir(remoteSubDir);
                 }
 
                 if (File.Exists(localFile))
                 {
                     OnHandleFtpLog(string.Format("Putting file {0} to {1}", localFile, m_remotePdfFileName));
 
-                    ftp.UploadFile(localFile, m_remotePdfFileName);
+                    ftp.Put(localFile, m_remotePdfFileName);
                 }
 
+                OnHandleFtpLog("Quitting client");
+                ftp.Quit();
                 return true;
             }
             catch (Exception e)
             {
-                Log.Error(e, "Error");
-                return false;
-            }finally
-            {
-                OnHandleFtpLog("Quitting client");
                 if (ftp != null)
                 {
-                    ftp.Dispose();
+                    ftp.Quit();
                 }
+
+                Log.Error(e, "Error");
+                return false;
             }
         }
 
         internal bool UploadBitMapFiles(string remoteBitMapDir, List<Lag> bitmapFiles)
         {
-            FtpClient ftp = null;
+            FTPClient ftp = null;
             try
             {
-                ftp = new FtpClient(m_hostName, m_userName, m_passWord);
-                ftp.DataConnectionType = FtpDataConnectionType.PASV;
-                ftp.Encoding = Encoding.GetEncoding("ISO8859-1");
-                ftp.UploadDataType = FtpDataType.Binary;
+                ftp = new FTPClient(m_hostName);
 
                 // login
                 Log.Info("Logging in");
-                ftp.Connect();
+                ftp.Login(m_userName, m_passWord);
 
+                // set up passive ASCII transfers
                 Log.Info("Setting up passive, BINARY transfers");
+                ftp.ConnectMode = FTPConnectMode.PASV;
+                ftp.TransferType = FTPTransferType.BINARY;
+                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 Log.Info("Changing remote Dir to {0}", remoteBitMapDir);
 
                 var remoteDirParts = remoteBitMapDir.Split(new char[] { '/', '\\' });
                 foreach (var remotePaty in remoteDirParts)
                 {
-                    var details = ftp.GetListing();
+                    var details = ftp.DirDetails();
                     bool found = false;
                     foreach (var detailsRemoteDir in details)
                     {
-                        if (detailsRemoteDir.Type == FtpFileSystemObjectType.Directory)
+                        if (detailsRemoteDir.Dir)
                         {
                             Log.Info("RemoteDir ={0}", detailsRemoteDir.Name);
                             if (detailsRemoteDir.Name == remotePaty)
@@ -643,22 +638,22 @@ namespace FileUploaderService.Ftp
                     if (!found)
                     {
                         Log.Info("Creating RemoteDir ={0}", remotePaty);
-                        ftp.CreateDirectory(remotePaty);
+                        ftp.MkDir(remotePaty);
                     }
 
                 }
 
                 Log.Info("Changing RemoteDir ={0}", remoteBitMapDir);
-                ftp.SetWorkingDirectory(remoteBitMapDir);
-
+                ftp.ChDir(remoteBitMapDir);
+                var currenta = ftp.Dir();
                 foreach (var remoteLag in bitmapFiles)
                 {
                     string arrangeDate = remoteLag.ArrangeTime.ToString("yyyyMMddHHmm");
-                    var details = ftp.GetListing();
+                    var details = ftp.DirDetails();
                     bool found = false;
                     foreach (var detailsRemoteDir in details)
                     {
-                        if (detailsRemoteDir.Type == FtpFileSystemObjectType.Directory)
+                        if (detailsRemoteDir.Dir)
                         {
                             Log.Info("RemoteDir ={0}", detailsRemoteDir.Name);
                             if (detailsRemoteDir.Name == arrangeDate)
@@ -672,22 +667,22 @@ namespace FileUploaderService.Ftp
                     if (!found)
                     {
                         Log.Info("Creating RemoteDir ={0}", arrangeDate);
-                        ftp.CreateDirectory(arrangeDate);
+                        ftp.MkDir(arrangeDate);
                         Log.Info("Changing RemoteDir ={0}", arrangeDate);
-                        ftp.SetWorkingDirectory(arrangeDate);
+                        ftp.ChDir(arrangeDate);
 
                     }
                     else
                     {
                         Log.Info("Changing RemoteDir ={0}", arrangeDate);
-                        ftp.SetWorkingDirectory(arrangeDate);
+                        ftp.ChDir(arrangeDate);
                     }
 
-                    var detailsLag = ftp.GetListing();
+                    var detailsLag = ftp.DirDetails();
                     bool foundLag = false;
                     foreach (var detailsRemoteLagDir in detailsLag)
                     {
-                        if (detailsRemoteLagDir.Type == FtpFileSystemObjectType.Directory)
+                        if (detailsRemoteLagDir.Dir)
                         {
                             Log.Info("RemoteDir ={0}", detailsRemoteLagDir.Name);
                             if (detailsRemoteLagDir.Name == remoteLag.LagNr.ToString())
@@ -700,14 +695,14 @@ namespace FileUploaderService.Ftp
                     if (!foundLag)
                     {
                         Log.Info("Creating RemoteDir ={0}", remoteLag.LagNr.ToString());
-                        ftp.CreateDirectory(remoteLag.LagNr.ToString());
+                        ftp.MkDir(remoteLag.LagNr.ToString());
                         Log.Info("Changing RemoteDir ={0}", remoteLag.LagNr.ToString());
-                        ftp.SetWorkingDirectory(remoteLag.LagNr.ToString());
+                        ftp.ChDir(remoteLag.LagNr.ToString());
                     }
                     else
                     {
                         Log.Info("Changing RemoteDir ={0}", remoteLag.LagNr.ToString());
-                        ftp.SetWorkingDirectory(remoteLag.LagNr.ToString());
+                        ftp.ChDir(remoteLag.LagNr.ToString());
                     }
 
                     foreach (var Skiver in remoteLag.Skiver)
@@ -715,28 +710,28 @@ namespace FileUploaderService.Ftp
                         if (File.Exists(Skiver.Info.FileInfo.FullName))
                         {
                             Log.Info("Putting file {0} to {1}", Skiver.Info.FileInfo.FullName, Skiver.Info.FileInfo.Name);
-                            ftp.UploadFile(Skiver.Info.FileInfo.FullName, Skiver.Info.FileInfo.Name);
+                            ftp.Put(Skiver.Info.FileInfo.FullName, Skiver.Info.FileInfo.Name);
                         }
                     }
 
-                    ftp.SetWorkingDirectory("..");
-                    ftp.SetWorkingDirectory("..");
+                    ftp.CdUp();
+                    ftp.CdUp();
+                    var current = ftp.Dir();
                 }
 
+                Log.Info("Quitting client");
+                ftp.Quit();
                 return true;
             }
             catch (Exception e)
             {
+                if (ftp != null)
+                {
+                    ftp.Quit();
+                }
 
                 Log.Error(e, "Error");
                 return false;
-            }finally
-            {
-                Log.Info("Quitting client");
-                if (ftp != null)
-                {
-                    ftp.Dispose();
-                }
             }
         }
     }

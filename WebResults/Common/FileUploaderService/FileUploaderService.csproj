@@ -33,6 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="edtftpnet-1.2.2, Version=1.2.2.0, Culture=neutral, PublicKeyToken=4b0c991f43097782">
+      <HintPath>..\..\packages\edtFTPnet.1.2.2\lib\edtftpnet-1.2.2.dll</HintPath>
+    </Reference>
     <Reference Include="FluentFTP, Version=37.0.1.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentFTP.37.0.1\lib\net45\FluentFTP.dll</HintPath>
     </Reference>
