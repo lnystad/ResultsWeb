@@ -7,6 +7,30 @@ namespace WebResultsClient.Premieberegning
 {
     public class Pengepremier
     {
+        private Dictionary<string, Dictionary<string, double>> SerierMedPremieForOvelse = new Dictionary<string, Dictionary<string, double>> 
+        { 
+            { 
+                "IN", new Dictionary<string, double> 
+                { 
+                    { "IN_1To3", .6 }, // 15 skudd med 60% vekting av premien
+                    { "IN_4", .4 }, // 10 skudd med 40% vekting av premien
+                } 
+            } ,
+            {
+                "BA", new Dictionary<string, double>
+                {
+                    { "BA_1To3", .6 },
+                    { "BA_4", .4 },
+                }
+            },
+            {
+                "FE", new Dictionary<string, double>
+                {
+                    { "FE_1To5", 1.0 },
+                }
+            }
+        };
+
         private Stevneoppgjor m_stevneOppgjor;
 
         public Pengepremier(Stevneoppgjor stevneOppgjor)
@@ -16,48 +40,55 @@ namespace WebResultsClient.Premieberegning
 
         public void BeregnPengepremier(int premieavgift, List<string> klasser)
         {
-            var groupedOppgjor = m_stevneOppgjor.Resultater.GroupBy(r => r.Ovelse.Klasse);
-
-            foreach (var group in groupedOppgjor)
+            var forsteResultat = m_stevneOppgjor.Resultater.FirstOrDefault();
+            if(forsteResultat != null)
             {
-                if(klasser.Contains(group.Key))
+                var ovelse = forsteResultat.Ovelse.Id;
+                var groupedOppgjor = m_stevneOppgjor.Resultater.GroupBy(r => r.Ovelse.Klasse);
+
+                foreach (var group in groupedOppgjor)
                 {
-                    var skyttereMedTellendeResultat = group.Where(HarTellendeTotalSum).ToList();
+                    if (klasser.Contains(group.Key))
+                    {
+                        var serierMedPremie = SerierMedPremieForOvelse[ovelse];
 
-                    var antallPremier = (int)Math.Ceiling(skyttereMedTellendeResultat.Count / 3.0);
-                    var totaltPremieinnskudd = skyttereMedTellendeResultat.Count * premieavgift;
-                    var premieTotal15Skudd = totaltPremieinnskudd * .6;
-                    var premieTotal10Skudd = totaltPremieinnskudd * .4;
+                        var skyttereMedTellendeResultat = group.Where(g => HarTellendeTotalSum(g, ovelse)).ToList();
 
-                    // 15 skudd
-                    var sorted15Skudd = skyttereMedTellendeResultat.OrderBy(Sorter15Skudd).ToList();
-                    var premier15Skudd = PengepremieFordeler.BeregnPremieSummer(antallPremier, premieTotal15Skudd);
-                    AssignPremier15Skudd(sorted15Skudd, premier15Skudd);
+                        var antallPremier = (int)Math.Ceiling(skyttereMedTellendeResultat.Count / 3.0);
+                        var totaltPremieinnskudd = skyttereMedTellendeResultat.Count * premieavgift;
 
-                    // 10 skudd
-                    var sorted10Skudd = skyttereMedTellendeResultat.OrderBy(Sorter10Skudd).ToList();
-                    var premier10Skudd = PengepremieFordeler.BeregnPremieSummer(antallPremier, premieTotal10Skudd);
-                    AssignPremier10Skudd(sorted10Skudd, premier10Skudd);
+                        foreach(var serie in serierMedPremie)
+                        {
+                            var premieForSerie = totaltPremieinnskudd * serie.Value;
+                            var premier = PengepremieFordeler.BeregnPremieSummer(antallPremier, premieForSerie);
 
-                    skyttereMedTellendeResultat.ForEach(r => AssignPremieToOvelse(r.Ovelse));
+                            var sortertResultatForSerie = skyttereMedTellendeResultat.OrderBy(r => SorterResultat(r, serie.Key)).ToList();
+                            AssignPremier(sortertResultatForSerie, premier, serie.Key);
+                        }
+
+                        skyttereMedTellendeResultat.ForEach(r => AssignPremieToOvelse(r.Ovelse, serierMedPremie));
+                    }
                 }
             }
         }
 
-        private void AssignPremieToOvelse(Ovelse ovelse)
+        private void AssignPremieToOvelse(Ovelse ovelse, Dictionary<string, double> serierMedPremie)
         {
-            var premie15Skudd = int.Parse(ovelse.Serier.Single(s => s.Id == "IN_1To3").Premie);
-            var premie10Skudd = int.Parse(ovelse.Serier.Single(s => s.Id == "IN_4").Premie);
-            ovelse.Premie = (premie15Skudd + premie10Skudd).ToString();
+            int premieOvelse = 0;
+            foreach(var serie in serierMedPremie.Keys)
+            {
+                premieOvelse += int.Parse(ovelse.Serier.Single(s => s.Id == serie).Premie);
+            }
+            ovelse.Premie = premieOvelse.ToString();
         }
 
-        private void AssignPremier15Skudd(List<Resultat> resultater, List<int> premier)
+        private void AssignPremier(List<Resultat> resultater, List<int> premier, string serie)
         {
             var currentPremie = 1;
 
             while (currentPremie < premier.Count + 1)
             {
-                var resultaterRank = resultater.Where(r => currentPremie == int.Parse(r.Ovelse.Serier.Single(s => s.Id == "IN_1To3").RankKlasse)).ToList();
+                var resultaterRank = resultater.Where(r => currentPremie == int.Parse(r.Ovelse.Serier.Single(s => s.Id == serie).RankKlasse)).ToList();
 
                 double premieSum = 0;
                 for (int premie = currentPremie - 1; premie < currentPremie + resultaterRank.Count - 1; premie++)
@@ -71,47 +102,19 @@ namespace WebResultsClient.Premieberegning
                 premieSum /= resultaterRank.Count;
                 foreach (var resultat in resultaterRank)
                 {
-                    var serie15Skudd = resultat.Ovelse.Serier.Single(s => s.Id == "IN_1To3");
-                    serie15Skudd.Premie = ((int)Math.Round(premieSum)).ToString();
+                    var premieSerie = resultat.Ovelse.Serier.Single(s => s.Id == serie);
+                    premieSerie.Premie = ((int)Math.Round(premieSum)).ToString();
                 }
 
                 currentPremie += resultaterRank.Count;
             }
         }
 
-        private void AssignPremier10Skudd(List<Resultat> resultater, List<int> premier)
+        private bool HarTellendeTotalSum(Resultat resultat, string ovelse)
         {
-            var currentPremie = 1;
+            var totalSum = resultat.Ovelse.Serier.Single(s => s.Id == (ovelse + "_tot"));
 
-            while (currentPremie < premier.Count + 1)
-            {
-                var resultaterRank = resultater.Where(r => currentPremie == int.Parse(r.Ovelse.Serier.Single(s => s.Id == "IN_4").RankKlasse)).ToList();
-
-                double premieSum = 0;
-                for (int premie = currentPremie - 1; premie < currentPremie + resultaterRank.Count - 1; premie++)
-                {
-                    if (premie < premier.Count)
-                    {
-                        premieSum += premier[premie];
-                    }
-                }
-
-                premieSum /= resultaterRank.Count;
-                foreach (var resultat in resultaterRank)
-                {
-                    var serie10Skudd = resultat.Ovelse.Serier.Single(s => s.Id == "IN_4");
-                    serie10Skudd.Premie = ((int)Math.Round(premieSum)).ToString();
-                }
-
-                currentPremie += resultaterRank.Count;
-            }
-        }
-
-        private bool HarTellendeTotalSum(Resultat resultat)
-        {
-            var serie = resultat.Ovelse.Serier.Single(s => s.Id == "IN_tot");
-
-            if (string.IsNullOrEmpty(serie.Sum) || serie.Sum == "0")
+            if (string.IsNullOrEmpty(totalSum.Sum))
             {
                 return false;
             }
@@ -119,18 +122,11 @@ namespace WebResultsClient.Premieberegning
             return true;
         }
 
-        private int Sorter15Skudd(Resultat resultat)
+        private int SorterResultat(Resultat resultat, string serie)
         {
-            var serie = resultat.Ovelse.Serier.Single(s => s.Id == "IN_1To3");
+            var seriePlassering = resultat.Ovelse.Serier.Single(s => s.Id == serie).RankKlasse;
 
-            return int.Parse(serie.RankKlasse);
-        }
-
-        private int Sorter10Skudd(Resultat resultat)
-        {
-            var serie = resultat.Ovelse.Serier.Single(s => s.Id == "IN_4");
-
-            return int.Parse(serie.RankKlasse);
+            return int.Parse(seriePlassering);
         }
     }
 }
