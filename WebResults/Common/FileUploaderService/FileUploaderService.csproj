@@ -34,8 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="edtFTPnet, Version=2.2.3.0, Culture=neutral, PublicKeyToken=4b0c991f43097782, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Extern\edtFTPnet.dll</HintPath>
+      <HintPath>..\..\packages\edtFTPnet-Free.2.3.0\lib\edtFTPnet.dll</HintPath>
     </Reference>
     <Reference Include="FluentFTP, Version=37.0.2.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentFTP.37.0.2\lib\net45\FluentFTP.dll</HintPath>
@@ -141,6 +140,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Leon\MergerapportFinFelt.xml" />
+    <Content Include="README.html" />
+    <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
