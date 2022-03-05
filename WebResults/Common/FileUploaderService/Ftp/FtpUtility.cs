@@ -113,7 +113,7 @@ namespace FileUploaderService.Ftp
                 OnHandleFtpLog("Setting up passive, BINARY transfers");
                 ftp.ConnectMode = FTPConnectMode.PASV;
                 ftp.TransferType = FTPTransferType.BINARY;
-                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
+                ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 //ftp.DataEncoding = new UTF8Encoding(false);
                 ftp.Timeout = 5000;
                 ftp.TransferBufferSize = 4096;
@@ -169,7 +169,7 @@ namespace FileUploaderService.Ftp
                 OnHandleFtpLog("Setting up passive, BINARY transfers");
                 ftp.ConnectMode = FTPConnectMode.PASV;
                 ftp.TransferType = FTPTransferType.BINARY;
-                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
+                ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 //ftp.DataEncoding = new UTF8Encoding(false);
                 ftp.Timeout = 5000;
                 ftp.TransferBufferSize = 4096;
@@ -360,7 +360,7 @@ namespace FileUploaderService.Ftp
             OnHandleFtpLog("Setting up passive, BINARY transfers");
             ftp.ConnectMode = FTPConnectMode.PASV;
             ftp.TransferType = FTPTransferType.BINARY;
-            //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
+            ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
             //ftp.DataEncoding = new UTF8Encoding(false);
             ftp.Timeout = 5000;
             ftp.TransferBufferSize = 4096;
@@ -509,7 +509,7 @@ namespace FileUploaderService.Ftp
                 OnHandleFtpLog("Setting up passive, BINARY transfers");
                 ftp.ConnectMode = FTPConnectMode.PASV;
                 ftp.TransferType = FTPTransferType.BINARY;
-                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
+                ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 OnHandleFtpLog(string.Format("Changing remote Dir to {0}", remoteDir));
 
                 var remoteDirParts = remoteDir.Split(new char[] { '/', '\\' });
@@ -614,7 +614,7 @@ namespace FileUploaderService.Ftp
                 Log.Info("Setting up passive, BINARY transfers");
                 ftp.ConnectMode = FTPConnectMode.PASV;
                 ftp.TransferType = FTPTransferType.BINARY;
-                //ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
+                ftp.ControlEncoding = Encoding.GetEncoding("ISO8859-1");
                 Log.Info("Changing remote Dir to {0}", remoteBitMapDir);
 
                 var remoteDirParts = remoteBitMapDir.Split(new char[] { '/', '\\' });
