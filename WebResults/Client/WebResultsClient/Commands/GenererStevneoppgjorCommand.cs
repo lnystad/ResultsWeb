@@ -33,24 +33,33 @@ namespace WebResultsClient.Commands
             string stevneoppgjorDir = Path.Combine(m_stevneoppgjorViewModel.StevneDir, m_stevneoppgjorViewModel.StevneNavn);
             stevneoppgjorDir = Path.Combine(stevneoppgjorDir, "Stevneoppgjør");
 
-            var filename = Path.Combine(stevneoppgjorDir, "Stevneoppgjør-" + m_stevneoppgjorViewModel.StevneNavn + ".xml");
-
-            if(File.Exists(filename))
+            var stevneoppgjorFile = Directory.EnumerateFiles(stevneoppgjorDir, "Stevneoppgjør-*.xml").ToList();
+            if (stevneoppgjorFile.Count() > 1)
             {
-                var stevneoppgjor = DeserializeXml<Stevneoppgjor>(filename);
-
-                var pengepremier = new Pengepremier(stevneoppgjor);
-                pengepremier.BeregnPengepremier(int.Parse(m_stevneoppgjorViewModel.SeniorPremieavgift), m_stevneoppgjorViewModel.SeniorKlasser.ToList());
-                pengepremier.BeregnPengepremier(int.Parse(m_stevneoppgjorViewModel.UngdomPremieavgift), m_stevneoppgjorViewModel.UngdomsKlasser.ToList());
-
-                var nyttStevneoppgjorFilename = Path.Combine(stevneoppgjorDir, "LAST OPP DENNE TIL DFS " + m_stevneoppgjorViewModel.StevneNavn + ".xml"); ;
-                SerializeXml(stevneoppgjor, nyttStevneoppgjorFilename);
-
+                MessageBox.Show("Fant flere aktuelle filer for stevneoppgjør. Slett filer som ikke er aktuelle");
                 Process.Start("explorer.exe", stevneoppgjorDir);
             }
             else
             {
-                MessageBox.Show("Fant ikke fil for stevneoppgjør. Har du husket å generere stevneoppgjøret i Leon?");
+                var filename = stevneoppgjorFile.FirstOrDefault();
+
+                if (File.Exists(filename))
+                {
+                    var stevneoppgjor = DeserializeXml<Stevneoppgjor>(filename);
+
+                    var pengepremier = new Pengepremier(stevneoppgjor);
+                    pengepremier.BeregnPengepremier(int.Parse(m_stevneoppgjorViewModel.SeniorPremieavgift), m_stevneoppgjorViewModel.SeniorKlasser.ToList());
+                    pengepremier.BeregnPengepremier(int.Parse(m_stevneoppgjorViewModel.UngdomPremieavgift), m_stevneoppgjorViewModel.UngdomsKlasser.ToList());
+
+                    var nyttStevneoppgjorFilename = Path.Combine(stevneoppgjorDir, "LAST OPP DENNE TIL DFS " + m_stevneoppgjorViewModel.StevneNavn + ".xml"); ;
+                    SerializeXml(stevneoppgjor, nyttStevneoppgjorFilename);
+
+                    Process.Start("explorer.exe", stevneoppgjorDir);
+                }
+                else
+                {
+                    MessageBox.Show("Fant ikke fil for stevneoppgjør. Har du husket å generere stevneoppgjøret i Leon?");
+                }
             }
         }
 
