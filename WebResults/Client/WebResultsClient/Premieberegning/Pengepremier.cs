@@ -77,13 +77,13 @@ namespace WebResultsClient.Premieberegning
             int premieOvelse = 0;
             foreach(var serie in serierMedPremie.Keys)
             {
-                var premiestreng = ovelse.Serier.Single(s => s.Id == serie).Premie;
-                if(string.IsNullOrEmpty(premiestreng))
+                var premieserie = ovelse.Serier.Single(s => s.Id == serie);
+                if(string.IsNullOrEmpty(premieserie.Premie))
                 {
-                    premiestreng = "0";
+                    premieserie.Premie = "0";
                 }
 
-                premieOvelse += int.Parse(premiestreng);
+                premieOvelse += int.Parse(premieserie.Premie);
             }
             ovelse.Premie = premieOvelse.ToString();
         }
