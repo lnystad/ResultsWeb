@@ -22,5 +22,32 @@ namespace TestWebResultsClient
             pengepremier.BeregnPengepremier(70, new List<string> {"V55"});
             Assert.AreEqual("126", ovelse.Premie);
         }
+
+        [TestMethod]
+        public void BeregnPengepremier2024()
+        {
+            var stevneOppgjor = TestUtils.DeserializeXml<Stevneoppgjor>("Stevneoppgjør2024.xml");
+
+            Pengepremier pengepremier = new Pengepremier(stevneOppgjor);
+
+            pengepremier.BeregnPengepremier(50, new List<string> { "R",
+                                                        "ER",
+                                                        "J",
+                                                        "EJ" });
+
+            pengepremier.BeregnPengepremier(70, new List<string> { "SK1",
+                                                                    "SK2",
+                                                                    "1",
+                                                                    "2",
+                                                                    "3",
+                                                                    "4",
+                                                                    "5",
+                                                                    "V55",
+                                                                    "V65",
+                                                                    "V75",
+                                                                    "KIK",
+                                                                    "AG3",
+                                                                    "HK416" });
+        }
     }
 }

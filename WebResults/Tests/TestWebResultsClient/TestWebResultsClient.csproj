@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TestData\Stevneoppgjør2024.xml" />
     <EmbeddedResource Include="TestData\Stevneoppgjør-tom.xml" />
   </ItemGroup>
 
