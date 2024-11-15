@@ -1,10 +1,12 @@
-﻿using System;
+﻿using System.Text.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml;
 using System.Xml.Serialization;
 using WebResultsClient.Definisjoner;
 using WebResultsClient.Premieberegning;
@@ -53,7 +55,17 @@ namespace WebResultsClient.Commands
 
                     var nyttStevneoppgjorFilename = Path.Combine(stevneoppgjorDir, "LAST OPP DENNE TIL DFS " + m_stevneoppgjorViewModel.StevneNavn + ".xml"); ;
                     SerializeXml(stevneoppgjor, nyttStevneoppgjorFilename);
-
+                    PengePremieSummary summarySenior = new PengePremieSummary();
+                    var ConclusionSenior = summarySenior.CalculateSummary(stevneoppgjor, m_stevneoppgjorViewModel.SeniorKlasser.ToList(), Pengepremier.PremieOvelse);
+                    ConclusionSenior.CompleteCalculation();
+                    PengePremieSummary summaryJunior = new PengePremieSummary();
+                    var ConclusionJunior=summaryJunior.CalculateSummary(stevneoppgjor, m_stevneoppgjorViewModel.UngdomsKlasser.ToList(), Pengepremier.PremieOvelse);
+                    ConclusionJunior.CompleteCalculation();
+                    JsonSerializerOptions context = new JsonSerializerOptions();
+                    context.WriteIndented = true;
+                    m_stevneoppgjorViewModel.JuniorSummary  = JsonSerializer.Serialize(ConclusionJunior,typeof(Summary),context);
+                    m_stevneoppgjorViewModel.SeniorSummary = JsonSerializer.Serialize(ConclusionSenior, typeof(Summary), context);
+                   
                     Process.Start("explorer.exe", stevneoppgjorDir);
                 }
                 else

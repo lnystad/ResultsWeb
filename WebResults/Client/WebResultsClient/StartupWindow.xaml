@@ -185,6 +185,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -215,6 +216,26 @@
                 <Button Command="{Binding GenererStevneoppgjorCommand}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Generer stevneoppgjør">
                     
                 </Button>
+                <StackPanel Grid.Row="3" Grid.Column="0"  Orientation="Horizontal">
+                    <TextBox  HorizontalAlignment="Left"
+                            Width="350" Height="300"
+                            MaxLines="45"
+                            IsReadOnly="True"
+                            Text="{Binding JuniorSummary, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Grid.Column="1"  Orientation="Horizontal">
+                    <TextBox  HorizontalAlignment="Left"
+                              Width="350" Height="300"
+                             MaxLines="45"
+                             IsReadOnly="True"
+                             Text="{Binding SeniorSummary, Mode=OneWay}"
+                             TextWrapping="Wrap"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                </StackPanel>
             </Grid>
         </DataTemplate>
     </Window.Resources>
@@ -226,7 +247,7 @@
         </Grid.RowDefinitions>
         <ContentPresenter Grid.Row="0" Content="{Binding ChooseStevneViewModel}" ContentTemplate="{StaticResource ChooseStevne}"/>
 
-        <TabControl Grid.Row="1" x:Name="Update" Margin="15,15,15,15">
+        <TabControl Grid.Row="1" x:Name="Update" Margin="15,15,15,15" >
             <TabItem Header="Stevne" Content="{Binding UpLoadStevneViewModel}" ContentTemplate="{StaticResource UpLoadStevne}"/>
             <TabItem Header="Log" Content="{Binding LogViewModel}" ContentTemplate="{StaticResource Logging}"/>
             <TabItem Header="BitMap" Content="{Binding BitMapSelectionViewModel}" ContentTemplate="{StaticResource BitMapSelection}"/>

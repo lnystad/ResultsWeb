@@ -1,13 +1,27 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WebResultsClient.Commands;
+using Microsoft.VisualBasic.ApplicationServices;
+using WebResultsClient.Premieberegning;
 
 namespace WebResultsClient.Viewmodels
 {
+    
 
     public class StevneoppgjorSelectionViewModel : ViewModelBase
     {
+        public class PremieBeskrivelse
+        {
+            public string XMLTag { get; set; }
+            public string Ovelse { get; set; }
+        }
+
+        private readonly PremieBeskrivelse _settings;
+
+
         private IConfiguration m_configuration;
 
         public StevneoppgjorSelectionViewModel(IConfiguration configuration)
@@ -31,7 +45,8 @@ namespace WebResultsClient.Viewmodels
 
             SeniorPremieavgift = configuration["LastPremieavgiftSenior"];
             UngdomPremieavgift = configuration["LastPremieavgiftUngdom"]; ;
-            GenererStevneoppgjorCommand = new GenererStevneoppgjorCommand(this);
+            GenererStevneoppgjorCommand = new GenererStevneoppgjorCommand(this); 
+           
         }
 
         public ICommand GenererStevneoppgjorCommand
@@ -49,6 +64,33 @@ namespace WebResultsClient.Viewmodels
             {
                 m_seniorKlasser = value;
                 OnPropertyChanged(nameof(SeniorKlasser));
+            }
+        }
+       
+        private string m_seniorSummary;
+        public string SeniorSummary
+        {
+            get
+            {
+                return m_seniorSummary;
+            }
+            set
+            {
+                m_seniorSummary = value;
+                OnPropertyChanged(nameof(SeniorSummary));
+            }
+        }
+        private string m_juniorSummary;
+        public string JuniorSummary
+        {
+            get
+            {
+                return m_juniorSummary;
+            }
+            set
+            {
+                m_juniorSummary = value;
+                OnPropertyChanged(nameof(JuniorSummary));
             }
         }
 

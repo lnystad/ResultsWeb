@@ -30,8 +30,23 @@ namespace WebResultsClient.Premieberegning
                 }
             }
         };
+        
+        private static Dictionary<string, DFSOvelse> m_PremieOvelse = new Dictionary<string, DFSOvelse>
+        {
+            {"IN_1To3",DFSOvelse.Bane15Skudd },
+            {"BA_1To3",DFSOvelse.Bane15Skudd },
+            {"IN_4",DFSOvelse.Bane10Skudd },
+            {"BA_4",DFSOvelse.Bane10Skudd },
+            {"FE_1To5",DFSOvelse.Felt30Skudd }
+        };
 
         private Stevneoppgjor m_stevneOppgjor;
+
+        public static Dictionary<string, DFSOvelse> PremieOvelse {
+            get
+            { return m_PremieOvelse;
+            }
+        }
 
         public Pengepremier(Stevneoppgjor stevneOppgjor)
         {
