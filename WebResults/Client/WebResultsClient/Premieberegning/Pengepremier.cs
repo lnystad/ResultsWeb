@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileUploaderService.Diagnosis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebResultsClient.Definisjoner;
@@ -146,8 +147,15 @@ namespace WebResultsClient.Premieberegning
         private int SorterResultat(Resultat resultat, string serie)
         {
             var seriePlassering = resultat.Ovelse.Serier.Single(s => s.Id == serie).RankKlasse;
-
-            return int.Parse(seriePlassering);
+            if (!string.IsNullOrEmpty(seriePlassering))
+            {
+                return int.Parse(seriePlassering);
+            }
+            else
+            {
+                Log.Error("{0} inneholder ingen rank klasse for {1} {2}", serie, resultat.Etternavn, resultat.Fornavn);
+                return 0;
+            }
         }
     }
 }
